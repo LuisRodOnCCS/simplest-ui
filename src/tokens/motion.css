@@ -1,0 +1,16 @@
+:root {
+  --sui-duration-fast: 120ms;
+  --sui-duration-normal: 200ms;
+  --sui-duration-slow: 320ms;
+
+  --sui-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --sui-easing-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sui-duration-fast: 0ms;
+    --sui-duration-normal: 0ms;
+    --sui-duration-slow: 0ms;
+  }
+}

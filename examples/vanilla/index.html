@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Propuesta visual 4 — Simplest UI</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --bg-grad: radial-gradient(1200px 600px at 10% -10%, #e0e7ff 0%, transparent 60%), radial-gradient(900px 500px at 110% 10%, #fce7f3 0%, transparent 55%), #f6f7fb;
+    --surface: rgba(255,255,255,0.65);
+    --surface-strong: rgba(255,255,255,0.85);
+    --fg: #1f2937;
+    --muted: #6b7280;
+    --line: rgba(99,102,241,0.12);
+    --accent: #6366f1;
+    --accent-2: #ec4899;
+    --accent-soft: rgba(99,102,241,0.08);
+    --r: 14px;
+    --shadow: 0 8px 30px rgba(99,102,241,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: "Inter", system-ui, -apple-system, sans-serif; background: var(--bg-grad); color: var(--fg); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 72px; }
+
+  .hero { padding: 48px 0 32px; }
+  .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; background: linear-gradient(120deg, #4f46e5, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+  .hero p { color: var(--muted); font-size: 15px; max-width: 52ch; }
+  .hero .chips { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; font-size: 12px; font-weight: 500; border-radius: 999px; background: var(--surface-strong); border: 1px solid var(--line); color: var(--muted); backdrop-filter: blur(8px); }
+
+  h2 { font-size: 12px; font-weight: 600; color: var(--muted); margin: 36px 0 14px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .glass { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
+  .glass:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(99,102,241,0.12); }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; font-size: 13px; font-weight: 500; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-strong); color: var(--fg); cursor: pointer; backdrop-filter: blur(8px); transition: all .15s; }
+  .btn:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .btn--grad { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border: 0; }
+  .btn--grad:hover { filter: brightness(1.05); color: var(--accent); border: 1px solid transparent; background-image: linear-gradient(var(--surface-strong), var(--surface-strong)), linear-gradient(135deg, var(--accent), var(--accent-2)); background-origin: border-box; background-clip: padding-box, border-box; }
+  .btn--ghost { background: transparent; border-color: transparent; }
+  .btn--ghost:hover { background: var(--accent-soft); border-color: var(--line); }
+  .btn--danger { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+  .btn--sm { height: 28px; padding: 0 12px; font-size: 12px; }
+
+  .field { margin-bottom: 14px; }
+  .label { display: block; font-size: 12px; font-weight: 500; color: var(--fg); margin-bottom: 5px; }
+  .input { width: 100%; height: 38px; padding: 0 12px; font-size: 13px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-strong); color: var(--fg); outline: none; backdrop-filter: blur(8px); transition: border-color .15s, box-shadow .15s; }
+  .input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .input--invalid { border-color: #fca5a5; }
+  .help { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .error { font-size: 11px; color: #dc2626; margin-top: 4px; }
+
+  .badge { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; font-size: 11px; font-weight: 500; border-radius: 999px; background: var(--surface-strong); color: var(--fg); border: 1px solid var(--line); backdrop-filter: blur(8px); }
+  .badge--accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+  .badge--success { background: #ecfdf5; color: #059669; border-color: transparent; }
+  .badge--warning { background: #fffbeb; color: #d97706; border-color: transparent; }
+  .badge--danger { background: #fef2f2; color: #dc2626; border-color: transparent; }
+
+  .alert { display: flex; gap: 12px; padding: 14px 16px; border: 1px solid transparent; border-radius: var(--r); font-size: 13px; backdrop-filter: blur(12px); }
+  .alert__title { font-weight: 600; margin-bottom: 2px; }
+  .alert__body { opacity: 0.85; }
+  .alert--success { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+  .alert--warning { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+  .alert--danger { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+  .alert--info { background: var(--accent-soft); color: #3730a3; border-color: rgba(99,102,241,0.25); }
+
+  .tabs__list { display: flex; gap: 4px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 999px; padding: 4px; width: fit-content; backdrop-filter: blur(8px); }
+  .tabs__tab { padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--muted); background: transparent; border: 0; border-radius: 999px; cursor: pointer; transition: all .15s; }
+  .tabs__tab--active { background: var(--accent); color: #fff; }
+  .tabs__panel { font-size: 13px; color: var(--muted); padding: 4px 2px; }
+
+  .shell { display: grid; grid-template-columns: 200px 1fr; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; min-height: 400px; background: var(--surface); backdrop-filter: blur(12px); box-shadow: var(--shadow); }
+  .side { background: linear-gradient(180deg, rgba(99,102,241,0.06), rgba(236,72,153,0.04)); border-right: 1px solid var(--line); padding: 16px 12px; }
+  .side__title { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 10px; padding: 0 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .side a { display: block; padding: 8px 10px; font-size: 13px; color: var(--fg); text-decoration: none; border-radius: 8px; margin-bottom: 2px; transition: background .12s; }
+  .side a:hover { background: var(--accent-soft); }
+  .side a.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-weight: 500; }
+  .main { display: flex; flex-direction: column; }
+  .topbar { padding: 12px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; background: var(--surface-strong); backdrop-filter: blur(8px); }
+  .topbar__title { font-size: 14px; font-weight: 600; }
+  .content { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+  .modal-bg { position: fixed; inset: 0; background: rgba(31,41,55,0.35); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 50; }
+  .modal-bg.open { display: flex; }
+  .modal { background: var(--surface-strong); border: 1px solid var(--line); border-radius: var(--r); width: 380px; max-width: 100%; padding: 22px; box-shadow: 0 20px 60px rgba(99,102,241,0.18); backdrop-filter: blur(16px); }
+  .modal__title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .modal__body { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .modal__footer { display: flex; justify-content: flex-end; gap: 8px; }
+
+  .dd { position: relative; display: inline-block; }
+  .dd__menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 170px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: var(--r); padding: 6px; display: none; z-index: 10; box-shadow: 0 10px 30px rgba(99,102,241,0.12); backdrop-filter: blur(12px); }
+  .dd.open .dd__menu { display: block; }
+  .dd__item { display: block; width: 100%; text-align: left; padding: 7px 10px; font-size: 13px; border: 0; background: transparent; border-radius: 8px; cursor: pointer; color: var(--fg); transition: background .12s; }
+  .dd__item:hover { background: var(--accent-soft); color: var(--accent); }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .shell { grid-template-columns: 1fr; } }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .glass { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
+  .glass:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(99,102,241,0.12); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>Simplest UI</h1>
+    <p>Propuesta base — suave, luminosa, con gradientes y transparencias.</p>
+    <div class="chips">
+      <span class="chip">✦ Glassmorphism</span>
+      <span class="chip">✦ Gradientes suaves</span>
+      <span class="chip">✦ Bordes redondeados</span>
+    </div>
+  </header>
+
+  <h2>Botones</h2>
+  <div class="row">
+    <button class="btn btn--grad">Guardar</button>
+    <button class="btn">Cancelar</button>
+    <button class="btn btn--ghost">Más opciones</button>
+    <button class="btn btn--danger">Eliminar</button>
+    <button class="btn btn--grad btn--sm">Pequeño</button>
+  </div>
+
+  <h2>Insignias</h2>
+  <div class="row">
+    <span class="badge">Neutral</span>
+    <span class="badge badge--accent">Primario</span>
+    <span class="badge badge--success">Activo</span>
+    <span class="badge badge--warning">Pendiente</span>
+    <span class="badge badge--danger">Error</span>
+  </div>
+
+  <h2>Alertas</h2>
+  <div class="stack">
+    <div class="alert alert--success"><div><div class="alert__title">Cambios guardados</div><div class="alert__body">Los datos se actualizaron correctamente.</div></div></div>
+    <div class="alert alert--warning"><div><div class="alert__title">Revisa la configuración</div><div class="alert__body">Faltan campos obligatorios.</div></div></div>
+    <div class="alert alert--danger"><div><div class="alert__title">Error de conexión</div><div class="alert__body">No se pudo guardar. Inténtalo de nuevo.</div></div></div>
+  </div>
+
+  <h2>Formulario</h2>
+  <div class="grid">
+    <div class="glass">
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Datos básicos</div>
+      <div class="field"><label class="label">Nombre</label><input class="input" placeholder="Tu nombre" /></div>
+      <div class="field"><label class="label">Correo</label><input class="input input--invalid" value="correo-invalido" /><div class="error">Ingresa un correo válido.</div></div>
+      <button class="btn btn--grad">Enviar</button>
+    </div>
+    <div class="glass">
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Tarjeta informativa</div>
+      <div style="font-size:13px;color:var(--muted);">Contenido dentro de una tarjeta con efecto glass y sombra suave.</div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;gap:6px;">
+        <button class="btn btn--ghost btn--sm">Acción</button>
+        <button class="btn btn--grad btn--sm">Confirmar</button>
+      </div>
+    </div>
+    <div class="glass">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">Estado</div>
+      <div class="row" style="margin-bottom:6px;"><span class="badge badge--success">En línea</span><span class="badge">v0.1.0</span></div>
+      <div style="font-size:13px;color:var(--muted);">Sistema operativo y actualizado.</div>
+    </div>
+  </div>
+
+  <h2>Pestañas</h2>
+  <div>
+    <div class="tabs__list">
+      <button class="tabs__tab tabs__tab--active">General</button>
+      <button class="tabs__tab">Seguridad</button>
+      <button class="tabs__tab">Notificaciones</button>
+    </div>
+    <div class="tabs__panel">Configuración general del proyecto.</div>
+  </div>
+
+  <h2>Layout base</h2>
+  <div class="shell">
+    <aside class="side">
+      <div class="side__title">Navegación</div>
+      <a class="active" href="#">Dashboard</a>
+      <a href="#">Proyectos</a>
+      <a href="#">Configuración</a>
+    </aside>
+    <div class="main">
+      <header class="topbar"><span class="topbar__title">Panel principal</span><button class="btn btn--grad btn--sm">Nuevo</button></header>
+      <div class="content">
+        <div class="glass" style="padding:14px;"><div style="font-size:14px;font-weight:600;margin-bottom:4px;">Bienvenido</div><div style="font-size:13px;color:var(--muted);">Contenido principal del panel.</div></div>
+        <div class="row">
+          <button class="btn" id="open-modal">Abrir modal</button>
+          <div class="dd" id="dd">
+            <button class="btn" onclick="document.getElementById('dd').classList.toggle('open')">Menú</button>
+            <div class="dd__menu">
+              <button class="dd__item" onclick="alert('Opción A')">Opción A</button>
+              <button class="dd__item" onclick="alert('Opción B')">Opción B</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal__title">Confirmación</div>
+    <div class="modal__body">¿Deseas continuar con esta acción?</div>
+    <div class="modal__footer">
+      <button class="btn" onclick="document.getElementById('modal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn--grad" onclick="document.getElementById('modal').classList.remove('open')">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('open-modal').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+  document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') e.target.classList.remove('open'); });
+  document.addEventListener('click', (e) => {
+    const dd = document.getElementById('dd');
+    if (!dd.contains(e.target)) dd.classList.remove('open');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid var(--sui-color-border);
+  border-radius: 999px;
+  background: var(--sui-color-surface-raised);
+  color: var(--sui-color-text);
+  backdrop-filter: blur(8px);
+  transition: background var(--sui-duration-fast) var(--sui-easing-standard),
+              border-color var(--sui-duration-fast) var(--sui-easing-standard),
+              color var(--sui-duration-fast) var(--sui-easing-standard);
+  cursor: pointer;
+}
+
+.ui-button:hover {
+  background: var(--sui-color-surface-muted);
+  border-color: var(--sui-color-primary);
+  color: var(--sui-color-primary);
+}
+
+.ui-button--primary {
+  background: linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
+  color: var(--sui-color-primary-contrast);
+  border: 0;
+}
+
+.ui-button--primary:hover {
+  filter: brightness(1.05);
+  color: var(--sui-color-primary);
+  border: 1px solid transparent;
+  background-image: linear-gradient(var(--sui-color-surface-raised), var(--sui-color-surface-raised)),
+                    linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.ui-button--danger {
+  background: #fef2f2;
+  color: var(--sui-color-danger);
+  border-color: #fecaca;
+}
+
+.ui-button--danger:hover {
+  background: #fee2e2;
+}
+
+.ui-button--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.ui-button--ghost:hover {
+  background: var(--sui-color-surface-muted);
+  border-color: var(--sui-color-border);
+}
+
+.ui-button--sm {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.ui-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

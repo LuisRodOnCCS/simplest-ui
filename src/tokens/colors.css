@@ -1,0 +1,50 @@
+:root {
+  --sui-color-primary: #6366f1;
+  --sui-color-primary-hover: #4f46e5;
+  --sui-color-primary-active: #4338ca;
+  --sui-color-primary-contrast: #ffffff;
+
+  --sui-color-secondary: #ec4899;
+  --sui-color-secondary-hover: #db2777;
+
+  --sui-color-success: #059669;
+  --sui-color-warning: #d97706;
+  --sui-color-danger: #dc2626;
+  --sui-color-info: #6366f1;
+
+  --sui-color-surface: rgba(255, 255, 255, 0.65);
+  --sui-color-surface-muted: #f6f7fb;
+  --sui-color-surface-raised: rgba(255, 255, 255, 0.85);
+
+  --sui-color-text: #1f2937;
+  --sui-color-text-muted: #6b7280;
+  --sui-color-text-subtle: #9ca3af;
+
+  --sui-color-border: rgba(99, 102, 241, 0.12);
+  --sui-color-border-strong: rgba(99, 102, 241, 0.25);
+
+  --sui-color-backdrop: rgb(31 41 55 / 0.35);
+
+  --sui-color-focus: #6366f1;
+  --sui-focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="dark"] {
+  --sui-color-primary: #818cf8;
+  --sui-color-primary-hover: #6366f1;
+  --sui-color-primary-active: #4f46e5;
+  --sui-color-primary-contrast: #0f172a;
+
+  --sui-color-surface: rgba(17, 24, 39, 0.6);
+  --sui-color-surface-muted: #111827;
+  --sui-color-surface-raised: rgba(31, 41, 55, 0.7);
+
+  --sui-color-text: #f9fafb;
+  --sui-color-text-muted: #d1d5db;
+  --sui-color-text-subtle: #9ca3af;
+
+  --sui-color-border: rgba(99, 102, 241, 0.2);
+  --sui-color-border-strong: rgba(99, 102, 241, 0.35);
+
+  --sui-color-backdrop: rgb(0 0 0 / 0.5);
+}

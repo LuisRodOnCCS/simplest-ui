@@ -1,0 +1,8 @@
+:root {
+  --sui-radius-none: 0;
+  --sui-radius-sm: 0.25rem;
+  --sui-radius-md: 0.5rem;
+  --sui-radius-lg: 0.75rem;
+  --sui-radius-xl: 1rem;
+  --sui-radius-full: 9999px;
+}
