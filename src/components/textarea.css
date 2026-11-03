@@ -1,0 +1,26 @@
+.ui-textarea {
+  display: block;
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--sui-color-text);
+  background: var(--sui-color-surface-raised);
+  border: 1px solid var(--sui-color-border);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--sui-duration-fast) var(--sui-easing-standard),
+              box-shadow var(--sui-duration-fast) var(--sui-easing-standard);
+}
+
+.ui-textarea:focus {
+  border-color: var(--sui-color-primary);
+  box-shadow: var(--sui-focus-ring);
+}
+
+.ui-textarea--invalid {
+  border-color: #fca5a5;
+}

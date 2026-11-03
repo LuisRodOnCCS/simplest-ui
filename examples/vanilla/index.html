@@ -94,6 +94,27 @@
   .dd__item { display: block; width: 100%; text-align: left; padding: 7px 10px; font-size: 13px; border: 0; background: transparent; border-radius: 8px; cursor: pointer; color: var(--fg); transition: background .12s; }
   .dd__item:hover { background: var(--accent-soft); color: var(--accent); }
 
+  .checkbox, .radio { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg); cursor: pointer; user-select: none; }
+  .checkbox input, .radio input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg); cursor: pointer; user-select: none; position: relative; }
+  .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .switch__track { position: relative; width: 36px; height: 20px; border-radius: 999px; background: var(--line); transition: background .15s; }
+  .switch__track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: #fff; transition: transform .15s; }
+  .switch input:checked + .switch__track { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .switch input:checked + .switch__track::after { transform: translateX(16px); }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: sui-spin .7s linear infinite; }
+  .spinner--sm { width: 12px; height: 12px; border-width: 1.5px; }
+  .spinner--lg { width: 24px; height: 24px; border-width: 3px; }
+  @keyframes sui-spin { to { transform: rotate(360deg); } }
+  .skeleton { background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%); background-size: 200% 100%; animation: sui-shimmer 1.4s ease infinite; border-radius: 8px; }
+  .skeleton--title { height: 18px; width: 60%; margin-bottom: 10px; }
+  .skeleton--text { height: 12px; width: 100%; margin-bottom: 6px; }
+  .progress { width: 100%; height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .progress__bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; transition: width .2s; }
+  .progress--indeterminate .progress__bar { width: 40%; animation: sui-progress 1.2s ease-in-out infinite; }
+  @keyframes sui-progress { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+  @keyframes sui-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .shell { grid-template-columns: 1fr; } }
   .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -160,6 +181,36 @@
       <div class="row" style="margin-bottom:6px;"><span class="badge badge--success">En línea</span><span class="badge">v0.1.0</span></div>
       <div style="font-size:13px;color:var(--muted);">Sistema operativo y actualizado.</div>
     </div>
+  </div>
+
+  <h2>Formularios avanzados</h2>
+  <div class="grid">
+    <div class="glass">
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Campos</div>
+      <div class="field"><label class="label">Mensaje</label><textarea class="input" style="height:80px;resize:vertical;" placeholder="Escribe aquí..."></textarea></div>
+      <div class="field"><label class="label">País</label><select class="input"><option>México</option><option>España</option><option>Argentina</option></select></div>
+      <div class="row" style="margin-bottom:8px;"><label class="checkbox"><input type="checkbox" checked /> Acepto términos</label></div>
+      <div class="row" style="margin-bottom:8px;"><label class="radio"><input type="radio" name="r" checked /> Opción A</label><label class="radio"><input type="radio" name="r" /> Opción B</label></div>
+      <div class="row"><label class="switch"><input type="checkbox" checked /><span class="switch__track"></span> Notificaciones</label></div>
+    </div>
+  </div>
+
+  <h2>Estados de carga</h2>
+  <div class="row" style="margin-bottom:12px;">
+    <span class="spinner"></span>
+    <span class="spinner spinner--sm"></span>
+    <span class="spinner spinner--lg"></span>
+  </div>
+  <div style="margin-bottom:12px;">
+    <div class="skeleton skeleton--title"></div>
+    <div class="skeleton skeleton--text"></div>
+    <div class="skeleton skeleton--text" style="width:80%;"></div>
+  </div>
+  <div style="width:240px;margin-bottom:12px;">
+    <div class="progress"><div class="progress__bar" style="width:60%;"></div></div>
+  </div>
+  <div style="width:240px;">
+    <div class="progress progress--indeterminate"><div class="progress__bar"></div></div>
   </div>
 
   <h2>Pestañas</h2>

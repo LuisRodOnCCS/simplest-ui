@@ -1,0 +1,20 @@
+.ui-skeleton {
+  background: linear-gradient(90deg, var(--sui-color-surface-muted) 25%, var(--sui-color-surface-raised) 50%, var(--sui-color-surface-muted) 75%);
+  background-size: 200% 100%;
+  animation: sui-shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+
+.ui-skeleton--text { height: 12px; width: 100%; margin-bottom: 6px; }
+.ui-skeleton--title { height: 18px; width: 60%; margin-bottom: 10px; }
+.ui-skeleton--avatar { width: 40px; height: 40px; border-radius: 50%; }
+.ui-skeleton--block { height: 120px; width: 100%; }
+
+@keyframes sui-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton { animation: none; }
+}
