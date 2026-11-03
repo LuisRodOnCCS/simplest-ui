@@ -1,0 +1,33 @@
+.ui-stat {
+  background: var(--sui-color-surface);
+  border: 1px solid var(--sui-color-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  backdrop-filter: blur(12px);
+}
+
+.ui-stat__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sui-color-text-muted);
+  margin-bottom: 4px;
+}
+
+.ui-stat__value {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--sui-color-text);
+  background: linear-gradient(120deg, var(--sui-color-primary), var(--sui-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ui-stat__hint {
+  font-size: 12px;
+  color: var(--sui-color-text-muted);
+  margin-top: 4px;
+}

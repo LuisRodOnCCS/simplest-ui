@@ -1,0 +1,24 @@
+.ui-popover {
+  position: relative;
+  display: inline-block;
+}
+
+.ui-popover__content {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  padding: 12px;
+  background: var(--sui-color-surface-raised);
+  border: 1px solid var(--sui-color-border);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12);
+  backdrop-filter: blur(12px);
+  display: none;
+  z-index: 50;
+}
+
+.ui-popover.open .ui-popover__content {
+  display: block;
+  animation: sui-toast-in 0.2s ease;
+}
