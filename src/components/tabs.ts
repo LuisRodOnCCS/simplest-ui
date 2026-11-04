@@ -1,67 +1,201 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import type { PropertyValues } from "lit";
+
+type TabItem = {
+  id: string;
+  label: string;
+  panel: HTMLElement;
+};
 
 @customElement("sui-tabs")
 export class SuiTabs extends LitElement {
+  private static instanceCount = 0;
+  private readonly uid = ++SuiTabs.instanceCount;
+
   static styles = css`
-    :host { display: block; }
-    .list { display: flex; gap: var(--sui-space-1); border-bottom: 1px solid var(--sui-color-border); }
-    .tab {
-      padding: var(--sui-space-2) var(--sui-space-4);
-      border: 0; background: transparent;
-      color: var(--sui-color-text-muted);
-      font-size: var(--sui-font-size-sm);
-      font-weight: var(--sui-font-weight-medium);
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      cursor: pointer;
+    :host {
+      display: block;
     }
-    .tab[aria-selected="true"] { color: var(--sui-color-primary); border-bottom-color: var(--sui-color-primary); }
-    .panel { padding: var(--sui-space-3) 0; }
-    .panel[hidden] { display: none; }
+    .list {
+      display: flex;
+      gap: var(--sui-space-1);
+      background: var(--sui-color-surface-raised);
+      border: 1px solid var(--sui-color-border);
+      border-radius: var(--sui-radius-full);
+      padding: var(--sui-space-1);
+      width: fit-content;
+      backdrop-filter: blur(var(--sui-blur-sm));
+      -webkit-backdrop-filter: blur(var(--sui-blur-sm));
+    }
+    .tab {
+      padding: var(--sui-space-1-5) var(--sui-space-3-5);
+      font-size: var(--sui-font-size-xs);
+      font-weight: var(--sui-font-weight-medium);
+      color: var(--sui-color-text-muted);
+      background: transparent;
+      border: 0;
+      border-radius: var(--sui-radius-full);
+      cursor: pointer;
+      transition: background var(--sui-duration-fast) var(--sui-easing-standard),
+                  color var(--sui-duration-fast) var(--sui-easing-standard),
+                  filter var(--sui-duration-fast) var(--sui-easing-standard);
+    }
+    .tab:hover {
+      color: var(--sui-color-text);
+    }
+    .tab[aria-selected="true"] {
+      background: var(--sui-gradient-primary);
+      color: var(--sui-color-primary-contrast);
+    }
+    .tab[aria-selected="true"]:hover {
+      background: var(--sui-gradient-primary-hover);
+    }
+    .tab:focus-visible {
+      outline: none;
+      box-shadow: var(--sui-focus-ring);
+    }
+    ::slotted([data-tab]) {
+      display: block;
+      margin-top: var(--sui-space-3);
+      padding: var(--sui-space-1) var(--sui-space-0-5);
+      font-size: var(--sui-font-size-sm);
+      color: var(--sui-color-text-muted);
+    }
+    ::slotted([data-tab][hidden]) {
+      display: none;
+    }
   `;
 
   @property({ type: String }) value = "";
 
-  @state() private tabs: { id: string; label: string }[] = [];
+  @state() private tabs: TabItem[] = [];
+
+  private get selectedIndex() {
+    return this.tabs.findIndex((tab) => tab.id === this.value);
+  }
 
   connectedCallback() {
     super.connectedCallback();
     this.collectTabs();
   }
 
+  firstUpdated() {
+    this.collectTabs();
+  }
+
+  protected updated(changed: PropertyValues) {
+    if (!changed.has("value")) return;
+    if (this.tabs.length && !this.tabs.some((tab) => tab.id === this.value)) {
+      this.value = this.tabs[0].id;
+      return;
+    }
+    this.applySelection();
+  }
+
   private collectTabs() {
-    const slot = this.shadowRoot?.querySelector("slot");
-    // fallback: read light DOM children with data-tab
-    const children = Array.from(this.children);
-    this.tabs = children
-      .filter((el) => el.hasAttribute("data-tab"))
-      .map((el) => ({ id: el.getAttribute("data-tab")!, label: el.getAttribute("label") || el.getAttribute("data-tab")! }));
-    if (!this.value && this.tabs.length) this.value = this.tabs[0].id;
+    const children = Array.from(this.children).filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && el.hasAttribute("data-tab")
+    );
+
+    this.tabs = children.map((el, index) => {
+      const id = el.getAttribute("data-tab") ?? String(index);
+      if (!el.id) {
+        el.id = `sui-tabpanel-${this.uid}-${index}`;
+      }
+      el.setAttribute("role", "tabpanel");
+      el.setAttribute("aria-labelledby", `sui-tab-${this.uid}-${index}`);
+      return {
+        id,
+        label: el.getAttribute("label") ?? id,
+        panel: el,
+      };
+    });
+
+    if (!this.value || !this.tabs.some((tab) => tab.id === this.value)) {
+      this.value = this.tabs[0]?.id ?? "";
+    }
+    this.applySelection();
+  }
+
+  private applySelection() {
+    for (const tab of this.tabs) {
+      tab.panel.hidden = tab.id !== this.value;
+    }
   }
 
   private select(id: string) {
+    if (this.value === id) return;
     this.value = id;
-    this.dispatchEvent(new CustomEvent("sui-change", { detail: { value: id }, bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent("sui-change", { detail: { value: id }, bubbles: true, composed: true })
+    );
+  }
+
+  private handleSlotChange = () => {
+    this.collectTabs();
+  };
+
+  private handleKeydown = (e: KeyboardEvent) => {
+    if (!this.tabs.length) return;
+
+    const current = Math.max(this.selectedIndex, 0);
+    let next = current;
+
+    switch (e.key) {
+      case "ArrowRight":
+        next = (current + 1) % this.tabs.length;
+        break;
+      case "ArrowLeft":
+        next = (current - 1 + this.tabs.length) % this.tabs.length;
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = this.tabs.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    e.preventDefault();
+    this.select(this.tabs[next].id);
+    this.updateComplete.then(() => {
+      this.renderRoot.querySelectorAll<HTMLButtonElement>(".tab")[next]?.focus();
+    });
+  };
+
+  private tabId(index: number) {
+    return `sui-tab-${this.uid}-${index}`;
   }
 
   render() {
     return html`
-      <div class="list" role="tablist">
-        ${this.tabs.map(
-          (t) => html`<button class="tab" role="tab" aria-selected=${this.value === t.id}
-            @click=${() => this.select(t.id)}>${t.label}</button>`
-        )}
+      <div class="list" role="tablist" @keydown=${this.handleKeydown}>
+        ${this.tabs.map((tab, index) => {
+          const selected = tab.id === this.value;
+          return html`
+            <button
+              class="tab"
+              type="button"
+              role="tab"
+              id=${this.tabId(index)}
+              aria-selected=${selected ? "true" : "false"}
+              aria-controls=${tab.panel.id}
+              tabindex=${selected ? 0 : -1}
+              @click=${() => this.select(tab.id)}
+            >${tab.label}</button>
+          `;
+        })}
       </div>
-      <div class="panels">
-        ${this.tabs.map(
-          (t) => html`<div class="panel" ?hidden=${this.value !== t.id} role="tabpanel">
-            <slot name=${t.id}></slot>
-          </div>`
-        )}
-      </div>
+      <slot @slotchange=${this.handleSlotChange}></slot>
     `;
   }
 }
 
-declare global { interface HTMLElementTagNameMap { "sui-tabs": SuiTabs; } }
+declare global {
+  interface HTMLElementTagNameMap {
+    "sui-tabs": SuiTabs;
+  }
+}

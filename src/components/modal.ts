@@ -14,25 +14,27 @@ export class SuiModal extends LitElement {
       position: fixed;
       inset: 0;
       background: var(--sui-color-backdrop);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(var(--sui-blur-backdrop));
+      -webkit-backdrop-filter: blur(var(--sui-blur-backdrop));
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      z-index: var(--sui-z-modal);
       padding: var(--sui-space-4);
     }
     .panel {
       background: var(--sui-color-surface-raised);
       color: var(--sui-color-text);
       border: 1px solid var(--sui-color-border);
-      border-radius: 14px;
-      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.18);
-      backdrop-filter: blur(16px);
+      border-radius: var(--sui-radius-xl);
+      box-shadow: var(--sui-shadow-modal);
+      backdrop-filter: blur(var(--sui-blur-lg));
+      -webkit-backdrop-filter: blur(var(--sui-blur-lg));
       width: var(--sui-modal-width, 380px);
       max-width: 100%;
       max-height: 90vh;
       overflow: auto;
-      padding: 22px;
+      padding: var(--sui-space-5-5);
     }
     .header {
       display: flex;
@@ -42,14 +44,14 @@ export class SuiModal extends LitElement {
       margin-bottom: var(--sui-space-2);
     }
     .title {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: var(--sui-font-size-base);
+      font-weight: var(--sui-font-weight-semibold);
       margin: 0;
     }
     .close {
       background: transparent;
       border: 0;
-      font-size: 20px;
+      font-size: var(--sui-font-size-xl);
       line-height: 1;
       color: var(--sui-color-text-muted);
       padding: 0;
@@ -59,9 +61,9 @@ export class SuiModal extends LitElement {
       color: var(--sui-color-text);
     }
     .body {
-      font-size: 13px;
+      font-size: var(--sui-font-size-sm);
       color: var(--sui-color-text-muted);
-      margin-bottom: 18px;
+      margin-bottom: var(--sui-space-4-5);
     }
     .footer {
       display: flex;
@@ -107,7 +109,7 @@ export class SuiModal extends LitElement {
         <div class="panel" role="dialog" aria-modal="true">
           <div class="header">
             <div class="title"><slot name="title"></slot></div>
-            <button class="close" aria-label="Cerrar" @click=${() => this.close()}>×</button>
+            <button class="close" type="button" aria-label="Cerrar" @click=${() => this.close()}>×</button>
           </div>
           <div class="body"><slot></slot></div>
           <div class="footer"><slot name="footer"></slot></div>

@@ -14,11 +14,14 @@ html {
 }
 
 body {
+  min-height: 100vh;
   font-family: var(--sui-font-family);
   font-size: var(--sui-font-size-base);
   line-height: var(--sui-line-height-normal);
   color: var(--sui-color-text);
-  background-color: var(--sui-color-surface);
+  background-color: var(--sui-color-bg);
+  background-image: var(--sui-gradient-page);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -40,6 +43,10 @@ select {
 
 button {
   cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 :focus-visible {

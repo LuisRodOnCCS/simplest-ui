@@ -1,15 +1,16 @@
 .ui-badge {
   display: inline-flex;
   align-items: center;
-  height: 22px;
-  padding: 0 9px;
-  font-size: 11px;
-  font-weight: 500;
-  border-radius: 999px;
+  height: var(--sui-badge-height, 22px);
+  padding: 0 var(--sui-space-2);
+  font-size: var(--sui-font-size-2xs);
+  font-weight: var(--sui-font-weight-medium);
+  border-radius: var(--sui-radius-full);
   background: var(--sui-color-surface-raised);
   color: var(--sui-color-text);
   border: 1px solid var(--sui-color-border);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(var(--sui-blur-sm));
+  -webkit-backdrop-filter: blur(var(--sui-blur-sm));
 }
 
 .ui-badge--primary {
@@ -18,10 +19,29 @@
   border-color: transparent;
 }
 
-.ui-badge--success { background: #ecfdf5; color: var(--sui-color-success); border-color: transparent; }
-.ui-badge--warning { background: #fffbeb; color: var(--sui-color-warning); border-color: transparent; }
-.ui-badge--danger { background: #fef2f2; color: var(--sui-color-danger); border-color: transparent; }
-.ui-badge--info { background: var(--sui-color-surface-muted); color: var(--sui-color-info); border-color: transparent; }
+.ui-badge--success {
+  background: var(--sui-color-success-surface);
+  color: var(--sui-color-success-text);
+  border-color: transparent;
+}
+
+.ui-badge--warning {
+  background: var(--sui-color-warning-surface);
+  color: var(--sui-color-warning-text);
+  border-color: transparent;
+}
+
+.ui-badge--danger {
+  background: var(--sui-color-danger-surface);
+  color: var(--sui-color-danger-text);
+  border-color: transparent;
+}
+
+.ui-badge--info {
+  background: var(--sui-color-info-surface);
+  color: var(--sui-color-info-text);
+  border-color: transparent;
+}
 
 .ui-badge--outline {
   background: transparent;
@@ -31,14 +51,15 @@
 .ui-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 26px;
-  padding: 0 10px;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 999px;
+  gap: var(--sui-space-1-5);
+  height: var(--sui-chip-height, 26px);
+  padding: 0 var(--sui-space-2-5);
+  font-size: var(--sui-font-size-xs);
+  font-weight: var(--sui-font-weight-medium);
+  border-radius: var(--sui-radius-full);
   background: var(--sui-color-surface-raised);
   color: var(--sui-color-text-muted);
   border: 1px solid var(--sui-color-border);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(var(--sui-blur-sm));
+  -webkit-backdrop-filter: blur(var(--sui-blur-sm));
 }

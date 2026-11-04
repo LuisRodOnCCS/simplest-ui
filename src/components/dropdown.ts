@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 
 @customElement("sui-dropdown")
 export class SuiDropdown extends LitElement {
@@ -11,57 +11,69 @@ export class SuiDropdown extends LitElement {
     .trigger {
       background: var(--sui-color-surface-raised);
       border: 1px solid var(--sui-color-border);
-      border-radius: 999px;
-      padding: var(--sui-space-2) var(--sui-space-3);
+      border-radius: var(--sui-radius-full);
+      height: var(--sui-control-height-md);
+      padding: 0 var(--sui-space-3);
       font-size: var(--sui-font-size-sm);
       color: var(--sui-color-text);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(var(--sui-blur-sm));
+      -webkit-backdrop-filter: blur(var(--sui-blur-sm));
       cursor: pointer;
     }
     .trigger:hover {
       background: var(--sui-color-surface-muted);
-      border-color: var(--sui-color-primary);
-      color: var(--sui-color-primary);
+      border-color: var(--sui-color-primary-hover);
+      color: var(--sui-color-primary-hover);
     }
     .menu {
       position: absolute;
-      top: calc(100% + 6px);
+      top: calc(100% + var(--sui-space-1-5));
       left: 0;
-      min-width: 170px;
+      min-width: var(--sui-dropdown-min-width, 170px);
       background: var(--sui-color-surface-raised);
       border: 1px solid var(--sui-color-border);
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12);
-      backdrop-filter: blur(12px);
-      padding: 6px;
-      z-index: 100;
+      border-radius: var(--sui-radius-xl);
+      box-shadow: var(--sui-shadow-menu);
+      backdrop-filter: blur(var(--sui-blur-md));
+      -webkit-backdrop-filter: blur(var(--sui-blur-md));
+      padding: var(--sui-space-1-5);
+      z-index: var(--sui-z-dropdown);
       display: none;
     }
     :host([open]) .menu {
       display: block;
     }
-    .item {
+    ::slotted(button),
+    ::slotted(a),
+    ::slotted([role="menuitem"]) {
       display: block;
       width: 100%;
       text-align: left;
-      padding: 7px 10px;
+      padding: var(--sui-space-1-5) var(--sui-space-2-5);
       border: 0;
       background: transparent;
-      border-radius: 8px;
+      border-radius: var(--sui-radius-sm);
       font-size: var(--sui-font-size-sm);
       color: var(--sui-color-text);
       cursor: pointer;
-      transition: background var(--sui-duration-fast) var(--sui-easing-standard);
+      text-decoration: none;
+      transition: background var(--sui-duration-fast) var(--sui-easing-standard),
+                  color var(--sui-duration-fast) var(--sui-easing-standard);
     }
-    .item:hover {
+    ::slotted(button:hover),
+    ::slotted(a:hover),
+    ::slotted([role="menuitem"]:hover) {
       background: var(--sui-color-surface-muted);
       color: var(--sui-color-primary);
+    }
+    ::slotted(button:disabled),
+    ::slotted([aria-disabled="true"]) {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   `;
 
   @property({ type: Boolean, reflect: true }) open = false;
-
-  @state() private items: string[] = [];
 
   private handleDocumentClick = (e: MouseEvent) => {
     if (!this.contains(e.target as Node)) {
@@ -69,14 +81,22 @@ export class SuiDropdown extends LitElement {
     }
   };
 
+  private handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && this.open) {
+      this.open = false;
+    }
+  };
+
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener("click", this.handleDocumentClick);
+    document.addEventListener("keydown", this.handleKeydown);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("click", this.handleDocumentClick);
+    document.removeEventListener("keydown", this.handleKeydown);
   }
 
   private toggle() {
@@ -93,16 +113,31 @@ export class SuiDropdown extends LitElement {
     );
   }
 
+  private handleMenuClick = (e: MouseEvent) => {
+    const target = (e.target as HTMLElement).closest(
+      "button, a, [role='menuitem']"
+    ) as HTMLElement | null;
+
+    if (!target || target.hasAttribute("disabled") || target.getAttribute("aria-disabled") === "true") {
+      return;
+    }
+
+    this.select(target.getAttribute("data-value") ?? target.textContent?.trim() ?? "");
+  };
+
   render() {
     return html`
-      <button class="trigger" @click=${(e: Event) => { e.stopPropagation(); this.toggle(); }}>
+      <button
+        class="trigger"
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded=${this.open ? "true" : "false"}
+        @click=${(e: Event) => { e.stopPropagation(); this.toggle(); }}
+      >
         <slot name="trigger">Opciones</slot>
       </button>
-      <div class="menu" role="menu">
-        <slot @slotchange=${(e: Event) => {
-          const slot = e.target as HTMLSlotElement;
-          this.items = slot.assignedElements().map((el) => el.textContent?.trim() ?? "");
-        }}></slot>
+      <div class="menu" role="menu" @click=${this.handleMenuClick}>
+        <slot></slot>
       </div>
     `;
   }

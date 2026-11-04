@@ -2,6 +2,9 @@
   --sui-duration-fast: 120ms;
   --sui-duration-normal: 200ms;
   --sui-duration-slow: 320ms;
+  --sui-duration-spinner: 700ms;
+  --sui-duration-shimmer: 1400ms;
+  --sui-duration-progress: 1200ms;
 
   --sui-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --sui-easing-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
@@ -12,5 +15,8 @@
     --sui-duration-fast: 0ms;
     --sui-duration-normal: 0ms;
     --sui-duration-slow: 0ms;
+    --sui-duration-spinner: 0ms;
+    --sui-duration-shimmer: 0ms;
+    --sui-duration-progress: 0ms;
   }
 }

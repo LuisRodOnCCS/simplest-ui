@@ -1,33 +1,33 @@
 .ui-stat {
   background: var(--sui-color-surface);
   border: 1px solid var(--sui-color-border);
-  border-radius: 14px;
-  padding: 16px 18px;
-  backdrop-filter: blur(12px);
+  border-radius: var(--sui-radius-xl);
+  padding: var(--sui-space-4) var(--sui-space-4-5);
+  backdrop-filter: blur(var(--sui-blur-md));
+  -webkit-backdrop-filter: blur(var(--sui-blur-md));
 }
 
 .ui-stat__label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: var(--sui-font-size-2xs);
+  font-weight: var(--sui-font-weight-semibold);
+  letter-spacing: var(--sui-letter-spacing-wide);
   text-transform: uppercase;
   color: var(--sui-color-text-muted);
-  margin-bottom: 4px;
+  margin-bottom: var(--sui-space-1);
 }
 
 .ui-stat__value {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--sui-color-text);
-  background: linear-gradient(120deg, var(--sui-color-primary), var(--sui-color-secondary));
+  font-size: var(--sui-font-size-2xl);
+  font-weight: var(--sui-font-weight-bold);
+  letter-spacing: var(--sui-letter-spacing-tight);
+  background: var(--sui-gradient-primary);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .ui-stat__hint {
-  font-size: 12px;
+  font-size: var(--sui-font-size-xs);
   color: var(--sui-color-text-muted);
-  margin-top: 4px;
+  margin-top: var(--sui-space-1);
 }

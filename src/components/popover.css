@@ -5,20 +5,32 @@
 
 .ui-popover__content {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + var(--sui-space-2));
   left: 0;
-  min-width: 220px;
-  padding: 12px;
+  min-width: var(--sui-popover-min-width, 220px);
+  padding: var(--sui-space-3);
   background: var(--sui-color-surface-raised);
   border: 1px solid var(--sui-color-border);
-  border-radius: 10px;
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12);
-  backdrop-filter: blur(12px);
+  border-radius: var(--sui-radius-md);
+  box-shadow: var(--sui-shadow-floating);
+  backdrop-filter: blur(var(--sui-blur-md));
+  -webkit-backdrop-filter: blur(var(--sui-blur-md));
   display: none;
-  z-index: 50;
+  z-index: var(--sui-z-popover);
 }
 
 .ui-popover.open .ui-popover__content {
   display: block;
-  animation: sui-toast-in 0.2s ease;
+  animation: sui-popover-in var(--sui-duration-normal) var(--sui-easing-standard);
+}
+
+@keyframes sui-popover-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-popover.open .ui-popover__content {
+    animation: none;
+  }
 }

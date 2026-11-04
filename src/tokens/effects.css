@@ -1,0 +1,13 @@
+:root {
+  --sui-blur-sm: 8px;
+  --sui-blur-md: 12px;
+  --sui-blur-lg: 16px;
+  --sui-blur-backdrop: 6px;
+
+  --sui-z-popover: 50;
+  --sui-z-dropdown: 100;
+  --sui-z-drawer-backdrop: 60;
+  --sui-z-drawer: 61;
+  --sui-z-modal: 1000;
+  --sui-z-toast: 1100;
+}

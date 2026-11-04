@@ -1,14 +1,37 @@
 .ui-skeleton {
-  background: linear-gradient(90deg, var(--sui-color-surface-muted) 25%, var(--sui-color-surface-raised) 50%, var(--sui-color-surface-muted) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--sui-color-surface-muted) 25%,
+    var(--sui-color-surface-raised) 50%,
+    var(--sui-color-surface-muted) 75%
+  );
   background-size: 200% 100%;
-  animation: sui-shimmer 1.4s ease infinite;
-  border-radius: 8px;
+  animation: sui-shimmer var(--sui-duration-shimmer) ease infinite;
+  border-radius: var(--sui-radius-sm);
 }
 
-.ui-skeleton--text { height: 12px; width: 100%; margin-bottom: 6px; }
-.ui-skeleton--title { height: 18px; width: 60%; margin-bottom: 10px; }
-.ui-skeleton--avatar { width: 40px; height: 40px; border-radius: 50%; }
-.ui-skeleton--block { height: 120px; width: 100%; }
+.ui-skeleton--text {
+  height: var(--sui-space-3);
+  width: 100%;
+  margin-bottom: var(--sui-space-1-5);
+}
+
+.ui-skeleton--title {
+  height: var(--sui-space-4-5);
+  width: 60%;
+  margin-bottom: var(--sui-space-2-5);
+}
+
+.ui-skeleton--avatar {
+  width: var(--sui-space-10);
+  height: var(--sui-space-10);
+  border-radius: var(--sui-radius-full);
+}
+
+.ui-skeleton--block {
+  height: var(--sui-skeleton-block-height, 120px);
+  width: 100%;
+}
 
 @keyframes sui-shimmer {
   0% { background-position: 200% 0; }
@@ -16,5 +39,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-skeleton { animation: none; }
+  .ui-skeleton {
+    animation: none;
+  }
 }

@@ -11,21 +11,19 @@
 <body>
   <div class="ui-app-shell">
     <aside class="ui-app-shell__sidebar">
-      <h2 style="font-size:14px;font-weight:600;margin-bottom:12px;">Mi App</h2>
-      <nav class="ui-nav">
+      <div class="ui-app-shell__brand">Mi App</div>
+      <nav class="ui-nav" aria-label="Navegación principal">
         <a href="#" class="ui-nav__item ui-nav__item--active">Dashboard</a>
         <a href="#" class="ui-nav__item">Configuración</a>
       </nav>
     </aside>
     <div class="ui-app-shell__content">
-      <header class="ui-app-shell__header" style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:14px;font-weight:600;">@yield('title', 'Panel principal')</span>
-        <button class="ui-button ui-button--primary ui-button--sm">Nuevo</button>
+      <header class="ui-app-shell__header">
+        <span class="ui-app-shell__title">@yield('title', 'Panel principal')</span>
+        <button class="ui-button ui-button--primary ui-button--sm" type="button">Nuevo</button>
       </header>
       <main class="ui-app-shell__main">
-        <div class="ui-container">
-          @yield('content')
-        </div>
+        @yield('content')
       </main>
     </div>
   </div>

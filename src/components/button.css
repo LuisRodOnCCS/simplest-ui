@@ -2,17 +2,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0 16px;
-  font-size: 13px;
-  font-weight: 500;
+  gap: var(--sui-space-1-5);
+  height: var(--sui-control-height-md);
+  padding: 0 var(--sui-space-4);
+  font-size: var(--sui-font-size-sm);
+  font-weight: var(--sui-font-weight-medium);
   line-height: 1;
   border: 1px solid var(--sui-color-border);
-  border-radius: 999px;
+  border-radius: var(--sui-radius-full);
   background: var(--sui-color-surface-raised);
   color: var(--sui-color-text);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(var(--sui-blur-sm));
+  -webkit-backdrop-filter: blur(var(--sui-blur-sm));
   transition: background var(--sui-duration-fast) var(--sui-easing-standard),
               border-color var(--sui-duration-fast) var(--sui-easing-standard),
               color var(--sui-duration-fast) var(--sui-easing-standard);
@@ -21,12 +22,16 @@
 
 .ui-button:hover {
   background: var(--sui-color-surface-muted);
-  border-color: var(--sui-color-primary);
-  color: var(--sui-color-primary);
+  border-color: var(--sui-color-primary-hover);
+  color: var(--sui-color-primary-hover);
+}
+
+.ui-button:active {
+  border-color: var(--sui-color-primary-active);
 }
 
 .ui-button--primary {
-  background: linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
+  background: var(--sui-gradient-primary);
   color: var(--sui-color-primary-contrast);
   border: 0;
 }
@@ -36,19 +41,25 @@
   color: var(--sui-color-primary);
   border: 1px solid transparent;
   background-image: linear-gradient(var(--sui-color-surface-raised), var(--sui-color-surface-raised)),
-                    linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
+                    var(--sui-gradient-primary);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
 
+.ui-button--primary:active {
+  filter: brightness(0.95);
+}
+
 .ui-button--danger {
-  background: #fef2f2;
-  color: var(--sui-color-danger);
-  border-color: #fecaca;
+  background: var(--sui-color-danger-surface);
+  color: var(--sui-color-danger-text);
+  border-color: var(--sui-color-danger-border);
 }
 
 .ui-button--danger:hover {
-  background: #fee2e2;
+  background: var(--sui-color-danger-surface-hover);
+  border-color: var(--sui-color-danger);
+  color: var(--sui-color-danger-text);
 }
 
 .ui-button--ghost {
@@ -62,9 +73,9 @@
 }
 
 .ui-button--sm {
-  height: 28px;
-  padding: 0 12px;
-  font-size: 12px;
+  height: var(--sui-control-height-sm);
+  padding: 0 var(--sui-space-3);
+  font-size: var(--sui-font-size-xs);
 }
 
 .ui-button:disabled {

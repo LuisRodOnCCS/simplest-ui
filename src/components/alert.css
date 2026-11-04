@@ -1,22 +1,46 @@
 .ui-alert {
   display: flex;
-  gap: 12px;
-  padding: 14px 16px;
+  gap: var(--sui-space-3);
+  padding: var(--sui-space-3-5) var(--sui-space-4);
   border: 1px solid transparent;
   border-left: 3px solid var(--sui-color-primary);
-  border-radius: 14px;
-  font-size: 13px;
-  backdrop-filter: blur(12px);
+  border-radius: var(--sui-radius-xl);
+  font-size: var(--sui-font-size-sm);
+  backdrop-filter: blur(var(--sui-blur-md));
+  -webkit-backdrop-filter: blur(var(--sui-blur-md));
 }
 
-.ui-alert--success { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; border-left-color: var(--sui-color-success); }
-.ui-alert--warning { background: #fffbeb; color: #92400e; border-color: #fde68a; border-left-color: var(--sui-color-warning); }
-.ui-alert--danger { background: #fef2f2; color: #991b1b; border-color: #fecaca; border-left-color: var(--sui-color-danger); }
-.ui-alert--info { background: var(--sui-color-surface-muted); color: #3730a3; border-color: rgba(99, 102, 241, 0.25); border-left-color: var(--sui-color-info); }
+.ui-alert--success {
+  background: var(--sui-color-success-surface);
+  color: var(--sui-color-success-text);
+  border-color: var(--sui-color-success-border);
+  border-left-color: var(--sui-color-success);
+}
+
+.ui-alert--warning {
+  background: var(--sui-color-warning-surface);
+  color: var(--sui-color-warning-text);
+  border-color: var(--sui-color-warning-border);
+  border-left-color: var(--sui-color-warning);
+}
+
+.ui-alert--danger {
+  background: var(--sui-color-danger-surface);
+  color: var(--sui-color-danger-text);
+  border-color: var(--sui-color-danger-border);
+  border-left-color: var(--sui-color-danger);
+}
+
+.ui-alert--info {
+  background: var(--sui-color-info-surface);
+  color: var(--sui-color-info-text);
+  border-color: var(--sui-color-info-border);
+  border-left-color: var(--sui-color-info);
+}
 
 .ui-alert__title {
-  font-weight: 600;
-  margin-bottom: 2px;
+  font-weight: var(--sui-font-weight-semibold);
+  margin-bottom: var(--sui-space-0-5);
 }
 
 .ui-alert__body {
@@ -27,7 +51,7 @@
   background: transparent;
   border: 0;
   color: inherit;
-  font-size: 18px;
+  font-size: var(--sui-font-size-lg);
   line-height: 1;
   padding: 0;
   opacity: 0.6;

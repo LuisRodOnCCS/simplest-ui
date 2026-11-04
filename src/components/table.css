@@ -1,25 +1,26 @@
 .ui-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: var(--sui-font-size-sm);
   background: var(--sui-color-surface);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
+  backdrop-filter: blur(var(--sui-blur-md));
+  -webkit-backdrop-filter: blur(var(--sui-blur-md));
+  border-radius: var(--sui-radius-lg);
   overflow: hidden;
   border: 1px solid var(--sui-color-border);
 }
 
 .ui-table th,
 .ui-table td {
-  padding: 10px 14px;
+  padding: var(--sui-space-2-5) var(--sui-space-3-5);
   text-align: left;
   border-bottom: 1px solid var(--sui-color-border);
 }
 
 .ui-table th {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: var(--sui-font-size-2xs);
+  font-weight: var(--sui-font-weight-semibold);
+  letter-spacing: var(--sui-letter-spacing-wide);
   text-transform: uppercase;
   color: var(--sui-color-text-muted);
   background: var(--sui-color-surface-muted);

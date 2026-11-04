@@ -1,20 +1,29 @@
 .ui-spinner {
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--sui-color-border);
+  width: var(--sui-spinner-size, 16px);
+  height: var(--sui-spinner-size, 16px);
+  border: var(--sui-spinner-border, 2px) solid var(--sui-color-border);
   border-top-color: var(--sui-color-primary);
   border-radius: 50%;
-  animation: sui-spin 0.7s linear infinite;
+  animation: sui-spin var(--sui-duration-spinner) linear infinite;
 }
 
-.ui-spinner--sm { width: 12px; height: 12px; border-width: 1.5px; }
-.ui-spinner--lg { width: 24px; height: 24px; border-width: 3px; }
+.ui-spinner--sm {
+  --sui-spinner-size: 12px;
+  --sui-spinner-border: 1.5px;
+}
+
+.ui-spinner--lg {
+  --sui-spinner-size: 24px;
+  --sui-spinner-border: 3px;
+}
 
 @keyframes sui-spin {
   to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-spinner { animation: none; }
+  .ui-spinner {
+    animation: none;
+  }
 }

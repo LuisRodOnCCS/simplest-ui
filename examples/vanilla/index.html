@@ -4,21 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simplest UI</title>
-  <link rel="stylesheet" href="/dist/tokens.css" />
-  <link rel="stylesheet" href="/dist/styles.css" />
-  <script type="module" src="/dist/components.js"></script>
+  <link rel="stylesheet" href="/src/tokens/index.css" />
+  <link rel="stylesheet" href="/src/styles/index.css" />
+  <script type="module" src="/src/index.ts"></script>
   <style>
-    body { margin: 0; background: linear-gradient(120deg, #eef2ff, #fce7f3); min-height: 100vh; font-family: var(--sui-font-family); }
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 72px; }
-    .hero { padding: 48px 0 32px; }
-    .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; background: linear-gradient(120deg, var(--sui-color-primary), var(--sui-color-secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
-    .hero p { color: var(--sui-color-text-muted); font-size: 15px; max-width: 52ch; }
-    .chips { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-    h2 { font-size: 12px; font-weight: 600; color: var(--sui-color-text-muted); margin: 36px 0 14px; letter-spacing: 0.04em; text-transform: uppercase; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: var(--sui-space-10) var(--sui-space-6) var(--sui-space-16); }
+    .hero { padding: var(--sui-space-12) 0 var(--sui-space-8); }
+    .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: var(--sui-font-weight-bold); letter-spacing: -0.03em; line-height: 1.05; background: var(--sui-gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: var(--sui-space-2); }
+    .hero p { color: var(--sui-color-text-muted); font-size: var(--sui-font-size-md); max-width: 52ch; }
+    .chips { display: flex; gap: var(--sui-space-2); margin-top: var(--sui-space-4); flex-wrap: wrap; }
+    h2 { font-size: var(--sui-font-size-xs); font-weight: var(--sui-font-weight-semibold); color: var(--sui-color-text-muted); margin: var(--sui-space-8) 0 var(--sui-space-3-5); letter-spacing: var(--sui-letter-spacing-wide); text-transform: uppercase; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sui-space-3-5); }
     @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
-    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .stack { display: flex; flex-direction: column; gap: 12px; }
+    .row { display: flex; flex-wrap: wrap; gap: var(--sui-space-2); align-items: center; }
+    .stack { display: flex; flex-direction: column; gap: var(--sui-space-3); }
   </style>
 </head>
 <body>
@@ -49,22 +48,34 @@
       <span class="ui-badge ui-badge--success">Activo</span>
       <span class="ui-badge ui-badge--warning">Pendiente</span>
       <span class="ui-badge ui-badge--danger">Error</span>
+      <span class="ui-badge ui-badge--info">Info</span>
+      <span class="ui-badge ui-badge--outline">Outline</span>
     </div>
 
     <h2>Alertas</h2>
     <div class="stack">
-      <div class="ui-alert ui-alert--success"><div><div class="ui-alert__title">Cambios guardados</div><div class="ui-alert__body">Los datos se actualizaron correctamente.</div></div></div>
-      <div class="ui-alert ui-alert--warning"><div><div class="ui-alert__title">Revisa la configuración</div><div class="ui-alert__body">Faltan campos obligatorios.</div></div></div>
-      <div class="ui-alert ui-alert--danger"><div><div class="ui-alert__title">Error de conexión</div><div class="ui-alert__body">No se pudo guardar. Inténtalo de nuevo.</div></div></div>
+      <div class="ui-alert ui-alert--success" role="status"><div><div class="ui-alert__title">Cambios guardados</div><div class="ui-alert__body">Los datos se actualizaron correctamente.</div></div></div>
+      <div class="ui-alert ui-alert--warning" role="status"><div><div class="ui-alert__title">Revisa la configuración</div><div class="ui-alert__body">Faltan campos obligatorios.</div></div></div>
+      <div class="ui-alert ui-alert--danger" role="alert"><div><div class="ui-alert__title">Error de conexión</div><div class="ui-alert__body">No se pudo guardar. Inténtalo de nuevo.</div></div></div>
+      <div class="ui-alert ui-alert--info" role="status"><div><div class="ui-alert__title">Novedad</div><div class="ui-alert__body">El sistema ahora incluye tema oscuro.</div></div></div>
     </div>
 
     <h2>Formularios</h2>
     <div class="grid">
       <div class="ui-card">
         <div class="ui-card__title">Datos básicos</div>
-        <div class="ui-field"><label class="ui-label">Nombre</label><input class="ui-input" placeholder="Tu nombre" /></div>
-        <div class="ui-field"><label class="ui-label">Mensaje</label><textarea class="ui-textarea" placeholder="Escribe aquí..."></textarea></div>
-        <div class="ui-field"><label class="ui-label">País</label><select class="ui-select"><option>México</option><option>España</option><option>Argentina</option></select></div>
+        <div class="ui-field">
+          <label class="ui-label" for="sui-name">Nombre</label>
+          <input class="ui-input" id="sui-name" placeholder="Tu nombre" />
+        </div>
+        <div class="ui-field">
+          <label class="ui-label" for="sui-message">Mensaje</label>
+          <textarea class="ui-textarea" id="sui-message" placeholder="Escribe aquí..."></textarea>
+        </div>
+        <div class="ui-field">
+          <label class="ui-label" for="sui-country">País</label>
+          <select class="ui-select" id="sui-country"><option>México</option><option>España</option><option>Argentina</option></select>
+        </div>
         <div class="ui-field"><label class="ui-checkbox"><input type="checkbox" checked /> Acepto términos</label></div>
         <div class="ui-field"><label class="ui-radio"><input type="radio" name="r" checked /> Opción A</label></div>
         <div class="ui-field"><label class="ui-switch"><input type="checkbox" checked /><span class="ui-switch__track"></span> Notificaciones</label></div>
@@ -75,25 +86,25 @@
         <div class="ui-card__body">Contenido con efecto glassmorphism.</div>
         <div class="ui-card__footer"><button class="ui-button ui-button--ghost ui-button--sm">Acción</button><button class="ui-button ui-button--primary ui-button--sm">Confirmar</button></div>
       </div>
-      <div class="ui-card">
+      <div class="ui-card ui-card--raised">
         <div class="ui-card__title">Estado</div>
-        <div class="row" style="margin-bottom: 6px;"><span class="ui-badge ui-badge--success">En línea</span><span class="ui-badge">v0.1.0</span></div>
+        <div class="row" style="margin-bottom: var(--sui-space-1-5);"><span class="ui-badge ui-badge--success">En línea</span><span class="ui-badge">v0.1.0</span></div>
         <div class="ui-card__body">Sistema operativo y actualizado.</div>
       </div>
     </div>
 
     <h2>Estados de carga</h2>
-    <div class="row" style="margin-bottom:12px;">
+    <div class="row" style="margin-bottom: var(--sui-space-3);">
       <span class="ui-spinner"></span>
       <span class="ui-spinner ui-spinner--sm"></span>
       <span class="ui-spinner ui-spinner--lg"></span>
     </div>
-    <div style="margin-bottom:12px;">
+    <div style="margin-bottom: var(--sui-space-3);">
       <div class="ui-skeleton ui-skeleton--title"></div>
       <div class="ui-skeleton ui-skeleton--text"></div>
       <div class="ui-skeleton ui-skeleton--text" style="width:80%;"></div>
     </div>
-    <div style="width:240px;margin-bottom:12px;">
+    <div style="width:240px;margin-bottom: var(--sui-space-3);">
       <div class="ui-progress"><div class="ui-progress__bar" style="width:60%;"></div></div>
     </div>
     <div style="width:240px;">
@@ -101,48 +112,49 @@
     </div>
 
     <h2>Navegación e interacción</h2>
-    <div class="ui-tabs" style="margin-bottom:12px;">
-      <div class="ui-tabs__list">
-        <button class="ui-tabs__tab ui-tabs__tab--active">General</button>
-        <button class="ui-tabs__tab">Seguridad</button>
-        <button class="ui-tabs__tab">Notificaciones</button>
-      </div>
-      <div class="ui-tabs__panel">Configuración general del proyecto.</div>
+    <div style="margin-bottom: var(--sui-space-3);">
+      <sui-tabs>
+        <div data-tab="general" label="General">Configuración general del proyecto.</div>
+        <div data-tab="security" label="Seguridad">Opciones de seguridad y acceso.</div>
+        <div data-tab="notifications" label="Notificaciones">Preferencias de notificaciones.</div>
+      </sui-tabs>
     </div>
-    <div class="row" style="margin-bottom:12px;">
-      <span class="ui-tooltip">Pasa el cursor<span class="ui-tooltip__content">Información adicional</span></span>
+    <div class="row" style="margin-bottom: var(--sui-space-3);">
+      <span class="ui-tooltip" tabindex="0">Pasa el cursor<span class="ui-tooltip__content">Información adicional</span></span>
     </div>
-    <div class="ui-accordion" style="max-width:480px;margin-bottom:12px;">
+    <div class="ui-accordion" style="max-width:480px;margin-bottom: var(--sui-space-3);">
       <div class="ui-accordion__item open">
-        <button class="ui-accordion__trigger">Sección 1</button>
-        <div class="ui-accordion__content">Contenido de la primera sección.</div>
+        <button class="ui-accordion__trigger" type="button" aria-expanded="true" aria-controls="acc-1">Sección 1</button>
+        <div class="ui-accordion__content" id="acc-1">Contenido de la primera sección.</div>
       </div>
       <div class="ui-accordion__item">
-        <button class="ui-accordion__trigger">Sección 2</button>
-        <div class="ui-accordion__content">Contenido de la segunda sección.</div>
+        <button class="ui-accordion__trigger" type="button" aria-expanded="false" aria-controls="acc-2">Sección 2</button>
+        <div class="ui-accordion__content" id="acc-2">Contenido de la segunda sección.</div>
       </div>
     </div>
-    <div class="row" style="margin-bottom:12px;">
+    <div class="row" style="margin-bottom: var(--sui-space-3);">
       <div class="ui-popover">
-        <button class="ui-button ui-button--ghost ui-button--sm" onclick="this.parentElement.classList.toggle('open')">Popover</button>
+        <button class="ui-button ui-button--ghost ui-button--sm" type="button" onclick="this.parentElement.classList.toggle('open')">Popover</button>
         <div class="ui-popover__content">Contenido del popover con acciones.</div>
       </div>
-      <button class="ui-button ui-button--ghost ui-button--sm" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('drawer-bg').classList.add('open')">Abrir drawer</button>
+      <button class="ui-button ui-button--ghost ui-button--sm" type="button" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('drawer-bg').classList.add('open')">Abrir drawer</button>
+      <button class="ui-button ui-button--ghost ui-button--sm" type="button" id="show-toast">Mostrar toast</button>
     </div>
 
     <h2>Presentación de datos</h2>
-    <div class="grid" style="margin-bottom:12px;">
+    <div class="grid" style="margin-bottom: var(--sui-space-3);">
       <div class="ui-stat"><div class="ui-stat__label">Usuarios</div><div class="ui-stat__value">1,284</div><div class="ui-stat__hint">+12% este mes</div></div>
       <div class="ui-stat"><div class="ui-stat__label">Ingresos</div><div class="ui-stat__value">$48.2k</div><div class="ui-stat__hint">+8% este mes</div></div>
       <div class="ui-stat"><div class="ui-stat__label">Activos</div><div class="ui-stat__value">97%</div><div class="ui-stat__hint">En línea</div></div>
     </div>
-    <div class="row" style="margin-bottom:12px;">
+    <div class="row" style="margin-bottom: var(--sui-space-3);">
       <span class="ui-avatar">JD</span>
       <span class="ui-avatar ui-avatar--sm">AB</span>
       <span class="ui-avatar ui-avatar--lg">KL</span>
       <div class="ui-avatar-group"><span class="ui-avatar">A</span><span class="ui-avatar">B</span><span class="ui-avatar">C</span></div>
     </div>
-    <table class="ui-table" style="margin-bottom:12px;">
+    <table class="ui-table" style="margin-bottom: var(--sui-space-3);">
+      <caption class="sr-only">Usuarios del sistema</caption>
       <thead><tr><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead>
       <tbody>
         <tr><td>Ana García</td><td>Admin</td><td><span class="ui-badge ui-badge--success">Activo</span></td></tr>
@@ -157,10 +169,10 @@
     </div>
 
     <h2>Layout base</h2>
-    <div class="ui-app-shell">
+    <div class="ui-app-shell ui-app-shell--contained">
       <aside class="ui-app-shell__sidebar">
-        <div style="font-size: 11px; font-weight: 600; color: var(--sui-color-text-muted); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;">Navegación</div>
-        <nav class="ui-nav">
+        <div class="ui-nav__group-title">Navegación</div>
+        <nav class="ui-nav" aria-label="Navegación principal">
           <a href="#" class="ui-nav__item ui-nav__item--active">Dashboard</a>
           <a href="#" class="ui-nav__item">Proyectos</a>
           <a href="#" class="ui-nav__item">Configuración</a>
@@ -168,17 +180,17 @@
       </aside>
       <div class="ui-app-shell__content">
         <header class="ui-app-shell__header">
-          <span style="font-size:14px;font-weight:600;">Panel principal</span>
+          <span class="ui-app-shell__title">Panel principal</span>
           <button class="ui-button ui-button--primary ui-button--sm">Nuevo</button>
         </header>
         <main class="ui-app-shell__main">
-          <div class="ui-card" style="margin-bottom:14px;"><div class="ui-card__title">Bienvenido</div><div class="ui-card__body">Contenido principal del panel.</div></div>
+          <div class="ui-card"><div class="ui-card__title">Bienvenido</div><div class="ui-card__body">Contenido principal del panel.</div></div>
           <div class="row">
-            <button class="ui-button" id="open-modal">Abrir modal</button>
+            <button class="ui-button" id="open-modal" type="button">Abrir modal</button>
             <sui-dropdown>
               <span slot="trigger">Menú</span>
-              <button class="ui-button ui-button--ghost" onclick="alert('Opción A')">Opción A</button>
-              <button class="ui-button ui-button--ghost" onclick="alert('Opción B')">Opción B</button>
+              <button type="button" data-value="a">Opción A</button>
+              <button type="button" data-value="b">Opción B</button>
             </sui-dropdown>
           </div>
         </main>
@@ -197,14 +209,54 @@
     <span slot="title">Confirmación</span>
     <p>¿Deseas continuar con esta acción?</p>
     <div slot="footer">
-      <button class="ui-button" id="close-modal">Cancelar</button>
-      <button class="ui-button ui-button--primary">Confirmar</button>
+      <button class="ui-button" id="close-modal" type="button">Cancelar</button>
+      <button class="ui-button ui-button--primary" type="button">Confirmar</button>
     </div>
   </sui-modal>
 
   <script>
     document.getElementById('open-modal').addEventListener('click', () => document.getElementById('modal').setAttribute('open', ''));
     document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').removeAttribute('open'));
+
+    document.querySelectorAll('.ui-accordion__trigger').forEach((button) => {
+      button.addEventListener('click', () => {
+        const item = button.closest('.ui-accordion__item');
+        if (!item) return;
+        const isOpen = item.classList.toggle('open');
+        button.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+
+    function showToast(title, body) {
+      let container = document.querySelector('.ui-toast-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.className = 'ui-toast-container';
+        document.body.appendChild(container);
+      }
+      const toast = document.createElement('div');
+      toast.className = 'ui-toast ui-toast--success';
+      toast.setAttribute('role', 'status');
+      const inner = document.createElement('div');
+      const titleEl = document.createElement('div');
+      titleEl.className = 'ui-toast__title';
+      titleEl.textContent = title;
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'ui-toast__body';
+      bodyEl.textContent = body;
+      inner.append(titleEl, bodyEl);
+      toast.appendChild(inner);
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+
+    document.getElementById('show-toast').addEventListener('click', () => {
+      showToast('Cambios guardados', 'La operación se completó correctamente.');
+    });
+
+    document.querySelector('sui-dropdown').addEventListener('sui-select', (event) => {
+      showToast('Menú', 'Seleccionaste: ' + event.detail.value);
+    });
   </script>
 </body>
 </html>

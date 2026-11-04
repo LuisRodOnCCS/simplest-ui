@@ -13,14 +13,19 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
-    "./components.js": "./dist/components.js"
+    "./components.js": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

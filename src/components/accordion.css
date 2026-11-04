@@ -1,9 +1,10 @@
 .ui-accordion {
   border: 1px solid var(--sui-color-border);
-  border-radius: 12px;
+  border-radius: var(--sui-radius-lg);
   overflow: hidden;
   background: var(--sui-color-surface);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(var(--sui-blur-md));
+  -webkit-backdrop-filter: blur(var(--sui-blur-md));
 }
 
 .ui-accordion__item + .ui-accordion__item {
@@ -15,9 +16,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: var(--sui-space-3) var(--sui-space-4);
+  font-size: var(--sui-font-size-sm);
+  font-weight: var(--sui-font-weight-medium);
   color: var(--sui-color-text);
   background: transparent;
   border: 0;
@@ -30,8 +31,8 @@
 }
 
 .ui-accordion__content {
-  padding: 0 16px 12px;
-  font-size: 13px;
+  padding: 0 var(--sui-space-4) var(--sui-space-3);
+  font-size: var(--sui-font-size-sm);
   color: var(--sui-color-text-muted);
   display: none;
 }

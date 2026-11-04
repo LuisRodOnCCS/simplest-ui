@@ -1,8 +1,9 @@
 .ui-switch {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: var(--sui-space-2);
+  font-size: var(--sui-font-size-sm);
   color: var(--sui-color-text);
   cursor: pointer;
   user-select: none;
@@ -10,31 +11,39 @@
 
 .ui-switch__track {
   position: relative;
-  width: 36px;
-  height: 20px;
-  border-radius: 999px;
+  width: var(--sui-switch-width, 36px);
+  height: var(--sui-switch-height, 20px);
+  border-radius: var(--sui-radius-full);
   background: var(--sui-color-border-strong);
-  transition: background var(--sui-duration-fast) var(--sui-easing-standard);
+  transition: background var(--sui-duration-fast) var(--sui-easing-standard),
+              box-shadow var(--sui-duration-fast) var(--sui-easing-standard);
 }
 
 .ui-switch__track::after {
   content: "";
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: #fff;
+  top: var(--sui-switch-offset, 2px);
+  left: var(--sui-switch-offset, 2px);
+  width: var(--sui-switch-knob, 16px);
+  height: var(--sui-switch-knob, 16px);
+  border-radius: var(--sui-radius-full);
+  background: var(--sui-color-control-knob);
   transition: transform var(--sui-duration-fast) var(--sui-easing-standard);
 }
 
 .ui-switch input:checked + .ui-switch__track {
-  background: linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
+  background: var(--sui-gradient-primary);
 }
 
 .ui-switch input:checked + .ui-switch__track::after {
-  transform: translateX(16px);
+  transform: translateX(calc(
+    var(--sui-switch-width, 36px) - var(--sui-switch-knob, 16px) -
+    var(--sui-switch-offset, 2px) - var(--sui-switch-offset, 2px)
+  ));
+}
+
+.ui-switch input:focus-visible + .ui-switch__track {
+  box-shadow: var(--sui-focus-ring);
 }
 
 .ui-switch input {
@@ -42,4 +51,10 @@
   opacity: 0;
   width: 0;
   height: 0;
+  pointer-events: none;
+}
+
+.ui-switch:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

@@ -1,16 +1,16 @@
 .ui-checkbox {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: var(--sui-space-2);
+  font-size: var(--sui-font-size-sm);
   color: var(--sui-color-text);
   cursor: pointer;
   user-select: none;
 }
 
 .ui-checkbox input {
-  width: 16px;
-  height: 16px;
+  width: var(--sui-check-size);
+  height: var(--sui-check-size);
   accent-color: var(--sui-color-primary);
   cursor: pointer;
 }
