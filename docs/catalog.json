@@ -30,7 +30,8 @@
         { "id": "avatar", "label": "Avatar", "kind": "css" },
         { "id": "stat", "label": "Stat", "kind": "css" },
         { "id": "empty-state", "label": "Empty state", "kind": "css" },
-        { "id": "nav", "label": "Navigation", "kind": "css" }
+        { "id": "nav", "label": "Navigation", "kind": "css" },
+        { "id": "topbar", "label": "Topbar", "kind": "css" }
       ]
     },
     {

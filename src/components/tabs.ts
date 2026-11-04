@@ -61,6 +61,50 @@ export class SuiTabs extends LitElement {
       opacity: 0.5;
       cursor: not-allowed;
     }
+
+    :host([variant="box"]) .list {
+      background: var(--sui-color-surface-muted);
+      border: 1px solid var(--sui-color-border);
+      border-radius: var(--sui-radius-lg);
+      padding: var(--sui-space-0-5);
+      gap: var(--sui-space-0-5);
+      width: fit-content;
+    }
+
+    :host([variant="box"]) .tabs-pill {
+      min-height: 2rem;
+      padding: 0 var(--sui-space-2);
+      color: var(--sui-color-text-muted);
+      background: transparent;
+      border: 0;
+      border-radius: var(--sui-radius-md);
+      font-size: var(--sui-font-size-xs);
+    }
+
+    :host([variant="box"]) .tabs-pill:hover {
+      color: var(--sui-color-text);
+    }
+
+    :host([variant="box"]) .tabs-pill[aria-selected="true"] {
+      color: var(--sui-color-primary-text);
+      background: var(--sui-color-surface-raised);
+      box-shadow: var(--sui-shadow-sm);
+    }
+
+    :host([variant="box"]) .tabs-pill[aria-selected="true"]:hover {
+      background: var(--sui-color-surface-raised);
+    }
+
+    :host([variant="box"]) .tabs-pill:disabled,
+    :host([variant="box"]) .tabs-pill[aria-disabled="true"] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    :host([variant="box"]) ::slotted([data-tab]) {
+      display: none;
+      margin: 0;
+    }
     :host(:not([data-ready])) ::slotted([data-tab]) {
       display: none;
     }
@@ -77,6 +121,7 @@ export class SuiTabs extends LitElement {
   `;
 
   @property({ type: String }) value = "";
+  @property({ type: String }) variant: "pill" | "box" = "pill";
 
   @state() private tabs: TabItem[] = [];
 

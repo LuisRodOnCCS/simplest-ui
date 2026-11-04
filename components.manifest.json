@@ -37,7 +37,8 @@
     { "name": "avatar", "documentationId": "avatar", "classes": ["ui-avatar", "ui-avatar--sm", "ui-avatar--lg", "ui-avatar-group"] },
     { "name": "stat", "documentationId": "stat", "classes": ["ui-stat", "ui-stat__label", "ui-stat__value", "ui-stat__hint"] },
     { "name": "empty-state", "documentationId": "empty-state", "classes": ["ui-empty", "ui-empty__title", "ui-empty__body"] },
-    { "name": "nav", "documentationId": "nav", "classes": ["ui-nav", "ui-nav__item", "ui-nav__item--active", "ui-nav__group-title"] }
+    { "name": "nav", "documentationId": "nav", "classes": ["ui-nav", "ui-nav__item", "ui-nav__item--active", "ui-nav__group-title"] },
+    { "name": "topbar", "documentationId": "topbar", "classes": ["ui-topbar", "ui-topbar__brand", "ui-topbar__mark", "ui-topbar__controls", "ui-topbar--glass"] }
   ],
   "layouts": [
     { "name": "container", "documentationId": "container", "classes": ["ui-container"] },

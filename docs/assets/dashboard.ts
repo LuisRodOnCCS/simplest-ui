@@ -10,11 +10,17 @@ const themeKey = "simplest-ui-docs-theme";
 const media = window.matchMedia("(prefers-color-scheme: dark)");
 let language: Language = localStorage.getItem(languageKey) === "es" || (!localStorage.getItem(languageKey) && navigator.language.toLowerCase().startsWith("es")) ? "es" : "en";
 
-function setLanguage(next: Language) { language = next; document.documentElement.lang = next; localStorage.setItem(languageKey, next); document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((el) => { const value = translations[next][el.dataset.i18n ?? ""]; if (value) el.textContent = value; }); document.querySelectorAll<HTMLElement>("[data-i18n-label]").forEach((el) => { const value = translations[next][el.dataset.i18nLabel ?? ""]; if (value) el.setAttribute("label", value); }); document.querySelectorAll<HTMLButtonElement>("[data-language]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.language === next))); }
-function setTheme(choice: ThemeChoice) { document.documentElement.dataset.theme = choice === "system" ? (media.matches ? "dark" : "light") : choice; document.documentElement.dataset.themeChoice = choice; localStorage.setItem(themeKey, choice); document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.themeChoice === choice))); }
+function setLanguage(next: Language) { language = next; document.documentElement.lang = next; localStorage.setItem(languageKey, next); document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((el) => { const value = translations[next][el.dataset.i18n ?? ""]; if (value) el.textContent = value; }); document.querySelectorAll<HTMLElement>("[data-i18n-label]").forEach((el) => { const value = translations[next][el.dataset.i18nLabel ?? ""]; if (value) el.setAttribute("label", value); }); const langTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-language-tabs"); if (langTabs) langTabs.value = next; }
+function setTheme(choice: ThemeChoice) { document.documentElement.dataset.theme = choice === "system" ? (media.matches ? "dark" : "light") : choice; document.documentElement.dataset.themeChoice = choice; localStorage.setItem(themeKey, choice); const themeTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-theme-tabs"); if (themeTabs) themeTabs.value = choice; }
 
-document.querySelectorAll<HTMLButtonElement>("[data-language]").forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.language as Language)));
-document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((button) => button.addEventListener("click", () => setTheme(button.dataset.themeChoice as ThemeChoice)));
+customElements.whenDefined("sui-tabs").then(() => {
+  const langTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-language-tabs");
+  const themeTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-theme-tabs");
+  if (langTabs) langTabs.value = language;
+  if (themeTabs) themeTabs.value = (localStorage.getItem(themeKey) as ThemeChoice) || "system";
+  langTabs?.addEventListener("sui-change", (event) => setLanguage((event as CustomEvent).detail.value as Language));
+  themeTabs?.addEventListener("sui-change", (event) => setTheme((event as CustomEvent).detail.value as ThemeChoice));
+});
 media.addEventListener("change", () => { if (document.documentElement.dataset.themeChoice === "system") setTheme("system"); });
 setLanguage(language);
 setTheme((localStorage.getItem(themeKey) as ThemeChoice) || "system");

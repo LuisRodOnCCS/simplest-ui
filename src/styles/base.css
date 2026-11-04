@@ -3,6 +3,33 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--sui-font-weight-semibold);
 }
 
+/* Scrollbars use semantic tokens and retain native behavior on touch devices. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sui-scrollbar-thumb) var(--sui-scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: var(--sui-scrollbar-size);
+  height: var(--sui-scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sui-scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sui-scrollbar-thumb);
+  border: 2px solid transparent;
+  border-radius: var(--sui-radius-full);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--sui-scrollbar-thumb-hover);
+  background-clip: content-box;
+}
+
 p {
   margin-bottom: var(--sui-space-3);
 }

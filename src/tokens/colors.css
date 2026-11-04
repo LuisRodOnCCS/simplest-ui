@@ -58,6 +58,11 @@
 
   --sui-color-focus: #6366f1;
   --sui-focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.15);
+
+  --sui-scrollbar-size: 0.65rem;
+  --sui-scrollbar-track: transparent;
+  --sui-scrollbar-thumb: var(--sui-color-border-strong);
+  --sui-scrollbar-thumb-hover: var(--sui-color-text-subtle);
 }
 
 [data-theme="dark"] {
@@ -120,4 +125,7 @@
 
   --sui-color-focus: #818cf8;
   --sui-focus-ring: 0 0 0 3px rgba(129, 140, 248, 0.2);
+
+  --sui-scrollbar-thumb: var(--sui-color-border-strong);
+  --sui-scrollbar-thumb-hover: var(--sui-color-text-muted);
 }
