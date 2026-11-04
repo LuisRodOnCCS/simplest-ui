@@ -75,6 +75,7 @@ export class SuiTabs extends LitElement {
   @state() private tabs: TabItem[] = [];
 
   private lastSignature = "";
+  private readonly labelObserver = new MutationObserver(() => this.collectTabs());
 
   private get selectedIndex() {
     return this.tabs.findIndex((tab) => tab.id === this.value);
@@ -82,11 +83,17 @@ export class SuiTabs extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.labelObserver.observe(this, { attributes: true, attributeFilter: ["label"], subtree: true });
     this.collectTabs();
     // Los hijos pueden no estar disponibles durante el parseo inicial del HTML.
     queueMicrotask(() => {
       if (this.isConnected) this.collectTabs();
     });
+  }
+
+  disconnectedCallback() {
+    this.labelObserver.disconnect();
+    super.disconnectedCallback();
   }
 
   protected willUpdate(changed: PropertyValues) {

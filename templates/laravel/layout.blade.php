@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@yield('title', 'Mi App') · Simplest UI</title>
+  <title>@yield('title', 'My App') · Simplest UI</title>
   <link rel="stylesheet" href="{{ asset('vendor/simplest-ui/tokens.css') }}" />
   <link rel="stylesheet" href="{{ asset('vendor/simplest-ui/styles.css') }}" />
   <script type="module" src="{{ asset('vendor/simplest-ui/components.js') }}"></script>
 </head>
 <body>
-  <a class="ui-skip-link" href="#main-content">Saltar al contenido</a>
+  <a class="ui-skip-link" href="#main-content">Skip to content</a>
 
   <div class="ui-app-shell">
     <aside class="ui-app-shell__sidebar">
-      <div class="ui-app-shell__brand">Mi App</div>
+      <div class="ui-app-shell__brand">My App</div>
 
-      <div class="ui-nav__group-title">Espacio de trabajo</div>
-      <nav class="ui-nav" aria-label="Navegación principal">
+      <div class="ui-nav__group-title">Workspace</div>
+      <nav class="ui-nav" aria-label="Primary navigation">
         <a href="#" class="ui-nav__item ui-nav__item--active" aria-current="page">Dashboard</a>
         <a href="#" class="ui-nav__item">Proyectos</a>
         <a href="#" class="ui-nav__item">Equipo</a>
       </nav>
 
-      <div class="ui-nav__group-title">Cuenta</div>
-      <nav class="ui-nav" aria-label="Cuenta">
-        <a href="#" class="ui-nav__item">Configuración</a>
+      <div class="ui-nav__group-title">Account</div>
+      <nav class="ui-nav" aria-label="Account">
+        <a href="#" class="ui-nav__item">Settings</a>
       </nav>
     </aside>
 
     <div class="ui-app-shell__content">
       <header class="ui-app-shell__header">
-        <span class="ui-app-shell__title">@yield('title', 'Panel principal')</span>
+        <span class="ui-app-shell__title">@yield('title', 'Dashboard')</span>
         <div class="ui-cluster">
           <sui-dropdown>
-            <span slot="trigger">Acciones</span>
-            <button type="button" data-value="export">Exportar</button>
-            <button type="button" data-value="archive">Archivar</button>
+          <span slot="trigger">Actions</span>
+          <button type="button" data-value="export">Export</button>
+          <button type="button" data-value="archive">Archive</button>
           </sui-dropdown>
-          <button class="ui-button ui-button--primary ui-button--sm" type="button">Nuevo proyecto</button>
+        <button class="ui-button ui-button--primary ui-button--sm" type="button">New project</button>
         </div>
       </header>
 
@@ -47,29 +47,29 @@
         @else
           <div class="ui-grid ui-grid--auto">
             <div class="ui-stat">
-              <div class="ui-stat__label">Proyectos</div>
+            <div class="ui-stat__label">Projects</div>
               <div class="ui-stat__value">12</div>
-              <div class="ui-stat__hint">+2 este mes</div>
+            <div class="ui-stat__hint">+2 this month</div>
             </div>
             <div class="ui-stat">
-              <div class="ui-stat__label">Tareas</div>
+            <div class="ui-stat__label">Tasks</div>
               <div class="ui-stat__value">48</div>
-              <div class="ui-stat__hint">8 pendientes</div>
+            <div class="ui-stat__hint">8 pending</div>
             </div>
             <div class="ui-stat">
-              <div class="ui-stat__label">Equipo</div>
+            <div class="ui-stat__label">Team</div>
               <div class="ui-stat__value">6</div>
-              <div class="ui-stat__hint">Todos activos</div>
+            <div class="ui-stat__hint">All active</div>
             </div>
           </div>
 
           <div class="ui-card">
             <div class="ui-card__header">
-              <div class="ui-card__title">Resumen del proyecto</div>
+            <div class="ui-card__title">Project summary</div>
             </div>
             <sui-tabs>
-              <div data-tab="overview" label="Resumen">Vista general del proyecto y sus métricas.</div>
-              <div data-tab="activity" label="Actividad">Últimos cambios realizados por el equipo.</div>
+            <div data-tab="overview" label="Overview">Project overview and metrics.</div>
+            <div data-tab="activity" label="Activity">Recent team activity.</div>
             </sui-tabs>
           </div>
         @endif

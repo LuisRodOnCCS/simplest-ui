@@ -1,38 +1,40 @@
 # Roadmap
 
-El baseline `v0.1.0-rc.1` cubre tokens, estilos, layouts y los Web Components interactivos auditados. Este documento describe el trabajo posterior; no representa funcionalidades disponibles hasta que aparezcan en el changelog.
+`v0.1.0-rc.1` is the audited P0–P2 baseline. This roadmap records planned work; it does not describe released features until they appear in the changelog.
 
-## P3 — Documentación e interoperabilidad
+## P3 — Documentation and interoperability
 
-- [x] Publicar exports CSS separados: reset, base, componentes y bundle completo.
-- [x] Ordenar el bundle completo con cascade layers `sui.reset`, `sui.base` y `sui.components`.
-- [x] Explicar la convivencia con Bootstrap y Tailwind.
-- [x] Convertir el ejemplo vanilla en catálogo visual navegable con tema claro, oscuro y de sistema.
-- [x] Incluir manifiesto de componentes para documentación y agentes.
-- [ ] Añadir importaciones CSS por componente cuando haya demanda real de reducción de CSS.
-- [ ] Validar y documentar ejemplos de integración de Bootstrap 5 y Tailwind actuales.
-- [x] Convertir el drawer CSS en `<sui-drawer>`.
+- [x] Publish separate reset, base, component, and complete CSS entrypoints.
+- [x] Order the complete bundle with `sui.reset`, `sui.base`, and `sui.components` layers.
+- [x] Document coexistence with other CSS systems.
+- [x] Replace the initial demo with a complete bilingual visual documentation site.
+- [x] Add a manifest and enforce manifest-to-documentation coverage.
+- [x] Convert the legacy Drawer pattern into `<sui-drawer>` and remove the legacy CSS implementation.
+- [x] Add an accessible responsive table wrapper.
+- [x] Add the Dashboard example page and page navigation.
+- [ ] Add CSS imports per individual component when measured demand justifies the additional API surface.
+- [ ] Validate real Bootstrap 5 and current Tailwind integration examples.
 
-## P4 — Agentes y automatización
+## P4 — Agents and automation
 
-- [x] Incluir una skill oficial para construir con Simplest UI.
-- [ ] Evaluar la skill con prompts reales de reutilización, composición y creación de componentes.
-- [ ] Publicar instrucciones de instalación para OpenCode, Claude Code y otros agentes compatibles.
-- [ ] Generar documentación desde el manifiesto para eliminar duplicación manual.
+- [x] Ship an official Simplest UI agent skill.
+- [ ] Evaluate the skill against real reuse, composition, and extension prompts.
+- [ ] Publish installation instructions for OpenCode, Claude Code, and other supported agents.
+- [ ] Generate the documentation site from the manifest rather than sharing IDs manually.
 
-## P5 — Calidad de release
+## P5 — Release quality
 
-- [ ] Añadir pruebas E2E en Chromium, Firefox y WebKit.
-- [ ] Ejecutar auditorías de accesibilidad automatizadas con Axe.
-- [ ] Incorporar pruebas visuales para temas y componentes.
-- [ ] Documentar compatibilidad de navegador, SSR y React/Vue.
-- [ ] Definir política de versionado y publicar `v0.1.0`.
-- [ ] Desplegar el catálogo visual en GitHub Pages.
+- [ ] Add E2E coverage in Chromium, Firefox, and WebKit.
+- [ ] Run automated Axe accessibility audits.
+- [ ] Add visual regression coverage for components and themes.
+- [ ] Document browser support, SSR, and React/Vue integration.
+- [ ] Define versioning policy and publish `v0.1.0`.
+- [ ] Deploy visual documentation through GitHub Pages.
 
-## Criterios para `v1.0.0`
+## `v1.0.0` criteria
 
-- APIs públicas de Web Components estables y documentadas.
-- Compatibilidad de integración probada.
-- Guía SSR y de frameworks publicada.
-- Accesibilidad y pruebas de navegador automatizadas.
-- Política de deprecación y changelog establecidos.
+- Stable and documented public Web Component APIs.
+- Tested framework/CSS-system integration.
+- Published SSR and framework guidance.
+- Automated browser, accessibility, and visual testing.
+- Deprecation policy and release process in place.

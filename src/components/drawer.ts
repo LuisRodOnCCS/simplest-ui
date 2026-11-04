@@ -102,7 +102,7 @@ export class SuiDrawer extends LitElement {
   @property({ type: String }) label = "";
 
   /** Accessible label for the drawer close button. */
-  @property({ type: String, attribute: "close-label" }) closeLabel = "Cerrar";
+  @property({ type: String, attribute: "close-label" }) closeLabel = "Close";
 
   /** Set to true to keep the drawer open when its backdrop is clicked. */
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;

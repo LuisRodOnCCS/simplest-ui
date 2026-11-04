@@ -1,23 +1,23 @@
-# Contribuir a Simplest UI
+# Contributing to Simplest UI
 
-## Principios
+## Principles
 
-1. Reutiliza primero un componente, clase o token existente.
-2. Conserva los prefijos: `sui-` para Custom Elements y tokens, `ui-` para clases CSS.
-3. Usa HTML semántico antes de crear una etiqueta personalizada.
-4. Crea un Web Component solo si aporta estado, interacción o comportamiento accesible reutilizable.
-5. Mantén los componentes como fuente de verdad: la documentación y los ejemplos los deben consumir, no reimplementar.
+1. Reuse an existing component, class, layout, or token before adding a new abstraction.
+2. Keep prefixes consistent: `sui-` for Custom Elements and tokens; `ui-` for CSS classes.
+3. Prefer semantic HTML before creating a custom element.
+4. Create a Web Component only when it provides reusable state or accessible interaction.
+5. Keep component code as the source of truth. Documentation and examples must consume it instead of recreating behavior.
 
-## Checklist de un cambio
+## Change checklist
 
-- [ ] Revisa `components.manifest.json` y el catálogo visual antes de crear algo nuevo.
-- [ ] Usa tokens `--sui-*`; no incorpores valores visuales arbitrarios si existe un token adecuado.
-- [ ] Incluye estados de foco, teclado, `prefers-reduced-motion` y semántica/ARIA cuando corresponda.
-- [ ] Para Web Components, documenta atributos, slots, eventos, métodos y relación de foco.
-- [ ] Añade pruebas unitarias de comportamiento y actualiza las declaraciones JSX si aplica.
-- [ ] Añade una muestra al catálogo visual y actualiza el manifiesto.
-- [ ] Ejecuta `npm run typecheck`, `npm test`, `npm run build` y `npm pack --dry-run`.
+- [ ] Check `components.manifest.json` and the visual documentation before creating something new.
+- [ ] Use `--sui-*` tokens rather than arbitrary visual values when an appropriate token exists.
+- [ ] Include visible focus, keyboard support, semantic/ARIA behavior, and reduced-motion behavior where relevant.
+- [ ] For Web Components, document attributes, slots, events, methods, and focus behavior.
+- [ ] Add behavior tests and React JSX declarations when applicable.
+- [ ] Update the manifest, visual documentation, README, skill references, and changelog.
+- [ ] Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and `npm pack --dry-run`.
 
 ## Pull requests
 
-Trabaja desde `dev` en una rama `feat/*`, `fix/*` o `docs/*`. Los cambios entran primero en `dev`; solo releases verificadas pasan a `main`.
+Work from `dev` in a `feat/*`, `fix/*`, or `docs/*` branch. Changes land in `dev` before a verified release is promoted to `main`.

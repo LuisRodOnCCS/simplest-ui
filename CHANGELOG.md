@@ -1,21 +1,28 @@
 # Changelog
 
-Este proyecto sigue [Semantic Versioning](https://semver.org/lang/es/). Las entradas se mantienen en formato inspirado por [Keep a Changelog](https://keepachangelog.com/es/1.1.0/).
+This project follows [Semantic Versioning](https://semver.org/) and keeps history in a [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) inspired format.
 
 ## [Unreleased]
 
 ### Added
 
-- Catálogo visual vanilla con selector de tema claro, oscuro y de sistema.
-- Exports CSS independientes para reset, base y componentes.
-- Cascade layers en el bundle `styles.css`.
-- Manifiesto de componentes y skill para agentes.
-- `<sui-drawer>` accesible con foco atrapado, bloqueo de scroll y restore de foco.
+- Bilingual visual documentation with full component, layout, token, and page coverage.
+- `sui-drawer`, an accessible modal side-panel Web Component.
+- Accessible responsive table wrapper via `ui-table-wrap`.
+- Documentation coverage verification in CI.
+
+### Changed
+
+- Technical repository documentation is now maintained in English.
+
+### Removed
+
+- Legacy CSS-only Drawer implementation.
 
 ## [0.1.0-rc.1] - 2026-11-04
 
 ### Added
 
-- Tokens CSS, layouts, componentes CSS y tema oscuro.
-- Web Components accesibles: modal, dropdown, tabs, accordion, popover, tooltip y toast.
-- Entrypoints granulares para Web Components, pruebas y CI.
+- CSS tokens, layouts, CSS components, and dark theme.
+- Accessible modal, dropdown, tabs, accordion, popover, tooltip, and toast Web Components.
+- Granular Web Component entrypoints, tests, and CI.
