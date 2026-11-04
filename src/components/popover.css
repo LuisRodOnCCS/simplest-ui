@@ -24,6 +24,16 @@
   animation: sui-popover-in var(--sui-duration-normal) var(--sui-easing-standard);
 }
 
+.ui-popover--top .ui-popover__content {
+  top: auto;
+  bottom: calc(100% + var(--sui-space-2));
+}
+
+.ui-popover--end .ui-popover__content {
+  left: auto;
+  right: 0;
+}
+
 @keyframes sui-popover-in {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }

@@ -56,6 +56,12 @@ describe("sui-modal", () => {
     expect(dialog.hasAttribute("aria-labelledby")).toBe(false);
   });
 
+  it("permite personalizar la etiqueta accesible del cierre", async () => {
+    modal.closeLabel = "Close dialog";
+    await open();
+    expect(modal.shadowRoot!.querySelector(".close")!.getAttribute("aria-label")).toBe("Close dialog");
+  });
+
   it("emite sui-open y sui-close", async () => {
     const onOpen = vi.fn();
     const onClose = vi.fn();

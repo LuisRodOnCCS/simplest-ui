@@ -1,12 +1,9 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import type { PropertyValues } from "lit";
-
-type Align = "start" | "end";
-type Side = "bottom" | "top";
+import { computePlacement, type Align, type Side } from "./internal/position";
 
 const ITEM_SELECTOR = '[role="menuitem"], button, a';
-const VIEWPORT_MARGIN = 8;
 
 @customElement("sui-dropdown")
 export class SuiDropdown extends LitElement {
@@ -182,13 +179,9 @@ export class SuiDropdown extends LitElement {
     const menu = this.menu?.getBoundingClientRect();
     if (!trigger || !menu) return;
 
-    const spaceBelow = window.innerHeight - trigger.bottom - VIEWPORT_MARGIN;
-    const spaceAbove = trigger.top - VIEWPORT_MARGIN;
-    this.side = menu.height > spaceBelow && spaceAbove > spaceBelow ? "top" : "bottom";
-
-    const spaceRight = window.innerWidth - trigger.left - VIEWPORT_MARGIN;
-    const fitsEnd = trigger.right - menu.width >= VIEWPORT_MARGIN;
-    this.align = menu.width > spaceRight && fitsEnd ? "end" : "start";
+    const placement = computePlacement(trigger, menu);
+    this.side = placement.side;
+    this.align = placement.align;
   }
 
   private focusItem(index: number) {

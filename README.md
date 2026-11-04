@@ -19,6 +19,9 @@ import "@luisrodonccs/simplest-ui/components.js";
 
 import { SuiTabs } from "@luisrodonccs/simplest-ui";
 console.log(SuiTabs); // clases disponibles si necesitas referenciarlas
+
+// Import granular: registra únicamente ese Web Component.
+import "@luisrodonccs/simplest-ui/components/dropdown";
 ```
 
 Sin bundler:
@@ -31,7 +34,7 @@ Sin bundler:
 
 - `tokens.css`: variables de color, espaciado, tipografía, radios, sombras, motion y efectos.
 - `styles.css`: reset, utilidades de layout y todos los componentes CSS (no incluye tokens).
-- `components.js`: registra `<sui-modal>`, `<sui-dropdown>` y `<sui-tabs>`.
+- `components.js`: registra todos los Web Components. También se puede importar cada uno desde `@luisrodonccs/simplest-ui/components/<nombre>`.
 
 ## Personalización
 
@@ -130,11 +133,56 @@ Cada hijo con `data-tab` es un panel; `label` es el texto de la pestaña. Soport
 </sui-modal>
 ```
 
-- `open` abre/cierra; `label` da nombre accesible si no hay título.
+- `open` abre/cierra; `label` da nombre accesible si no hay título; `close-label` personaliza la etiqueta del botón de cierre.
 - `disable-backdrop-close` evita cerrar al pulsar el fondo.
 - Atrapa el foco, lo restaura al cerrar, bloquea el scroll del body y cierra con `Escape`.
 - Eventos: `sui-open` y `sui-close`.
 - Personalización: `--sui-modal-width`.
+
+### Accordion
+
+```html
+<sui-accordion>
+  <div class="ui-accordion__item open" id="details">
+    <button class="ui-accordion__trigger" type="button">Detalles</button>
+    <div class="ui-accordion__content">Contenido inicial.</div>
+  </div>
+  <div class="ui-accordion__item" id="history">
+    <button class="ui-accordion__trigger" type="button">Historial</button>
+    <div class="ui-accordion__content">Contenido adicional.</div>
+  </div>
+</sui-accordion>
+```
+
+Normaliza los roles y relaciones ARIA, admite flechas/Home/End y emite `sui-change`. Por defecto solo queda una sección abierta; añade `multiple` para permitir varias.
+
+### Popover y tooltip
+
+```html
+<sui-popover label="Acciones">
+  <button slot="trigger" type="button">Acciones</button>
+  <div slot="content"><button type="button">Editar</button></div>
+</sui-popover>
+
+<sui-tooltip content="Más información">Ayuda</sui-tooltip>
+```
+
+El popover actualiza ARIA, cierra por `Escape` o click fuera y se recoloca dentro del viewport. El tooltip crea su relación `aria-describedby` y se mantiene visible con hover o foco.
+
+### Toasts
+
+```js
+import { SuiToast } from "@luisrodonccs/simplest-ui";
+
+SuiToast.show({
+  title: "Cambios guardados",
+  message: "La operación se completó correctamente.",
+  variant: "success",
+  duration: 3200,
+});
+```
+
+También puedes usar `<sui-toast title="..." message="..." variant="success">`. Los toasts se anuncian con `aria-live` y emiten `sui-dismiss` al cerrarse.
 
 ## Accesibilidad
 
@@ -167,7 +215,9 @@ npm run typecheck
 npm test           # Vitest + happy-dom
 ```
 
-`npm run build` genera `dist/` con `tokens.css`, `styles.css`, `components.js`, `index.js` y los `.d.ts`.
+`npm run build` genera `dist/` con `tokens.css`, `styles.css`, `components.js`, `index.js`, entradas granulares por Web Component y sus `.d.ts`.
+
+GitHub Actions ejecuta typecheck, tests, build y `npm pack --dry-run` en cada pull request y push a `main`.
 
 ## Publicación
 

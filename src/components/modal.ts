@@ -92,6 +92,9 @@ export class SuiModal extends LitElement {
   /** Accessible name used when no `title` slot content is provided. */
   @property({ type: String }) label = "";
 
+  /** Accessible label for the dialog's close button. */
+  @property({ type: String, attribute: "close-label" }) closeLabel = "Cerrar";
+
   /** Set to true to keep the modal open when the backdrop is clicked. */
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;
 
@@ -238,7 +241,7 @@ export class SuiModal extends LitElement {
         >
           <div class="header">
             <div class="title" id=${this.titleId}><slot name="title"></slot></div>
-            <button class="close" type="button" aria-label="Cerrar" @click=${() => this.close()}>×</button>
+            <button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close()}>×</button>
           </div>
           <div class="body" id=${this.bodyId}><slot></slot></div>
           <div class="footer"><slot name="footer"></slot></div>

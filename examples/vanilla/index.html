@@ -122,9 +122,9 @@
       </sui-tabs>
     </div>
     <div class="row" style="margin-bottom: var(--sui-space-3);">
-      <span class="ui-tooltip" tabindex="0">Pasa el cursor<span class="ui-tooltip__content">Información adicional</span></span>
+      <sui-tooltip content="Información adicional">Pasa el cursor</sui-tooltip>
     </div>
-    <div class="ui-accordion" style="max-width:480px;margin-bottom: var(--sui-space-3);">
+    <sui-accordion style="max-width:480px;margin-bottom: var(--sui-space-3);">
       <div class="ui-accordion__item open">
         <button class="ui-accordion__trigger" type="button" aria-expanded="true" aria-controls="acc-1">Sección 1</button>
         <div class="ui-accordion__content" id="acc-1">Contenido de la primera sección.</div>
@@ -133,12 +133,15 @@
         <button class="ui-accordion__trigger" type="button" aria-expanded="false" aria-controls="acc-2">Sección 2</button>
         <div class="ui-accordion__content" id="acc-2">Contenido de la segunda sección.</div>
       </div>
-    </div>
+    </sui-accordion>
     <div class="row" style="margin-bottom: var(--sui-space-3);">
-      <div class="ui-popover">
-        <button class="ui-button ui-button--ghost ui-button--sm" type="button" onclick="this.parentElement.classList.toggle('open')">Popover</button>
-        <div class="ui-popover__content">Contenido del popover con acciones.</div>
-      </div>
+      <sui-popover label="Acciones del popover">
+        <button slot="trigger" class="ui-button ui-button--ghost ui-button--sm" type="button">Popover</button>
+        <div slot="content">
+          <p style="margin:0 0 var(--sui-space-2);">Contenido del popover con acciones.</p>
+          <button class="ui-button ui-button--ghost ui-button--sm" type="button">Editar</button>
+        </div>
+      </sui-popover>
       <button class="ui-button ui-button--ghost ui-button--sm" type="button" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('drawer-bg').classList.add('open')">Abrir drawer</button>
       <button class="ui-button ui-button--ghost ui-button--sm" type="button" id="show-toast">Mostrar toast</button>
     </div>
@@ -220,36 +223,10 @@
     document.getElementById('open-modal').addEventListener('click', () => document.getElementById('modal').setAttribute('open', ''));
     document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').removeAttribute('open'));
 
-    document.querySelectorAll('.ui-accordion__trigger').forEach((button) => {
-      button.addEventListener('click', () => {
-        const item = button.closest('.ui-accordion__item');
-        if (!item) return;
-        const isOpen = item.classList.toggle('open');
-        button.setAttribute('aria-expanded', String(isOpen));
-      });
-    });
-
     function showToast(title, body) {
-      let container = document.querySelector('.ui-toast-container');
-      if (!container) {
-        container = document.createElement('div');
-        container.className = 'ui-toast-container';
-        document.body.appendChild(container);
-      }
-      const toast = document.createElement('div');
-      toast.className = 'ui-toast ui-toast--success';
-      toast.setAttribute('role', 'status');
-      const inner = document.createElement('div');
-      const titleEl = document.createElement('div');
-      titleEl.className = 'ui-toast__title';
-      titleEl.textContent = title;
-      const bodyEl = document.createElement('div');
-      bodyEl.className = 'ui-toast__body';
-      bodyEl.textContent = body;
-      inner.append(titleEl, bodyEl);
-      toast.appendChild(inner);
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3200);
+      customElements.whenDefined('sui-toast').then(() => {
+        customElements.get('sui-toast').show({ title, message: body, variant: 'success', duration: 3200 });
+      });
     }
 
     document.getElementById('show-toast').addEventListener('click', () => {
