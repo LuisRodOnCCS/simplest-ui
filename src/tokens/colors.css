@@ -35,6 +35,8 @@
   --sui-color-primary-active: #4f46e5;
   --sui-color-primary-contrast: #0f172a;
 
+  --sui-color-secondary: #f472b6;
+
   --sui-color-surface: rgba(17, 24, 39, 0.6);
   --sui-color-surface-muted: #111827;
   --sui-color-surface-raised: rgba(31, 41, 55, 0.7);

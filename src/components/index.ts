@@ -17,6 +17,7 @@ import "./tooltip.css";
 import "./popover.css";
 import "./accordion.css";
 import "./drawer.css";
+import "./nav.css";
 import "./table.css";
 import "./avatar.css";
 import "./empty-state.css";

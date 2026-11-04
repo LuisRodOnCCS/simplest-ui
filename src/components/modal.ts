@@ -14,6 +14,7 @@ export class SuiModal extends LitElement {
       position: fixed;
       inset: 0;
       background: var(--sui-color-backdrop);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -23,39 +24,46 @@ export class SuiModal extends LitElement {
     .panel {
       background: var(--sui-color-surface-raised);
       color: var(--sui-color-text);
-      border-radius: var(--sui-radius-lg);
-      box-shadow: var(--sui-shadow-xl);
-      width: var(--sui-modal-width, 32rem);
+      border: 1px solid var(--sui-color-border);
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.18);
+      backdrop-filter: blur(16px);
+      width: var(--sui-modal-width, 380px);
       max-width: 100%;
       max-height: 90vh;
       overflow: auto;
-      padding: var(--sui-space-5);
+      padding: 22px;
     }
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: var(--sui-space-3);
-      margin-bottom: var(--sui-space-3);
+      margin-bottom: var(--sui-space-2);
     }
     .title {
-      font-size: var(--sui-font-size-xl);
-      font-weight: var(--sui-font-weight-semibold);
+      font-size: 16px;
+      font-weight: 600;
       margin: 0;
     }
     .close {
       background: transparent;
       border: 0;
-      font-size: var(--sui-font-size-xl);
+      font-size: 20px;
       line-height: 1;
       color: var(--sui-color-text-muted);
-      padding: var(--sui-space-1);
+      padding: 0;
+      cursor: pointer;
     }
     .close:hover {
       color: var(--sui-color-text);
     }
+    .body {
+      font-size: 13px;
+      color: var(--sui-color-text-muted);
+      margin-bottom: 18px;
+    }
     .footer {
-      margin-top: var(--sui-space-4);
       display: flex;
       justify-content: flex-end;
       gap: var(--sui-space-2);

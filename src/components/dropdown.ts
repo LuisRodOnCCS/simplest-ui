@@ -9,26 +9,31 @@ export class SuiDropdown extends LitElement {
       position: relative;
     }
     .trigger {
-      background: var(--sui-color-surface);
+      background: var(--sui-color-surface-raised);
       border: 1px solid var(--sui-color-border);
-      border-radius: var(--sui-radius-md);
+      border-radius: 999px;
       padding: var(--sui-space-2) var(--sui-space-3);
       font-size: var(--sui-font-size-sm);
       color: var(--sui-color-text);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
     }
     .trigger:hover {
       background: var(--sui-color-surface-muted);
+      border-color: var(--sui-color-primary);
+      color: var(--sui-color-primary);
     }
     .menu {
       position: absolute;
-      top: calc(100% + var(--sui-space-1));
+      top: calc(100% + 6px);
       left: 0;
-      min-width: 10rem;
+      min-width: 170px;
       background: var(--sui-color-surface-raised);
       border: 1px solid var(--sui-color-border);
-      border-radius: var(--sui-radius-md);
-      box-shadow: var(--sui-shadow-md);
-      padding: var(--sui-space-1);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12);
+      backdrop-filter: blur(12px);
+      padding: 6px;
       z-index: 100;
       display: none;
     }
@@ -39,16 +44,18 @@ export class SuiDropdown extends LitElement {
       display: block;
       width: 100%;
       text-align: left;
-      padding: var(--sui-space-2) var(--sui-space-3);
+      padding: 7px 10px;
       border: 0;
       background: transparent;
-      border-radius: var(--sui-radius-sm);
+      border-radius: 8px;
       font-size: var(--sui-font-size-sm);
       color: var(--sui-color-text);
       cursor: pointer;
+      transition: background var(--sui-duration-fast) var(--sui-easing-standard);
     }
     .item:hover {
       background: var(--sui-color-surface-muted);
+      color: var(--sui-color-primary);
     }
   `;
 

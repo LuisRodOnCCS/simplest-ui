@@ -2,6 +2,11 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
+  server: {
+    headers: {
+      "Cache-Control": "no-store"
+    }
+  },
   build: {
     cssCodeSplit: true,
     lib: {

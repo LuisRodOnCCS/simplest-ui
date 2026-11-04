@@ -1,365 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Propuesta visual 4 — Simplest UI</title>
-<style>
-  :root {
-    --bg: #f6f7fb;
-    --bg-grad: radial-gradient(1200px 600px at 10% -10%, #e0e7ff 0%, transparent 60%), radial-gradient(900px 500px at 110% 10%, #fce7f3 0%, transparent 55%), #f6f7fb;
-    --surface: rgba(255,255,255,0.65);
-    --surface-strong: rgba(255,255,255,0.85);
-    --fg: #1f2937;
-    --muted: #6b7280;
-    --line: rgba(99,102,241,0.12);
-    --accent: #6366f1;
-    --accent-2: #ec4899;
-    --accent-soft: rgba(99,102,241,0.08);
-    --r: 14px;
-    --shadow: 0 8px 30px rgba(99,102,241,0.08);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { font-family: "Inter", system-ui, -apple-system, sans-serif; background: var(--bg-grad); color: var(--fg); font-size: 14px; line-height: 1.5; min-height: 100vh; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 72px; }
-
-  .hero { padding: 48px 0 32px; }
-  .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; background: linear-gradient(120deg, #4f46e5, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
-  .hero p { color: var(--muted); font-size: 15px; max-width: 52ch; }
-  .hero .chips { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-  .chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; font-size: 12px; font-weight: 500; border-radius: 999px; background: var(--surface-strong); border: 1px solid var(--line); color: var(--muted); backdrop-filter: blur(8px); }
-
-  h2 { font-size: 12px; font-weight: 600; color: var(--muted); margin: 36px 0 14px; letter-spacing: 0.04em; text-transform: uppercase; }
-
-  .glass { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
-  .glass:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(99,102,241,0.12); }
-
-  .btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; font-size: 13px; font-weight: 500; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-strong); color: var(--fg); cursor: pointer; backdrop-filter: blur(8px); transition: all .15s; }
-  .btn:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-  .btn--grad { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border: 0; }
-  .btn--grad:hover { filter: brightness(1.05); color: var(--accent); border: 1px solid transparent; background-image: linear-gradient(var(--surface-strong), var(--surface-strong)), linear-gradient(135deg, var(--accent), var(--accent-2)); background-origin: border-box; background-clip: padding-box, border-box; }
-  .btn--ghost { background: transparent; border-color: transparent; }
-  .btn--ghost:hover { background: var(--accent-soft); border-color: var(--line); }
-  .btn--danger { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
-  .btn--sm { height: 28px; padding: 0 12px; font-size: 12px; }
-
-  .field { margin-bottom: 14px; }
-  .label { display: block; font-size: 12px; font-weight: 500; color: var(--fg); margin-bottom: 5px; }
-  .input { width: 100%; height: 38px; padding: 0 12px; font-size: 13px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-strong); color: var(--fg); outline: none; backdrop-filter: blur(8px); transition: border-color .15s, box-shadow .15s; }
-  .input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-  .input--invalid { border-color: #fca5a5; }
-  .help { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .error { font-size: 11px; color: #dc2626; margin-top: 4px; }
-
-  .badge { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; font-size: 11px; font-weight: 500; border-radius: 999px; background: var(--surface-strong); color: var(--fg); border: 1px solid var(--line); backdrop-filter: blur(8px); }
-  .badge--accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
-  .badge--success { background: #ecfdf5; color: #059669; border-color: transparent; }
-  .badge--warning { background: #fffbeb; color: #d97706; border-color: transparent; }
-  .badge--danger { background: #fef2f2; color: #dc2626; border-color: transparent; }
-
-  .alert { display: flex; gap: 12px; padding: 14px 16px; border: 1px solid transparent; border-radius: var(--r); font-size: 13px; backdrop-filter: blur(12px); }
-  .alert__title { font-weight: 600; margin-bottom: 2px; }
-  .alert__body { opacity: 0.85; }
-  .alert--success { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
-  .alert--warning { background: #fffbeb; color: #92400e; border-color: #fde68a; }
-  .alert--danger { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
-  .alert--info { background: var(--accent-soft); color: #3730a3; border-color: rgba(99,102,241,0.25); }
-
-  .tabs__list { display: flex; gap: 4px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 999px; padding: 4px; width: fit-content; backdrop-filter: blur(8px); }
-  .tabs__tab { padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--muted); background: transparent; border: 0; border-radius: 999px; cursor: pointer; transition: all .15s; }
-  .tabs__tab--active { background: var(--accent); color: #fff; }
-  .tabs__panel { font-size: 13px; color: var(--muted); padding: 4px 2px; }
-
-  .shell { display: grid; grid-template-columns: 200px 1fr; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; min-height: 400px; background: var(--surface); backdrop-filter: blur(12px); box-shadow: var(--shadow); }
-  .side { background: linear-gradient(180deg, rgba(99,102,241,0.06), rgba(236,72,153,0.04)); border-right: 1px solid var(--line); padding: 16px 12px; }
-  .side__title { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 10px; padding: 0 8px; letter-spacing: 0.04em; text-transform: uppercase; }
-  .side a { display: block; padding: 8px 10px; font-size: 13px; color: var(--fg); text-decoration: none; border-radius: 8px; margin-bottom: 2px; transition: background .12s; }
-  .side a:hover { background: var(--accent-soft); }
-  .side a.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-weight: 500; }
-  .main { display: flex; flex-direction: column; }
-  .topbar { padding: 12px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; background: var(--surface-strong); backdrop-filter: blur(8px); }
-  .topbar__title { font-size: 14px; font-weight: 600; }
-  .content { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
-
-  .modal-bg { position: fixed; inset: 0; background: rgba(31,41,55,0.35); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 50; }
-  .modal-bg.open { display: flex; }
-  .modal { background: var(--surface-strong); border: 1px solid var(--line); border-radius: var(--r); width: 380px; max-width: 100%; padding: 22px; box-shadow: 0 20px 60px rgba(99,102,241,0.18); backdrop-filter: blur(16px); }
-  .modal__title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-  .modal__body { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
-  .modal__footer { display: flex; justify-content: flex-end; gap: 8px; }
-
-  .dd { position: relative; display: inline-block; }
-  .dd__menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 170px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: var(--r); padding: 6px; display: none; z-index: 10; box-shadow: 0 10px 30px rgba(99,102,241,0.12); backdrop-filter: blur(12px); }
-  .dd.open .dd__menu { display: block; }
-  .dd__item { display: block; width: 100%; text-align: left; padding: 7px 10px; font-size: 13px; border: 0; background: transparent; border-radius: 8px; cursor: pointer; color: var(--fg); transition: background .12s; }
-  .dd__item:hover { background: var(--accent-soft); color: var(--accent); }
-
-  .checkbox, .radio { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg); cursor: pointer; user-select: none; }
-  .checkbox input, .radio input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
-  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg); cursor: pointer; user-select: none; position: relative; }
-  .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .switch__track { position: relative; width: 36px; height: 20px; border-radius: 999px; background: var(--line); transition: background .15s; }
-  .switch__track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: #fff; transition: transform .15s; }
-  .switch input:checked + .switch__track { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
-  .switch input:checked + .switch__track::after { transform: translateX(16px); }
-  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: sui-spin .7s linear infinite; }
-  .spinner--sm { width: 12px; height: 12px; border-width: 1.5px; }
-  .spinner--lg { width: 24px; height: 24px; border-width: 3px; }
-  @keyframes sui-spin { to { transform: rotate(360deg); } }
-  .skeleton { background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%); background-size: 200% 100%; animation: sui-shimmer 1.4s ease infinite; border-radius: 8px; }
-  .skeleton--title { height: 18px; width: 60%; margin-bottom: 10px; }
-  .skeleton--text { height: 12px; width: 100%; margin-bottom: 6px; }
-  .progress { width: 100%; height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
-  .progress__bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; transition: width .2s; }
-  .progress--indeterminate .progress__bar { width: 40%; animation: sui-progress 1.2s ease-in-out infinite; }
-  @keyframes sui-progress { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
-  @keyframes sui-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; backdrop-filter: blur(12px); }
-  .stat__label { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-  .stat__value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .stat__hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .avatar { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-size: 13px; font-weight: 600; flex-shrink: 0; }
-  .avatar--sm { width: 24px; height: 24px; font-size: 10px; }
-  .avatar--lg { width: 48px; height: 48px; font-size: 16px; }
-  .avatar-group { display: flex; align-items: center; }
-  .avatar-group .avatar { margin-left: -8px; border: 2px solid var(--surface-strong); }
-  .avatar-group .avatar:first-child { margin-left: 0; }
-  .table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); backdrop-filter: blur(12px); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
-  .table th, .table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); }
-  .table th { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); background: var(--surface-strong); }
-  .table tbody tr:hover { background: var(--accent-soft); }
-  .table tbody tr:last-child td { border-bottom: 0; }
-  .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; backdrop-filter: blur(12px); }
-  .empty__title { font-size: 15px; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
-  .empty__body { font-size: 13px; max-width: 36ch; margin-bottom: 12px; }
-
-  .tooltip { position: relative; display: inline-block; cursor: help; }
-  .tooltip__content { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); padding: 6px 10px; font-size: 12px; color: #fff; background: #1f2937; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s; z-index: 50; }
-  .tooltip:hover .tooltip__content { opacity: 1; }
-  .popover { position: relative; display: inline-block; }
-  .popover__content { position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px; padding: 12px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 30px rgba(99,102,241,0.12); backdrop-filter: blur(12px); display: none; z-index: 50; }
-  .popover.open .popover__content { display: block; animation: sui-toast-in .2s ease; }
-  .accordion { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); backdrop-filter: blur(12px); }
-  .accordion__item + .accordion__item { border-top: 1px solid var(--line); }
-  .accordion__trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; font-size: 13px; font-weight: 500; color: var(--fg); background: transparent; border: 0; cursor: pointer; text-align: left; }
-  .accordion__trigger:hover { background: var(--accent-soft); }
-  .accordion__content { padding: 0 16px 12px; font-size: 13px; color: var(--muted); display: none; }
-  .accordion__item.open .accordion__content { display: block; }
-  .drawer-backdrop { position: fixed; inset: 0; background: rgba(31,41,55,0.35); backdrop-filter: blur(4px); display: none; z-index: 60; }
-  .drawer-backdrop.open { display: block; }
-  .drawer { position: fixed; top: 0; right: 0; height: 100%; width: 320px; max-width: 100%; background: var(--surface-strong); border-left: 1px solid var(--line); box-shadow: -8px 0 30px rgba(99,102,241,0.12); transform: translateX(100%); transition: transform .2s; z-index: 61; display: flex; flex-direction: column; }
-  .drawer.open { transform: translateX(0); }
-  .drawer__header { padding: 16px; border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 600; }
-  .drawer__body { padding: 16px; flex: 1; overflow: auto; font-size: 13px; color: var(--muted); }
-  .drawer__footer { padding: 16px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 8px; }
-
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .shell { grid-template-columns: 1fr; } }
-  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .stack { display: flex; flex-direction: column; gap: 12px; }
-  .glass { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
-  .glass:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(99,102,241,0.12); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simplest UI</title>
+  <link rel="stylesheet" href="/dist/tokens.css" />
+  <link rel="stylesheet" href="/dist/styles.css" />
+  <script type="module" src="/dist/components.js"></script>
+  <style>
+    body { margin: 0; background: linear-gradient(120deg, #eef2ff, #fce7f3); min-height: 100vh; font-family: var(--sui-font-family); }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 72px; }
+    .hero { padding: 48px 0 32px; }
+    .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; background: linear-gradient(120deg, var(--sui-color-primary), var(--sui-color-secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .hero p { color: var(--sui-color-text-muted); font-size: 15px; max-width: 52ch; }
+    .chips { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+    h2 { font-size: 12px; font-weight: 600; color: var(--sui-color-text-muted); margin: 36px 0 14px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .stack { display: flex; flex-direction: column; gap: 12px; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
-    <h1>Simplest UI</h1>
-    <p>Propuesta base — suave, luminosa, con gradientes y transparencias.</p>
-    <div class="chips">
-      <span class="chip">✦ Glassmorphism</span>
-      <span class="chip">✦ Gradientes suaves</span>
-      <span class="chip">✦ Bordes redondeados</span>
+  <div class="wrap">
+    <header class="hero">
+      <h1>Simplest UI</h1>
+      <p>Sistema de diseño framework-agnostic: tokens, layouts y Web Components.</p>
+      <div class="chips">
+        <span class="ui-chip">✦ Glassmorphism</span>
+        <span class="ui-chip">✦ Gradientes suaves</span>
+        <span class="ui-chip">✦ Bordes redondeados</span>
+      </div>
+    </header>
+
+    <h2>Botones</h2>
+    <div class="row">
+      <button class="ui-button ui-button--primary">Guardar</button>
+      <button class="ui-button">Cancelar</button>
+      <button class="ui-button ui-button--ghost">Más opciones</button>
+      <button class="ui-button ui-button--danger">Eliminar</button>
+      <button class="ui-button ui-button--primary ui-button--sm">Pequeño</button>
     </div>
-  </header>
 
-  <h2>Botones</h2>
-  <div class="row">
-    <button class="btn btn--grad">Guardar</button>
-    <button class="btn">Cancelar</button>
-    <button class="btn btn--ghost">Más opciones</button>
-    <button class="btn btn--danger">Eliminar</button>
-    <button class="btn btn--grad btn--sm">Pequeño</button>
-  </div>
-
-  <h2>Insignias</h2>
-  <div class="row">
-    <span class="badge">Neutral</span>
-    <span class="badge badge--accent">Primario</span>
-    <span class="badge badge--success">Activo</span>
-    <span class="badge badge--warning">Pendiente</span>
-    <span class="badge badge--danger">Error</span>
-  </div>
-
-  <h2>Alertas</h2>
-  <div class="stack">
-    <div class="alert alert--success"><div><div class="alert__title">Cambios guardados</div><div class="alert__body">Los datos se actualizaron correctamente.</div></div></div>
-    <div class="alert alert--warning"><div><div class="alert__title">Revisa la configuración</div><div class="alert__body">Faltan campos obligatorios.</div></div></div>
-    <div class="alert alert--danger"><div><div class="alert__title">Error de conexión</div><div class="alert__body">No se pudo guardar. Inténtalo de nuevo.</div></div></div>
-  </div>
-
-  <h2>Formulario</h2>
-  <div class="grid">
-    <div class="glass">
-      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Datos básicos</div>
-      <div class="field"><label class="label">Nombre</label><input class="input" placeholder="Tu nombre" /></div>
-      <div class="field"><label class="label">Correo</label><input class="input input--invalid" value="correo-invalido" /><div class="error">Ingresa un correo válido.</div></div>
-      <button class="btn btn--grad">Enviar</button>
+    <h2>Insignias</h2>
+    <div class="row">
+      <span class="ui-badge">Neutral</span>
+      <span class="ui-badge ui-badge--primary">Primario</span>
+      <span class="ui-badge ui-badge--success">Activo</span>
+      <span class="ui-badge ui-badge--warning">Pendiente</span>
+      <span class="ui-badge ui-badge--danger">Error</span>
     </div>
-    <div class="glass">
-      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Tarjeta informativa</div>
-      <div style="font-size:13px;color:var(--muted);">Contenido dentro de una tarjeta con efecto glass y sombra suave.</div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;gap:6px;">
-        <button class="btn btn--ghost btn--sm">Acción</button>
-        <button class="btn btn--grad btn--sm">Confirmar</button>
+
+    <h2>Alertas</h2>
+    <div class="stack">
+      <div class="ui-alert ui-alert--success"><div><div class="ui-alert__title">Cambios guardados</div><div class="ui-alert__body">Los datos se actualizaron correctamente.</div></div></div>
+      <div class="ui-alert ui-alert--warning"><div><div class="ui-alert__title">Revisa la configuración</div><div class="ui-alert__body">Faltan campos obligatorios.</div></div></div>
+      <div class="ui-alert ui-alert--danger"><div><div class="ui-alert__title">Error de conexión</div><div class="ui-alert__body">No se pudo guardar. Inténtalo de nuevo.</div></div></div>
+    </div>
+
+    <h2>Formularios</h2>
+    <div class="grid">
+      <div class="ui-card">
+        <div class="ui-card__title">Datos básicos</div>
+        <div class="ui-field"><label class="ui-label">Nombre</label><input class="ui-input" placeholder="Tu nombre" /></div>
+        <div class="ui-field"><label class="ui-label">Mensaje</label><textarea class="ui-textarea" placeholder="Escribe aquí..."></textarea></div>
+        <div class="ui-field"><label class="ui-label">País</label><select class="ui-select"><option>México</option><option>España</option><option>Argentina</option></select></div>
+        <div class="ui-field"><label class="ui-checkbox"><input type="checkbox" checked /> Acepto términos</label></div>
+        <div class="ui-field"><label class="ui-radio"><input type="radio" name="r" checked /> Opción A</label></div>
+        <div class="ui-field"><label class="ui-switch"><input type="checkbox" checked /><span class="ui-switch__track"></span> Notificaciones</label></div>
+        <button class="ui-button ui-button--primary">Enviar</button>
+      </div>
+      <div class="ui-card ui-card--glass">
+        <div class="ui-card__title">Tarjeta glass</div>
+        <div class="ui-card__body">Contenido con efecto glassmorphism.</div>
+        <div class="ui-card__footer"><button class="ui-button ui-button--ghost ui-button--sm">Acción</button><button class="ui-button ui-button--primary ui-button--sm">Confirmar</button></div>
+      </div>
+      <div class="ui-card">
+        <div class="ui-card__title">Estado</div>
+        <div class="row" style="margin-bottom: 6px;"><span class="ui-badge ui-badge--success">En línea</span><span class="ui-badge">v0.1.0</span></div>
+        <div class="ui-card__body">Sistema operativo y actualizado.</div>
       </div>
     </div>
-    <div class="glass">
-      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">Estado</div>
-      <div class="row" style="margin-bottom:6px;"><span class="badge badge--success">En línea</span><span class="badge">v0.1.0</span></div>
-      <div style="font-size:13px;color:var(--muted);">Sistema operativo y actualizado.</div>
-    </div>
-  </div>
 
-  <h2>Formularios avanzados</h2>
-  <div class="grid">
-    <div class="glass">
-      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Campos</div>
-      <div class="field"><label class="label">Mensaje</label><textarea class="input" style="height:80px;resize:vertical;" placeholder="Escribe aquí..."></textarea></div>
-      <div class="field"><label class="label">País</label><select class="input"><option>México</option><option>España</option><option>Argentina</option></select></div>
-      <div class="row" style="margin-bottom:8px;"><label class="checkbox"><input type="checkbox" checked /> Acepto términos</label></div>
-      <div class="row" style="margin-bottom:8px;"><label class="radio"><input type="radio" name="r" checked /> Opción A</label><label class="radio"><input type="radio" name="r" /> Opción B</label></div>
-      <div class="row"><label class="switch"><input type="checkbox" checked /><span class="switch__track"></span> Notificaciones</label></div>
+    <h2>Estados de carga</h2>
+    <div class="row" style="margin-bottom:12px;">
+      <span class="ui-spinner"></span>
+      <span class="ui-spinner ui-spinner--sm"></span>
+      <span class="ui-spinner ui-spinner--lg"></span>
     </div>
-  </div>
-
-  <h2>Estados de carga</h2>
-  <div class="row" style="margin-bottom:12px;">
-    <span class="spinner"></span>
-    <span class="spinner spinner--sm"></span>
-    <span class="spinner spinner--lg"></span>
-  </div>
-  <div style="margin-bottom:12px;">
-    <div class="skeleton skeleton--title"></div>
-    <div class="skeleton skeleton--text"></div>
-    <div class="skeleton skeleton--text" style="width:80%;"></div>
-  </div>
-  <div style="width:240px;margin-bottom:12px;">
-    <div class="progress"><div class="progress__bar" style="width:60%;"></div></div>
-  </div>
-  <div style="width:240px;">
-    <div class="progress progress--indeterminate"><div class="progress__bar"></div></div>
-  </div>
-
-  <h2>Navegación e interacción</h2>
-  <div class="row" style="margin-bottom:12px;">
-    <span class="tooltip">Pasa el cursor<span class="tooltip__content">Información adicional</span></span>
-    <div class="popover" id="pop">
-      <button class="btn btn--ghost btn--sm" onclick="document.getElementById('pop').classList.toggle('open')">Popover</button>
-      <div class="popover__content">Contenido del popover con acciones.</div>
+    <div style="margin-bottom:12px;">
+      <div class="ui-skeleton ui-skeleton--title"></div>
+      <div class="ui-skeleton ui-skeleton--text"></div>
+      <div class="ui-skeleton ui-skeleton--text" style="width:80%;"></div>
     </div>
-    <button class="btn btn--ghost btn--sm" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('drawer-bg').classList.add('open')">Abrir drawer</button>
-  </div>
-  <div class="accordion" style="max-width:480px;margin-bottom:12px;">
-    <div class="accordion__item open">
-      <button class="accordion__trigger">Sección 1</button>
-      <div class="accordion__content">Contenido de la primera sección.</div>
+    <div style="width:240px;margin-bottom:12px;">
+      <div class="ui-progress"><div class="ui-progress__bar" style="width:60%;"></div></div>
     </div>
-    <div class="accordion__item">
-      <button class="accordion__trigger">Sección 2</button>
-      <div class="accordion__content">Contenido de la segunda sección.</div>
+    <div style="width:240px;">
+      <div class="ui-progress ui-progress--indeterminate"><div class="ui-progress__bar"></div></div>
     </div>
-  </div>
 
-  <h2>Presentación de datos</h2>
-  <div class="grid" style="margin-bottom:12px;">
-    <div class="stat"><div class="stat__label">Usuarios</div><div class="stat__value">1,284</div><div class="stat__hint">+12% este mes</div></div>
-    <div class="stat"><div class="stat__label">Ingresos</div><div class="stat__value">$48.2k</div><div class="stat__hint">+8% este mes</div></div>
-    <div class="stat"><div class="stat__label">Activos</div><div class="stat__value">97%</div><div class="stat__hint">En línea</div></div>
-  </div>
-  <div class="row" style="margin-bottom:12px;">
-    <span class="avatar">JD</span>
-    <span class="avatar avatar--sm">AB</span>
-    <span class="avatar avatar--lg">KL</span>
-    <div class="avatar-group"><span class="avatar">A</span><span class="avatar">B</span><span class="avatar">C</span></div>
-  </div>
-  <table class="table" style="margin-bottom:12px;">
-    <thead><tr><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead>
-    <tbody>
-      <tr><td>Ana García</td><td>Admin</td><td><span class="badge badge--success">Activo</span></td></tr>
-      <tr><td>Carlos Ruiz</td><td>Editor</td><td><span class="badge badge--warning">Pendiente</span></td></tr>
-      <tr><td>Lucía Pérez</td><td>Viewer</td><td><span class="badge">Inactivo</span></td></tr>
-    </tbody>
-  </table>
-  <div class="empty">
-    <div class="empty__title">Sin resultados</div>
-    <div class="empty__body">No se encontraron registros. Crea uno nuevo para comenzar.</div>
-    <button class="btn btn--grad btn--sm">Crear registro</button>
-  </div>
-
-  <h2>Pestañas</h2>
-  <div>
-    <div class="tabs__list">
-      <button class="tabs__tab tabs__tab--active">General</button>
-      <button class="tabs__tab">Seguridad</button>
-      <button class="tabs__tab">Notificaciones</button>
+    <h2>Navegación e interacción</h2>
+    <div class="ui-tabs" style="margin-bottom:12px;">
+      <div class="ui-tabs__list">
+        <button class="ui-tabs__tab ui-tabs__tab--active">General</button>
+        <button class="ui-tabs__tab">Seguridad</button>
+        <button class="ui-tabs__tab">Notificaciones</button>
+      </div>
+      <div class="ui-tabs__panel">Configuración general del proyecto.</div>
     </div>
-    <div class="tabs__panel">Configuración general del proyecto.</div>
-  </div>
+    <div class="row" style="margin-bottom:12px;">
+      <span class="ui-tooltip">Pasa el cursor<span class="ui-tooltip__content">Información adicional</span></span>
+    </div>
+    <div class="ui-accordion" style="max-width:480px;margin-bottom:12px;">
+      <div class="ui-accordion__item open">
+        <button class="ui-accordion__trigger">Sección 1</button>
+        <div class="ui-accordion__content">Contenido de la primera sección.</div>
+      </div>
+      <div class="ui-accordion__item">
+        <button class="ui-accordion__trigger">Sección 2</button>
+        <div class="ui-accordion__content">Contenido de la segunda sección.</div>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:12px;">
+      <div class="ui-popover">
+        <button class="ui-button ui-button--ghost ui-button--sm" onclick="this.parentElement.classList.toggle('open')">Popover</button>
+        <div class="ui-popover__content">Contenido del popover con acciones.</div>
+      </div>
+      <button class="ui-button ui-button--ghost ui-button--sm" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('drawer-bg').classList.add('open')">Abrir drawer</button>
+    </div>
 
-  <h2>Layout base</h2>
-  <div class="shell">
-    <aside class="side">
-      <div class="side__title">Navegación</div>
-      <a class="active" href="#">Dashboard</a>
-      <a href="#">Proyectos</a>
-      <a href="#">Configuración</a>
-    </aside>
-    <div class="main">
-      <header class="topbar"><span class="topbar__title">Panel principal</span><button class="btn btn--grad btn--sm">Nuevo</button></header>
-      <div class="content">
-        <div class="glass" style="padding:14px;"><div style="font-size:14px;font-weight:600;margin-bottom:4px;">Bienvenido</div><div style="font-size:13px;color:var(--muted);">Contenido principal del panel.</div></div>
-        <div class="row">
-          <button class="btn" id="open-modal">Abrir modal</button>
-          <div class="dd" id="dd">
-            <button class="btn" onclick="document.getElementById('dd').classList.toggle('open')">Menú</button>
-            <div class="dd__menu">
-              <button class="dd__item" onclick="alert('Opción A')">Opción A</button>
-              <button class="dd__item" onclick="alert('Opción B')">Opción B</button>
-            </div>
+    <h2>Presentación de datos</h2>
+    <div class="grid" style="margin-bottom:12px;">
+      <div class="ui-stat"><div class="ui-stat__label">Usuarios</div><div class="ui-stat__value">1,284</div><div class="ui-stat__hint">+12% este mes</div></div>
+      <div class="ui-stat"><div class="ui-stat__label">Ingresos</div><div class="ui-stat__value">$48.2k</div><div class="ui-stat__hint">+8% este mes</div></div>
+      <div class="ui-stat"><div class="ui-stat__label">Activos</div><div class="ui-stat__value">97%</div><div class="ui-stat__hint">En línea</div></div>
+    </div>
+    <div class="row" style="margin-bottom:12px;">
+      <span class="ui-avatar">JD</span>
+      <span class="ui-avatar ui-avatar--sm">AB</span>
+      <span class="ui-avatar ui-avatar--lg">KL</span>
+      <div class="ui-avatar-group"><span class="ui-avatar">A</span><span class="ui-avatar">B</span><span class="ui-avatar">C</span></div>
+    </div>
+    <table class="ui-table" style="margin-bottom:12px;">
+      <thead><tr><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>Ana García</td><td>Admin</td><td><span class="ui-badge ui-badge--success">Activo</span></td></tr>
+        <tr><td>Carlos Ruiz</td><td>Editor</td><td><span class="ui-badge ui-badge--warning">Pendiente</span></td></tr>
+        <tr><td>Lucía Pérez</td><td>Viewer</td><td><span class="ui-badge">Inactivo</span></td></tr>
+      </tbody>
+    </table>
+    <div class="ui-empty">
+      <div class="ui-empty__title">Sin resultados</div>
+      <div class="ui-empty__body">No se encontraron registros. Crea uno nuevo para comenzar.</div>
+      <button class="ui-button ui-button--primary ui-button--sm">Crear registro</button>
+    </div>
+
+    <h2>Layout base</h2>
+    <div class="ui-app-shell">
+      <aside class="ui-app-shell__sidebar">
+        <div style="font-size: 11px; font-weight: 600; color: var(--sui-color-text-muted); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;">Navegación</div>
+        <nav class="ui-nav">
+          <a href="#" class="ui-nav__item ui-nav__item--active">Dashboard</a>
+          <a href="#" class="ui-nav__item">Proyectos</a>
+          <a href="#" class="ui-nav__item">Configuración</a>
+        </nav>
+      </aside>
+      <div class="ui-app-shell__content">
+        <header class="ui-app-shell__header">
+          <span style="font-size:14px;font-weight:600;">Panel principal</span>
+          <button class="ui-button ui-button--primary ui-button--sm">Nuevo</button>
+        </header>
+        <main class="ui-app-shell__main">
+          <div class="ui-card" style="margin-bottom:14px;"><div class="ui-card__title">Bienvenido</div><div class="ui-card__body">Contenido principal del panel.</div></div>
+          <div class="row">
+            <button class="ui-button" id="open-modal">Abrir modal</button>
+            <sui-dropdown>
+              <span slot="trigger">Menú</span>
+              <button class="ui-button ui-button--ghost" onclick="alert('Opción A')">Opción A</button>
+              <button class="ui-button ui-button--ghost" onclick="alert('Opción B')">Opción B</button>
+            </sui-dropdown>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   </div>
-</div>
 
-<div class="modal-bg" id="modal">
-  <div class="modal">
-    <div class="modal__title">Confirmación</div>
-    <div class="modal__body">¿Deseas continuar con esta acción?</div>
-    <div class="modal__footer">
-      <button class="btn" onclick="document.getElementById('modal').classList.remove('open')">Cancelar</button>
-      <button class="btn btn--grad" onclick="document.getElementById('modal').classList.remove('open')">Confirmar</button>
-    </div>
+  <div class="ui-drawer-backdrop" id="drawer-bg" onclick="document.getElementById('drawer').classList.remove('open');this.classList.remove('open')"></div>
+  <div class="ui-drawer" id="drawer">
+    <div class="ui-drawer__header">Panel lateral</div>
+    <div class="ui-drawer__body">Contenido del drawer deslizante.</div>
+    <div class="ui-drawer__footer"><button class="ui-button ui-button--ghost ui-button--sm" onclick="document.getElementById('drawer').classList.remove('open');document.getElementById('drawer-bg').classList.remove('open')">Cerrar</button></div>
   </div>
-</div>
 
-<div class="drawer-backdrop" id="drawer-bg" onclick="document.getElementById('drawer').classList.remove('open');this.classList.remove('open')"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer__header">Panel lateral</div>
-  <div class="drawer__body">Contenido del drawer deslizante.</div>
-  <div class="drawer__footer"><button class="btn btn--ghost btn--sm" onclick="document.getElementById('drawer').classList.remove('open');document.getElementById('drawer-bg').classList.remove('open')">Cerrar</button></div>
-</div>
+  <sui-modal id="modal">
+    <span slot="title">Confirmación</span>
+    <p>¿Deseas continuar con esta acción?</p>
+    <div slot="footer">
+      <button class="ui-button" id="close-modal">Cancelar</button>
+      <button class="ui-button ui-button--primary">Confirmar</button>
+    </div>
+  </sui-modal>
 
-<script>
-  document.getElementById('open-modal').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
-  document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') e.target.classList.remove('open'); });
-  document.addEventListener('click', (e) => {
-    const dd = document.getElementById('dd');
-    if (!dd.contains(e.target)) dd.classList.remove('open');
-  });
-</script>
+  <script>
+    document.getElementById('open-modal').addEventListener('click', () => document.getElementById('modal').setAttribute('open', ''));
+    document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').removeAttribute('open'));
+  </script>
 </body>
 </html>
