@@ -7,6 +7,7 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 | Element | Use for |
 | --- | --- |
 | `sui-modal` | Modal dialog with focus trap and scroll lock. |
+| `sui-drawer` | Modal side panel with focus trap and scroll lock. |
 | `sui-dropdown` | Action menu. |
 | `sui-tabs` | Tabbed content. |
 | `sui-accordion` | Expandable sections. |
@@ -17,5 +18,3 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 ## CSS components
 
 Use `ui-card` for cards, `ui-table` for tables, `ui-alert` for alerts, `ui-button` for buttons and `ui-*` form controls for native form elements. They do not require JavaScript registration.
-
-`ui-drawer` is currently a CSS pattern. Do not use `<sui-drawer>` until it is officially implemented.

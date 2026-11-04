@@ -51,7 +51,7 @@
         <a href="#dropdown">Dropdown y tabs</a>
         <a href="#disclosure">Accordion y popover</a>
         <a href="#feedback">Tooltip y toast</a>
-        <a href="#patterns">Patrones y accesibilidad</a>
+        <a href="#patterns">Drawer y accesibilidad</a>
       </nav>
 
       <main class="docs-content" id="content" tabindex="-1">
@@ -230,9 +230,13 @@ SuiToast.show({
         </section>
 
         <section class="docs-section" id="patterns">
-          <div class="docs-section__heading"><h2>Patrones y accesibilidad</h2><p>Un patrón CSS no es necesariamente un Web Component. Conserva la semántica y añade comportamiento de aplicación cuando corresponda.</p></div>
+          <div class="docs-section__heading"><h2>Drawer y accesibilidad</h2><p>Un panel lateral modal con gestión de foco y scroll, listo para usar desde cualquier stack.</p></div>
           <div class="docs-grid">
-            <div class="docs-showcase"><div class="docs-preview"><button class="ui-button ui-button--ghost" id="open-drawer" type="button">Abrir patrón drawer</button></div><div class="docs-reference"><h3>Drawer: patrón CSS actual</h3><p><code>.ui-drawer</code> y <code>.ui-drawer-backdrop</code> son clases CSS. Todavía no existe <code>&lt;sui-drawer&gt;</code>; la aplicación debe proporcionar el comportamiento y el foco.</p></div></div>
+            <div class="docs-showcase"><div class="docs-preview"><button class="ui-button ui-button--ghost" id="open-drawer" type="button">Abrir drawer</button></div><pre class="docs-code" id="code-drawer"><code>&lt;sui-drawer label="Filtros"&gt;
+  &lt;span slot="title"&gt;Filtros&lt;/span&gt;
+  &lt;p&gt;Ajusta los resultados.&lt;/p&gt;
+  &lt;div slot="footer"&gt;...&lt;/div&gt;
+&lt;/sui-drawer&gt;</code><button class="docs-copy" type="button" data-copy="#code-drawer">Copiar</button></pre></div>
             <div class="docs-reference"><h3>Checklist de uso</h3><table class="docs-api"><tbody><tr><th>Semántica</th><td>Prioriza elementos HTML nativos.</td></tr><tr><th>Foco</th><td>Debe ser visible y volver a un lugar útil.</td></tr><tr><th>Movimiento</th><td>Respeta <code>prefers-reduced-motion</code>.</td></tr><tr><th>Contraste</th><td>Prueba siempre ambos temas.</td></tr><tr><th>Eventos</th><td>Los componentes emiten eventos <code>sui-*</code>.</td></tr></tbody></table></div>
           </div>
         </section>
@@ -240,12 +244,12 @@ SuiToast.show({
     </div>
   </div>
 
-  <div class="ui-drawer-backdrop" id="docs-drawer-backdrop"></div>
-  <aside class="ui-drawer" id="docs-drawer" aria-label="Ejemplo de panel lateral">
-    <div class="ui-drawer__header">Panel lateral</div>
-    <div class="ui-drawer__body">Este drawer demuestra el patrón CSS actual. Su comportamiento pertenece a la aplicación hasta que exista un Web Component oficial.</div>
-    <div class="ui-drawer__footer"><button class="ui-button ui-button--ghost ui-button--sm" id="close-drawer" type="button">Cerrar</button></div>
-  </aside>
+  <sui-drawer id="docs-drawer" label="Filtros de ejemplo" close-label="Cerrar filtros">
+    <span slot="title">Filtros</span>
+    <p>Ajusta los resultados disponibles sin abandonar esta vista.</p>
+    <label class="ui-checkbox"><input type="checkbox" checked /> Solo resultados activos</label>
+    <div slot="footer"><button class="ui-button ui-button--ghost ui-button--sm" type="button">Restablecer</button><button class="ui-button ui-button--primary ui-button--sm" type="button">Aplicar</button></div>
+  </sui-drawer>
 
   <sui-modal id="docs-modal" label="Confirmación" close-label="Cerrar modal">
     <span slot="title">Confirmar acción</span>

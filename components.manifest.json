@@ -25,6 +25,15 @@
       "notes": "Restores focus and locks document scroll while open."
     },
     {
+      "tag": "sui-drawer",
+      "import": "@luisrodonccs/simplest-ui/components/drawer",
+      "attributes": ["open", "label", "close-label", "disable-backdrop-close"],
+      "slots": ["title", "default", "footer"],
+      "events": ["sui-open", "sui-close"],
+      "keyboard": ["Escape", "focus trap"],
+      "notes": "Modal side panel that restores focus and locks document scroll while open."
+    },
+    {
       "tag": "sui-dropdown",
       "import": "@luisrodonccs/simplest-ui/components/dropdown",
       "attributes": ["open"],
@@ -81,13 +90,6 @@
     { "name": "card", "classes": ["ui-card", "ui-card--raised", "ui-card--glass", "ui-card__header", "ui-card__title", "ui-card__body", "ui-card__footer"] },
     { "name": "feedback", "classes": ["ui-alert", "ui-alert--success", "ui-alert--warning", "ui-alert--danger", "ui-alert--info", "ui-spinner", "ui-skeleton", "ui-progress"] },
     { "name": "data", "classes": ["ui-table", "ui-badge", "ui-chip", "ui-avatar", "ui-avatar-group", "ui-stat", "ui-empty"] },
-    { "name": "navigation", "classes": ["ui-nav", "ui-drawer", "ui-drawer-backdrop", "ui-app-shell", "ui-container", "ui-stack", "ui-cluster", "ui-grid", "ui-skip-link"] }
-  ],
-  "nonComponentPatterns": [
-    {
-      "name": "drawer",
-      "status": "css-pattern",
-      "notes": "Use ui-drawer and ui-drawer-backdrop with app-owned behavior. It is not currently registered as sui-drawer."
-    }
+    { "name": "navigation", "classes": ["ui-nav", "ui-app-shell", "ui-container", "ui-stack", "ui-cluster", "ui-grid", "ui-skip-link"] }
   ]
 }

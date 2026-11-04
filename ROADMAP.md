@@ -11,7 +11,7 @@ El baseline `v0.1.0-rc.1` cubre tokens, estilos, layouts y los Web Components in
 - [x] Incluir manifiesto de componentes para documentación y agentes.
 - [ ] Añadir importaciones CSS por componente cuando haya demanda real de reducción de CSS.
 - [ ] Validar y documentar ejemplos de integración de Bootstrap 5 y Tailwind actuales.
-- [ ] Convertir el drawer CSS en `<sui-drawer>` o declararlo como patrón CSS permanente.
+- [x] Convertir el drawer CSS en `<sui-drawer>`.
 
 ## P4 — Agentes y automatización
 

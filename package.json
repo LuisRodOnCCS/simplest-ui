@@ -28,6 +28,10 @@
       "types": "./dist/components/dropdown.d.ts",
       "import": "./dist/dropdown.js"
     },
+    "./components/drawer": {
+      "types": "./dist/components/drawer.d.ts",
+      "import": "./dist/drawer.js"
+    },
     "./components/modal": {
       "types": "./dist/components/modal.d.ts",
       "import": "./dist/modal.js"

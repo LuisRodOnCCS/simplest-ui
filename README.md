@@ -111,7 +111,7 @@ Utilidades: `.ui-container`, `.ui-stack`, `.ui-cluster`, `.ui-grid`, `.ui-grid--
 - Formularios: `.ui-field`, `.ui-label`, `.ui-help`, `.ui-error`, `.ui-input`, `.ui-textarea`, `.ui-select`, `.ui-checkbox`, `.ui-radio`, `.ui-radio-group`, `.ui-switch`
 - Datos: `.ui-card`, `.ui-card--raised`, `.ui-card--glass`, `.ui-badge`, `.ui-chip`, `.ui-table`, `.ui-avatar`, `.ui-avatar-group`, `.ui-stat`, `.ui-empty`
 - Feedback: `.ui-alert`, `.ui-toast`, `.ui-spinner`, `.ui-skeleton`, `.ui-progress`
-- Navegación: `.ui-nav`, `.ui-tooltip`, `.ui-popover`, `.ui-accordion`, `.ui-drawer`
+- Navegación: `.ui-nav`, `.ui-tooltip`, `.ui-popover`, `.ui-accordion`
 
 ## Web Components
 
@@ -162,6 +162,21 @@ Cada hijo con `data-tab` es un panel; `label` es el texto de la pestaña. Soport
 - Atrapa el foco, lo restaura al cerrar, bloquea el scroll del body y cierra con `Escape`.
 - Eventos: `sui-open` y `sui-close`.
 - Personalización: `--sui-modal-width`.
+
+### Drawer
+
+```html
+<sui-drawer label="Filtros" close-label="Cerrar filtros">
+  <span slot="title">Filtros</span>
+  <p>Ajusta los resultados disponibles.</p>
+  <div slot="footer"><button class="ui-button" type="button">Aplicar</button></div>
+</sui-drawer>
+```
+
+- `open` abre/cierra; `label`, `close-label` y `disable-backdrop-close` se comportan como en `<sui-modal>`.
+- Atrapa y restaura el foco, bloquea el scroll del body y cierra con `Escape` o al pulsar el fondo.
+- Eventos: `sui-open` y `sui-close`.
+- Personalización: `--sui-drawer-width`.
 
 ### Accordion
 

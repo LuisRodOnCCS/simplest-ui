@@ -15,6 +15,7 @@ export default defineConfig({
         components: resolve(__dirname, "src/components/index.ts"),
         accordion: resolve(__dirname, "src/components/accordion.ts"),
         dropdown: resolve(__dirname, "src/components/dropdown.ts"),
+        drawer: resolve(__dirname, "src/components/drawer.ts"),
         modal: resolve(__dirname, "src/components/modal.ts"),
         popover: resolve(__dirname, "src/components/popover.ts"),
         tabs: resolve(__dirname, "src/components/tabs.ts"),

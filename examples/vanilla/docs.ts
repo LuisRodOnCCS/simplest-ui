@@ -71,16 +71,7 @@ document.querySelector("#show-toast")?.addEventListener("click", () => {
   });
 });
 
-const drawer = document.querySelector<HTMLElement>("#docs-drawer");
-const drawerBackdrop = document.querySelector<HTMLElement>("#docs-drawer-backdrop");
-function closeDrawer() {
-  drawer?.classList.remove("open");
-  drawerBackdrop?.classList.remove("open");
-}
-
 document.querySelector("#open-drawer")?.addEventListener("click", () => {
-  drawer?.classList.add("open");
-  drawerBackdrop?.classList.add("open");
+  const drawer = document.querySelector<HTMLElement & { open?: boolean }>("#docs-drawer");
+  if (drawer) drawer.open = true;
 });
-document.querySelector("#close-drawer")?.addEventListener("click", closeDrawer);
-drawerBackdrop?.addEventListener("click", closeDrawer);

@@ -10,6 +10,7 @@ Este proyecto sigue [Semantic Versioning](https://semver.org/lang/es/). Las entr
 - Exports CSS independientes para reset, base y componentes.
 - Cascade layers en el bundle `styles.css`.
 - Manifiesto de componentes y skill para agentes.
+- `<sui-drawer>` accesible con foco atrapado, bloqueo de scroll y restore de foco.
 
 ## [0.1.0-rc.1] - 2026-11-04
 
