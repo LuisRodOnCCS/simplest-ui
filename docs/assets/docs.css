@@ -5,9 +5,10 @@
 .docs-brand { display: inline-flex; align-items: center; gap: var(--sui-space-2); color: var(--sui-color-text); font-weight: var(--sui-font-weight-semibold); text-decoration: none; }
 .docs-mark { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; color: var(--sui-color-primary-contrast); background: var(--sui-gradient-primary); border-radius: var(--sui-radius-md); box-shadow: var(--sui-shadow-sm); }
 .docs-controls { display: flex; align-items: center; gap: var(--sui-space-2); }
-.docs-choice { display: inline-flex; gap: var(--sui-space-0-5); padding: var(--sui-space-0-5); background: var(--sui-color-surface-muted); border: 1px solid var(--sui-color-border); border-radius: var(--sui-radius-lg); }
-.docs-choice button { min-height: 2rem; padding: 0 var(--sui-space-2); color: var(--sui-color-text-muted); background: transparent; border: 0; border-radius: var(--sui-radius-md); font-size: var(--sui-font-size-xs); }
-.docs-choice button[aria-pressed="true"] { color: var(--sui-color-primary-text); background: var(--sui-color-surface-raised); box-shadow: var(--sui-shadow-sm); }
+.tabs-box { display: inline-flex; gap: var(--sui-space-0-5); padding: var(--sui-space-0-5); background: var(--sui-color-surface-muted); border: 1px solid var(--sui-color-border); border-radius: var(--sui-radius-lg); }
+.tabs-box button { min-height: 2rem; padding: 0 var(--sui-space-2); color: var(--sui-color-text-muted); background: transparent; border: 0; border-radius: var(--sui-radius-md); font-size: var(--sui-font-size-xs); }
+.tabs-box button[aria-pressed="true"] { color: var(--sui-color-primary-text); background: var(--sui-color-surface-raised); box-shadow: var(--sui-shadow-sm); }
+.tabs-box button:disabled { opacity: 0.5; cursor: not-allowed; }
 .docs-layout { display: grid; grid-template-columns: var(--docs-nav-width) minmax(0, 1fr); gap: var(--sui-space-8); margin-top: var(--sui-space-8); }
 .docs-nav { position: sticky; top: calc(var(--sui-space-3) + 4.75rem); align-self: start; max-height: calc(100vh - 7rem); overflow: auto; padding: var(--sui-space-2); }
 .docs-nav__label { display: block; margin: var(--sui-space-3) var(--sui-space-2) var(--sui-space-1); color: var(--sui-color-text-subtle); font-size: var(--sui-font-size-2xs); font-weight: var(--sui-font-weight-semibold); letter-spacing: var(--sui-letter-spacing-wide); text-transform: uppercase; }

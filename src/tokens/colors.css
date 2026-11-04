@@ -67,7 +67,7 @@
   --sui-color-primary-hover: #6366f1;
   --sui-color-primary-active: #4f46e5;
   --sui-color-primary-text: #c7d2fe;
-  --sui-color-primary-contrast: #0f172a;
+  --sui-color-primary-contrast: #ffffff;
 
   --sui-color-secondary: #f472b6;
   --sui-color-secondary-hover: #ec4899;
@@ -77,22 +77,22 @@
   --sui-color-danger: #f87171;
   --sui-color-info: #818cf8;
 
-  --sui-color-success-surface: rgba(5, 150, 105, 0.14);
-  --sui-color-success-text: #6ee7b7;
+  --sui-color-success-surface: rgba(5, 150, 105, 0.2);
+  --sui-color-success-text: #a7f3d0;
   --sui-color-success-border: rgba(5, 150, 105, 0.35);
 
   --sui-color-warning-surface: rgba(217, 119, 6, 0.14);
   --sui-color-warning-text: #fcd34d;
   --sui-color-warning-border: rgba(217, 119, 6, 0.35);
 
-  --sui-color-danger-surface: rgba(220, 38, 38, 0.14);
-  --sui-color-danger-surface-hover: rgba(220, 38, 38, 0.22);
-  --sui-color-danger-text: #fca5a5;
+  --sui-color-danger-surface: rgba(220, 38, 38, 0.2);
+  --sui-color-danger-surface-hover: rgba(220, 38, 38, 0.28);
+  --sui-color-danger-text: #fecaca;
   --sui-color-danger-border: rgba(220, 38, 38, 0.35);
   --sui-color-danger-ring: rgba(248, 113, 113, 0.2);
 
-  --sui-color-info-surface: rgba(99, 102, 241, 0.16);
-  --sui-color-info-text: #c7d2fe;
+  --sui-color-info-surface: rgba(99, 102, 241, 0.22);
+  --sui-color-info-text: #e0e7ff;
   --sui-color-info-border: rgba(99, 102, 241, 0.4);
 
   --sui-color-bg: #0b1020;

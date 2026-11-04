@@ -21,7 +21,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const shadowTabs = () => Array.from(tabs.shadowRoot!.querySelectorAll<HTMLButtonElement>(".tab"));
+const shadowTabs = () => Array.from(tabs.shadowRoot!.querySelectorAll<HTMLButtonElement>(".tabs-pill"));
 const panels = () => Array.from(tabs.querySelectorAll<HTMLElement>("[data-tab]"));
 
 describe("sui-tabs", () => {

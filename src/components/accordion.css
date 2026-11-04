@@ -31,6 +31,16 @@
   background: var(--sui-color-surface-muted);
 }
 
+.ui-accordion__trigger:disabled,
+.ui-accordion__item[aria-disabled="true"] .ui-accordion__trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-accordion__item[aria-disabled="true"] {
+  opacity: 0.6;
+}
+
 .ui-accordion__content {
   padding: 0 var(--sui-space-4) var(--sui-space-3);
   font-size: var(--sui-font-size-sm);
