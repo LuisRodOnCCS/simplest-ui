@@ -28,12 +28,14 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
     "lit": "^3.1.0"
   },
   "devDependencies": {
+    "happy-dom": "^21.0.4",
     "typescript": "^5.4.0",
     "vite": "^5.2.0",
     "vitest": "^1.6.0"
@@ -48,5 +50,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/LuisRodOnCCS/simplest-ui.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/LuisRodOnCCS/simplest-ui#readme",
+  "bugs": {
+    "url": "https://github.com/LuisRodOnCCS/simplest-ui/issues"
   }
 }

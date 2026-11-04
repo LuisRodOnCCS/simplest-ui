@@ -4,6 +4,7 @@
   --sui-color-primary: #6366f1;
   --sui-color-primary-hover: #4f46e5;
   --sui-color-primary-active: #4338ca;
+  --sui-color-primary-text: #4338ca;
   --sui-color-primary-contrast: #ffffff;
 
   --sui-color-secondary: #ec4899;
@@ -34,8 +35,8 @@
 
   --sui-color-bg: #f5f6ff;
   --sui-gradient-page: linear-gradient(120deg, #eef2ff, #fce7f3);
-  --sui-gradient-primary: linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
-  --sui-gradient-primary-hover: linear-gradient(135deg, var(--sui-color-primary-hover), var(--sui-color-secondary-hover));
+  --sui-gradient-primary: linear-gradient(135deg, var(--sui-color-primary-hover), var(--sui-color-secondary-hover));
+  --sui-gradient-primary-hover: linear-gradient(135deg, var(--sui-color-primary-active), #be185d);
   --sui-gradient-sidebar: linear-gradient(180deg, rgba(99, 102, 241, 0.06), rgba(236, 72, 153, 0.04));
 
   --sui-color-surface: rgba(255, 255, 255, 0.65);
@@ -65,6 +66,7 @@
   --sui-color-primary: #818cf8;
   --sui-color-primary-hover: #6366f1;
   --sui-color-primary-active: #4f46e5;
+  --sui-color-primary-text: #c7d2fe;
   --sui-color-primary-contrast: #0f172a;
 
   --sui-color-secondary: #f472b6;
@@ -95,6 +97,8 @@
 
   --sui-color-bg: #0b1020;
   --sui-gradient-page: linear-gradient(120deg, #0f172a, #1e1b4b 60%, #3b0d2a);
+  --sui-gradient-primary: linear-gradient(135deg, var(--sui-color-primary), var(--sui-color-secondary));
+  --sui-gradient-primary-hover: linear-gradient(135deg, #a5b4fc, #f9a8d4);
   --sui-gradient-sidebar: linear-gradient(180deg, rgba(129, 140, 248, 0.08), rgba(244, 114, 182, 0.05));
 
   --sui-color-surface: rgba(17, 24, 39, 0.6);

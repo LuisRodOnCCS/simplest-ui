@@ -14,8 +14,8 @@
 }
 
 .ui-badge--primary {
-  background: var(--sui-color-surface-muted);
-  color: var(--sui-color-primary);
+  background: var(--sui-color-info-surface);
+  color: var(--sui-color-primary-text);
   border-color: transparent;
 }
 

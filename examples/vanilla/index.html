@@ -21,7 +21,9 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <a class="ui-skip-link" href="#contenido">Saltar al contenido</a>
+
+  <div class="wrap" id="contenido" tabindex="-1">
     <header class="hero">
       <h1>Simplest UI</h1>
       <p>Sistema de diseño framework-agnostic: tokens, layouts y Web Components.</p>
@@ -173,7 +175,7 @@
       <aside class="ui-app-shell__sidebar">
         <div class="ui-nav__group-title">Navegación</div>
         <nav class="ui-nav" aria-label="Navegación principal">
-          <a href="#" class="ui-nav__item ui-nav__item--active">Dashboard</a>
+          <a href="#" class="ui-nav__item ui-nav__item--active" aria-current="page">Dashboard</a>
           <a href="#" class="ui-nav__item">Proyectos</a>
           <a href="#" class="ui-nav__item">Configuración</a>
         </nav>

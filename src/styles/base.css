@@ -53,6 +53,28 @@ hr {
   grid-template-columns: repeat(var(--ui-grid-cols, 1), minmax(0, 1fr));
 }
 
+/* Skip link */
+.ui-skip-link {
+  position: fixed;
+  top: var(--sui-space-3);
+  left: var(--sui-space-3);
+  z-index: calc(var(--sui-z-toast) + 1);
+  padding: var(--sui-space-2) var(--sui-space-3);
+  font-size: var(--sui-font-size-sm);
+  font-weight: var(--sui-font-weight-medium);
+  color: var(--sui-color-text);
+  background: var(--sui-color-surface-raised);
+  border: 1px solid var(--sui-color-border-strong);
+  border-radius: var(--sui-radius-md);
+  box-shadow: var(--sui-shadow-menu);
+  transform: translateY(calc(-100% - var(--sui-space-6)));
+}
+
+.ui-skip-link:focus {
+  transform: translateY(0);
+  text-decoration: none;
+}
+
 @media (min-width: 768px) {
   .ui-grid--auto {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

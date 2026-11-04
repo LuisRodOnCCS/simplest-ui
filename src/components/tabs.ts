@@ -55,6 +55,9 @@ export class SuiTabs extends LitElement {
       outline: none;
       box-shadow: var(--sui-focus-ring);
     }
+    :host(:not([data-ready])) ::slotted([data-tab]) {
+      display: none;
+    }
     ::slotted([data-tab]) {
       display: block;
       margin-top: var(--sui-space-3);
@@ -71,6 +74,8 @@ export class SuiTabs extends LitElement {
 
   @state() private tabs: TabItem[] = [];
 
+  private lastSignature = "";
+
   private get selectedIndex() {
     return this.tabs.findIndex((tab) => tab.id === this.value);
   }
@@ -78,25 +83,39 @@ export class SuiTabs extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.collectTabs();
+    // Los hijos pueden no estar disponibles durante el parseo inicial del HTML.
+    queueMicrotask(() => {
+      if (this.isConnected) this.collectTabs();
+    });
   }
 
-  firstUpdated() {
-    this.collectTabs();
-  }
-
-  protected updated(changed: PropertyValues) {
+  protected willUpdate(changed: PropertyValues) {
     if (!changed.has("value")) return;
     if (this.tabs.length && !this.tabs.some((tab) => tab.id === this.value)) {
       this.value = this.tabs[0].id;
-      return;
     }
-    this.applySelection();
+  }
+
+  protected updated(changed: PropertyValues) {
+    if (changed.has("value")) {
+      this.applySelection();
+    }
   }
 
   private collectTabs() {
     const children = Array.from(this.children).filter(
       (el): el is HTMLElement => el instanceof HTMLElement && el.hasAttribute("data-tab")
     );
+
+    const signature = children
+      .map((el) => `${el.getAttribute("data-tab")}|${el.getAttribute("label")}`)
+      .join("~");
+
+    if (signature === this.lastSignature) {
+      this.applySelection();
+      return;
+    }
+    this.lastSignature = signature;
 
     this.tabs = children.map((el, index) => {
       const id = el.getAttribute("data-tab") ?? String(index);
@@ -116,6 +135,7 @@ export class SuiTabs extends LitElement {
       this.value = this.tabs[0]?.id ?? "";
     }
     this.applySelection();
+    this.setAttribute("data-ready", "");
   }
 
   private applySelection() {
@@ -172,7 +192,12 @@ export class SuiTabs extends LitElement {
 
   render() {
     return html`
-      <div class="list" role="tablist" @keydown=${this.handleKeydown}>
+      <div
+        class="list"
+        role="tablist"
+        aria-orientation="horizontal"
+        @keydown=${this.handleKeydown}
+      >
         ${this.tabs.map((tab, index) => {
           const selected = tab.id === this.value;
           return html`

@@ -34,7 +34,7 @@
 }
 
 .ui-nav__item--active:hover {
-  color: var(--sui-color-primary);
+  color: var(--sui-color-primary-hover);
   border: 1px solid transparent;
   background-image: linear-gradient(var(--sui-color-surface-raised), var(--sui-color-surface-raised)),
                     var(--sui-gradient-primary);
