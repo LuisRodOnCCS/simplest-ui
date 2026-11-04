@@ -1,6 +1,13 @@
 import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
+const cssComponentNames = [
+  "accordion", "alert", "avatar", "badge", "button", "card", "checkbox",
+  "empty-state", "input", "nav", "popover", "progress", "radio", "select",
+  "skeleton", "spinner", "stat", "switch", "table", "textarea", "toast",
+  "tooltip", "topbar"
+];
+
 export default defineConfig({
   server: {
     host: true,
@@ -28,7 +35,8 @@ export default defineConfig({
         styles: resolve(__dirname, "src/styles/index.css"),
         resetStyles: resolve(__dirname, "src/styles/reset.css"),
         baseStyles: resolve(__dirname, "src/styles/base.css"),
-        componentStyles: resolve(__dirname, "src/styles/components.css")
+        componentStyles: resolve(__dirname, "src/styles/components.css"),
+        ...Object.fromEntries(cssComponentNames.map((name) => [`${name}Styles`, resolve(__dirname, `src/components/${name}.css`)]))
       },
       name: "SimplestUI",
       formats: ["es"]
@@ -46,6 +54,8 @@ export default defineConfig({
               "componentStyles.css": "components.css"
             };
             if (cssNames[assetInfo.name]) return cssNames[assetInfo.name];
+            const componentName = assetInfo.name.replace(/Styles\.css$/, "");
+            if (cssComponentNames.includes(componentName)) return `components/${componentName}.css`;
             return "[name][extname]";
           }
           return "assets/[name]-[hash][extname]";

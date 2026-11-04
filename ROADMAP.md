@@ -12,8 +12,7 @@
 - [x] Convert the legacy Drawer pattern into `<sui-drawer>` and remove the legacy CSS implementation.
 - [x] Add an accessible responsive table wrapper.
 - [x] Add the Dashboard example page and page navigation.
-- [ ] Add CSS imports per individual component when measured demand justifies the additional API surface.
-- [ ] Validate real Bootstrap 5 and current Tailwind integration examples.
+- [x] Add CSS imports per individual component when measured demand justifies the additional API surface.
 
 ## P4 — Agents and automation
 
@@ -38,3 +37,7 @@
 - Published SSR and framework guidance.
 - Automated browser, accessibility, and visual testing.
 - Deprecation policy and release process in place.
+
+## Deferred — v2+
+
+- Validate real Bootstrap 5 and current Tailwind integration examples.

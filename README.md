@@ -32,7 +32,15 @@ import "@luisrodonccs/simplest-ui/components/drawer";
 | `components.css` | Component classes without a global reset. |
 | `styles.css` | Complete bundle ordered in `sui.reset`, `sui.base`, and `sui.components` layers. |
 
-The package uses `ui-` CSS classes, `sui-` custom-element names, and `--sui-` tokens. When Bootstrap, Tailwind, or another system owns global styles, import `tokens.css` and `components.css` rather than `styles.css`.
+Every CSS component is also available as an individual import. Import `tokens.css` first; add `base.css` only when you need its typography, utilities, or layouts.
+
+```ts
+import "@luisrodonccs/simplest-ui/tokens.css";
+import "@luisrodonccs/simplest-ui/components/button.css";
+import "@luisrodonccs/simplest-ui/components/card.css";
+```
+
+This is suitable for vanilla applications and Laravel Blade projects built with Vite. The package uses `ui-` CSS classes, `sui-` custom-element names, and `--sui-` tokens.
 
 ## CSS components
 
