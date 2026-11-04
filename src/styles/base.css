@@ -119,6 +119,8 @@ hr {
 }
 
 .ui-app-shell__header {
+  position: relative;
+  z-index: var(--sui-z-dropdown);
   border-bottom: 1px solid var(--sui-color-border);
   padding: var(--sui-space-3) var(--sui-space-4-5);
   background: var(--sui-color-surface-raised);

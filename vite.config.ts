@@ -3,6 +3,9 @@ import { resolve } from "node:path";
 
 export default defineConfig({
   server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
     headers: {
       "Cache-Control": "no-store"
     }
