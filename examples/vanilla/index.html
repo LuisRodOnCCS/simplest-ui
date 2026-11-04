@@ -3,239 +3,254 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simplest UI</title>
+  <meta name="description" content="Catálogo visual y referencia de Simplest UI." />
+  <title>Simplest UI · Catálogo</title>
+  <script>
+    try {
+      const choice = localStorage.getItem("simplest-ui-docs-theme") || "system";
+      document.documentElement.dataset.theme = choice === "system"
+        ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+        : choice;
+      document.documentElement.dataset.themeChoice = choice;
+    } catch {}
+  </script>
   <link rel="stylesheet" href="/src/tokens/index.css" />
   <link rel="stylesheet" href="/src/styles/index.css" />
+  <link rel="stylesheet" href="./docs.css" />
   <script type="module" src="/src/index.ts"></script>
-  <style>
-    .wrap { max-width: 1040px; margin: 0 auto; padding: var(--sui-space-10) var(--sui-space-6) var(--sui-space-16); }
-    .hero { padding: var(--sui-space-12) 0 var(--sui-space-8); }
-    .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: var(--sui-font-weight-bold); letter-spacing: -0.03em; line-height: 1.05; background: var(--sui-gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: var(--sui-space-2); }
-    .hero p { color: var(--sui-color-text-muted); font-size: var(--sui-font-size-md); max-width: 52ch; }
-    .chips { display: flex; gap: var(--sui-space-2); margin-top: var(--sui-space-4); flex-wrap: wrap; }
-    h2 { font-size: var(--sui-font-size-xs); font-weight: var(--sui-font-weight-semibold); color: var(--sui-color-text-muted); margin: var(--sui-space-8) 0 var(--sui-space-3-5); letter-spacing: var(--sui-letter-spacing-wide); text-transform: uppercase; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sui-space-3-5); }
-    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
-    .row { display: flex; flex-wrap: wrap; gap: var(--sui-space-2); align-items: center; }
-    .stack { display: flex; flex-direction: column; gap: var(--sui-space-3); }
-  </style>
+  <script type="module" src="./docs.ts"></script>
 </head>
 <body>
-  <a class="ui-skip-link" href="#contenido">Saltar al contenido</a>
+  <a class="ui-skip-link" href="#content">Saltar al contenido</a>
 
-  <div class="wrap" id="contenido" tabindex="-1">
-    <header class="hero">
-      <h1>Simplest UI</h1>
-      <p>Sistema de diseño framework-agnostic: tokens, layouts y Web Components.</p>
-      <div class="chips">
-        <span class="ui-chip">✦ Glassmorphism</span>
-        <span class="ui-chip">✦ Gradientes suaves</span>
-        <span class="ui-chip">✦ Bordes redondeados</span>
+  <div class="docs-shell">
+    <header class="docs-topbar">
+      <a class="docs-brand" href="#overview" aria-label="Simplest UI, inicio del catálogo">
+        <span class="docs-mark" aria-hidden="true">S</span><span>Simplest UI</span>
+      </a>
+      <div class="docs-theme-switcher" role="group" aria-label="Tema del catálogo">
+        <button class="docs-theme-button" type="button" data-theme-choice="system" aria-pressed="false">Sistema</button>
+        <button class="docs-theme-button" type="button" data-theme-choice="light" aria-pressed="false">Claro</button>
+        <button class="docs-theme-button" type="button" data-theme-choice="dark" aria-pressed="false">Oscuro</button>
       </div>
     </header>
 
-    <h2>Botones</h2>
-    <div class="row">
-      <button class="ui-button ui-button--primary">Guardar</button>
-      <button class="ui-button">Cancelar</button>
-      <button class="ui-button ui-button--ghost">Más opciones</button>
-      <button class="ui-button ui-button--danger">Eliminar</button>
-      <button class="ui-button ui-button--primary ui-button--sm">Pequeño</button>
-    </div>
+    <div class="docs-layout">
+      <nav class="docs-nav" aria-label="Secciones del catálogo">
+        <span class="docs-nav__label">Fundamentos</span>
+        <a href="#overview">Introducción</a>
+        <a href="#installation">Instalación</a>
+        <a href="#tokens">Tokens</a>
+        <a href="#integration">Integración</a>
+        <span class="docs-nav__label">Componentes CSS</span>
+        <a href="#actions">Acciones y feedback</a>
+        <a href="#forms">Formularios</a>
+        <a href="#data">Datos y layouts</a>
+        <span class="docs-nav__label">Web Components</span>
+        <a href="#modal">Modal</a>
+        <a href="#dropdown">Dropdown y tabs</a>
+        <a href="#disclosure">Accordion y popover</a>
+        <a href="#feedback">Tooltip y toast</a>
+        <a href="#patterns">Patrones y accesibilidad</a>
+      </nav>
 
-    <h2>Insignias</h2>
-    <div class="row">
-      <span class="ui-badge">Neutral</span>
-      <span class="ui-badge ui-badge--primary">Primario</span>
-      <span class="ui-badge ui-badge--success">Activo</span>
-      <span class="ui-badge ui-badge--warning">Pendiente</span>
-      <span class="ui-badge ui-badge--danger">Error</span>
-      <span class="ui-badge ui-badge--info">Info</span>
-      <span class="ui-badge ui-badge--outline">Outline</span>
-    </div>
-
-    <h2>Alertas</h2>
-    <div class="stack">
-      <div class="ui-alert ui-alert--success" role="status"><div><div class="ui-alert__title">Cambios guardados</div><div class="ui-alert__body">Los datos se actualizaron correctamente.</div></div></div>
-      <div class="ui-alert ui-alert--warning" role="status"><div><div class="ui-alert__title">Revisa la configuración</div><div class="ui-alert__body">Faltan campos obligatorios.</div></div></div>
-      <div class="ui-alert ui-alert--danger" role="alert"><div><div class="ui-alert__title">Error de conexión</div><div class="ui-alert__body">No se pudo guardar. Inténtalo de nuevo.</div></div></div>
-      <div class="ui-alert ui-alert--info" role="status"><div><div class="ui-alert__title">Novedad</div><div class="ui-alert__body">El sistema ahora incluye tema oscuro.</div></div></div>
-    </div>
-
-    <h2>Formularios</h2>
-    <div class="grid">
-      <div class="ui-card">
-        <div class="ui-card__title">Datos básicos</div>
-        <div class="ui-field">
-          <label class="ui-label" for="sui-name">Nombre</label>
-          <input class="ui-input" id="sui-name" placeholder="Tu nombre" />
-        </div>
-        <div class="ui-field">
-          <label class="ui-label" for="sui-message">Mensaje</label>
-          <textarea class="ui-textarea" id="sui-message" placeholder="Escribe aquí..."></textarea>
-        </div>
-        <div class="ui-field">
-          <label class="ui-label" for="sui-country">País</label>
-          <select class="ui-select" id="sui-country"><option>México</option><option>España</option><option>Argentina</option></select>
-        </div>
-        <div class="ui-field"><label class="ui-checkbox"><input type="checkbox" checked /> Acepto términos</label></div>
-        <div class="ui-field"><label class="ui-radio"><input type="radio" name="r" checked /> Opción A</label></div>
-        <div class="ui-field"><label class="ui-switch"><input type="checkbox" checked /><span class="ui-switch__track"></span> Notificaciones</label></div>
-        <button class="ui-button ui-button--primary">Enviar</button>
-      </div>
-      <div class="ui-card ui-card--glass">
-        <div class="ui-card__title">Tarjeta glass</div>
-        <div class="ui-card__body">Contenido con efecto glassmorphism.</div>
-        <div class="ui-card__footer"><button class="ui-button ui-button--ghost ui-button--sm">Acción</button><button class="ui-button ui-button--primary ui-button--sm">Confirmar</button></div>
-      </div>
-      <div class="ui-card ui-card--raised">
-        <div class="ui-card__title">Estado</div>
-        <div class="row" style="margin-bottom: var(--sui-space-1-5);"><span class="ui-badge ui-badge--success">En línea</span><span class="ui-badge">v0.1.0</span></div>
-        <div class="ui-card__body">Sistema operativo y actualizado.</div>
-      </div>
-    </div>
-
-    <h2>Estados de carga</h2>
-    <div class="row" style="margin-bottom: var(--sui-space-3);">
-      <span class="ui-spinner"></span>
-      <span class="ui-spinner ui-spinner--sm"></span>
-      <span class="ui-spinner ui-spinner--lg"></span>
-    </div>
-    <div style="margin-bottom: var(--sui-space-3);">
-      <div class="ui-skeleton ui-skeleton--title"></div>
-      <div class="ui-skeleton ui-skeleton--text"></div>
-      <div class="ui-skeleton ui-skeleton--text" style="width:80%;"></div>
-    </div>
-    <div style="width:240px;margin-bottom: var(--sui-space-3);">
-      <div class="ui-progress"><div class="ui-progress__bar" style="width:60%;"></div></div>
-    </div>
-    <div style="width:240px;">
-      <div class="ui-progress ui-progress--indeterminate"><div class="ui-progress__bar"></div></div>
-    </div>
-
-    <h2>Navegación e interacción</h2>
-    <div style="margin-bottom: var(--sui-space-3);">
-      <sui-tabs>
-        <div data-tab="general" label="General">Configuración general del proyecto.</div>
-        <div data-tab="security" label="Seguridad">Opciones de seguridad y acceso.</div>
-        <div data-tab="notifications" label="Notificaciones">Preferencias de notificaciones.</div>
-      </sui-tabs>
-    </div>
-    <div class="row" style="margin-bottom: var(--sui-space-3);">
-      <sui-tooltip content="Información adicional">Pasa el cursor</sui-tooltip>
-    </div>
-    <sui-accordion style="max-width:480px;margin-bottom: var(--sui-space-3);">
-      <div class="ui-accordion__item open">
-        <button class="ui-accordion__trigger" type="button" aria-expanded="true" aria-controls="acc-1">Sección 1</button>
-        <div class="ui-accordion__content" id="acc-1">Contenido de la primera sección.</div>
-      </div>
-      <div class="ui-accordion__item">
-        <button class="ui-accordion__trigger" type="button" aria-expanded="false" aria-controls="acc-2">Sección 2</button>
-        <div class="ui-accordion__content" id="acc-2">Contenido de la segunda sección.</div>
-      </div>
-    </sui-accordion>
-    <div class="row" style="margin-bottom: var(--sui-space-3);">
-      <sui-popover label="Acciones del popover">
-        <button slot="trigger" class="ui-button ui-button--ghost ui-button--sm" type="button">Popover</button>
-        <div slot="content">
-          <p style="margin:0 0 var(--sui-space-2);">Contenido del popover con acciones.</p>
-          <button class="ui-button ui-button--ghost ui-button--sm" type="button">Editar</button>
-        </div>
-      </sui-popover>
-      <button class="ui-button ui-button--ghost ui-button--sm" type="button" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('drawer-bg').classList.add('open')">Abrir drawer</button>
-      <button class="ui-button ui-button--ghost ui-button--sm" type="button" id="show-toast">Mostrar toast</button>
-    </div>
-
-    <h2>Presentación de datos</h2>
-    <div class="grid" style="margin-bottom: var(--sui-space-3);">
-      <div class="ui-stat"><div class="ui-stat__label">Usuarios</div><div class="ui-stat__value">1,284</div><div class="ui-stat__hint">+12% este mes</div></div>
-      <div class="ui-stat"><div class="ui-stat__label">Ingresos</div><div class="ui-stat__value">$48.2k</div><div class="ui-stat__hint">+8% este mes</div></div>
-      <div class="ui-stat"><div class="ui-stat__label">Activos</div><div class="ui-stat__value">97%</div><div class="ui-stat__hint">En línea</div></div>
-    </div>
-    <div class="row" style="margin-bottom: var(--sui-space-3);">
-      <span class="ui-avatar">JD</span>
-      <span class="ui-avatar ui-avatar--sm">AB</span>
-      <span class="ui-avatar ui-avatar--lg">KL</span>
-      <div class="ui-avatar-group"><span class="ui-avatar">A</span><span class="ui-avatar">B</span><span class="ui-avatar">C</span></div>
-    </div>
-    <table class="ui-table" style="margin-bottom: var(--sui-space-3);">
-      <caption class="sr-only">Usuarios del sistema</caption>
-      <thead><tr><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead>
-      <tbody>
-        <tr><td>Ana García</td><td>Admin</td><td><span class="ui-badge ui-badge--success">Activo</span></td></tr>
-        <tr><td>Carlos Ruiz</td><td>Editor</td><td><span class="ui-badge ui-badge--warning">Pendiente</span></td></tr>
-        <tr><td>Lucía Pérez</td><td>Viewer</td><td><span class="ui-badge">Inactivo</span></td></tr>
-      </tbody>
-    </table>
-    <div class="ui-empty">
-      <div class="ui-empty__title">Sin resultados</div>
-      <div class="ui-empty__body">No se encontraron registros. Crea uno nuevo para comenzar.</div>
-      <button class="ui-button ui-button--primary ui-button--sm">Crear registro</button>
-    </div>
-
-    <h2>Layout base</h2>
-    <div class="ui-app-shell ui-app-shell--contained">
-      <aside class="ui-app-shell__sidebar">
-        <div class="ui-nav__group-title">Navegación</div>
-        <nav class="ui-nav" aria-label="Navegación principal">
-          <a href="#" class="ui-nav__item ui-nav__item--active" aria-current="page">Dashboard</a>
-          <a href="#" class="ui-nav__item">Proyectos</a>
-          <a href="#" class="ui-nav__item">Configuración</a>
-        </nav>
-      </aside>
-      <div class="ui-app-shell__content">
-        <header class="ui-app-shell__header">
-          <span class="ui-app-shell__title">Panel principal</span>
-          <button class="ui-button ui-button--primary ui-button--sm">Nuevo</button>
-        </header>
-        <main class="ui-app-shell__main">
-          <div class="ui-card"><div class="ui-card__title">Bienvenido</div><div class="ui-card__body">Contenido principal del panel.</div></div>
-          <div class="row">
-            <button class="ui-button" id="open-modal" type="button">Abrir modal</button>
-            <sui-dropdown>
-              <span slot="trigger">Menú</span>
-              <button type="button" data-value="a">Opción A</button>
-              <button type="button" data-value="b">Opción B</button>
-            </sui-dropdown>
+      <main class="docs-content" id="content" tabindex="-1">
+        <section class="docs-hero" id="overview">
+          <h1>Una interfaz <span>simple de usar.</span></h1>
+          <p>Tokens CSS, componentes semánticos y Web Components accesibles para construir productos sin ligarte a un framework.</p>
+          <div class="docs-hero__meta">
+            <span class="ui-badge ui-badge--primary">v0.1.0-rc.1</span>
+            <span class="ui-badge ui-badge--success">P0–P2 auditado</span>
+            <span class="ui-badge ui-badge--outline">Framework-agnostic</span>
           </div>
-        </main>
-      </div>
+        </section>
+
+        <section class="docs-section" id="installation">
+          <div class="docs-section__heading">
+            <h2>Instalación y modelo de uso</h2>
+            <p>Importa CSS para la apariencia. Importa JavaScript únicamente para los elementos interactivos que necesites.</p>
+          </div>
+          <div class="docs-showcase">
+            <pre class="docs-code" id="code-install"><code>npm install @luisrodonccs/simplest-ui
+
+import "@luisrodonccs/simplest-ui/tokens.css";
+import "@luisrodonccs/simplest-ui/styles.css";
+import "@luisrodonccs/simplest-ui/components.js";</code><button class="docs-copy" type="button" data-copy="#code-install">Copiar</button></pre>
+          </div>
+          <p class="docs-note">Las cards, tablas, alertas y controles de formulario son componentes CSS: usa HTML semántico con clases <code>ui-*</code>. Solo los componentes documentados como Web Components se usan mediante etiquetas <code>sui-*</code>.</p>
+        </section>
+
+        <section class="docs-section" id="tokens">
+          <div class="docs-section__heading">
+            <h2>Tokens que definen el sistema</h2>
+            <p>El selector de la cabecera cambia los mismos tokens que consumen estos ejemplos. La preferencia se conserva localmente.</p>
+          </div>
+          <div class="docs-token-grid" aria-label="Muestra de tokens de color">
+            <div class="docs-swatch" style="--docs-swatch:var(--sui-color-primary);--docs-swatch-text:var(--sui-color-primary-contrast)"><code>--sui-color-primary</code></div>
+            <div class="docs-swatch" style="--docs-swatch:var(--sui-color-secondary);--docs-swatch-text:#fff"><code>--sui-color-secondary</code></div>
+            <div class="docs-swatch" style="--docs-swatch:var(--sui-color-success-surface);--docs-swatch-text:var(--sui-color-success-text)"><code>success surface</code></div>
+            <div class="docs-swatch" style="--docs-swatch:var(--sui-color-surface-raised)"><code>surface raised</code></div>
+          </div>
+          <div class="docs-showcase" style="margin-top:var(--sui-space-4)">
+            <pre class="docs-code" id="code-tokens"><code>:root {
+  --sui-color-primary: #7c3aed;
+  --sui-radius-lg: 0.75rem;
+  --sui-shadow-card: 0 8px 30px rgb(124 58 237 / 12%);
+}</code><button class="docs-copy" type="button" data-copy="#code-tokens">Copiar</button></pre>
+          </div>
+        </section>
+
+        <section class="docs-section" id="integration">
+          <div class="docs-section__heading">
+            <h2>Convivencia con Bootstrap y Tailwind</h2>
+            <p>Los prefijos <code>ui-</code>, <code>sui-</code> y <code>--sui-</code> evitan colisiones. Cuando otro sistema controla el reset, carga solo tokens y componentes.</p>
+          </div>
+          <div class="docs-grid">
+            <div class="docs-reference">
+              <h3>Simplest UI controla la base</h3>
+              <p>Incluye reset, estilos base y components ordenados en cascade layers.</p>
+              <code>styles.css</code>
+            </div>
+            <div class="docs-reference">
+              <h3>Bootstrap o Tailwind controlan la base</h3>
+              <p>Evita duplicar Bootstrap Reboot o Tailwind Preflight.</p>
+              <code>tokens.css + components.css</code>
+            </div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="actions">
+          <div class="docs-section__heading">
+            <h2>Acciones y feedback</h2>
+            <p>Componentes CSS: no requieren JavaScript ni etiquetas personalizadas.</p>
+          </div>
+          <div class="docs-showcase">
+            <div class="docs-preview docs-preview--stack">
+              <div class="ui-cluster">
+                <button class="ui-button ui-button--primary" type="button">Guardar cambios</button>
+                <button class="ui-button" type="button">Cancelar</button>
+                <button class="ui-button ui-button--ghost" type="button">Más opciones</button>
+                <button class="ui-button ui-button--danger" type="button">Eliminar</button>
+                <button class="ui-button ui-button--primary ui-button--sm" type="button">Pequeño</button>
+              </div>
+              <div class="ui-alert ui-alert--success" role="status"><div><div class="ui-alert__title">Cambios guardados</div><div class="ui-alert__body">Los datos se actualizaron correctamente.</div></div></div>
+              <div class="ui-cluster"><span class="ui-badge ui-badge--success">Activo</span><span class="ui-badge ui-badge--warning">Pendiente</span><span class="ui-badge ui-badge--danger">Error</span><span class="ui-spinner" aria-label="Cargando"></span></div>
+            </div>
+            <pre class="docs-code" id="code-actions"><code>&lt;button class="ui-button ui-button--primary" type="button"&gt;
+  Guardar cambios
+&lt;/button&gt;
+
+&lt;div class="ui-alert ui-alert--success" role="status"&gt;...&lt;/div&gt;</code><button class="docs-copy" type="button" data-copy="#code-actions">Copiar</button></pre>
+          </div>
+        </section>
+
+        <section class="docs-section" id="forms">
+          <div class="docs-section__heading">
+            <h2>Formularios nativos, estilos coherentes</h2>
+            <p>Conserva los elementos HTML nativos, sus labels y validación. Simplest UI añade la presentación.</p>
+          </div>
+          <div class="docs-grid">
+            <div class="docs-showcase">
+              <div class="docs-preview docs-preview--stack">
+                <div class="ui-field"><label class="ui-label" for="docs-name">Nombre</label><input class="ui-input" id="docs-name" placeholder="Tu nombre" /></div>
+                <div class="ui-field"><label class="ui-label" for="docs-country">País</label><select class="ui-select" id="docs-country"><option>México</option><option>España</option><option>Argentina</option></select></div>
+                <label class="ui-checkbox"><input type="checkbox" checked /> Acepto los términos</label>
+                <label class="ui-switch"><input type="checkbox" checked /><span class="ui-switch__track"></span> Notificaciones</label>
+              </div>
+            </div>
+            <div class="docs-reference">
+              <h3>Consideraciones</h3>
+              <p>Conecta siempre <code>&lt;label for&gt;</code> e <code>id</code>. Usa <code>.ui-help</code> o <code>.ui-error</code> como descripción asociada mediante <code>aria-describedby</code>.</p>
+              <p>Los controles no se convierten en <code>sui-input</code> o <code>sui-select</code>; siguen siendo controles nativos.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="data">
+          <div class="docs-section__heading">
+            <h2>Datos, contenido y layout</h2>
+            <p>Compón estructuras semánticas con clases reutilizables.</p>
+          </div>
+          <div class="docs-grid docs-grid--three">
+            <article class="ui-card ui-card--glass"><div class="ui-card__title">Tarjeta glass</div><div class="ui-card__body">Una superficie suave para agrupar contenido relacionado.</div><div class="ui-card__footer"><button class="ui-button ui-button--ghost ui-button--sm" type="button">Acción</button></div></article>
+            <div class="ui-stat"><div class="ui-stat__label">Usuarios activos</div><div class="ui-stat__value">1,284</div><div class="ui-stat__hint">+12% este mes</div></div>
+            <div class="ui-empty"><div class="ui-empty__title">Sin resultados</div><div class="ui-empty__body">Crea un registro para comenzar.</div><button class="ui-button ui-button--primary ui-button--sm" type="button">Crear registro</button></div>
+          </div>
+          <div class="docs-showcase" style="margin-top:var(--sui-space-4)">
+            <div class="docs-preview">
+              <table class="ui-table"><caption class="sr-only">Usuarios del sistema</caption><thead><tr><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead><tbody><tr><td>Ana García</td><td>Admin</td><td><span class="ui-badge ui-badge--success">Activo</span></td></tr><tr><td>Carlos Ruiz</td><td>Editor</td><td><span class="ui-badge ui-badge--warning">Pendiente</span></td></tr></tbody></table>
+            </div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="modal">
+          <div class="docs-section__heading"><h2>Modal</h2><p>Diálogo modal con foco atrapado, bloqueo de scroll, cierre con Escape y restauración de foco.</p></div>
+          <div class="docs-grid">
+            <div class="docs-showcase"><div class="docs-preview"><button class="ui-button ui-button--primary" id="open-modal" type="button">Abrir modal</button></div><pre class="docs-code" id="code-modal"><code>&lt;sui-modal label="Confirmar acción" close-label="Cerrar"&gt;
+  &lt;span slot="title"&gt;Confirmación&lt;/span&gt;
+  &lt;p&gt;¿Deseas continuar?&lt;/p&gt;
+  &lt;div slot="footer"&gt;...&lt;/div&gt;
+&lt;/sui-modal&gt;</code><button class="docs-copy" type="button" data-copy="#code-modal">Copiar</button></pre></div>
+            <div class="docs-reference"><h3>API</h3><table class="docs-api"><tbody><tr><th><code>open</code></th><td>Refleja el estado de apertura.</td></tr><tr><th><code>label</code></th><td>Nombre accesible si no hay título.</td></tr><tr><th><code>close-label</code></th><td>Etiqueta accesible del control de cierre.</td></tr><tr><th><code>disable-backdrop-close</code></th><td>Impide cerrar desde el fondo.</td></tr><tr><th>Eventos</th><td><code>sui-open</code>, <code>sui-close</code></td></tr></tbody></table></div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="dropdown">
+          <div class="docs-section__heading"><h2>Dropdown y tabs</h2><p>Patrones de navegación con relaciones ARIA y teclado incorporados.</p></div>
+          <div class="docs-grid">
+            <div class="docs-showcase"><div class="docs-preview"><sui-dropdown><span slot="trigger">Acciones</span><button type="button" data-value="export">Exportar</button><button type="button" data-value="archive">Archivar</button></sui-dropdown></div><pre class="docs-code" id="code-dropdown"><code>&lt;sui-dropdown&gt;
+  &lt;span slot="trigger"&gt;Acciones&lt;/span&gt;
+  &lt;button data-value="export"&gt;Exportar&lt;/button&gt;
+&lt;/sui-dropdown&gt;</code><button class="docs-copy" type="button" data-copy="#code-dropdown">Copiar</button></pre></div>
+            <div class="docs-showcase"><div class="docs-preview"><sui-tabs><div data-tab="general" label="General">Configuración general.</div><div data-tab="security" label="Seguridad">Opciones de acceso.</div><div data-tab="alerts" label="Alertas">Preferencias de notificación.</div></sui-tabs></div><div class="docs-reference"><h3>Teclado</h3><p>Ambos patrones soportan flechas, <kbd>Home</kbd> y <kbd>End</kbd> cuando corresponde. Dropdown también admite <kbd>Escape</kbd>, <kbd>Enter</kbd> y <kbd>Space</kbd>.</p></div></div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="disclosure">
+          <div class="docs-section__heading"><h2>Accordion y popover</h2><p>Revela contenido sin reimplementar estado, foco o relaciones ARIA.</p></div>
+          <div class="docs-grid">
+            <div class="docs-showcase"><div class="docs-preview"><sui-accordion><div class="ui-accordion__item open"><button class="ui-accordion__trigger" type="button">Detalles</button><div class="ui-accordion__content">Una única sección queda abierta por defecto.</div></div><div class="ui-accordion__item"><button class="ui-accordion__trigger" type="button">Historial</button><div class="ui-accordion__content">Añade <code>multiple</code> para varias secciones.</div></div></sui-accordion></div><div class="docs-reference"><h3><code>sui-accordion</code></h3><p>Añade <code>multiple</code> para permitir más de un panel. Emite <code>sui-change</code>.</p></div></div>
+            <div class="docs-showcase"><div class="docs-preview"><sui-popover label="Acciones de registro"><button slot="trigger" class="ui-button ui-button--ghost" type="button">Abrir acciones</button><div slot="content"><p>Panel contextual con una acción.</p><button class="ui-button ui-button--primary ui-button--sm" type="button">Editar</button></div></sui-popover></div><div class="docs-reference"><h3><code>sui-popover</code></h3><p>Requiere <code>trigger</code> y <code>content</code>. Cierra con Escape, click fuera o al abandonar el panel; el foco vuelve al trigger.</p></div></div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="feedback">
+          <div class="docs-section__heading"><h2>Tooltip y toast</h2><p>Feedback breve y contextual, anunciado de forma accesible.</p></div>
+          <div class="docs-grid">
+            <div class="docs-showcase"><div class="docs-preview"><sui-tooltip content="Información adicional para esta acción"><button class="ui-button ui-button--ghost" type="button">Pasa el cursor o enfoca</button></sui-tooltip></div><div class="docs-reference"><h3><code>sui-tooltip</code></h3><p>Define <code>content</code> o incluye contenido con slot. El elemento crea <code>aria-describedby</code> y <code>role="tooltip"</code>.</p></div></div>
+            <div class="docs-showcase"><div class="docs-preview"><button class="ui-button ui-button--primary" id="show-toast" type="button">Mostrar toast</button></div><pre class="docs-code" id="code-toast"><code>import { SuiToast } from "@luisrodonccs/simplest-ui";
+
+SuiToast.show({
+  title: "Cambios guardados",
+  message: "La operación se completó correctamente.",
+  variant: "success",
+  duration: 3200,
+});</code><button class="docs-copy" type="button" data-copy="#code-toast">Copiar</button></pre></div>
+          </div>
+        </section>
+
+        <section class="docs-section" id="patterns">
+          <div class="docs-section__heading"><h2>Patrones y accesibilidad</h2><p>Un patrón CSS no es necesariamente un Web Component. Conserva la semántica y añade comportamiento de aplicación cuando corresponda.</p></div>
+          <div class="docs-grid">
+            <div class="docs-showcase"><div class="docs-preview"><button class="ui-button ui-button--ghost" id="open-drawer" type="button">Abrir patrón drawer</button></div><div class="docs-reference"><h3>Drawer: patrón CSS actual</h3><p><code>.ui-drawer</code> y <code>.ui-drawer-backdrop</code> son clases CSS. Todavía no existe <code>&lt;sui-drawer&gt;</code>; la aplicación debe proporcionar el comportamiento y el foco.</p></div></div>
+            <div class="docs-reference"><h3>Checklist de uso</h3><table class="docs-api"><tbody><tr><th>Semántica</th><td>Prioriza elementos HTML nativos.</td></tr><tr><th>Foco</th><td>Debe ser visible y volver a un lugar útil.</td></tr><tr><th>Movimiento</th><td>Respeta <code>prefers-reduced-motion</code>.</td></tr><tr><th>Contraste</th><td>Prueba siempre ambos temas.</td></tr><tr><th>Eventos</th><td>Los componentes emiten eventos <code>sui-*</code>.</td></tr></tbody></table></div>
+          </div>
+        </section>
+      </main>
     </div>
   </div>
 
-  <div class="ui-drawer-backdrop" id="drawer-bg" onclick="document.getElementById('drawer').classList.remove('open');this.classList.remove('open')"></div>
-  <div class="ui-drawer" id="drawer">
+  <div class="ui-drawer-backdrop" id="docs-drawer-backdrop"></div>
+  <aside class="ui-drawer" id="docs-drawer" aria-label="Ejemplo de panel lateral">
     <div class="ui-drawer__header">Panel lateral</div>
-    <div class="ui-drawer__body">Contenido del drawer deslizante.</div>
-    <div class="ui-drawer__footer"><button class="ui-button ui-button--ghost ui-button--sm" onclick="document.getElementById('drawer').classList.remove('open');document.getElementById('drawer-bg').classList.remove('open')">Cerrar</button></div>
-  </div>
+    <div class="ui-drawer__body">Este drawer demuestra el patrón CSS actual. Su comportamiento pertenece a la aplicación hasta que exista un Web Component oficial.</div>
+    <div class="ui-drawer__footer"><button class="ui-button ui-button--ghost ui-button--sm" id="close-drawer" type="button">Cerrar</button></div>
+  </aside>
 
-  <sui-modal id="modal">
-    <span slot="title">Confirmación</span>
+  <sui-modal id="docs-modal" label="Confirmación" close-label="Cerrar modal">
+    <span slot="title">Confirmar acción</span>
     <p>¿Deseas continuar con esta acción?</p>
-    <div slot="footer">
-      <button class="ui-button" id="close-modal" type="button">Cancelar</button>
-      <button class="ui-button ui-button--primary" type="button">Confirmar</button>
-    </div>
+    <div slot="footer"><button class="ui-button" id="close-modal" type="button">Cancelar</button><button class="ui-button ui-button--primary" type="button">Confirmar</button></div>
   </sui-modal>
-
-  <script>
-    document.getElementById('open-modal').addEventListener('click', () => document.getElementById('modal').setAttribute('open', ''));
-    document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').removeAttribute('open'));
-
-    function showToast(title, body) {
-      customElements.whenDefined('sui-toast').then(() => {
-        customElements.get('sui-toast').show({ title, message: body, variant: 'success', duration: 3200 });
-      });
-    }
-
-    document.getElementById('show-toast').addEventListener('click', () => {
-      showToast('Cambios guardados', 'La operación se completó correctamente.');
-    });
-
-    document.querySelector('sui-dropdown').addEventListener('sui-select', (event) => {
-      showToast('Menú', 'Seleccionaste: ' + event.detail.value);
-    });
-  </script>
 </body>
 </html>

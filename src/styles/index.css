@@ -1,3 +1,7 @@
-@import "./reset.css";
-@import "./base.css";
-@import "./components.css";
+/* Consumers can use the separate CSS exports when another framework owns the
+   global reset. The complete entry keeps Simplest UI ordered and isolated. */
+@layer sui.reset, sui.base, sui.components;
+
+@import "./reset.css" layer(sui.reset);
+@import "./base.css" layer(sui.base);
+@import "./components.css" layer(sui.components);

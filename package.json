@@ -12,6 +12,9 @@
       "import": "./dist/index.js"
     },
     "./tokens.css": "./dist/tokens.css",
+    "./reset.css": "./dist/reset.css",
+    "./base.css": "./dist/base.css",
+    "./components.css": "./dist/components.css",
     "./styles.css": "./dist/styles.css",
     "./components.js": {
       "types": "./dist/components/index.d.ts",
@@ -48,15 +51,20 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "skills",
+    "LICENSE",
+    "components.manifest.json"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc --emitDeclarationOnly",
-    "typecheck": "tsc --noEmit",
+    "build": "vite build && tsc --emitDeclarationOnly && node scripts/verify-package.mjs",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.docs.json",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "docs:dev": "vite --open /examples/vanilla/index.html",
+    "docs:build": "vite build",
     "prepublishOnly": "npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {

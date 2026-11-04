@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json.schemastore.org/web-types.json",
+  "name": "Simplest UI",
+  "version": "0.1.0-rc.1",
+  "prefixes": {
+    "customElement": "sui-",
+    "cssClass": "ui-",
+    "token": "--sui-"
+  },
+  "cssEntrypoints": {
+    "tokens": "@luisrodonccs/simplest-ui/tokens.css",
+    "reset": "@luisrodonccs/simplest-ui/reset.css",
+    "base": "@luisrodonccs/simplest-ui/base.css",
+    "components": "@luisrodonccs/simplest-ui/components.css",
+    "all": "@luisrodonccs/simplest-ui/styles.css"
+  },
+  "webComponents": [
+    {
+      "tag": "sui-modal",
+      "import": "@luisrodonccs/simplest-ui/components/modal",
+      "attributes": ["open", "label", "close-label", "disable-backdrop-close"],
+      "slots": ["title", "default", "footer"],
+      "events": ["sui-open", "sui-close"],
+      "keyboard": ["Escape", "focus trap"],
+      "notes": "Restores focus and locks document scroll while open."
+    },
+    {
+      "tag": "sui-dropdown",
+      "import": "@luisrodonccs/simplest-ui/components/dropdown",
+      "attributes": ["open"],
+      "slots": ["trigger", "default"],
+      "events": ["sui-open", "sui-close", "sui-toggle", "sui-select"],
+      "keyboard": ["ArrowUp", "ArrowDown", "Home", "End", "Enter", "Space", "Escape", "Tab"]
+    },
+    {
+      "tag": "sui-tabs",
+      "import": "@luisrodonccs/simplest-ui/components/tabs",
+      "attributes": ["value"],
+      "slots": ["default"],
+      "events": ["sui-change"],
+      "keyboard": ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"]
+    },
+    {
+      "tag": "sui-accordion",
+      "import": "@luisrodonccs/simplest-ui/components/accordion",
+      "attributes": ["multiple"],
+      "slots": ["default"],
+      "events": ["sui-change"],
+      "keyboard": ["ArrowUp", "ArrowDown", "Home", "End"]
+    },
+    {
+      "tag": "sui-popover",
+      "import": "@luisrodonccs/simplest-ui/components/popover",
+      "attributes": ["open", "label"],
+      "slots": ["trigger", "content"],
+      "events": ["sui-open", "sui-close"],
+      "keyboard": ["ArrowDown", "Enter", "Space", "Escape", "Tab"]
+    },
+    {
+      "tag": "sui-tooltip",
+      "import": "@luisrodonccs/simplest-ui/components/tooltip",
+      "attributes": ["content"],
+      "slots": ["trigger", "content"],
+      "events": [],
+      "keyboard": ["focus"],
+      "notes": "Creates aria-describedby automatically."
+    },
+    {
+      "tag": "sui-toast",
+      "import": "@luisrodonccs/simplest-ui/components/toast",
+      "attributes": ["title", "message", "variant", "duration"],
+      "slots": ["default"],
+      "events": ["sui-dismiss"],
+      "keyboard": [],
+      "api": ["SuiToast.show({ title, message, variant, duration })"]
+    }
+  ],
+  "cssComponents": [
+    { "name": "button", "classes": ["ui-button", "ui-button--primary", "ui-button--danger", "ui-button--ghost", "ui-button--sm"] },
+    { "name": "forms", "classes": ["ui-field", "ui-label", "ui-help", "ui-error", "ui-input", "ui-textarea", "ui-select", "ui-checkbox", "ui-radio", "ui-radio-group", "ui-switch"] },
+    { "name": "card", "classes": ["ui-card", "ui-card--raised", "ui-card--glass", "ui-card__header", "ui-card__title", "ui-card__body", "ui-card__footer"] },
+    { "name": "feedback", "classes": ["ui-alert", "ui-alert--success", "ui-alert--warning", "ui-alert--danger", "ui-alert--info", "ui-spinner", "ui-skeleton", "ui-progress"] },
+    { "name": "data", "classes": ["ui-table", "ui-badge", "ui-chip", "ui-avatar", "ui-avatar-group", "ui-stat", "ui-empty"] },
+    { "name": "navigation", "classes": ["ui-nav", "ui-drawer", "ui-drawer-backdrop", "ui-app-shell", "ui-container", "ui-stack", "ui-cluster", "ui-grid", "ui-skip-link"] }
+  ],
+  "nonComponentPatterns": [
+    {
+      "name": "drawer",
+      "status": "css-pattern",
+      "notes": "Use ui-drawer and ui-drawer-backdrop with app-owned behavior. It is not currently registered as sui-drawer."
+    }
+  ]
+}

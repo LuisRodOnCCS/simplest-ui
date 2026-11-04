@@ -1,0 +1,23 @@
+{
+  "skill_name": "simplest-ui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Añade una tarjeta de resumen de facturación con importe, estado y una acción secundaria a la vista de cuenta. El proyecto ya usa Simplest UI.",
+      "expected_output": "El agente compone HTML semántico con ui-card, ui-badge y ui-button, utiliza tokens o clases existentes y no crea un sui-card.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Necesito que un botón muestre acciones de exportación y que el menú se pueda usar con teclado en esta aplicación con Simplest UI.",
+      "expected_output": "El agente elige sui-dropdown, importa el entrypoint de comportamiento adecuado y no recrea ARIA ni navegación de teclado manualmente.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Crea un selector de rango de fechas reutilizable con calendario emergente para Simplest UI.",
+      "expected_output": "El agente reconoce que no existe un date picker, justifica la extensión y propone o implementa un componente respetando tokens, accesibilidad, pruebas, manifiesto y catálogo.",
+      "files": []
+    }
+  ]
+}

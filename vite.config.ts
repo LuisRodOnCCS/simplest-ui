@@ -21,7 +21,10 @@ export default defineConfig({
         toast: resolve(__dirname, "src/components/toast.ts"),
         tooltip: resolve(__dirname, "src/components/tooltip.ts"),
         tokens: resolve(__dirname, "src/tokens/index.css"),
-        styles: resolve(__dirname, "src/styles/index.css")
+        styles: resolve(__dirname, "src/styles/index.css"),
+        resetStyles: resolve(__dirname, "src/styles/reset.css"),
+        baseStyles: resolve(__dirname, "src/styles/base.css"),
+        componentStyles: resolve(__dirname, "src/styles/components.css")
       },
       name: "SimplestUI",
       formats: ["es"]
@@ -33,6 +36,12 @@ export default defineConfig({
         chunkFileNames: "chunks/[name]-[hash].js",
         assetFileNames: (assetInfo) => {
           if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+            const cssNames: Record<string, string> = {
+              "resetStyles.css": "reset.css",
+              "baseStyles.css": "base.css",
+              "componentStyles.css": "components.css"
+            };
+            if (cssNames[assetInfo.name]) return cssNames[assetInfo.name];
             return "[name][extname]";
           }
           return "assets/[name]-[hash][extname]";

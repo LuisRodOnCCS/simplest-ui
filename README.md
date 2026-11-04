@@ -2,6 +2,8 @@
 
 Design system framework-agnostic: tokens CSS, layouts y Web Components. Funciona igual en HTML plano, React, Vue, Laravel o cualquier stack que renderice HTML.
 
+> Estado: `v0.1.0-rc.1` es el baseline auditado. Consulta [ROADMAP.md](./ROADMAP.md) para los siguientes hitos y [CHANGELOG.md](./CHANGELOG.md) para el historial de versiones.
+
 ## Instalación
 
 ```bash
@@ -58,6 +60,26 @@ Tema oscuro:
 
 Los tokens semánticos (`--sui-color-surface`, `--sui-color-text`, `--sui-color-border`, sombras, gradientes) se redefinen en `[data-theme="dark"]`.
 
+## Integración con otros sistemas CSS
+
+Simplest UI usa prefijos `ui-`, `sui-` y `--sui-`, por lo que sus clases, Custom Elements y tokens no colisionan con Bootstrap o Tailwind. Los Web Components también son independientes de cualquier framework.
+
+El entrypoint completo incluye un reset y estilos base globales. En una aplicación que ya usa Bootstrap Reboot o Tailwind Preflight, importa solamente los tokens y los estilos de componentes:
+
+```css
+@import "@luisrodonccs/simplest-ui/tokens.css";
+@import "@luisrodonccs/simplest-ui/components.css";
+```
+
+Entrypoints disponibles:
+
+- `reset.css`: reset global opcional.
+- `base.css`: tipografía, enlaces, utilidades y layouts.
+- `components.css`: clases de componentes sin reset global.
+- `styles.css`: reset, base y componentes en las layers `sui.reset`, `sui.base` y `sui.components`.
+
+Consulta la guía de integración en el catálogo visual (`npm run docs:dev`).
+
 ## Layout
 
 ```html
@@ -92,6 +114,8 @@ Utilidades: `.ui-container`, `.ui-stack`, `.ui-cluster`, `.ui-grid`, `.ui-grid--
 - Navegación: `.ui-nav`, `.ui-tooltip`, `.ui-popover`, `.ui-accordion`, `.ui-drawer`
 
 ## Web Components
+
+Solo los elementos que aparecen en esta sección están registrados como etiquetas `<sui-*>`. El resto del catálogo es CSS semántico y se consume mediante clases `ui-*`; por ejemplo, `<article class="ui-card">`, `<table class="ui-table">` y `<div class="ui-alert">`.
 
 ### Tabs
 
@@ -210,6 +234,7 @@ Las tres comparten la misma estructura de app-shell, navegación y componentes.
 ```bash
 npm install
 npm run dev        # demo en examples/vanilla
+npm run docs:dev   # catálogo visual con temas y APIs
 npm run build      # dist + declaraciones .d.ts
 npm run typecheck
 npm test           # Vitest + happy-dom
@@ -218,6 +243,18 @@ npm test           # Vitest + happy-dom
 `npm run build` genera `dist/` con `tokens.css`, `styles.css`, `components.js`, `index.js`, entradas granulares por Web Component y sus `.d.ts`.
 
 GitHub Actions ejecuta typecheck, tests, build y `npm pack --dry-run` en cada pull request y push a `main`.
+
+## Construcción asistida por agentes
+
+El repositorio y el paquete incluyen la skill [`skills/simplest-ui`](./skills/simplest-ui/SKILL.md). Esta guía indica a un agente cómo comprobar primero el catálogo, reutilizar componentes existentes y extender el sistema solo cuando sea necesario, sin inventar etiquetas `sui-*` no registradas.
+
+La fuente de verdad del catálogo para agentes y documentación es [`components.manifest.json`](./components.manifest.json).
+
+Las skills requieren instalación explícita en el directorio de skills que use cada agente; los agentes no suelen descubrir automáticamente una skill dentro de `node_modules`. El paquete mantiene una copia versionada para que puedas enlazar o copiar `skills/simplest-ui` en tu gestor de skills. Sus prompts de evaluación están en [`skills/simplest-ui/evals`](./skills/simplest-ui/evals).
+
+## Contribuir
+
+Lee [CONTRIBUTING.md](./CONTRIBUTING.md) antes de añadir o modificar componentes. Las contribuciones deben respetar los tokens, prefijos, semántica HTML, accesibilidad, pruebas y documentación visual del sistema.
 
 ## Publicación
 
