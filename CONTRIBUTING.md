@@ -16,6 +16,7 @@
 - [ ] For Web Components, document attributes, slots, events, methods, and focus behavior.
 - [ ] Add behavior tests and React JSX declarations when applicable.
 - [ ] Update the manifest, visual documentation, README, skill references, and changelog.
+- [ ] Run `npm run catalog:generate` after changing `components.manifest.json`.
 - [ ] Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and `npm pack --dry-run`.
 
 ## Pull requests

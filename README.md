@@ -117,7 +117,7 @@ The Dashboard page is available at `docs/pages/dashboard.html` while running the
 
 ## Agent skill
 
-`skills/simplest-ui` is a versioned agent skill. It guides agents to inspect `components.manifest.json`, reuse existing primitives first, and only extend the system when composition is insufficient. Install it in the skill directory used by your agent; agents do not usually discover skills inside `node_modules` automatically.
+`skills/simplest-ui` is a versioned Agent Skill. It guides agents to inspect `components.manifest.json`, reuse existing primitives first, and only extend the system when composition is insufficient. It is included in the npm package but is not activated automatically. See the [installation guide](./skills/simplest-ui/INSTALL.md) for OpenCode, Claude Code, and other Agent Skills clients.
 
 ## Testing
 

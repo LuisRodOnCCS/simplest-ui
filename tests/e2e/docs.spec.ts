@@ -4,7 +4,7 @@ import { openDocs } from "./helpers";
 test("catalog navigation exposes every current entry", async ({ page }) => {
   await openDocs(page);
 
-  for (const id of ["button", "topbar", "support", "dashboard"]) {
+  for (const id of ["button", "topbar", "support", "agent-skill", "dashboard"]) {
     await expect(page.locator(`[data-nav-id="${id}"]`)).toBeVisible();
   }
 });

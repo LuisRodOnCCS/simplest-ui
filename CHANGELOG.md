@@ -4,6 +4,13 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Added
+
+- Generated documentation navigation and agent catalog reference from `components.manifest.json`.
+- Agent skill installation guidance for OpenCode, Claude Code, and compatible Agent Skills clients.
+- Bilingual visual documentation for the official Simplest UI agent skill.
+- Evaluated the agent skill against real composition, reuse, and extension prompts in OpenCode.
+
 ## [0.1.0] - 2026-11-05
 
 ### Added

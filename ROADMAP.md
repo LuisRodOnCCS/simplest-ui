@@ -17,9 +17,9 @@
 ## P4 — Agents and automation
 
 - [x] Ship an official Simplest UI agent skill.
-- [ ] Evaluate the skill against real reuse, composition, and extension prompts.
-- [ ] Publish installation instructions for OpenCode, Claude Code, and other supported agents.
-- [ ] Generate the documentation site from the manifest rather than sharing IDs manually.
+- [x] Evaluate the skill against real reuse, composition, and extension prompts.
+- [x] Publish installation instructions for OpenCode, Claude Code, and other supported agents.
+- [x] Generate the documentation site from the manifest rather than sharing IDs manually.
 
 ## P5 — Release quality
 

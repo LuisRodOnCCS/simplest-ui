@@ -4,68 +4,232 @@
       "id": "foundations",
       "label": "Foundations",
       "items": [
-        { "id": "overview", "label": "Overview", "kind": "foundation" },
-        { "id": "installation", "label": "Installation", "kind": "foundation" },
-        { "id": "tokens", "label": "Tokens", "kind": "foundation" },
-        { "id": "support", "label": "Support", "kind": "foundation" }
+        {
+          "id": "overview",
+          "label": "Overview",
+          "kind": "foundation"
+        },
+        {
+          "id": "installation",
+          "label": "Installation",
+          "kind": "foundation"
+        },
+        {
+          "id": "tokens",
+          "label": "Tokens",
+          "kind": "foundation"
+        },
+        {
+          "id": "support",
+          "label": "Support",
+          "kind": "foundation"
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "label": "Agents",
+      "items": [
+        {
+          "id": "agent-skill",
+          "label": "Simplest UI skill",
+          "kind": "agent"
+        }
       ]
     },
     {
       "id": "css-components",
       "label": "CSS components",
       "items": [
-        { "id": "button", "label": "Button", "kind": "css" },
-        { "id": "input-field", "label": "Input & field", "kind": "css" },
-        { "id": "textarea", "label": "Textarea", "kind": "css" },
-        { "id": "select", "label": "Select", "kind": "css" },
-        { "id": "checkbox", "label": "Checkbox", "kind": "css" },
-        { "id": "radio", "label": "Radio", "kind": "css" },
-        { "id": "switch", "label": "Switch", "kind": "css" },
-        { "id": "card", "label": "Card", "kind": "css" },
-        { "id": "badge-chip", "label": "Badge & chip", "kind": "css" },
-        { "id": "alert", "label": "Alert", "kind": "css" },
-        { "id": "spinner", "label": "Spinner", "kind": "css" },
-        { "id": "skeleton", "label": "Skeleton", "kind": "css" },
-        { "id": "progress", "label": "Progress", "kind": "css" },
-        { "id": "table", "label": "Table", "kind": "css" },
-        { "id": "avatar", "label": "Avatar", "kind": "css" },
-        { "id": "stat", "label": "Stat", "kind": "css" },
-        { "id": "empty-state", "label": "Empty state", "kind": "css" },
-        { "id": "nav", "label": "Navigation", "kind": "css" },
-        { "id": "topbar", "label": "Topbar", "kind": "css" }
+        {
+          "id": "button",
+          "label": "Button",
+          "kind": "css"
+        },
+        {
+          "id": "input-field",
+          "label": "Input Field",
+          "kind": "css"
+        },
+        {
+          "id": "textarea",
+          "label": "Textarea",
+          "kind": "css"
+        },
+        {
+          "id": "select",
+          "label": "Select",
+          "kind": "css"
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "kind": "css"
+        },
+        {
+          "id": "radio",
+          "label": "Radio",
+          "kind": "css"
+        },
+        {
+          "id": "switch",
+          "label": "Switch",
+          "kind": "css"
+        },
+        {
+          "id": "card",
+          "label": "Card",
+          "kind": "css"
+        },
+        {
+          "id": "badge-chip",
+          "label": "Badge Chip",
+          "kind": "css"
+        },
+        {
+          "id": "alert",
+          "label": "Alert",
+          "kind": "css"
+        },
+        {
+          "id": "spinner",
+          "label": "Spinner",
+          "kind": "css"
+        },
+        {
+          "id": "skeleton",
+          "label": "Skeleton",
+          "kind": "css"
+        },
+        {
+          "id": "progress",
+          "label": "Progress",
+          "kind": "css"
+        },
+        {
+          "id": "table",
+          "label": "Table",
+          "kind": "css"
+        },
+        {
+          "id": "avatar",
+          "label": "Avatar",
+          "kind": "css"
+        },
+        {
+          "id": "stat",
+          "label": "Stat",
+          "kind": "css"
+        },
+        {
+          "id": "empty-state",
+          "label": "Empty State",
+          "kind": "css"
+        },
+        {
+          "id": "nav",
+          "label": "Nav",
+          "kind": "css"
+        },
+        {
+          "id": "topbar",
+          "label": "Topbar",
+          "kind": "css"
+        }
       ]
     },
     {
       "id": "web-components",
       "label": "Web Components",
       "items": [
-        { "id": "modal", "label": "Modal", "kind": "web-component" },
-        { "id": "drawer", "label": "Drawer", "kind": "web-component" },
-        { "id": "dropdown", "label": "Dropdown", "kind": "web-component" },
-        { "id": "tabs", "label": "Tabs", "kind": "web-component" },
-        { "id": "accordion", "label": "Accordion", "kind": "web-component" },
-        { "id": "popover", "label": "Popover", "kind": "web-component" },
-        { "id": "tooltip", "label": "Tooltip", "kind": "web-component" },
-        { "id": "toast", "label": "Toast", "kind": "web-component" }
+        {
+          "id": "modal",
+          "label": "Modal",
+          "kind": "web-component"
+        },
+        {
+          "id": "drawer",
+          "label": "Drawer",
+          "kind": "web-component"
+        },
+        {
+          "id": "dropdown",
+          "label": "Dropdown",
+          "kind": "web-component"
+        },
+        {
+          "id": "tabs",
+          "label": "Tabs",
+          "kind": "web-component"
+        },
+        {
+          "id": "accordion",
+          "label": "Accordion",
+          "kind": "web-component"
+        },
+        {
+          "id": "popover",
+          "label": "Popover",
+          "kind": "web-component"
+        },
+        {
+          "id": "tooltip",
+          "label": "Tooltip",
+          "kind": "web-component"
+        },
+        {
+          "id": "toast",
+          "label": "Toast",
+          "kind": "web-component"
+        }
       ]
     },
     {
       "id": "layouts",
       "label": "Layouts",
       "items": [
-        { "id": "container", "label": "Container", "kind": "layout" },
-        { "id": "stack", "label": "Stack", "kind": "layout" },
-        { "id": "cluster", "label": "Cluster", "kind": "layout" },
-        { "id": "grid", "label": "Grid", "kind": "layout" },
-        { "id": "app-shell", "label": "App shell", "kind": "layout" },
-        { "id": "skip-link", "label": "Skip link", "kind": "layout" }
+        {
+          "id": "container",
+          "label": "Container",
+          "kind": "layout"
+        },
+        {
+          "id": "stack",
+          "label": "Stack",
+          "kind": "layout"
+        },
+        {
+          "id": "cluster",
+          "label": "Cluster",
+          "kind": "layout"
+        },
+        {
+          "id": "grid",
+          "label": "Grid",
+          "kind": "layout"
+        },
+        {
+          "id": "app-shell",
+          "label": "App Shell",
+          "kind": "layout"
+        },
+        {
+          "id": "skip-link",
+          "label": "Skip Link",
+          "kind": "layout"
+        }
       ]
     },
     {
       "id": "pages",
       "label": "Pages",
       "items": [
-        { "id": "dashboard", "label": "Dashboard", "kind": "page", "href": "./pages/dashboard.html" }
+        {
+          "id": "dashboard",
+          "label": "Dashboard",
+          "kind": "page",
+          "href": "./pages/dashboard.html"
+        }
       ]
     }
   ]

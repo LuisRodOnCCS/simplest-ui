@@ -15,6 +15,7 @@
 .docs-search:focus { outline: none; box-shadow: var(--sui-focus-ring); }
 .docs-content { min-width: 0; padding-bottom: var(--sui-space-16); }
 .docs-content code { overflow-wrap: anywhere; }
+.docs-reference pre { max-width: 100%; overflow-x: auto; }
 .docs-hero { padding: var(--sui-space-8) 0 var(--sui-space-12); scroll-margin-top: 7.5rem; }
 .docs-hero h1 { max-width: 12ch; margin: 0; color: var(--sui-color-text); font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: var(--sui-font-weight-bold); letter-spacing: -0.06em; line-height: .95; }
 .docs-hero h1 span { display: inline-block; vertical-align: baseline; letter-spacing: 0; color: transparent; -webkit-text-fill-color: transparent; background: var(--sui-gradient-primary); background-size: 100% 100%; -webkit-background-clip: text; background-clip: text; }

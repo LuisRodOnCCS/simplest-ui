@@ -52,6 +52,14 @@ test("documentation form controls stay visually stable in light theme", async ({
   await snapshot(page, page.locator("#input-field .docs-showcase"), "docs-forms-light.png");
 });
 
+test("agent skill documentation stays visually stable in light theme", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await openDocs(page);
+  await settle(page);
+
+  await snapshot(page, page.locator("#agent-skill .docs-grid"), "docs-agent-skill-light.png");
+});
+
 test("documentation tabs stay visually stable in light theme", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await openDocs(page);
