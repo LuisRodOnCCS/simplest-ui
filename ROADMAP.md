@@ -26,7 +26,8 @@
 - [ ] Add E2E coverage in Chromium, Firefox, and WebKit.
 - [ ] Run automated Axe accessibility audits.
 - [ ] Add visual regression coverage for components and themes.
-- [ ] Document browser support, SSR, and React/Vue integration.
+- [x] Document browser support and SSR guidance.
+- [ ] Publish React/Vue integration guidance.
 - [ ] Define versioning policy and publish `v0.1.0`.
 - [ ] Deploy visual documentation through GitHub Pages.
 
@@ -41,3 +42,4 @@
 ## Deferred — v2+
 
 - Validate real Bootstrap 5 and current Tailwind integration examples.
+- Validate and document React/Vue integration.

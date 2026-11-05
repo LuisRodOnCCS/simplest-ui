@@ -6,7 +6,8 @@
       "items": [
         { "id": "overview", "label": "Overview", "kind": "foundation" },
         { "id": "installation", "label": "Installation", "kind": "foundation" },
-        { "id": "tokens", "label": "Tokens", "kind": "foundation" }
+        { "id": "tokens", "label": "Tokens", "kind": "foundation" },
+        { "id": "support", "label": "Support", "kind": "foundation" }
       ]
     },
     {

@@ -93,6 +93,17 @@ Override semantic tokens to adapt the full system:
 
 Use `<html data-theme="dark">` to apply the built-in dark token mapping.
 
+## Support
+
+| Area | Support |
+| --- | --- |
+| Browsers | Chrome, Edge, Firefox, and Safari, last two versions; current Chrome Android and Safari iOS. |
+| Environments | Vanilla HTML/JavaScript and Laravel Blade with Vite. |
+| Rendering | CSS during SSR; Web Components in the client bundle. |
+| Accessibility | WCAG 2.2 AA target; no `critical` or `serious` Axe violations. |
+
+React, Vue, Bootstrap, and Tailwind integration are not validated for `0.1.0`. See [SUPPORT.md](./SUPPORT.md) for the complete policy, including SSR and known limitations.
+
 ## Documentation
 
 The visual documentation lives in `docs/` and supports English and Spanish. It covers every public CSS component, Web Component, layout, token category, and example page.
@@ -108,17 +119,35 @@ The Dashboard page is available at `docs/pages/dashboard.html` while running the
 
 `skills/simplest-ui` is a versioned agent skill. It guides agents to inspect `components.manifest.json`, reuse existing primitives first, and only extend the system when composition is insufficient. Install it in the skill directory used by your agent; agents do not usually discover skills inside `node_modules` automatically.
 
+## Testing
+
+Unit and component tests use Vitest:
+
+```bash
+npm test
+```
+
+End-to-end tests use Playwright and Axe across Chromium, Firefox, and WebKit. They cover documentation navigation, component keyboard and focus behavior, the 320px responsive floor, Axe audits in light and dark themes, and the vanilla and Laravel/Vite consumer fixtures.
+
+```bash
+npm run test:e2e:install   # first run only
+npm run test:e2e
+```
+
+`npm run test:e2e` builds the package before starting the suite. Tests fail on any `critical` or `serious` Axe violation.
+
 ## Development
 
 ```bash
 npm run typecheck
 npm test
 npm run build
+npm run test:consumer
 npm run docs:build
 npm pack --dry-run
 ```
 
-`npm run build` validates every package export. `npm run docs:build` verifies that every manifest entry has a visual documentation entry. CI runs both checks.
+`npm run build` validates every package export. `npm run test:consumer` bundles the Laravel/Vite and SSR fixtures. `npm run docs:build` verifies that every manifest entry has a visual documentation entry. CI runs these checks plus the Playwright suite.
 
 ## Contributing
 

@@ -26,8 +26,14 @@ export class SuiTabs extends LitElement {
       border-radius: var(--sui-radius-full);
       padding: var(--sui-space-1);
       width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
       backdrop-filter: blur(var(--sui-blur-sm));
       -webkit-backdrop-filter: blur(var(--sui-blur-sm));
+    }
+    .list::-webkit-scrollbar {
+      display: none;
     }
     .tabs-pill {
       padding: var(--sui-space-1-5) var(--sui-space-3-5);
@@ -188,7 +194,6 @@ export class SuiTabs extends LitElement {
         el.id = `sui-tabpanel-${this.uid}-${index}`;
       }
       el.setAttribute("role", "tabpanel");
-      el.setAttribute("aria-labelledby", `sui-tab-${this.uid}-${index}`);
       return {
         id,
         label: el.getAttribute("label") ?? id,
@@ -280,7 +285,6 @@ export class SuiTabs extends LitElement {
               aria-selected=${selected ? "true" : "false"}
               aria-disabled=${tab.disabled ? "true" : "false"}
               ?disabled=${tab.disabled}
-              aria-controls=${tab.panel.id}
               tabindex=${selected && !tab.disabled ? 0 : -1}
               @click=${() => this.select(tab.id)}
             >${tab.label}</button>

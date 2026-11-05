@@ -10,10 +10,20 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 - `sui-drawer`, an accessible modal side-panel Web Component.
 - Accessible responsive table wrapper via `ui-table-wrap`.
 - Documentation coverage verification in CI.
+- Published support policy covering browsers, environments, SSR, accessibility targets, and known limitations.
+- Playwright and Axe end-to-end suite for Chromium, Firefox, and WebKit, including keyboard, focus, 320px responsive, and light/dark accessibility checks.
 
 ### Changed
 
 - Technical repository documentation is now maintained in English.
+- Tab panels rely on their own ids instead of cross-shadow ARIA references, which are invalid IDREFs.
+
+### Fixed
+
+- Residual `aria-pressed` on the document element in the documentation.
+- Missing accessible name for the compact topbar brand.
+- Insufficient contrast in documentation navigation labels, swatches, and spacing samples.
+- Horizontal overflow in the documentation at 320px.
 
 ### Removed
 
