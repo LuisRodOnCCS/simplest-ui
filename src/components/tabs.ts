@@ -6,6 +6,7 @@ type TabItem = {
   id: string;
   label: string;
   panel: HTMLElement;
+  disabled: boolean;
 };
 
 @customElement("sui-tabs")
@@ -25,10 +26,16 @@ export class SuiTabs extends LitElement {
       border-radius: var(--sui-radius-full);
       padding: var(--sui-space-1);
       width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
       backdrop-filter: blur(var(--sui-blur-sm));
       -webkit-backdrop-filter: blur(var(--sui-blur-sm));
     }
-    .tab {
+    .list::-webkit-scrollbar {
+      display: none;
+    }
+    .tabs-pill {
       padding: var(--sui-space-1-5) var(--sui-space-3-5);
       font-size: var(--sui-font-size-xs);
       font-weight: var(--sui-font-weight-medium);
@@ -41,19 +48,68 @@ export class SuiTabs extends LitElement {
                   color var(--sui-duration-fast) var(--sui-easing-standard),
                   filter var(--sui-duration-fast) var(--sui-easing-standard);
     }
-    .tab:hover {
+    .tabs-pill:hover {
       color: var(--sui-color-text);
     }
-    .tab[aria-selected="true"] {
+    .tabs-pill[aria-selected="true"] {
       background: var(--sui-gradient-primary);
       color: var(--sui-color-primary-contrast);
     }
-    .tab[aria-selected="true"]:hover {
+    .tabs-pill[aria-selected="true"]:hover {
       background: var(--sui-gradient-primary-hover);
     }
-    .tab:focus-visible {
+    .tabs-pill:focus-visible {
       outline: none;
       box-shadow: var(--sui-focus-ring);
+    }
+    .tabs-pill:disabled,
+    .tabs-pill[aria-disabled="true"] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    :host([variant="box"]) .list {
+      background: var(--sui-color-surface-muted);
+      border: 1px solid var(--sui-color-border);
+      border-radius: var(--sui-radius-lg);
+      padding: var(--sui-space-0-5);
+      gap: var(--sui-space-0-5);
+      width: fit-content;
+    }
+
+    :host([variant="box"]) .tabs-pill {
+      min-height: 2rem;
+      padding: 0 var(--sui-space-2);
+      color: var(--sui-color-text-muted);
+      background: transparent;
+      border: 0;
+      border-radius: var(--sui-radius-md);
+      font-size: var(--sui-font-size-xs);
+    }
+
+    :host([variant="box"]) .tabs-pill:hover {
+      color: var(--sui-color-text);
+    }
+
+    :host([variant="box"]) .tabs-pill[aria-selected="true"] {
+      color: var(--sui-color-primary-text);
+      background: var(--sui-color-surface-raised);
+      box-shadow: var(--sui-shadow-sm);
+    }
+
+    :host([variant="box"]) .tabs-pill[aria-selected="true"]:hover {
+      background: var(--sui-color-surface-raised);
+    }
+
+    :host([variant="box"]) .tabs-pill:disabled,
+    :host([variant="box"]) .tabs-pill[aria-disabled="true"] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    :host([variant="box"]) ::slotted([data-tab]) {
+      display: none;
+      margin: 0;
     }
     :host(:not([data-ready])) ::slotted([data-tab]) {
       display: none;
@@ -71,10 +127,12 @@ export class SuiTabs extends LitElement {
   `;
 
   @property({ type: String }) value = "";
+  @property({ type: String }) variant: "pill" | "box" = "pill";
 
   @state() private tabs: TabItem[] = [];
 
   private lastSignature = "";
+  private readonly labelObserver = new MutationObserver(() => this.collectTabs());
 
   private get selectedIndex() {
     return this.tabs.findIndex((tab) => tab.id === this.value);
@@ -82,6 +140,7 @@ export class SuiTabs extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.labelObserver.observe(this, { attributes: true, attributeFilter: ["label"], subtree: true });
     this.collectTabs();
     // Los hijos pueden no estar disponibles durante el parseo inicial del HTML.
     queueMicrotask(() => {
@@ -89,10 +148,22 @@ export class SuiTabs extends LitElement {
     });
   }
 
+  disconnectedCallback() {
+    this.labelObserver.disconnect();
+    super.disconnectedCallback();
+  }
+
   protected willUpdate(changed: PropertyValues) {
     if (!changed.has("value")) return;
-    if (this.tabs.length && !this.tabs.some((tab) => tab.id === this.value)) {
-      this.value = this.tabs[0].id;
+    const enabled = this.tabs.filter((tab) => !tab.disabled);
+    if (!enabled.length) return;
+    const selected = this.tabs.find((tab) => tab.id === this.value);
+    if (!selected || selected.disabled) {
+      this.value = enabled[0].id;
+      return;
+    }
+    if (!this.tabs.some((tab) => tab.id === this.value)) {
+      this.value = enabled[0].id;
     }
   }
 
@@ -108,7 +179,7 @@ export class SuiTabs extends LitElement {
     );
 
     const signature = children
-      .map((el) => `${el.getAttribute("data-tab")}|${el.getAttribute("label")}`)
+      .map((el) => `${el.getAttribute("data-tab")}|${el.getAttribute("label")}|${el.hasAttribute("disabled")}`)
       .join("~");
 
     if (signature === this.lastSignature) {
@@ -123,11 +194,11 @@ export class SuiTabs extends LitElement {
         el.id = `sui-tabpanel-${this.uid}-${index}`;
       }
       el.setAttribute("role", "tabpanel");
-      el.setAttribute("aria-labelledby", `sui-tab-${this.uid}-${index}`);
       return {
         id,
         label: el.getAttribute("label") ?? id,
         panel: el,
+        disabled: el.hasAttribute("disabled"),
       };
     });
 
@@ -145,7 +216,8 @@ export class SuiTabs extends LitElement {
   }
 
   private select(id: string) {
-    if (this.value === id) return;
+    const tab = this.tabs.find((item) => item.id === id);
+    if (!tab || tab.disabled || this.value === id) return;
     this.value = id;
     this.dispatchEvent(
       new CustomEvent("sui-change", { detail: { value: id }, bubbles: true, composed: true })
@@ -157,32 +229,36 @@ export class SuiTabs extends LitElement {
   };
 
   private handleKeydown = (e: KeyboardEvent) => {
-    if (!this.tabs.length) return;
+    const enabledIndices = this.tabs.map((tab, index) => (tab.disabled ? -1 : index)).filter((index) => index >= 0);
+    if (!enabledIndices.length) return;
 
     const current = Math.max(this.selectedIndex, 0);
-    let next = current;
+    const currentPosition = enabledIndices.indexOf(current);
+    const safePosition = currentPosition >= 0 ? currentPosition : 0;
+    let nextPosition = safePosition;
 
     switch (e.key) {
       case "ArrowRight":
-        next = (current + 1) % this.tabs.length;
+        nextPosition = (safePosition + 1) % enabledIndices.length;
         break;
       case "ArrowLeft":
-        next = (current - 1 + this.tabs.length) % this.tabs.length;
+        nextPosition = (safePosition - 1 + enabledIndices.length) % enabledIndices.length;
         break;
       case "Home":
-        next = 0;
+        nextPosition = 0;
         break;
       case "End":
-        next = this.tabs.length - 1;
+        nextPosition = enabledIndices.length - 1;
         break;
       default:
         return;
     }
 
     e.preventDefault();
-    this.select(this.tabs[next].id);
+    const nextIndex = enabledIndices[nextPosition];
+    this.select(this.tabs[nextIndex].id);
     this.updateComplete.then(() => {
-      this.renderRoot.querySelectorAll<HTMLButtonElement>(".tab")[next]?.focus();
+      this.renderRoot.querySelectorAll<HTMLButtonElement>(".tabs-pill")[nextIndex]?.focus();
     });
   };
 
@@ -202,13 +278,14 @@ export class SuiTabs extends LitElement {
           const selected = tab.id === this.value;
           return html`
             <button
-              class="tab"
+              class="tabs-pill"
               type="button"
               role="tab"
               id=${this.tabId(index)}
               aria-selected=${selected ? "true" : "false"}
-              aria-controls=${tab.panel.id}
-              tabindex=${selected ? 0 : -1}
+              aria-disabled=${tab.disabled ? "true" : "false"}
+              ?disabled=${tab.disabled}
+              tabindex=${selected && !tab.disabled ? 0 : -1}
               @click=${() => this.select(tab.id)}
             >${tab.label}</button>
           `;

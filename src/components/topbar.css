@@ -1,0 +1,63 @@
+.ui-topbar {
+  position: sticky;
+  top: var(--sui-space-3);
+  z-index: var(--sui-z-popover);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sui-space-3);
+  padding: var(--sui-space-2) var(--sui-space-2) var(--sui-space-2) var(--sui-space-4);
+  background: var(--sui-color-surface-raised);
+  border: 1px solid var(--sui-color-border);
+  border-radius: var(--sui-radius-xl);
+  box-shadow: var(--sui-shadow-card);
+  backdrop-filter: blur(var(--sui-blur-lg));
+  -webkit-backdrop-filter: blur(var(--sui-blur-lg));
+}
+
+.ui-topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sui-space-2);
+  color: var(--sui-color-text);
+  font-weight: var(--sui-font-weight-semibold);
+  text-decoration: none;
+}
+
+.ui-topbar__mark {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  color: var(--sui-color-primary-contrast);
+  background: var(--sui-gradient-primary);
+  border-radius: var(--sui-radius-md);
+  box-shadow: var(--sui-shadow-sm);
+}
+
+.ui-topbar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sui-space-2);
+}
+
+.ui-topbar--glass {
+  background: var(--sui-color-surface);
+  backdrop-filter: blur(var(--sui-blur-lg));
+  -webkit-backdrop-filter: blur(var(--sui-blur-lg));
+}
+
+@media (max-width: 620px) {
+  .ui-topbar { top: var(--sui-space-1); padding-left: var(--sui-space-2); }
+  .ui-topbar__brand span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

@@ -21,7 +21,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-const shadowTabs = () => Array.from(tabs.shadowRoot!.querySelectorAll<HTMLButtonElement>(".tab"));
+const shadowTabs = () => Array.from(tabs.shadowRoot!.querySelectorAll<HTMLButtonElement>(".tabs-pill"));
 const panels = () => Array.from(tabs.querySelectorAll<HTMLElement>("[data-tab]"));
 
 describe("sui-tabs", () => {
@@ -45,12 +45,16 @@ describe("sui-tabs", () => {
     expect(shadowTabs()[1].tabIndex).toBe(-1);
   });
 
-  it("marca los paneles con roles y relaciones ARIA", () => {
-    const [first] = panels();
+  it("marca los paneles con role tabpanel e ids únicos", () => {
+    const [first, second] = panels();
     expect(first.getAttribute("role")).toBe("tabpanel");
     expect(first.id).toBeTruthy();
-    expect(first.getAttribute("aria-labelledby")).toBe(shadowTabs()[0].id);
-    expect(shadowTabs()[0].getAttribute("aria-controls")).toBe(first.id);
+    expect(second.id).toBeTruthy();
+    expect(first.id).not.toBe(second.id);
+    // Las pestañas viven en shadow DOM: no se pueden crear relaciones ARIA
+    // entre árboles distintos sin generar IDREF inválidos.
+    expect(first.hasAttribute("aria-labelledby")).toBe(false);
+    expect(shadowTabs()[0].hasAttribute("aria-controls")).toBe(false);
   });
 
   it("cambia de panel al hacer click y emite sui-change", async () => {

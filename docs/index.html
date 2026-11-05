@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Simplest UI visual documentation." />
+  <title>Simplest UI · Documentation</title>
+  <script>
+    try {
+      const language = localStorage.getItem("simplest-ui-docs-language") || (navigator.language.toLowerCase().startsWith("es") ? "es" : "en");
+      document.documentElement.lang = language;
+      const choice = localStorage.getItem("simplest-ui-docs-theme") || "system";
+      document.documentElement.dataset.theme = choice === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : choice;
+      document.documentElement.dataset.themeChoice = choice;
+    } catch {}
+  </script>
+  <link rel="stylesheet" href="../src/tokens/index.css" />
+  <link rel="stylesheet" href="../src/styles/index.css" />
+  <link rel="stylesheet" href="./assets/docs.css" />
+  <script type="module" src="../src/index.ts"></script>
+  <script type="module" src="./assets/docs.ts"></script>
+</head>
+<body>
+  <a class="ui-skip-link" href="#content">Skip to content</a>
+  <div id="docs-root"></div>
+</body>
+</html>

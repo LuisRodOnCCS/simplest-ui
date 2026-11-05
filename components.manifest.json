@@ -1,0 +1,54 @@
+{
+  "name": "Simplest UI",
+  "version": "0.1.0",
+  "prefixes": { "customElement": "sui-", "cssClass": "ui-", "token": "--sui-" },
+  "cssEntrypoints": {
+    "tokens": "@luisrodonccs/simplest-ui/tokens.css",
+    "reset": "@luisrodonccs/simplest-ui/reset.css",
+    "base": "@luisrodonccs/simplest-ui/base.css",
+    "components": "@luisrodonccs/simplest-ui/components.css",
+    "all": "@luisrodonccs/simplest-ui/styles.css"
+  },
+  "webComponents": [
+    { "tag": "sui-modal", "documentationId": "modal", "import": "@luisrodonccs/simplest-ui/components/modal", "attributes": ["open", "label", "close-label", "disable-backdrop-close"], "slots": ["title", "default", "footer"], "events": ["sui-open", "sui-close"], "keyboard": ["Escape", "focus trap"] },
+    { "tag": "sui-drawer", "documentationId": "drawer", "import": "@luisrodonccs/simplest-ui/components/drawer", "attributes": ["open", "label", "close-label", "disable-backdrop-close"], "slots": ["title", "default", "footer"], "events": ["sui-open", "sui-close"], "keyboard": ["Escape", "focus trap"] },
+    { "tag": "sui-dropdown", "documentationId": "dropdown", "import": "@luisrodonccs/simplest-ui/components/dropdown", "attributes": ["open"], "slots": ["trigger", "default"], "events": ["sui-open", "sui-close", "sui-toggle", "sui-select"], "keyboard": ["ArrowUp", "ArrowDown", "Home", "End", "Enter", "Space", "Escape", "Tab"] },
+    { "tag": "sui-tabs", "documentationId": "tabs", "import": "@luisrodonccs/simplest-ui/components/tabs", "attributes": ["value"], "slots": ["default"], "events": ["sui-change"], "keyboard": ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"] },
+    { "tag": "sui-accordion", "documentationId": "accordion", "import": "@luisrodonccs/simplest-ui/components/accordion", "attributes": ["multiple"], "slots": ["default"], "events": ["sui-change"], "keyboard": ["ArrowUp", "ArrowDown", "Home", "End"] },
+    { "tag": "sui-popover", "documentationId": "popover", "import": "@luisrodonccs/simplest-ui/components/popover", "attributes": ["open", "label"], "slots": ["trigger", "content"], "events": ["sui-open", "sui-close"], "keyboard": ["ArrowDown", "Enter", "Space", "Escape", "Tab"] },
+    { "tag": "sui-tooltip", "documentationId": "tooltip", "import": "@luisrodonccs/simplest-ui/components/tooltip", "attributes": ["content"], "slots": ["trigger", "content"], "events": [], "keyboard": ["focus"] },
+    { "tag": "sui-toast", "documentationId": "toast", "import": "@luisrodonccs/simplest-ui/components/toast", "attributes": ["title", "message", "variant", "duration"], "slots": ["default"], "events": ["sui-dismiss"], "keyboard": [], "api": ["SuiToast.show({ title, message, variant, duration })"] }
+  ],
+  "cssComponents": [
+    { "name": "button", "documentationId": "button", "classes": ["ui-button", "ui-button--primary", "ui-button--danger", "ui-button--ghost", "ui-button--sm"] },
+    { "name": "input-field", "documentationId": "input-field", "classes": ["ui-field", "ui-label", "ui-help", "ui-error", "ui-input", "ui-input--invalid"] },
+    { "name": "textarea", "documentationId": "textarea", "classes": ["ui-textarea", "ui-textarea--invalid"] },
+    { "name": "select", "documentationId": "select", "classes": ["ui-select", "ui-select--invalid"] },
+    { "name": "checkbox", "documentationId": "checkbox", "classes": ["ui-checkbox", "ui-checkbox--disabled"] },
+    { "name": "radio", "documentationId": "radio", "classes": ["ui-radio", "ui-radio-group"] },
+    { "name": "switch", "documentationId": "switch", "classes": ["ui-switch", "ui-switch__track"] },
+    { "name": "card", "documentationId": "card", "classes": ["ui-card", "ui-card--raised", "ui-card--glass", "ui-card__header", "ui-card__title", "ui-card__body", "ui-card__footer"] },
+    { "name": "badge-chip", "documentationId": "badge-chip", "classes": ["ui-badge", "ui-badge--primary", "ui-badge--success", "ui-badge--warning", "ui-badge--danger", "ui-badge--info", "ui-badge--outline", "ui-chip"] },
+    { "name": "alert", "documentationId": "alert", "classes": ["ui-alert", "ui-alert--success", "ui-alert--warning", "ui-alert--danger", "ui-alert--info"] },
+    { "name": "spinner", "documentationId": "spinner", "classes": ["ui-spinner", "ui-spinner--sm", "ui-spinner--lg"] },
+    { "name": "skeleton", "documentationId": "skeleton", "classes": ["ui-skeleton", "ui-skeleton--text", "ui-skeleton--title", "ui-skeleton--avatar", "ui-skeleton--block"] },
+    { "name": "progress", "documentationId": "progress", "classes": ["ui-progress", "ui-progress__bar", "ui-progress--indeterminate"] },
+    { "name": "table", "documentationId": "table", "classes": ["ui-table-wrap", "ui-table"] },
+    { "name": "avatar", "documentationId": "avatar", "classes": ["ui-avatar", "ui-avatar--sm", "ui-avatar--lg", "ui-avatar-group"] },
+    { "name": "stat", "documentationId": "stat", "classes": ["ui-stat", "ui-stat__label", "ui-stat__value", "ui-stat__hint"] },
+    { "name": "empty-state", "documentationId": "empty-state", "classes": ["ui-empty", "ui-empty__title", "ui-empty__body"] },
+    { "name": "nav", "documentationId": "nav", "classes": ["ui-nav", "ui-nav__item", "ui-nav__item--active", "ui-nav__group-title"] },
+    { "name": "topbar", "documentationId": "topbar", "classes": ["ui-topbar", "ui-topbar__brand", "ui-topbar__mark", "ui-topbar__controls", "ui-topbar--glass"] }
+  ],
+  "layouts": [
+    { "name": "container", "documentationId": "container", "classes": ["ui-container"] },
+    { "name": "stack", "documentationId": "stack", "classes": ["ui-stack"] },
+    { "name": "cluster", "documentationId": "cluster", "classes": ["ui-cluster"] },
+    { "name": "grid", "documentationId": "grid", "classes": ["ui-grid", "ui-grid--auto"] },
+    { "name": "app-shell", "documentationId": "app-shell", "classes": ["ui-app-shell", "ui-app-shell--contained", "ui-app-shell__sidebar", "ui-app-shell__header", "ui-app-shell__main"] },
+    { "name": "skip-link", "documentationId": "skip-link", "classes": ["ui-skip-link"] }
+  ],
+  "pages": [
+    { "name": "dashboard", "documentationId": "dashboard", "path": "docs/pages/dashboard.html" }
+  ]
+}

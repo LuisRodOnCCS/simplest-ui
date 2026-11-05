@@ -15,6 +15,15 @@
   cursor: pointer;
 }
 
+.ui-radio input:disabled {
+  cursor: not-allowed;
+}
+
+.ui-radio--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .ui-radio-group {
   display: flex;
   flex-direction: column;

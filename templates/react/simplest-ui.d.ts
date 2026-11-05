@@ -13,6 +13,12 @@ declare global {
         "close-label"?: string;
         "disable-backdrop-close"?: boolean;
       }>;
+      "sui-drawer": SimplestElement<{
+        open?: boolean;
+        label?: string;
+        "close-label"?: string;
+        "disable-backdrop-close"?: boolean;
+      }>;
       "sui-accordion": SimplestElement<{ multiple?: boolean }>;
       "sui-popover": SimplestElement<{ open?: boolean; label?: string }>;
       "sui-tooltip": SimplestElement<{ content?: string }>;

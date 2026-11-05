@@ -20,10 +20,11 @@
   cursor: pointer;
 }
 
-.ui-button:hover {
+.ui-button:hover,
+.ui-button:focus-visible {
   background: var(--sui-color-surface-muted);
   border-color: var(--sui-color-primary-hover);
-  color: var(--sui-color-primary-hover);
+  color: var(--sui-color-text);
 }
 
 .ui-button:active {
@@ -36,9 +37,10 @@
   border: 0;
 }
 
-.ui-button--primary:hover {
+.ui-button--primary:hover,
+.ui-button--primary:focus-visible {
   filter: brightness(1.05);
-  color: var(--sui-color-primary-hover);
+  color: var(--sui-color-text);
   border: 1px solid transparent;
   background-image: linear-gradient(var(--sui-color-surface-raised), var(--sui-color-surface-raised)),
                     var(--sui-gradient-primary);

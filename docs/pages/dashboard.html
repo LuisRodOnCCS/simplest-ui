@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simplest UI · Dashboard</title>
+  <script>
+    try {
+      const language = localStorage.getItem("simplest-ui-docs-language") || (navigator.language.toLowerCase().startsWith("es") ? "es" : "en");
+      document.documentElement.lang = language;
+      const choice = localStorage.getItem("simplest-ui-docs-theme") || "system";
+      document.documentElement.dataset.theme = choice === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : choice;
+      document.documentElement.dataset.themeChoice = choice;
+    } catch {}
+  </script>
+  <link rel="stylesheet" href="../../src/tokens/index.css" />
+  <link rel="stylesheet" href="../../src/styles/index.css" />
+  <link rel="stylesheet" href="../assets/docs.css" />
+  <script type="module" src="../../src/index.ts"></script>
+  <script type="module" src="../assets/dashboard.ts"></script>
+</head>
+<body>
+  <a class="ui-skip-link" href="#main-content" data-i18n="skip">Skip to content</a>
+  <div class="docs-page-bar"><a class="docs-brand" href="../index.html"><span class="docs-mark" aria-hidden="true">S</span><span>Simplest UI</span></a><div class="docs-controls"><sui-tabs variant="box" value="en" id="dashboard-language-tabs" aria-label="Language"><span data-tab="en" label="EN"></span><span data-tab="es" label="ES"></span></sui-tabs><sui-tabs variant="box" value="system" id="dashboard-theme-tabs" aria-label="Theme"><span data-tab="system" label="System" data-i18n-label="system"></span><span data-tab="light" label="Light" data-i18n-label="light"></span><span data-tab="dark" label="Dark" data-i18n-label="dark"></span></sui-tabs></div></div>
+  <div class="ui-app-shell docs-dashboard">
+    <aside class="ui-app-shell__sidebar"><div class="ui-app-shell__brand">Acme <span class="ui-badge ui-badge--primary">Preview</span></div><div class="ui-nav__group-title" data-i18n="workspace">Workspace</div><nav class="ui-nav" aria-label="Workspace"><a href="#dashboard" class="ui-nav__item ui-nav__item--active" aria-current="page" data-i18n="dashboard">Dashboard</a><a href="#projects" class="ui-nav__item" data-i18n="projects">Projects</a><a href="#team" class="ui-nav__item" data-i18n="team">Team</a></nav><div class="ui-nav__group-title" data-i18n="account">Account</div><nav class="ui-nav" aria-label="Account"><a href="#settings" class="ui-nav__item" data-i18n="settings">Settings</a></nav></aside>
+    <div class="ui-app-shell__content"><header class="ui-app-shell__header"><span class="ui-app-shell__title" data-i18n="dashboard">Dashboard</span><div class="ui-cluster"><div class="ui-avatar-group"><span class="ui-avatar ui-avatar--sm">AG</span><span class="ui-avatar ui-avatar--sm">CR</span></div><sui-dropdown><span slot="trigger" data-i18n="actions">Actions</span><button type="button" data-value="export" data-i18n="export">Export</button><button type="button" data-value="archive" data-i18n="archive">Archive</button></sui-dropdown><button class="ui-button ui-button--primary ui-button--sm" type="button" data-i18n="new-project">New project</button></div></header>
+      <main class="ui-app-shell__main" id="main-content" tabindex="-1"><div class="ui-grid ui-grid--auto"><div class="ui-stat"><div class="ui-stat__label" data-i18n="projects">Projects</div><div class="ui-stat__value">12</div><div class="ui-stat__hint" data-i18n="projects-hint">+2 this month</div></div><div class="ui-stat"><div class="ui-stat__label" data-i18n="tasks">Tasks</div><div class="ui-stat__value">48</div><div class="ui-stat__hint" data-i18n="tasks-hint">8 pending</div></div><div class="ui-stat"><div class="ui-stat__label" data-i18n="team">Team</div><div class="ui-stat__value">6</div><div class="ui-stat__hint" data-i18n="team-hint">All online</div></div></div>
+      <div class="ui-grid ui-grid--auto"><article class="ui-card"><div class="ui-card__header"><div class="ui-card__title" data-i18n="project-summary">Project summary</div></div><sui-tabs><div data-tab="overview" label="Overview" data-i18n-label="overview" data-i18n="overview-copy">The project is on track for this sprint.</div><div data-tab="activity" label="Activity" data-i18n-label="activity" data-i18n="activity-copy">Four updates were published today.</div></sui-tabs></article><article class="ui-card ui-card--glass"><div class="ui-card__title" data-i18n="recent-team">Recent team</div><div class="ui-cluster" style="margin-top:var(--sui-space-3)"><span class="ui-avatar">AL</span><span class="ui-avatar">MR</span><span class="ui-avatar">JP</span></div></article></div>
+      <article class="ui-card"><div class="ui-card__header"><div class="ui-card__title" data-i18n="recent-projects">Recent projects</div></div><div class="ui-table-wrap" role="region" aria-label="Recent projects" tabindex="0"><table class="ui-table"><thead><tr><th data-i18n="project">Project</th><th data-i18n="owner">Owner</th><th data-i18n="status">Status</th></tr></thead><tbody><tr><td>Orion</td><td>Ana García</td><td><span class="ui-badge ui-badge--success" data-i18n="active">Active</span></td></tr><tr><td>Atlas</td><td>Carlos Ruiz</td><td><span class="ui-badge ui-badge--warning" data-i18n="pending">Pending</span></td></tr></tbody></table></div></article></main></div>
+  </div>
+</body>
+</html>

@@ -1,3 +1,19 @@
+.ui-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border-radius: var(--sui-radius-lg);
+}
+
+.ui-table-wrap:focus-visible {
+  outline: none;
+  box-shadow: var(--sui-focus-ring);
+}
+
+.ui-table-wrap .ui-table {
+  min-width: var(--sui-table-min-width, 36rem);
+}
+
 .ui-table {
   width: 100%;
   border-collapse: collapse;

@@ -37,6 +37,8 @@ export function collectFocusable(root: ParentNode): HTMLElement[] {
     }
   };
 
+  const host = root as HTMLElement;
+  if (host.shadowRoot) visit(host.shadowRoot);
   visit(root);
   return out;
 }

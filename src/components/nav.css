@@ -33,8 +33,16 @@
   font-weight: var(--sui-font-weight-medium);
 }
 
-.ui-nav__item--active:hover {
-  color: var(--sui-color-primary-hover);
+.ui-nav__item[aria-disabled="true"],
+.ui-nav__item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ui-nav__item--active:hover,
+.ui-nav__item--active:focus-visible {
+  color: var(--sui-color-text);
   border: 1px solid transparent;
   background-image: linear-gradient(var(--sui-color-surface-raised), var(--sui-color-surface-raised)),
                     var(--sui-gradient-primary);

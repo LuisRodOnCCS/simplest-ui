@@ -1,4 +1,9 @@
 node_modules/
 dist/
+dist-docs/
 .env
 .agents/
+test-results/
+playwright-report/
+tests/fixtures/laravel/dist/
+tests/fixtures/ssr/dist/

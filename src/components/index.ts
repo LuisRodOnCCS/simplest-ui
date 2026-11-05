@@ -1,4 +1,5 @@
 import "./modal";
+import "./drawer";
 import "./dropdown";
 import "./tabs";
 import "./accordion";
@@ -7,6 +8,7 @@ import "./tooltip";
 import "./toast";
 
 export { SuiModal } from "./modal";
+export { SuiDrawer } from "./drawer";
 export { SuiDropdown } from "./dropdown";
 export { SuiTabs } from "./tabs";
 export { SuiAccordion } from "./accordion";

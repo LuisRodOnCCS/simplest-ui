@@ -93,7 +93,7 @@ export class SuiModal extends LitElement {
   @property({ type: String }) label = "";
 
   /** Accessible label for the dialog's close button. */
-  @property({ type: String, attribute: "close-label" }) closeLabel = "Cerrar";
+  @property({ type: String, attribute: "close-label" }) closeLabel = "Close";
 
   /** Set to true to keep the modal open when the backdrop is clicked. */
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;

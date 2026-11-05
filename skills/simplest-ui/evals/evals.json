@@ -1,0 +1,23 @@
+{
+  "skill_name": "simplest-ui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a billing summary card with amount, status, and a secondary action to the account view. The project already uses Simplest UI.",
+      "expected_output": "The agent composes semantic HTML with ui-card, ui-badge, and ui-button, uses existing tokens or classes, and does not create a sui-card.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need a button that shows export actions, and the menu must work with a keyboard in this Simplest UI application.",
+      "expected_output": "The agent chooses sui-dropdown, imports the correct behavior entrypoint, and does not recreate ARIA or keyboard navigation manually.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Create a reusable date-range picker with a popup calendar for Simplest UI.",
+      "expected_output": "The agent recognizes that no date picker exists, justifies the extension, and proposes or implements a component respecting tokens, accessibility, tests, manifest, and catalog.",
+      "files": []
+    }
+  ]
+}

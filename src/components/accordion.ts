@@ -48,7 +48,7 @@ export class SuiAccordion extends HTMLElement {
   private get triggers(): HTMLButtonElement[] {
     return this.items
       .map((item) => item.querySelector<HTMLButtonElement>(TRIGGER_SELECTOR))
-      .filter((trigger): trigger is HTMLButtonElement => Boolean(trigger));
+      .filter((trigger): trigger is HTMLButtonElement => Boolean(trigger) && !(trigger as HTMLButtonElement).disabled);
   }
 
   private upgradeItems() {
@@ -66,7 +66,11 @@ export class SuiAccordion extends HTMLElement {
       trigger.setAttribute("aria-controls", panel.id);
       panel.setAttribute("role", "region");
       panel.setAttribute("aria-labelledby", trigger.id);
-      this.setItemOpen(item, item.classList.contains("open"), false);
+      const disabled = item.hasAttribute("disabled") || trigger.disabled;
+      trigger.disabled = disabled;
+      if (disabled) trigger.setAttribute("aria-disabled", "true");
+      else trigger.removeAttribute("aria-disabled");
+      this.setItemOpen(item, item.classList.contains("open") && !disabled, false);
     });
 
     this.ensureSingleOpen();
@@ -104,6 +108,9 @@ export class SuiAccordion extends HTMLElement {
   }
 
   private toggle(item: HTMLElement) {
+    if (item.hasAttribute("disabled")) return;
+    const trigger = item.querySelector<HTMLButtonElement>(TRIGGER_SELECTOR);
+    if (trigger?.disabled) return;
     const willOpen = !item.classList.contains("open");
     if (willOpen && !this.multiple) {
       this.items.forEach((entry) => {
@@ -114,9 +121,10 @@ export class SuiAccordion extends HTMLElement {
   }
 
   private handleClick = (event: MouseEvent) => {
-    const trigger = (event.target as HTMLElement).closest(TRIGGER_SELECTOR);
-    if (!trigger || !this.contains(trigger)) return;
+    const trigger = (event.target as HTMLElement).closest(TRIGGER_SELECTOR) as HTMLButtonElement | null;
+    if (!trigger || !this.contains(trigger) || trigger.disabled) return;
     const item = trigger.closest<HTMLElement>(ITEM_SELECTOR);
+    if (item?.hasAttribute("disabled")) return;
     if (item) this.toggle(item);
   };
 

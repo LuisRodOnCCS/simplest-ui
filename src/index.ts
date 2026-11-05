@@ -1,6 +1,7 @@
 import "./components/index";
 
 export { SuiModal } from "./components/modal";
+export { SuiDrawer } from "./components/drawer";
 export { SuiDropdown } from "./components/dropdown";
 export { SuiTabs } from "./components/tabs";
 export { SuiAccordion } from "./components/accordion";

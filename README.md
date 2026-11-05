@@ -1,229 +1,163 @@
 # Simplest UI
 
-Design system framework-agnostic: tokens CSS, layouts y Web Components. Funciona igual en HTML plano, React, Vue, Laravel o cualquier stack que renderice HTML.
+Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-## Instalación
+> `v0.1.0` is the next public release. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+
+Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
+
+## Install
 
 ```bash
 npm install @luisrodonccs/simplest-ui
 ```
 
-## Uso rápido
-
-Con bundler:
-
-```js
+```ts
 import "@luisrodonccs/simplest-ui/tokens.css";
 import "@luisrodonccs/simplest-ui/styles.css";
 import "@luisrodonccs/simplest-ui/components.js";
-
-import { SuiTabs } from "@luisrodonccs/simplest-ui";
-console.log(SuiTabs); // clases disponibles si necesitas referenciarlas
-
-// Import granular: registra únicamente ese Web Component.
-import "@luisrodonccs/simplest-ui/components/dropdown";
 ```
 
-Sin bundler:
+For one interactive element only:
+
+```ts
+import "@luisrodonccs/simplest-ui/components/drawer";
+```
+
+## CSS entrypoints
+
+| Entrypoint | Purpose |
+| --- | --- |
+| `tokens.css` | Color, spacing, typography, radius, shadow, motion, and effect tokens. |
+| `reset.css` | Optional global reset. |
+| `base.css` | Base typography, utilities, and layouts. |
+| `components.css` | Component classes without a global reset. |
+| `styles.css` | Complete bundle ordered in `sui.reset`, `sui.base`, and `sui.components` layers. |
+
+Every CSS component is also available as an individual import. Import `tokens.css` first; add `base.css` only when you need its typography, utilities, or layouts.
+
+```ts
+import "@luisrodonccs/simplest-ui/tokens.css";
+import "@luisrodonccs/simplest-ui/components/button.css";
+import "@luisrodonccs/simplest-ui/components/card.css";
+```
+
+This is suitable for vanilla applications and Laravel Blade projects built with Vite. The package uses `ui-` CSS classes, `sui-` custom-element names, and `--sui-` tokens.
+
+## CSS components
+
+Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress indicators, form controls, and layouts are CSS components rather than custom elements.
 
 ```html
-<link rel="stylesheet" href="node_modules/@luisrodonccs/simplest-ui/dist/tokens.css" />
-<link rel="stylesheet" href="node_modules/@luisrodonccs/simplest-ui/dist/styles.css" />
-<script type="module" src="node_modules/@luisrodonccs/simplest-ui/dist/components.js"></script>
+<article class="ui-card ui-card--glass">
+  <h2 class="ui-card__title">Project summary</h2>
+  <p class="ui-card__body">A semantic card component.</p>
+</article>
+
+<div class="ui-table-wrap" role="region" aria-label="Users" tabindex="0">
+  <table class="ui-table">...</table>
+</div>
 ```
 
-- `tokens.css`: variables de color, espaciado, tipografía, radios, sombras, motion y efectos.
-- `styles.css`: reset, utilidades de layout y todos los componentes CSS (no incluye tokens).
-- `components.js`: registra todos los Web Components. También se puede importar cada uno desde `@luisrodonccs/simplest-ui/components/<nombre>`.
+## Web Components
 
-## Personalización
+| Element | Import | Highlights |
+| --- | --- | --- |
+| `<sui-modal>` | `components/modal` | Focus trap, scroll lock, Escape, focus restoration. |
+| `<sui-drawer>` | `components/drawer` | Accessible modal side panel. |
+| `<sui-dropdown>` | `components/dropdown` | Action menu and keyboard navigation. |
+| `<sui-tabs>` | `components/tabs` | Arrow-key tab navigation. |
+| `<sui-accordion>` | `components/accordion` | Single or multiple disclosure panels. |
+| `<sui-popover>` | `components/popover` | Contextual dialog and viewport placement. |
+| `<sui-tooltip>` | `components/tooltip` | Automatic `aria-describedby`. |
+| `<sui-toast>` | `components/toast` | Live announcements and `SuiToast.show()`. |
 
-Los componentes consumen tokens, así que sobrescribirlos cambia el sistema completo:
+```html
+<sui-drawer label="Filters" close-label="Close filters">
+  <span slot="title">Filters</span>
+  <p>Adjust the current result set.</p>
+  <div slot="footer"><button class="ui-button" type="button">Apply</button></div>
+</sui-drawer>
+```
+
+Interactive components expose `sui-*` custom events and include keyboard behavior, ARIA relationships, visible focus, and reduced-motion support.
+
+## Theme
+
+Override semantic tokens to adapt the full system:
 
 ```css
 :root {
   --sui-color-primary: #7c3aed;
-  --sui-color-secondary: #db2777;
   --sui-radius-lg: 0.75rem;
-  --sui-sidebar-width: 240px;
-  --sui-shadow-card: 0 8px 30px rgba(124, 58, 237, 0.12);
 }
 ```
 
-Tema oscuro:
+Use `<html data-theme="dark">` to apply the built-in dark token mapping.
 
-```html
-<html data-theme="dark">
-```
+## Support
 
-Los tokens semánticos (`--sui-color-surface`, `--sui-color-text`, `--sui-color-border`, sombras, gradientes) se redefinen en `[data-theme="dark"]`.
+| Area | Support |
+| --- | --- |
+| Browsers | Chrome, Edge, Firefox, and Safari, last two versions; current Chrome Android and Safari iOS. |
+| Environments | Vanilla HTML/JavaScript and Laravel Blade with Vite. |
+| Rendering | CSS during SSR; Web Components in the client bundle. |
+| Accessibility | WCAG 2.2 AA target; no `critical` or `serious` Axe violations. |
 
-## Layout
+React, Vue, Bootstrap, and Tailwind integration are not validated for `0.1.0`. See [SUPPORT.md](./SUPPORT.md) for the complete policy, including SSR and known limitations.
 
-```html
-<div class="ui-app-shell">
-  <aside class="ui-app-shell__sidebar">
-    <div class="ui-app-shell__brand">Mi App</div>
-    <div class="ui-nav__group-title">Espacio de trabajo</div>
-    <nav class="ui-nav" aria-label="Navegación principal">
-      <a href="#" class="ui-nav__item ui-nav__item--active">Dashboard</a>
-      <a href="#" class="ui-nav__item">Proyectos</a>
-    </nav>
-  </aside>
-  <div class="ui-app-shell__content">
-    <header class="ui-app-shell__header">
-      <span class="ui-app-shell__title">Panel principal</span>
-    </header>
-    <main class="ui-app-shell__main">...</main>
-  </div>
-</div>
-```
+## Documentation
 
-`ui-app-shell` ocupa la página completa. Para una vista previa contenida añade `ui-app-shell--contained`.
-
-Utilidades: `.ui-container`, `.ui-stack`, `.ui-cluster`, `.ui-grid`, `.ui-grid--auto`, `.ui-skip-link`.
-
-## Componentes
-
-- Acciones: `.ui-button`, `.ui-button--primary`, `.ui-button--danger`, `.ui-button--ghost`, `.ui-button--sm`
-- Formularios: `.ui-field`, `.ui-label`, `.ui-help`, `.ui-error`, `.ui-input`, `.ui-textarea`, `.ui-select`, `.ui-checkbox`, `.ui-radio`, `.ui-radio-group`, `.ui-switch`
-- Datos: `.ui-card`, `.ui-card--raised`, `.ui-card--glass`, `.ui-badge`, `.ui-chip`, `.ui-table`, `.ui-avatar`, `.ui-avatar-group`, `.ui-stat`, `.ui-empty`
-- Feedback: `.ui-alert`, `.ui-toast`, `.ui-spinner`, `.ui-skeleton`, `.ui-progress`
-- Navegación: `.ui-nav`, `.ui-tooltip`, `.ui-popover`, `.ui-accordion`, `.ui-drawer`
-
-## Web Components
-
-### Tabs
-
-```html
-<sui-tabs>
-  <div data-tab="general" label="General">Contenido general</div>
-  <div data-tab="security" label="Seguridad">Contenido de seguridad</div>
-</sui-tabs>
-```
-
-Cada hijo con `data-tab` es un panel; `label` es el texto de la pestaña. Soporta `value`, navegación con flechas/Home/End y emite `sui-change` con `{ value }`.
-
-### Dropdown
-
-```html
-<sui-dropdown>
-  <span slot="trigger">Acciones</span>
-  <button type="button" data-value="export">Exportar</button>
-  <button type="button" data-value="archive">Archivar</button>
-</sui-dropdown>
-```
-
-- `open` refleja el estado y `aria-expanded` se actualiza solo.
-- Abre con click, `ArrowDown`, `ArrowUp`, `Enter` o `Space`; navega con flechas/Home/End; cierra con `Escape` o `Tab`.
-- Los items reciben `role="menuitem"` y `tabindex="-1"` automáticamente.
-- Eventos: `sui-open`, `sui-close`, `sui-toggle` (`{ open }`) y `sui-select` (`{ value }`).
-- Personalización: `--sui-dropdown-min-width`, `--sui-dropdown-max-height`.
-
-### Modal
-
-```html
-<sui-modal>
-  <span slot="title">Confirmación</span>
-  <p>¿Deseas continuar?</p>
-  <div slot="footer">
-    <button class="ui-button" type="button">Cancelar</button>
-    <button class="ui-button ui-button--primary" type="button">Confirmar</button>
-  </div>
-</sui-modal>
-```
-
-- `open` abre/cierra; `label` da nombre accesible si no hay título; `close-label` personaliza la etiqueta del botón de cierre.
-- `disable-backdrop-close` evita cerrar al pulsar el fondo.
-- Atrapa el foco, lo restaura al cerrar, bloquea el scroll del body y cierra con `Escape`.
-- Eventos: `sui-open` y `sui-close`.
-- Personalización: `--sui-modal-width`.
-
-### Accordion
-
-```html
-<sui-accordion>
-  <div class="ui-accordion__item open" id="details">
-    <button class="ui-accordion__trigger" type="button">Detalles</button>
-    <div class="ui-accordion__content">Contenido inicial.</div>
-  </div>
-  <div class="ui-accordion__item" id="history">
-    <button class="ui-accordion__trigger" type="button">Historial</button>
-    <div class="ui-accordion__content">Contenido adicional.</div>
-  </div>
-</sui-accordion>
-```
-
-Normaliza los roles y relaciones ARIA, admite flechas/Home/End y emite `sui-change`. Por defecto solo queda una sección abierta; añade `multiple` para permitir varias.
-
-### Popover y tooltip
-
-```html
-<sui-popover label="Acciones">
-  <button slot="trigger" type="button">Acciones</button>
-  <div slot="content"><button type="button">Editar</button></div>
-</sui-popover>
-
-<sui-tooltip content="Más información">Ayuda</sui-tooltip>
-```
-
-El popover actualiza ARIA, cierra por `Escape` o click fuera y se recoloca dentro del viewport. El tooltip crea su relación `aria-describedby` y se mantiene visible con hover o foco.
-
-### Toasts
-
-```js
-import { SuiToast } from "@luisrodonccs/simplest-ui";
-
-SuiToast.show({
-  title: "Cambios guardados",
-  message: "La operación se completó correctamente.",
-  variant: "success",
-  duration: 3200,
-});
-```
-
-También puedes usar `<sui-toast title="..." message="..." variant="success">`. Los toasts se anuncian con `aria-live` y emiten `sui-dismiss` al cerrarse.
-
-## Accesibilidad
-
-```html
-<a class="ui-skip-link" href="#main-content">Saltar al contenido</a>
-<main id="main-content" tabindex="-1">...</main>
-```
-
-- Tokens de contraste revisados para texto normal (AA) en modo claro y oscuro.
-- Foco visible global con `--sui-focus-ring`; los componentes interactivos respetan `prefers-reduced-motion`.
-- Los Web Components exponen roles, estados y relaciones ARIA, y navegación por teclado.
-
-## Plantillas
-
-- `templates/vanilla/index.html`
-- `templates/react/App.tsx`
-- `templates/laravel/layout.blade.php`
-
-Las tres comparten la misma estructura de app-shell, navegación y componentes.
-
-`templates/react/simplest-ui.d.ts` declara las etiquetas `sui-*` para que TypeScript las acepte en JSX.
-
-## Desarrollo
+The visual documentation lives in `docs/` and supports English and Spanish. It covers every public CSS component, Web Component, layout, token category, and example page.
 
 ```bash
-npm install
-npm run dev        # demo en examples/vanilla
-npm run build      # dist + declaraciones .d.ts
+npm run docs:dev
+npm run docs:build
+```
+
+The Dashboard page is available at `docs/pages/dashboard.html` while running the documentation server.
+
+## Agent skill
+
+`skills/simplest-ui` is a versioned Agent Skill. It guides agents to inspect `components.manifest.json`, reuse existing primitives first, and only extend the system when composition is insufficient. It is included in the npm package but is not activated automatically. See the [installation guide](./skills/simplest-ui/INSTALL.md) for OpenCode, Claude Code, and other Agent Skills clients.
+
+## Testing
+
+Unit and component tests use Vitest:
+
+```bash
+npm test
+```
+
+End-to-end tests use Playwright and Axe across Chromium, Firefox, and WebKit. They cover documentation navigation, component keyboard and focus behavior, the 320px responsive floor, Axe audits in light and dark themes, and the vanilla and Laravel/Vite consumer fixtures.
+
+```bash
+npm run test:e2e:install   # first run only
+npm run test:e2e
+```
+
+`npm run test:e2e` builds the package before starting the suite. Tests fail on any `critical` or `serious` Axe violation.
+
+Visual regression tests compare documentation and dashboard screenshots in light and dark themes at desktop and 320px widths. Baselines are stored with the `-win32` suffix and generated on Windows to match the dedicated CI job.
+
+```bash
+npm run test:visual
+npm run test:visual:update   # after an intentional visual change
+```
+
+## Development
+
+```bash
 npm run typecheck
-npm test           # Vitest + happy-dom
-```
-
-`npm run build` genera `dist/` con `tokens.css`, `styles.css`, `components.js`, `index.js`, entradas granulares por Web Component y sus `.d.ts`.
-
-GitHub Actions ejecuta typecheck, tests, build y `npm pack --dry-run` en cada pull request y push a `main`.
-
-## Publicación
-
-```bash
+npm test
 npm run build
-npm publish
+npm run test:consumer
+npm run docs:build
+npm pack --dry-run
 ```
 
-`prepublishOnly` ejecuta typecheck, tests y build antes de publicar.
+`npm run build` validates every package export. `npm run test:consumer` bundles the Laravel/Vite and SSR fixtures. `npm run docs:build` verifies that every manifest entry has a visual documentation entry. CI runs these checks plus the Playwright suite.
+
+## Contributing
+
+Read [CONTRIBUTING.md](./CONTRIBUTING.md). Contributions must preserve the token system, prefixes, semantic HTML, accessibility, tests, manifest coverage, and visual documentation.

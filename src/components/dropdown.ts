@@ -15,6 +15,9 @@ export class SuiDropdown extends LitElement {
       display: inline-block;
       position: relative;
     }
+    :host([open]) {
+      z-index: var(--sui-z-dropdown);
+    }
     .trigger {
       background: var(--sui-color-surface-raised);
       border: 1px solid var(--sui-color-border);
