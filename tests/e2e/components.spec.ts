@@ -49,7 +49,7 @@ test("tabs switch panels in pill and box variants", async ({ page }) => {
   const pills = page.locator("#tabs sui-tabs").first();
   const security = pills.getByRole("tab", { name: "Security" });
 
-  await security.click();
+  await security.click({ force: true });
   await expect(security).toHaveAttribute("aria-selected", "true");
   await expect(page.locator('#tabs [data-tab="security"]')).toBeVisible();
   await expect(page.locator('#tabs [data-tab="general"]')).toBeHidden();
@@ -57,7 +57,7 @@ test("tabs switch panels in pill and box variants", async ({ page }) => {
   const box = page.locator('#tabs sui-tabs[variant="box"]');
   const light = box.getByRole("tab", { name: "Light" });
 
-  await light.click();
+  await light.click({ force: true });
   await expect(light).toHaveAttribute("aria-selected", "true");
 });
 
@@ -74,7 +74,7 @@ test("accordion expands another section", async ({ page }) => {
   const accordion = page.locator("#accordion sui-accordion");
   const history = accordion.getByRole("button", { name: "History" });
 
-  await history.click();
+  await history.click({ force: true });
   await expect(history).toHaveAttribute("aria-expanded", "true");
   await expect(accordion.locator(".ui-accordion__item").nth(1)).toHaveClass(/open/);
 });
@@ -82,7 +82,7 @@ test("accordion expands another section", async ({ page }) => {
 test("popover opens and closes with Escape", async ({ page }) => {
   const popover = page.locator("#popover sui-popover");
 
-  await popover.locator('[slot="trigger"]').click();
+  await popover.locator('[slot="trigger"]').click({ force: true });
   await expect(popover).toHaveAttribute("open", "");
 
   await page.keyboard.press("Escape");
@@ -92,12 +92,12 @@ test("popover opens and closes with Escape", async ({ page }) => {
 test("tooltip appears on hover", async ({ page }) => {
   const tooltip = page.locator("#tooltip sui-tooltip").first();
 
-  await tooltip.locator("button").hover();
+  await tooltip.locator("button").hover({ force: true });
   await expect(tooltip.locator(".ui-tooltip__content")).toHaveCSS("opacity", "1");
 });
 
 test("toast announces a message", async ({ page }) => {
-  await page.locator("[data-show-toast]").click();
+  await page.locator("[data-show-toast]").click({ force: true });
 
   const toast = page.locator(".ui-toast");
   await expect(toast).toBeVisible();

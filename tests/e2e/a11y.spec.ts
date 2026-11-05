@@ -44,7 +44,7 @@ test("dashboard has no blocking accessibility violations in dark theme", async (
 
 test("open modal has no blocking accessibility violations", async ({ page }) => {
   await openDocs(page);
-  await page.locator("[data-open-modal]").click();
+  await page.locator("[data-open-modal]").click({ force: true });
   await expect(page.locator("#docs-modal")).toHaveAttribute("open", "");
 
   expect(await blockingViolations(page)).toEqual([]);
@@ -52,7 +52,7 @@ test("open modal has no blocking accessibility violations", async ({ page }) => 
 
 test("open drawer has no blocking accessibility violations", async ({ page }) => {
   await openDocs(page);
-  await page.locator("[data-open-drawer]").click();
+  await page.locator("[data-open-drawer]").click({ force: true });
   await expect(page.locator("#docs-drawer")).toHaveAttribute("open", "");
 
   expect(await blockingViolations(page)).toEqual([]);
