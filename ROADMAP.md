@@ -1,6 +1,6 @@
 # Roadmap
 
-`v0.1.0-rc.1` is the audited P0–P2 baseline. This roadmap records planned work; it does not describe released features until they appear in the changelog.
+`v0.1.0` is the next public release. This roadmap records work planned beyond that release; released features are recorded in the changelog.
 
 ## P3 — Documentation and interoperability
 
@@ -27,7 +27,8 @@
 - [x] Run automated Axe accessibility audits.
 - [x] Add visual regression coverage for components and themes.
 - [x] Document browser support and SSR guidance.
-- [ ] Define versioning policy and publish `v0.1.0`.
+- [x] Define the versioning policy.
+- [ ] Publish `v0.1.0`.
 - [ ] Deploy visual documentation through GitHub Pages.
 
 ## `v1.0.0` criteria

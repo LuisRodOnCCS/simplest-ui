@@ -4,6 +4,8 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-05
+
 ### Added
 
 - Bilingual visual documentation with full component, layout, token, and page coverage.
