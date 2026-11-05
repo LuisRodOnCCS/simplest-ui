@@ -21,3 +21,7 @@
 ## Pull requests
 
 Work from `dev` in a `feat/*`, `fix/*`, or `docs/*` branch. Changes land in `dev` before a verified release is promoted to `main`.
+
+## Releases
+
+Follow the [versioning and release policy](./VERSIONING.md). Keep release notes under `[Unreleased]` until the release is intentionally cut.

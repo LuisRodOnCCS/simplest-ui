@@ -2,7 +2,7 @@
 
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> `v0.1.0-rc.1` is the audited baseline. See [ROADMAP.md](./ROADMAP.md) for planned work and [CHANGELOG.md](./CHANGELOG.md) for release history.
+> `v0.1.0-rc.1` is the audited baseline. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
 
 ## Install
 
