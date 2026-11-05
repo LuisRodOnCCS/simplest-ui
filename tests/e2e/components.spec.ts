@@ -91,8 +91,12 @@ test("popover opens and closes with Escape", async ({ page }) => {
 
 test("tooltip appears on hover", async ({ page }) => {
   const tooltip = page.locator("#tooltip sui-tooltip").first();
+  const trigger = tooltip.locator("button");
 
-  await tooltip.locator("button").hover({ force: true });
+  await trigger.scrollIntoViewIfNeeded();
+  const box = await trigger.boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
   await expect(tooltip.locator(".ui-tooltip__content")).toHaveCSS("opacity", "1");
 });
 
