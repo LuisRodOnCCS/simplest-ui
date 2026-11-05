@@ -23,11 +23,10 @@
 
 ## P5 — Release quality
 
-- [ ] Add E2E coverage in Chromium, Firefox, and WebKit.
-- [ ] Run automated Axe accessibility audits.
-- [ ] Add visual regression coverage for components and themes.
+- [x] Add E2E coverage in Chromium, Firefox, and WebKit.
+- [x] Run automated Axe accessibility audits.
+- [x] Add visual regression coverage for components and themes.
 - [x] Document browser support and SSR guidance.
-- [ ] Publish React/Vue integration guidance.
 - [ ] Define versioning policy and publish `v0.1.0`.
 - [ ] Deploy visual documentation through GitHub Pages.
 

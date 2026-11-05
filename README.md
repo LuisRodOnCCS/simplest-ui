@@ -136,6 +136,13 @@ npm run test:e2e
 
 `npm run test:e2e` builds the package before starting the suite. Tests fail on any `critical` or `serious` Axe violation.
 
+Visual regression tests compare documentation and dashboard screenshots in light and dark themes at desktop and 320px widths. Baselines are stored with the `-win32` suffix and generated on Windows to match the dedicated CI job.
+
+```bash
+npm run test:visual
+npm run test:visual:update   # after an intentional visual change
+```
+
 ## Development
 
 ```bash

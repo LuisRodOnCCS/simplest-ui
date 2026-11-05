@@ -93,6 +93,8 @@
     "test:e2e": "npm run build && playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install chromium firefox webkit",
+    "test:visual": "playwright test --project=visual",
+    "test:visual:update": "playwright test --project=visual --update-snapshots",
     "test:consumer": "vite build --config tests/fixtures/laravel/vite.config.ts && vite build --config tests/fixtures/ssr/vite.config.ts",
     "docs:serve": "vite --config vite.docs.config.ts --host 127.0.0.1 --port 5173",
     "docs:dev": "vite --config vite.docs.config.ts --open /docs/",

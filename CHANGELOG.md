@@ -12,6 +12,7 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 - Documentation coverage verification in CI.
 - Published support policy covering browsers, environments, SSR, accessibility targets, and known limitations.
 - Playwright and Axe end-to-end suite for Chromium, Firefox, and WebKit, including keyboard, focus, 320px responsive, and light/dark accessibility checks.
+- Playwright visual regression coverage for documentation and dashboard surfaces in light and dark themes at desktop and 320px widths.
 
 ### Changed
 
