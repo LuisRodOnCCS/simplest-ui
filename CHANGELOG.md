@@ -4,13 +4,6 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
-### Added
-
-- Generated documentation navigation and agent catalog reference from `components.manifest.json`.
-- Agent skill installation guidance for OpenCode, Claude Code, and compatible Agent Skills clients.
-- Bilingual visual documentation for the official Simplest UI agent skill.
-- Evaluated the agent skill against real composition, reuse, and extension prompts in OpenCode.
-
 ## [0.1.0] - 2026-11-05
 
 ### Added
@@ -22,6 +15,11 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 - Published support policy covering browsers, environments, SSR, accessibility targets, and known limitations.
 - Playwright and Axe end-to-end suite for Chromium, Firefox, and WebKit, including keyboard, focus, 320px responsive, and light/dark accessibility checks.
 - Playwright visual regression coverage for documentation and dashboard surfaces in light and dark themes at desktop and 320px widths.
+- Generated documentation navigation and agent catalog reference from `components.manifest.json`.
+- Agent skill installation guidance for OpenCode, Claude Code, and compatible Agent Skills clients.
+- Bilingual visual documentation for the official Simplest UI agent skill.
+- Evaluated the agent skill against real composition, reuse, and extension prompts in OpenCode.
+- GitHub Pages deployment workflow with a GitHub Pages-aware Vite base and root documentation redirect.
 
 ### Changed
 
