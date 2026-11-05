@@ -7,7 +7,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  // WebKit becomes unreliable on GitHub-hosted Linux runners when it shares
+  // CPU and memory with another browser process. Keep CI browser runs serial.
+  workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : [["list"]],
   expect: {
     toHaveScreenshot: {
