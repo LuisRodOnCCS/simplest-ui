@@ -1,6 +1,6 @@
 # Support
 
-This document defines what Simplest UI supports for the `0.1.0` release line. It covers browsers, environments, server-side rendering, and accessibility targets.
+This document defines what Simplest UI supports for the `0.1.x` release line. It covers browsers, environments, server-side rendering, and accessibility targets.
 
 ## Browsers
 
@@ -47,7 +47,7 @@ The target is WCAG 2.2 AA. Interactive components ship keyboard behavior, ARIA r
 
 Automated Axe audits must report no `critical` or `serious` violations before a release. Automated checks do not replace manual keyboard and screen reader review.
 
-## Out of scope for `0.1.0`
+## Out of scope for `0.1.x`
 
 - React and Vue adapters or validated integration guides.
 - Validated Bootstrap 5 and Tailwind integration examples.

@@ -148,22 +148,29 @@ export class SuiDropdown extends LitElement {
   protected updated(changed: PropertyValues) {
     if (!changed.has("open")) return;
 
-    this.dispatchEvent(
-      new CustomEvent("sui-toggle", {
-        detail: { open: this.open },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    const previousOpen = changed.get("open");
+    const stateChanged = typeof previousOpen === "boolean" && previousOpen !== this.open;
+
+    if (stateChanged) {
+      this.dispatchEvent(
+        new CustomEvent("sui-toggle", {
+          detail: { open: this.open },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    }
 
     if (this.open) {
       this.prepareItems();
-      this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
+      if (stateChanged) {
+        this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
+      }
       this.updateComplete.then(() => {
         this.measure();
         this.focusItem(this.startFromEnd ? this.enabledItems.length - 1 : 0);
       });
-    } else {
+    } else if (stateChanged) {
       this.dispatchEvent(new CustomEvent("sui-close", { bubbles: true, composed: true }));
     }
   }

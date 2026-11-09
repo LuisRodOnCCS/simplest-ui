@@ -8,6 +8,11 @@ import "./tooltip";
 import "./toast";
 
 export { SuiModal } from "./modal";
+export type {
+  SuiDialogCloseEvent,
+  SuiDialogCloseEventDetail,
+  SuiDialogCloseReason,
+} from "./internal/dialog-events";
 export { SuiDrawer } from "./drawer";
 export { SuiDropdown } from "./dropdown";
 export { SuiTabs } from "./tabs";

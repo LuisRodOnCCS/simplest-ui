@@ -32,6 +32,24 @@ const openMenu = async () => {
 };
 
 describe("sui-dropdown", () => {
+  it("no emite eventos de estado durante la inicialización", async () => {
+    const freshDropdown = document.createElement("sui-dropdown") as SuiDropdown;
+    const onToggle = vi.fn();
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
+    freshDropdown.addEventListener("sui-toggle", onToggle);
+    freshDropdown.addEventListener("sui-open", onOpen);
+    freshDropdown.addEventListener("sui-close", onClose);
+    document.body.append(freshDropdown);
+
+    await freshDropdown.updateComplete;
+
+    expect(onToggle).not.toHaveBeenCalled();
+    expect(onOpen).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+    freshDropdown.remove();
+  });
+
   it("expone el trigger con ARIA y el menú etiquetado", () => {
     const menu = dropdown.shadowRoot!.querySelector(".menu")!;
     expect(trigger.getAttribute("aria-haspopup")).toBe("menu");

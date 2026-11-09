@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "../src/components/modal";
-import type { SuiModal } from "../src/components/modal";
+import type { SuiDialogCloseEvent, SuiModal } from "../src/components/modal";
 
 let modal: SuiModal;
 let opener: HTMLButtonElement;
@@ -33,6 +33,32 @@ const open = async () => {
 };
 
 describe("sui-modal", () => {
+  it("no emite eventos de estado durante la inicialización", async () => {
+    const freshModal = document.createElement("sui-modal") as SuiModal;
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
+    freshModal.addEventListener("sui-open", onOpen);
+    freshModal.addEventListener("sui-close", onClose);
+    document.body.append(freshModal);
+
+    await freshModal.updateComplete;
+
+    expect(onOpen).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+    freshModal.remove();
+
+    const initiallyOpenModal = document.createElement("sui-modal") as SuiModal;
+    const onInitialOpen = vi.fn();
+    initiallyOpenModal.addEventListener("sui-open", onInitialOpen);
+    initiallyOpenModal.open = true;
+    document.body.append(initiallyOpenModal);
+
+    await initiallyOpenModal.updateComplete;
+
+    expect(onInitialOpen).not.toHaveBeenCalled();
+    initiallyOpenModal.remove();
+  });
+
   it("no renderiza contenido mientras está cerrado", () => {
     expect(modal.shadowRoot!.querySelector(".backdrop")).toBeNull();
   });
@@ -74,29 +100,50 @@ describe("sui-modal", () => {
     modal.close();
     await modal.updateComplete;
     expect(onClose).toHaveBeenCalledTimes(1);
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail).toEqual({
+      reason: "programmatic",
+    });
   });
 
   it("cierra con Escape y restaura el foco", async () => {
+    const onClose = vi.fn();
+    modal.addEventListener("sui-close", onClose);
     await open();
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     await modal.updateComplete;
 
     expect(modal.open).toBe(false);
     expect(document.activeElement).toBe(opener);
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("escape");
   });
 
   it("cierra al hacer click en el backdrop y respeta disableBackdropClose", async () => {
+    const onClose = vi.fn();
+    modal.addEventListener("sui-close", onClose);
     await open();
     const backdrop = modal.shadowRoot!.querySelector<HTMLElement>(".backdrop")!;
     backdrop.click();
     await modal.updateComplete;
     expect(modal.open).toBe(false);
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("backdrop");
 
     modal.disableBackdropClose = true;
     await open();
     modal.shadowRoot!.querySelector<HTMLElement>(".backdrop")!.click();
     await modal.updateComplete;
     expect(modal.open).toBe(true);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("identifica el botón de cierre como dismiss", async () => {
+    const onClose = vi.fn();
+    modal.addEventListener("sui-close", onClose);
+    await open();
+
+    modal.shadowRoot!.querySelector<HTMLButtonElement>(".close")!.click();
+    await modal.updateComplete;
+
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("dismiss");
   });
 
   it("bloquea el scroll del body mientras está abierto", async () => {

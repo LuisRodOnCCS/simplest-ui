@@ -4,6 +4,12 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-09
+
+### Fixed
+
+- `sui-modal`, `sui-drawer`, and `sui-dropdown` no longer emit lifecycle events during their initial render; modal and drawer close events now include a typed `reason` detail.
+
 ## [0.1.0] - 2026-11-05
 
 ### Added

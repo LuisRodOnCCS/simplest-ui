@@ -1,6 +1,6 @@
 {
   "name": "Simplest UI",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "prefixes": { "customElement": "sui-", "cssClass": "ui-", "token": "--sui-" },
   "cssEntrypoints": {
     "tokens": "@luisrodonccs/simplest-ui/tokens.css",
