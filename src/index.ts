@@ -1,6 +1,11 @@
 import "./components/index";
 
 export { SuiModal } from "./components/modal";
+export type {
+  SuiDialogCloseEvent,
+  SuiDialogCloseEventDetail,
+  SuiDialogCloseReason,
+} from "./components/internal/dialog-events";
 export { SuiDrawer } from "./components/drawer";
 export { SuiDropdown } from "./components/dropdown";
 export { SuiTabs } from "./components/tabs";

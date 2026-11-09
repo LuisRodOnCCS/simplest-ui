@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "../src/components/drawer";
-import type { SuiDrawer } from "../src/components/drawer";
+import type { SuiDialogCloseEvent, SuiDrawer } from "../src/components/drawer";
 
 let drawer: SuiDrawer;
 let opener: HTMLButtonElement;
@@ -33,6 +33,21 @@ const open = async () => {
 };
 
 describe("sui-drawer", () => {
+  it("no emite eventos de estado durante la inicialización", async () => {
+    const freshDrawer = document.createElement("sui-drawer") as SuiDrawer;
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
+    freshDrawer.addEventListener("sui-open", onOpen);
+    freshDrawer.addEventListener("sui-close", onClose);
+    document.body.append(freshDrawer);
+
+    await freshDrawer.updateComplete;
+
+    expect(onOpen).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+    freshDrawer.remove();
+  });
+
   it("no renderiza contenido mientras está cerrado", () => {
     expect(drawer.shadowRoot!.querySelector(".backdrop")).toBeNull();
   });
@@ -73,22 +88,42 @@ describe("sui-drawer", () => {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     await drawer.updateComplete;
     expect(onClose).toHaveBeenCalledTimes(1);
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("escape");
     expect(drawer.open).toBe(false);
     expect(document.activeElement).toBe(opener);
     expect(document.body.style.overflow).toBe("");
   });
 
   it("cierra desde el backdrop salvo que se deshabilite", async () => {
+    const onClose = vi.fn();
+    drawer.addEventListener("sui-close", onClose);
     await open();
     drawer.shadowRoot!.querySelector<HTMLElement>(".backdrop")!.click();
     await drawer.updateComplete;
     expect(drawer.open).toBe(false);
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("backdrop");
 
     drawer.disableBackdropClose = true;
     await open();
     drawer.shadowRoot!.querySelector<HTMLElement>(".backdrop")!.click();
     await drawer.updateComplete;
     expect(drawer.open).toBe(true);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("distingue cierres dismiss y programmatic", async () => {
+    const onClose = vi.fn();
+    drawer.addEventListener("sui-close", onClose);
+    await open();
+
+    drawer.shadowRoot!.querySelector<HTMLButtonElement>(".close")!.click();
+    await drawer.updateComplete;
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("dismiss");
+
+    await open();
+    drawer.open = false;
+    await drawer.updateComplete;
+    expect((onClose.mock.calls[1][0] as SuiDialogCloseEvent).detail.reason).toBe("programmatic");
   });
 
   it("atrapa el foco entre el cierre y las acciones sloteadas", async () => {

@@ -2,6 +2,13 @@ import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import type { PropertyValues } from "lit";
 import { lockScroll, trapTabKey, unlockScroll } from "./internal/a11y";
+import type { SuiDialogCloseReason } from "./internal/dialog-events";
+
+export type {
+  SuiDialogCloseEvent,
+  SuiDialogCloseEventDetail,
+  SuiDialogCloseReason,
+} from "./internal/dialog-events";
 
 /**
  * Accessible modal side panel. It keeps its content in light DOM so regular
@@ -13,6 +20,7 @@ export class SuiDrawer extends LitElement {
   private readonly uid = ++SuiDrawer.instanceCount;
   private previouslyFocused: HTMLElement | null = null;
   private holdsScrollLock = false;
+  private closeReason: SuiDialogCloseReason | undefined;
 
   static styles = css`
     :host { display: none; }
@@ -118,19 +126,35 @@ export class SuiDrawer extends LitElement {
   protected updated(changed: PropertyValues) {
     if (!changed.has("open")) return;
 
+    const previousOpen = changed.get("open");
+    const wasOpen = previousOpen === true;
+    const wasClosed = previousOpen === false;
+
     if (this.open) {
+      this.closeReason = undefined;
       this.previouslyFocused = document.activeElement as HTMLElement | null;
       lockScroll();
       this.holdsScrollLock = true;
-      this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
+      if (wasClosed) {
+        this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
+      }
       this.updateComplete.then(() => this.focusInitial());
       return;
     }
 
     this.releaseScrollLock();
-    this.dispatchEvent(new CustomEvent("sui-close", { bubbles: true, composed: true }));
-    this.previouslyFocused?.focus?.();
-    this.previouslyFocused = null;
+    if (wasOpen) {
+      this.dispatchEvent(
+        new CustomEvent("sui-close", {
+          detail: { reason: this.closeReason ?? "programmatic" },
+          bubbles: true,
+          composed: true,
+        })
+      );
+      this.previouslyFocused?.focus?.();
+      this.previouslyFocused = null;
+    }
+    this.closeReason = undefined;
   }
 
   private focusInitial() {
@@ -143,7 +167,7 @@ export class SuiDrawer extends LitElement {
 
     if (event.key === "Escape") {
       event.preventDefault();
-      this.close();
+      this.close("escape");
       return;
     }
 
@@ -152,14 +176,16 @@ export class SuiDrawer extends LitElement {
 
   private handleBackdropClick = (event: MouseEvent) => {
     if (event.target !== event.currentTarget || this.disableBackdropClose) return;
-    this.close();
+    this.close("backdrop");
   };
 
   openDrawer() {
     this.open = true;
   }
 
-  close() {
+  close(reason: SuiDialogCloseReason = "programmatic") {
+    if (!this.open) return;
+    this.closeReason = reason;
     this.open = false;
   }
 
@@ -197,7 +223,7 @@ export class SuiDrawer extends LitElement {
         >
           <div class="header">
             <div class="title" id=${this.titleId}><slot name="title"></slot></div>
-            <button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close()}>×</button>
+            <button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close("dismiss")}>×</button>
           </div>
           <div class="body" id=${this.bodyId}><slot></slot></div>
           <div class="footer"><slot name="footer"></slot></div>

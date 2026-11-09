@@ -1,6 +1,6 @@
 # Roadmap
 
-`v0.1.0` is the next public release. This roadmap records work planned beyond that release; released features are recorded in the changelog.
+`v0.1.1` is the current public release. This roadmap records work planned beyond the current release; released features are recorded in the changelog.
 
 ## P3 — Documentation and interoperability
 
@@ -28,8 +28,9 @@
 - [x] Add visual regression coverage for components and themes.
 - [x] Document browser support and SSR guidance.
 - [x] Define the versioning policy.
-- [ ] Publish `v0.1.0`.
-- [ ] Deploy visual documentation through GitHub Pages.
+- [x] Publish `v0.1.0`.
+- [x] Deploy visual documentation through GitHub Pages.
+- [x] Publish `v0.1.1` lifecycle-event fix.
 
 ## `v1.0.0` criteria
 
