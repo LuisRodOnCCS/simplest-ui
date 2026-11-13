@@ -19,3 +19,16 @@
 ## Integration
 
 When Bootstrap or Tailwind supplies a reset, import `tokens.css` and `components.css`, not the complete `styles.css` bundle. Keep Simplest class names intact rather than translating them into another utility system.
+
+### Vanilla and Laravel
+
+- For the complete system, import `tokens.css` before `styles.css`. For a smaller
+  footprint, import `tokens.css` before the selected component styles.
+- A Laravel application owns the Simplest UI Vite entrypoints and imports CSS and
+  Web Component JavaScript once.
+- A Composer package can render `ui-*` classes and registered `sui-*` elements in
+  Blade views. It may use workbench assets during development, but it must not
+  publish copied `dist` files or make the host application load a second copy.
+- Use `laravel-vite` for an existing application and `laravel-package` for an
+  existing Composer package. Read [integrations.md](integrations.md) before adding
+  or changing either workflow.

@@ -32,6 +32,7 @@ test("generates a Vanilla starter using public package imports", async (context)
 
   assert.deepEqual(result.files.sort(), ["README.md", "index.html", "package.json", "src/main.js"]);
   assert.equal(existsSync(join(target, "index.html")), true);
+  assert.match(await readFile(join(target, "src/main.js"), "utf8"), /@luisrodonccs\/simplest-ui\/tokens\.css/);
   assert.match(await readFile(join(target, "src/main.js"), "utf8"), /@luisrodonccs\/simplest-ui\/styles\.css/);
   assert.match(await readFile(join(target, "package.json"), "utf8"), /"\^0\.2\.0"/);
 });
@@ -68,6 +69,10 @@ test("generates the Laravel Vite overlay for a Laravel application", async (cont
   assert.equal(result.files.includes("resources/js/simplest-ui.js"), true);
   assert.match(
     await readFile(join(target, "resources/css/simplest-ui.css"), "utf8"),
+    /@luisrodonccs\/simplest-ui\/tokens\.css/
+  );
+  assert.match(
+    await readFile(join(target, "resources/css/simplest-ui.css"), "utf8"),
     /@luisrodonccs\/simplest-ui\/styles\.css/
   );
 });
@@ -86,6 +91,9 @@ test("generates Blade and workbench files for a Laravel package", async (context
   const blade = await readFile(join(target, "resources/views/components/sui-drawer.blade.php"), "utf8");
   assert.match(blade, /<sui-drawer/);
   assert.doesNotMatch(blade, /dist/);
+  const workbenchCss = await readFile(join(target, "workbench/resources/css/simplest-ui.css"), "utf8");
+  assert.match(workbenchCss, /@luisrodonccs\/simplest-ui\/tokens\.css/);
+  assert.match(workbenchCss, /@luisrodonccs\/simplest-ui\/styles\.css/);
 });
 
 test("does not write files during a dry run", async (context) => {

@@ -1,3 +1,4 @@
+import "@luisrodonccs/simplest-ui/tokens.css";
 import "@luisrodonccs/simplest-ui/styles.css";
 import "@luisrodonccs/simplest-ui/components/drawer";
 

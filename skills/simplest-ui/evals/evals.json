@@ -18,6 +18,18 @@
       "prompt": "Create a reusable date-range picker with a popup calendar for Simplest UI.",
       "expected_output": "The agent recognizes that no date picker exists, justifies the extension, and proposes or implements a component respecting tokens, accessibility, tests, manifest, and catalog.",
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Add Simplest UI to this existing Laravel application and use a drawer in a Blade view. The application already uses Vite.",
+      "expected_output": "The agent selects laravel-vite, imports tokens.css and styles.css plus the required Web Component through the application Vite entrypoints, renders sui-drawer-compatible Blade markup, and does not copy dist or use vendor/simplest-ui assets.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "My Composer package exposes Blade components and needs a Simplest UI drawer for its workbench demo.",
+      "expected_output": "The agent selects laravel-package, keeps workbench assets as development tooling, renders compatible Blade markup, and documents that the host application imports Simplest UI once rather than bundling assets in the Composer package.",
+      "files": []
     }
   ]
 }

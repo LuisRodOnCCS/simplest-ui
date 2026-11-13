@@ -9,6 +9,7 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 - `@luisrodonccs/create-simplest-ui` with `vanilla-vite`, `laravel-vite`, and `laravel-package` starters.
 - Versioned integration metadata, generated integration documentation, and packed-package validation for the Vanilla starter.
 - Laravel guidance that keeps client asset ownership in the host application while packages render compatible Blade markup.
+- Laravel-aware Simplest UI skill guidance, references, and evaluation prompts.
 
 ### Changed
 

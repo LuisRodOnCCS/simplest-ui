@@ -1,6 +1,6 @@
 ---
 name: simplest-ui
-description: Build, extend, review, or document interfaces that use the Simplest UI design system. Use this skill whenever a task occurs in a project with @luisrodonccs/simplest-ui installed, imports ui-* classes or sui-* elements, or asks to add UI to Simplest UI. Check the existing catalog before creating markup or components, reuse the system first, and preserve its accessibility and token conventions.
+description: Build, extend, review, or document interfaces that use the Simplest UI design system. Use this skill whenever a task occurs in a project with @luisrodonccs/simplest-ui installed, imports ui-* classes or sui-* elements, adds UI to Laravel Blade or a Laravel package using Simplest UI, or asks to add UI to Simplest UI. Check the existing catalog and integration manifest before creating markup or components, reuse the system first, and preserve its accessibility and token conventions.
 ---
 
 # Simplest UI
@@ -17,7 +17,9 @@ Build with Simplest UI as an existing product system, not as a bag of styles. Th
 3. Reuse the closest existing primitive. Compose CSS components before proposing a new component.
 4. Never invent an unregistered `<sui-*>` tag. In particular, cards, tables and alerts are CSS components, not Custom Elements.
 
-Read [references/catalog.md](references/catalog.md) for the current public surface and [references/authoring.md](references/authoring.md) before extending it.
+Read [references/catalog.md](references/catalog.md) for the current public surface,
+[references/integrations.md](references/integrations.md) for installation workflows,
+and [references/authoring.md](references/authoring.md) before extending it.
 
 ## Use the correct entrypoint
 
@@ -37,6 +39,25 @@ import "@luisrodonccs/simplest-ui/components.css";
 
 Register all Web Components with `components.js`, or import only the needed behavior from `components/<name>`.
 
+## Select the integration workflow
+
+Read `integrations.manifest.json` when it is available. It records the supported
+starter workflows; do not infer framework support from the presence of an old
+example file.
+
+- **Vanilla + Vite:** use `vanilla-vite` as the reference. Install the core package,
+  import `tokens.css` before `styles.css`, and import only the needed Web Component
+  entrypoints where practical.
+- **Laravel application:** use `laravel-vite`. The application owns the Vite
+  imports and loads Simplest UI once from `resources/css` and `resources/js`.
+- **Laravel Composer package:** use `laravel-package` for workbench development.
+  The package may render `ui-*` and `sui-*` Blade markup, but the host application
+  remains responsible for client CSS and JavaScript.
+
+Never copy `dist/`, use `asset('vendor/simplest-ui/...')`, or make each Laravel
+package register its own Simplest UI assets. Those patterns duplicate CSS, allow
+versions to drift, and can register Custom Elements more than once.
+
 ## Build markup
 
 - Use `--sui-*` tokens and `ui-*` classes. Do not introduce parallel color, spacing, shadow or radius values when a token exists.
@@ -54,8 +75,11 @@ When adding either kind:
 1. Reuse tokens and prefixes (`ui-`, `sui-`, `--sui-`).
 2. Implement keyboard support, focus behavior, semantic roles and `prefers-reduced-motion` where interaction requires them.
 3. Add unit tests for behavior; do not rely solely on a demo.
-4. Update `components.manifest.json`, the visual catalog, README, TypeScript JSX declarations when relevant, and changelog.
-5. Run `npm run typecheck`, `npm test`, `npm run build`, and `npm pack --dry-run`.
+4. Update `components.manifest.json`, `integrations.manifest.json` when a supported
+   workflow changes, the visual catalog, README, TypeScript JSX declarations when
+   relevant, and changelog.
+5. Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and
+   `npm pack --dry-run`.
 
 ## Output expectations
 
