@@ -22,11 +22,14 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - run: npm run test:starters
+      - run: npm run test:starter:package
       - run: npm run test:consumer
       - run: npm run docs:build
         env:
           VITE_DOCS_BASE: /simplest-ui/
       - run: npm pack --dry-run
+      - run: npm pack --dry-run --workspace @luisrodonccs/create-simplest-ui
 
   e2e:
     runs-on: ubuntu-latest

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My app · Simplest UI</title>
+  </head>
+  <body>
+    <a class="ui-skip-link" href="#main-content">Skip to content</a>
+    <main class="ui-container ui-stack" id="main-content" tabindex="-1">
+      <header class="ui-stack">
+        <span class="ui-badge ui-badge--primary">Simplest UI</span>
+        <h1>Project dashboard</h1>
+        <p>Start with semantic HTML, CSS primitives, and only the interactive elements you need.</p>
+      </header>
+
+      <div class="ui-grid ui-grid--auto">
+        <article class="ui-stat">
+          <div class="ui-stat__label">Projects</div>
+          <div class="ui-stat__value">12</div>
+          <div class="ui-stat__hint">+2 this month</div>
+        </article>
+        <article class="ui-stat">
+          <div class="ui-stat__label">Tasks</div>
+          <div class="ui-stat__value">48</div>
+          <div class="ui-stat__hint">8 pending</div>
+        </article>
+      </div>
+
+      <article class="ui-card ui-stack">
+        <h2 class="ui-card__title">Filters</h2>
+        <p class="ui-card__body">The drawer is imported as an individual Web Component.</p>
+        <div><button class="ui-button ui-button--primary" type="button" data-open-drawer>Open filters</button></div>
+      </article>
+    </main>
+
+    <sui-drawer id="filters" label="Filters" close-label="Close filters">
+      <span slot="title">Filters</span>
+      <p>Choose the results you want to see.</p>
+      <div slot="footer"><button class="ui-button ui-button--primary" type="button">Apply filters</button></div>
+    </sui-drawer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

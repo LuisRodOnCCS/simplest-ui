@@ -1,0 +1,36 @@
+{
+  "name": "@luisrodonccs/create-simplest-ui",
+  "version": "0.1.0",
+  "description": "Create Vanilla and Laravel projects that consume Simplest UI.",
+  "type": "module",
+  "bin": {
+    "create-simplest-ui": "./bin/create-simplest-ui.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "simplestUi": {
+    "coreRange": "^0.2.0"
+  },
+  "scripts": {
+    "test": "node --test test/**/*.test.mjs"
+  },
+  "keywords": [
+    "simplest-ui",
+    "vite",
+    "laravel",
+    "starter"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisRodOnCCS/simplest-ui.git",
+    "directory": "packages/create-simplest-ui"
+  }
+}

@@ -2,6 +2,28 @@
 
 `v0.1.1` is the current public release. This roadmap records work planned beyond the current release; released features are recorded in the changelog.
 
+## v0.2.0 — Vanilla and Laravel integrations
+
+The core remains framework-agnostic: CSS, Web Components, slots, properties, and
+DOM events are the integration contract. Laravel renders compatible HTML; it does
+not reimplement component behavior or ship a second copy of the client assets.
+
+- [ ] Publish `@luisrodonccs/create-simplest-ui`, a dependency-free starter generator.
+- [ ] Ship and validate a `vanilla-vite` starter that imports the public npm exports.
+- [ ] Ship and validate a `laravel-vite` integration overlay for existing Laravel applications.
+- [ ] Ship a `laravel-package` overlay for Laravel package workbenches and Blade views.
+- [ ] Keep the host Laravel application responsible for loading Simplest UI assets once.
+- [ ] Provide Blade examples that render `ui-*` classes and `sui-*` custom elements.
+- [ ] Test generated starters against packed npm artifacts, production builds, browser behavior, and Axe.
+- [ ] Document installation, ownership of assets, and the package-author workflow.
+- [ ] Publish a neutral integration manifest for generators, documentation, and future adapters.
+
+### Deferred adapters
+
+- [ ] Add a React adapter only after validating React client applications. It must wrap the existing Web Components rather than duplicate their behavior.
+- [ ] Evaluate React SSR/Next.js separately from the client adapter.
+- [ ] Validate Vue and other framework adapters from the same public Web Component contract.
+
 ## P3 — Documentation and interoperability
 
 - [x] Publish separate reset, base, component, and complete CSS entrypoints.

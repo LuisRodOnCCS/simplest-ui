@@ -4,6 +4,17 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Added
+
+- `@luisrodonccs/create-simplest-ui` with `vanilla-vite`, `laravel-vite`, and `laravel-package` starters.
+- Versioned integration metadata, generated integration documentation, and packed-package validation for the Vanilla starter.
+- Laravel guidance that keeps client asset ownership in the host application while packages render compatible Blade markup.
+
+### Changed
+
+- Web Component manifest entries now expose public class names, property types, and event detail metadata for future framework adapters.
+- Removed historical, unpublished templates in favor of maintained generator templates.
+
 ## [0.1.1] - 2026-11-09
 
 ### Fixed

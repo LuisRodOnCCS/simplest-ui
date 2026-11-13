@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 
 const root = process.cwd();
 const manifest = JSON.parse(readFileSync(resolve(root, "components.manifest.json"), "utf8"));
+const integrations = JSON.parse(readFileSync(resolve(root, "integrations.manifest.json"), "utf8"));
 
 const catalog = {
   groups: [
@@ -20,6 +21,15 @@ const catalog = {
       id: "agents",
       label: "Agents",
       items: [{ id: "agent-skill", label: "Simplest UI skill", kind: "agent" }]
+    },
+    {
+      id: "integrations",
+      label: "Integrations",
+      items: integrations.starters.map((entry) => ({
+        id: entry.documentationId,
+        label: entry.label,
+        kind: "integration"
+      }))
     },
     {
       id: "css-components",
@@ -63,7 +73,11 @@ const markdown = [
   "",
   "## Layouts",
   "",
-  ...manifest.layouts.map((entry) => `- **${title(entry.name)}**: ${entry.classes.map((name) => `\`${name}\``).join(", ")}`)
+  ...manifest.layouts.map((entry) => `- **${title(entry.name)}**: ${entry.classes.map((name) => `\`${name}\``).join(", ")}`),
+  "",
+  "## Integrations",
+  "",
+  ...integrations.starters.map((entry) => `- **${entry.label}** (${entry.status}): \`${entry.id}\``)
 ].join("\n") + "\n";
 
 const outputs = new Map([
