@@ -12,6 +12,9 @@
 - Use semantic `--sui-*` tokens, not literal visual values.
 - Preserve the soft surface, rounded border, and restrained glass effect of the system.
 - Make focus visible and preserve reduced-motion behavior.
+- In Simplest UI documentation, keep every copyable snippet in a `showcase`
+  beneath its preview. Do not place bare dark code blocks inside reference cards
+  or side-by-side grids.
 
 ## Integration
 

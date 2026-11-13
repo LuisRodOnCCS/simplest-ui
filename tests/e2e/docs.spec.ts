@@ -4,8 +4,24 @@ import { openDocs } from "./helpers";
 test("catalog navigation exposes every current entry", async ({ page }) => {
   await openDocs(page);
 
-  for (const id of ["button", "topbar", "support", "agent-skill", "dashboard"]) {
+  for (const id of ["button", "topbar", "support", "agent-skill", "vanilla-vite", "laravel-vite", "laravel-package", "dashboard"]) {
     await expect(page.locator(`[data-nav-id="${id}"]`)).toBeVisible();
+  }
+});
+
+test("integration guides keep every code block below its preview", async ({ page }) => {
+  await openDocs(page);
+
+  for (const id of ["vanilla-vite", "laravel-vite", "laravel-package"]) {
+    const section = page.locator(`#${id}`);
+    const cards = section.locator(".docs-showcase");
+    await expect(cards).toHaveCount(2);
+
+    for (let index = 0; index < await cards.count(); index += 1) {
+      const card = cards.nth(index);
+      await expect(card.locator(":scope > .docs-preview")).toHaveCount(1);
+      await expect(card.locator(":scope > pre.docs-code")).toHaveCount(1);
+    }
   }
 });
 
