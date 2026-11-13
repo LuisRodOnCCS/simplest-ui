@@ -31,9 +31,11 @@ test("switches language and rerenders the documentation", async ({ page }) => {
   await page.locator("#docs-language-tabs").getByRole("tab", { name: "ES" }).click({ force: true });
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await expect(page.locator('[data-nav-id="support"]')).toContainText("Soporte");
+  await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Ejecuta el generador");
 
   await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN" }).click({ force: true });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Run the generator");
 });
 
 test("applies light and dark themes", async ({ page }) => {
