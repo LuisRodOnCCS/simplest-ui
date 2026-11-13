@@ -48,6 +48,15 @@ Blade renders normal HTML and can use documented `ui-*` classes and `sui-*`
 elements directly. Do not copy package `dist` files into `public/` and do not use
 `asset('vendor/simplest-ui/...')`.
 
+When Tailwind or another reset owns the page, replace `styles.css` with the
+public exports the page uses. A layout using `ui-app-shell`, for example, needs:
+
+```css
+@import "@luisrodonccs/simplest-ui/tokens.css";
+@import "@luisrodonccs/simplest-ui/base.css";
+@import "@luisrodonccs/simplest-ui/components.css";
+```
+
 ## Laravel Composer package
 
 From an existing Composer package:
@@ -67,5 +76,15 @@ components should render compatible markup, for example:
 </x-sui-drawer>
 ```
 
-The package documents the host application requirement; it does not bundle CSS or
-Web Component JavaScript for production.
+The default production contract is host-owned Vite assets. A package can also
+offer a separately selected **package-assets mode** for consumers without Node,
+provided that it:
+
+1. compiles public Simplest UI CSS exports into a package-owned stylesheet;
+2. publishes that stylesheet and the upstream license under the package's own
+   vendor path;
+3. makes package mode and host mode mutually exclusive; and
+4. uses no Simplest UI Web Component JavaScript in package mode.
+
+It must never copy Simplest UI `dist` files or publish them as
+`vendor/simplest-ui`.

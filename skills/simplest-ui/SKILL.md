@@ -30,10 +30,13 @@ import "@luisrodonccs/simplest-ui/tokens.css";
 import "@luisrodonccs/simplest-ui/styles.css";
 ```
 
-When Bootstrap, Tailwind, or another system owns global styles, omit the Simplest reset:
+When Bootstrap, Tailwind, or another system owns global styles, omit the Simplest
+reset. Add `base.css` when the markup uses layout primitives such as
+`ui-app-shell` or `ui-skip-link`:
 
 ```ts
 import "@luisrodonccs/simplest-ui/tokens.css";
+import "@luisrodonccs/simplest-ui/base.css";
 import "@luisrodonccs/simplest-ui/components.css";
 ```
 
@@ -52,11 +55,15 @@ example file.
   imports and loads Simplest UI once from `resources/css` and `resources/js`.
 - **Laravel Composer package:** use `laravel-package` for workbench development.
   The package may render `ui-*` and `sui-*` Blade markup, but the host application
-  remains responsible for client CSS and JavaScript.
+  remains responsible for client CSS and JavaScript by default.
 
-Never copy `dist/`, use `asset('vendor/simplest-ui/...')`, or make each Laravel
-package register its own Simplest UI assets. Those patterns duplicate CSS, allow
-versions to drift, and can register Custom Elements more than once.
+An exception is a documented `package` asset mode for no-Node consumers. It may
+compile CSS from public Simplest UI exports into a package-owned artifact and
+publish that artifact with the upstream license. It must be mutually exclusive
+with host Vite mode, must not copy `dist`, and is appropriate only when the
+package does not require Simplest UI Web Component JavaScript. Do not use
+`asset('vendor/simplest-ui/...')`; package mode points to the package's own
+published artifact.
 
 ## Build markup
 

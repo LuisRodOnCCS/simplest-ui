@@ -20,12 +20,16 @@ The evaluation prompts ran without changing fixture files. Each explicit invocat
 | 2 | Export actions | Pass | Selected `sui-dropdown`, imported `@luisrodonccs/simplest-ui/components/dropdown`, used its `sui-select` event, and delegated keyboard behavior to the component. Automatic skill selection also selected `simplest-ui`. |
 | 3 | Date range picker | Pass | Determined that no date picker exists, justified a new `sui-date-range-picker`, and covered tokens, accessibility, keyboard behavior, tests, manifest generation, visual documentation, exports, and changelog work. |
 
-## Pending v0.2.0 integration evaluation
+## v0.2.0 Laravel integration validation
 
-Prompts 4 and 5 were added with the Vanilla and Laravel integration workflows.
-They have not yet been formally evaluated. Run all five prompts against a fixture
-that includes a Laravel application and a Composer package workbench before
-publishing the updated skill.
+The Laravel decisions represented by prompts 4 and 5 were validated on
+2026-11-13 with a packed `@luisrodonccs/simplest-ui@0.2.0` tarball:
 
-The original checks in [README.md](./README.md) passed. Re-run the full set after
-material changes to the skill, manifest, or public API.
+| ID | Scenario | Result | Evidence |
+| --- | --- | --- | --- |
+| 4 | Laravel host assets | Pass | `quotepdf-sandbox` loaded `tokens.css`, `base.css`, and `components.css` through its production Vite manifest. It rendered Folios with no published-package request or console errors. |
+| 5 | Composer package assets | Pass | `laravel-folios` compiled public CSS exports into its own licensed stylesheet for package mode. The package has no Simplest UI Web Component JavaScript, so its mutually exclusive no-Node mode is valid. |
+
+Package mode and host mode each loaded exactly one asset source. The host-mode
+Folios page scored 100/100 in Lighthouse accessibility and best practices.
+Re-run the full set after material changes to the skill, manifest, or public API.

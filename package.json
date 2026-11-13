@@ -107,7 +107,7 @@
     "test:starters": "node --test packages/create-simplest-ui/test/**/*.test.mjs",
     "test:starter:package": "node scripts/verify-starter-package.mjs",
     "verify:integrations": "node scripts/verify-integrations.mjs",
-    "docs:serve": "vite --config vite.docs.config.ts --host 127.0.0.1 --port 5173",
+    "docs:serve": "vite --config vite.docs.config.ts --host 127.0.0.1 --port 5174",
     "docs:dev": "vite --config vite.docs.config.ts --open /docs/",
     "docs:build": "npm run catalog:check && node scripts/verify-docs.mjs && npm run verify:integrations && vite build --config vite.docs.config.ts",
     "prepublishOnly": "npm run typecheck && npm run test && npm run build"

@@ -7,19 +7,23 @@ the work still needed to release the next version.
 ## v0.2.0 — Vanilla and Laravel integrations
 
 The core remains framework-agnostic: CSS, Web Components, slots, properties, and
-DOM events are the integration contract. Laravel renders compatible HTML; it does
-not reimplement component behavior or ship a second copy of the client assets.
+DOM events are the integration contract. Laravel renders compatible HTML. Host
+Vite ownership is the default; a package may additionally publish its own
+precompiled CSS from public exports for no-Node consumers when its asset mode is
+exclusive, documented, and does not duplicate client-side registration.
 
 - [ ] Publish `@luisrodonccs/create-simplest-ui`, a dependency-free starter generator.
 - [x] Ship and validate a `vanilla-vite` starter that imports the public npm exports.
 - [x] Ship a `laravel-vite` integration overlay for existing Laravel applications.
 - [x] Ship a `laravel-package` overlay for Laravel package workbenches and Blade views.
-- [x] Keep the host Laravel application responsible for loading Simplest UI assets once.
+- [x] Keep the host Laravel application responsible for loading Simplest UI assets once by default.
+- [x] Support an explicit, CSS-only package-assets mode for no-Node Laravel consumers; it compiles public exports into a package-owned artifact rather than copying `dist`.
 - [x] Provide Blade examples that render `ui-*` classes and `sui-*` custom elements.
 - [x] Validate the generated Vanilla starter against packed npm artifacts and a production build.
 - [x] Document installation, ownership of assets, and the package-author workflow.
 - [x] Publish a neutral integration manifest for generators, documentation, and future adapters.
-- [ ] Add a real Laravel application/package workbench test that exercises generated files in a browser and runs Axe.
+- [x] Validate `laravel-folios` with packed `0.2.0` assets and 126 Pest tests, 100% type coverage, PHPStan, Pint, and a production CSS build.
+- [x] Validate `quotepdf-sandbox` package and host modes in a production browser build: each mode loaded one asset source, had no console errors, and passed Lighthouse accessibility and best-practices audits (100/100).
 
 ### Deferred adapters
 

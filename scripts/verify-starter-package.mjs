@@ -52,6 +52,9 @@ try {
   await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 
   npm(["install"], applicationDirectory);
+  // Reinstall by absolute tarball path. npm's Windows handling of a relative
+  // `file:` specifier can otherwise retain the template's registry dependency.
+  npm(["install", "--save-exact", coreTarball], applicationDirectory);
   npm(["run", "build"], applicationDirectory);
   console.log("Verified the packed generator creates a Vanilla Vite application from the packed core package.");
 } finally {
