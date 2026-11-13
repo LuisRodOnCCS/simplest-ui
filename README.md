@@ -2,7 +2,7 @@
 
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> Current release: `v0.1.1`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+> Current release: `v0.2.0`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
 
 Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
 
