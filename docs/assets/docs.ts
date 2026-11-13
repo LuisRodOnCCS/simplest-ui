@@ -24,6 +24,12 @@ const es: Record<string, string> = {
   "copy": "Copiar", "copied": "Copiado", "open": "Abrir", "close": "Cerrar", "save": "Guardar cambios", "cancel": "Cancelar", "confirm": "Confirmar", "delete": "Eliminar", "more": "Más opciones", "apply": "Aplicar", "reset": "Restablecer", "loading": "Cargando", "disabled": "Deshabilitado", "active": "Activo", "pending": "Pendiente", "error": "Error", "users": "Usuarios", "role": "Rol", "status": "Estado", "details": "Detalles", "history": "Historial", "actions": "Acciones", "general": "General", "security": "Seguridad", "notifications": "Notificaciones", "system": "Sistema", "light": "Claro", "dark": "Oscuro", "show-toast": "Mostrar toast", "open-modal": "Abrir modal", "open-drawer": "Abrir drawer", "table-note": "Usa ui-table-wrap con role=region y un label para permitir scroll horizontal accesible.", "page-open": "Abrir página", "previous": "Anterior", "next": "Siguiente", "modal-label": "Confirmación", "modal-close": "Cerrar modal", "modal-message": "¿Quieres continuar con esta acción?", "drawer-label": "Filtros", "drawer-close": "Cerrar filtros", "drawer-message": "Ajusta los resultados sin salir de esta vista.", "active-only": "Solo activos"
 };
 
+const englishSectionCopy: Record<string, string> = {
+  "vanilla-vite": "A minimal Vite project that consumes only public npm exports.",
+  "laravel-vite": "Integration files for an existing Laravel application; the application loads the assets once.",
+  "laravel-package": "Workbench assets and Blade examples for Composer packages that render compatible HTML."
+};
+
 let language: Language = initialLanguage();
 
 function initialLanguage(): Language {
@@ -249,7 +255,7 @@ function renderNav() {
 function renderSections() {
   return catalog.groups.flatMap((group) => group.items).map((item) => {
     const title = t(`${item.id}.title`, t(item.id, item.label));
-    const copy = t(`${item.id}.copy`, "");
+    const copy = t(`${item.id}.copy`, englishSectionCopy[item.id] ?? "");
     if (item.id === "overview") return componentBody(item.id);
     return section(item.id, item.kind, title, copy, componentBody(item.id));
   }).join("");
