@@ -2,10 +2,10 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
-  root: __dirname,
+  root: import.meta.dirname,
   build: {
     ssr: "entry.js",
-    outDir: resolve(__dirname, "dist"),
+    outDir: resolve(import.meta.dirname, "dist"),
     emptyOutDir: true
   }
 });

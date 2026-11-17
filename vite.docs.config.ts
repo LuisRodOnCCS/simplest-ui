@@ -2,12 +2,12 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import { writeFileSync } from "node:fs";
 
-const outputDirectory = resolve(__dirname, "dist-docs");
+const outputDirectory = resolve(import.meta.dirname, "dist-docs");
 const requestedBase = process.env.VITE_DOCS_BASE ?? "/";
 const docsBase = requestedBase === "/" ? "/" : `/${requestedBase.replace(/^\/+|\/+$/g, "")}/`;
 
 export default defineConfig({
-  root: __dirname,
+  root: import.meta.dirname,
   base: docsBase,
   publicDir: false,
   server: {
@@ -20,8 +20,8 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        documentation: resolve(__dirname, "docs/index.html"),
-        dashboard: resolve(__dirname, "docs/pages/dashboard.html")
+        documentation: resolve(import.meta.dirname, "docs/index.html"),
+        dashboard: resolve(import.meta.dirname, "docs/pages/dashboard.html")
       }
     }
   },
