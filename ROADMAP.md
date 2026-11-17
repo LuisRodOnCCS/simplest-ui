@@ -1,8 +1,8 @@
 # Roadmap
 
-`v0.1.1` is the latest published release. `v0.2.0` is in development. Released
-work is summarized below and detailed in the changelog; this roadmap emphasizes
-the work still needed to release the next version.
+`v0.2.0` is the latest published release. Work for the next version is not
+started yet; released work is summarized below and detailed in the changelog,
+and this roadmap emphasizes the work still needed to release the next version.
 
 ## v0.2.0 — Vanilla and Laravel integrations
 
@@ -12,7 +12,7 @@ Vite ownership is the default; a package may additionally publish its own
 precompiled CSS from public exports for no-Node consumers when its asset mode is
 exclusive, documented, and does not duplicate client-side registration.
 
-- [ ] Publish `@luisrodonccs/create-simplest-ui`, a dependency-free starter generator.
+- [x] Publish `@luisrodonccs/create-simplest-ui`, a dependency-free starter generator.
 - [x] Ship and validate a `vanilla-vite` starter that imports the public npm exports.
 - [x] Ship a `laravel-vite` integration overlay for existing Laravel applications.
 - [x] Ship a `laravel-package` overlay for Laravel package workbenches and Blade views.

@@ -86,7 +86,10 @@ const outputs = new Map([
 ]);
 
 if (process.argv.includes("--check")) {
-  const stale = [...outputs].filter(([path, content]) => readFileSync(path, "utf8") !== content).map(([path]) => path);
+  const normalize = (value) => value.replace(/\r\n/g, "\n");
+  const stale = [...outputs]
+    .filter(([path, content]) => normalize(readFileSync(path, "utf8")) !== normalize(content))
+    .map(([path]) => path);
   if (stale.length) {
     console.error(`Generated catalogs are stale:\n${stale.map((path) => `- ${path}`).join("\n")}`);
     process.exit(1);

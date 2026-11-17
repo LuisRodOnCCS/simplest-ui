@@ -4,6 +4,22 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Security
+
+- Upgraded the development toolchain to `vite ^8.3.8` and `vitest ^5.1.0`, closing the critical `vitest` and `tinypool` advisories plus the `vite` and `esbuild` findings reported by `npm audit`.
+- Generated `vanilla-vite` starters now pin `vite ^8.3.8` and declare a compatible Node engine range, so new projects no longer start on the vulnerable Vite 5 line.
+- Runtime dependencies remain unchanged: the published package still only requires `lit`, and `npm audit --omit=dev` reports no findings.
+
+### Changed
+
+- CI and documentation deployment now run on Node 22, as required by `vitest 5`.
+- Vite configurations use `import.meta.dirname` instead of `__dirname`.
+- Generated catalog validation is line-ending agnostic, so Windows checkouts no longer report stale catalogs.
+
+### Known issues
+
+- `npm audit` still reports five high findings in development tooling, all traced to `GHSA-fc5q-39xc-vjpf` (`picomatch` regular expression denial of service). No patched version exists yet: the advisory declares `first_patched_version: null` and `4.0.7` is the latest release. The affected matching runs against developer-authored glob configuration only, and the vulnerability is not reachable from the published package.
+
 ## [0.2.0] - 2026-11-17
 
 ### Added
