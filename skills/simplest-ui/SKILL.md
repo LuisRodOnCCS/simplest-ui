@@ -54,8 +54,13 @@ example file.
 - **Laravel application:** use `laravel-vite`. The application owns the Vite
   imports and loads Simplest UI once from `resources/css` and `resources/js`.
 - **Laravel Composer package:** use `laravel-package` for workbench development.
-  The package may render `ui-*` and `sui-*` Blade markup, but the host application
-  remains responsible for client CSS and JavaScript by default.
+  The package may render `ui-*` and `sui-*` Blade markup. Separate the asset
+  decision into these two contexts in both implementation and explanation:
+  1. **Workbench development:** its Vite entrypoints may load the package demo's
+     CSS and required Web Component JavaScript.
+  2. **Installed package in production:** the host application owns Simplest UI
+     CSS and JavaScript by default. This is mandatory when the package renders a
+     `sui-*` Web Component such as `sui-drawer`.
 
 An exception is a documented `package` asset mode for no-Node consumers. It may
 compile CSS from public Simplest UI exports into a package-owned artifact and
@@ -64,6 +69,12 @@ with host Vite mode, must not copy `dist`, and is appropriate only when the
 package does not require Simplest UI Web Component JavaScript. Do not use
 `asset('vendor/simplest-ui/...')`; package mode points to the package's own
 published artifact.
+
+For every Laravel Composer package response, explicitly state the workbench asset
+owner, the production asset owner, and whether package-assets mode is valid. If
+the package requires any Simplest UI Web Component JavaScript, say that
+package-assets mode is invalid and that the host must import the matching
+JavaScript entrypoint.
 
 ## Build markup
 
@@ -77,7 +88,13 @@ published artifact.
 
 Create a new CSS component if composition cannot communicate a reusable visual pattern. Create a Web Component only if the pattern has reusable state or complex accessible interaction.
 
-When adding either kind:
+Before proposing or implementing a new component, state that the current catalog
+does not provide the required primitive and why composition is insufficient. A
+project that merely consumes Simplest UI must not add a new `sui-*` element
+locally: propose the upstream Simplest UI extension instead. Only implement a
+new public component when working in the Simplest UI source repository.
+
+When adding either kind in Simplest UI:
 
 1. Reuse tokens and prefixes (`ui-`, `sui-`, `--sui-`).
 2. Implement keyboard support, focus behavior, semantic roles and `prefers-reduced-motion` where interaction requires them.
@@ -88,6 +105,11 @@ When adding either kind:
 5. Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and
    `npm pack --dry-run`.
 
+An extension response must name the missing primitive, explain the composition
+gap, and list the required tests, manifest, catalog, documentation, exports, and
+changelog work. Do not present an implementation as complete while those public
+surface updates are missing.
+
 ## Output expectations
 
-When responding to an implementation request, state which existing system primitive you selected and why. If no suitable primitive exists, briefly justify the extension before adding it. Mention any import requirement for new behavior.
+When responding to an implementation request, state which existing system primitive you selected and why. If no suitable primitive exists, briefly justify the extension before adding it and list its required public-surface work. Mention any import requirement for new behavior. For a Laravel Composer package, also explicitly state the workbench asset owner, the production asset owner, and whether package-assets mode is valid.

@@ -66,8 +66,10 @@ npm install --save-dev @luisrodonccs/simplest-ui
 npx @luisrodonccs/create-simplest-ui@latest . --template laravel-package
 ```
 
-Use the generated workbench Vite entrypoints for local development. Package Blade
-components should render compatible markup, for example:
+Use the generated workbench Vite entrypoints for local development. Those assets
+serve the workbench demo only; they are not the installed package's production
+asset contract. Package Blade components should render compatible markup, for
+example:
 
 ```blade
 <x-sui-drawer label="Filters">
@@ -76,8 +78,11 @@ components should render compatible markup, for example:
 </x-sui-drawer>
 ```
 
-The default production contract is host-owned Vite assets. A package can also
-offer a separately selected **package-assets mode** for consumers without Node,
+For production, state the asset decision explicitly. A package that renders a
+Web Component such as `sui-drawer` requires host-owned Vite CSS and the matching
+Simplest UI JavaScript import; CSS-only package-assets mode is not valid for that
+package. A package can offer a separately selected **package-assets mode** only
+for consumers without Node when it needs no Simplest UI Web Component JavaScript,
 provided that it:
 
 1. compiles public Simplest UI CSS exports into a package-owned stylesheet;
