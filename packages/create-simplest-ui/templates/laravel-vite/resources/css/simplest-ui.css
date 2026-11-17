@@ -1,0 +1,10 @@
+/*
+ * Import this file from resources/css/app.css:
+ *
+ * @import "./simplest-ui.css";
+ *
+ * Use tokens.css plus selected component styles instead when another system owns
+ * the reset and base layers.
+ */
+@import "@luisrodonccs/simplest-ui/tokens.css";
+@import "@luisrodonccs/simplest-ui/styles.css";

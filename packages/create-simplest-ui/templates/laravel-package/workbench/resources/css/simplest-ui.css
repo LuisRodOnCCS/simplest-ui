@@ -1,0 +1,6 @@
+/*
+ * Local workbench-only asset entrypoint. It allows package authors to exercise
+ * the same public npm imports used by a host Laravel application.
+ */
+@import "@luisrodonccs/simplest-ui/tokens.css";
+@import "@luisrodonccs/simplest-ui/styles.css";

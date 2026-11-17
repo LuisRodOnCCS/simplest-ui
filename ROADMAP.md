@@ -1,36 +1,45 @@
 # Roadmap
 
-`v0.1.1` is the current public release. This roadmap records work planned beyond the current release; released features are recorded in the changelog.
+`v0.1.1` is the latest published release. `v0.2.0` is in development. Released
+work is summarized below and detailed in the changelog; this roadmap emphasizes
+the work still needed to release the next version.
 
-## P3 — Documentation and interoperability
+## v0.2.0 — Vanilla and Laravel integrations
 
-- [x] Publish separate reset, base, component, and complete CSS entrypoints.
-- [x] Order the complete bundle with `sui.reset`, `sui.base`, and `sui.components` layers.
-- [x] Document coexistence with other CSS systems.
-- [x] Replace the initial demo with a complete bilingual visual documentation site.
-- [x] Add a manifest and enforce manifest-to-documentation coverage.
-- [x] Convert the legacy Drawer pattern into `<sui-drawer>` and remove the legacy CSS implementation.
-- [x] Add an accessible responsive table wrapper.
-- [x] Add the Dashboard example page and page navigation.
-- [x] Add CSS imports per individual component when measured demand justifies the additional API surface.
+The core remains framework-agnostic: CSS, Web Components, slots, properties, and
+DOM events are the integration contract. Laravel renders compatible HTML. Host
+Vite ownership is the default; a package may additionally publish its own
+precompiled CSS from public exports for no-Node consumers when its asset mode is
+exclusive, documented, and does not duplicate client-side registration.
 
-## P4 — Agents and automation
+- [ ] Publish `@luisrodonccs/create-simplest-ui`, a dependency-free starter generator.
+- [x] Ship and validate a `vanilla-vite` starter that imports the public npm exports.
+- [x] Ship a `laravel-vite` integration overlay for existing Laravel applications.
+- [x] Ship a `laravel-package` overlay for Laravel package workbenches and Blade views.
+- [x] Keep the host Laravel application responsible for loading Simplest UI assets once by default.
+- [x] Support an explicit, CSS-only package-assets mode for no-Node Laravel consumers; it compiles public exports into a package-owned artifact rather than copying `dist`.
+- [x] Provide Blade examples that render `ui-*` classes and `sui-*` custom elements.
+- [x] Validate the generated Vanilla starter against packed npm artifacts and a production build.
+- [x] Document installation, ownership of assets, and the package-author workflow.
+- [x] Publish a neutral integration manifest for generators, documentation, and future adapters.
+- [x] Validate `laravel-folios` with packed `0.2.0` assets and 126 Pest tests, 100% type coverage, PHPStan, Pint, and a production CSS build.
+- [x] Validate `quotepdf-sandbox` package and host modes in a production browser build: each mode loaded one asset source, had no console errors, and passed Lighthouse accessibility and best-practices audits (100/100).
 
-- [x] Ship an official Simplest UI agent skill.
-- [x] Evaluate the skill against real reuse, composition, and extension prompts.
-- [x] Publish installation instructions for OpenCode, Claude Code, and other supported agents.
-- [x] Generate the documentation site from the manifest rather than sharing IDs manually.
+### Deferred adapters
 
-## P5 — Release quality
+- [ ] Add a React adapter only after validating React client applications. It must wrap the existing Web Components rather than duplicate their behavior.
+- [ ] Evaluate React SSR/Next.js separately from the client adapter.
+- [ ] Validate Vue and other framework adapters from the same public Web Component contract.
 
-- [x] Add E2E coverage in Chromium, Firefox, and WebKit.
-- [x] Run automated Axe accessibility audits.
-- [x] Add visual regression coverage for components and themes.
-- [x] Document browser support and SSR guidance.
-- [x] Define the versioning policy.
-- [x] Publish `v0.1.0`.
-- [x] Deploy visual documentation through GitHub Pages.
-- [x] Publish `v0.1.1` lifecycle-event fix.
+## Delivered in v0.1.x
+
+- Framework-agnostic CSS tokens, layouts, Web Components, granular entrypoints,
+  bilingual visual documentation, and the Dashboard example.
+- Generated component catalog, official agent skill, and installation guidance.
+- Browser, Axe, visual-regression, package-consumer, documentation, and release
+  verification in CI.
+- Published `v0.1.0` and the `v0.1.1` lifecycle-event fix, with GitHub Pages
+  documentation deployment.
 
 ## `v1.0.0` criteria
 

@@ -1,6 +1,9 @@
 # Skill evaluation protocol
 
-The prompts in `evals.json` evaluate the three decisions the skill must make: compose existing primitives, select an existing interactive component, and justify a new component only when composition is insufficient.
+The prompts in `evals.json` evaluate five decisions the skill must make: compose
+existing primitives, select an existing interactive component, justify a new
+component only when composition is insufficient, integrate a Laravel application,
+and develop a Laravel Composer package without duplicating assets.
 
 ## Run an evaluation
 
@@ -16,5 +19,12 @@ The prompts in `evals.json` evaluate the three decisions the skill must make: co
 - Interactive patterns use the documented entrypoint rather than recreating keyboard or ARIA behavior.
 - New component proposals explain why composition is insufficient and include tokens, accessibility, tests, manifest, visual catalog, and changelog updates.
 - The response names the selected primitive and any required import.
+- Laravel application requests select `laravel-vite`; the application owns the
+  Vite imports for `tokens.css`, either `styles.css` or the required base and
+  component styles, and Web Component JavaScript.
+- Laravel Composer package requests select `laravel-package`; package views render
+  compatible markup but do not copy `dist`. CSS-only package-assets mode is
+  allowed only when it is exclusive with host mode and the package needs no
+  Simplest UI Web Component JavaScript.
 
 Record the date, agent/version, fixture revision, prompt, output, and pass/fail result in a release or pull-request discussion, or in a versioned results file such as [RESULTS.md](./RESULTS.md). Do not mark the roadmap evaluation item complete until all three prompts have been reviewed successfully.

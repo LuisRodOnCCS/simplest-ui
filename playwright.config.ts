@@ -19,7 +19,7 @@ export default defineConfig({
     }
   },
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: "http://127.0.0.1:5174",
     trace: "on-first-retry",
     screenshot: "only-on-failure"
   },
@@ -33,7 +33,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "npm run docs:serve",
-    url: "http://127.0.0.1:5173/docs/",
+    url: "http://127.0.0.1:5174/docs/",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000
   }

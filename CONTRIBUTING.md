@@ -19,6 +19,17 @@
 - [ ] Run `npm run catalog:generate` after changing `components.manifest.json`.
 - [ ] Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and `npm pack --dry-run`.
 
+## Visual documentation
+
+- Put runnable or copyable snippets in `showcase(preview, snippet)` (or
+  `implementation()`), never as a standalone `code()` block inside
+  `.docs-reference` or `.docs-grid`.
+- A showcase keeps the light preview above and its dark code block immediately
+  below, with one shared border and radius. Use stacked showcases for multiple
+  steps rather than side-by-side reference cards containing code.
+- Review the rendered documentation at desktop and 320px, then update visual
+  baselines only for intentional changes.
+
 ## Pull requests
 
 Work from `dev` in a `feat/*`, `fix/*`, or `docs/*` branch. Changes land in `dev` before a verified release is promoted to `main`.
