@@ -4,14 +4,16 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-17
+
 ### Security
 
 - Upgraded the development toolchain to `vite ^8.3.8` and `vitest ^5.1.0`, closing the critical `vitest` and `tinypool` advisories plus the `vite` and `esbuild` findings reported by `npm audit`.
-- Generated `vanilla-vite` starters now pin `vite ^8.3.8` and declare a compatible Node engine range, so new projects no longer start on the vulnerable Vite 5 line.
 - Runtime dependencies remain unchanged: the published package still only requires `lit`, and `npm audit --omit=dev` reports no findings.
 
 ### Changed
 
+- Rebuilt `dist` with Vite 8 so the published artifacts match a build of this tag. The library now emits an additional shared `decorate` chunk, and CSS is minified by Lightning CSS, which reorders declarations and adds the `--lightningcss-light` and `--lightningcss-dark` custom properties to `:root` in `tokens.css`. No component API, token name, class name, or export changed.
 - CI and documentation deployment now run on Node 22, as required by `vitest 5`.
 - Vite configurations use `import.meta.dirname` instead of `__dirname`.
 - Generated catalog validation is line-ending agnostic, so Windows checkouts no longer report stale catalogs.
@@ -19,6 +21,13 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 ### Known issues
 
 - `npm audit` still reports five high findings in development tooling, all traced to `GHSA-fc5q-39xc-vjpf` (`picomatch` regular expression denial of service). No patched version exists yet: the advisory declares `first_patched_version: null` and `4.0.7` is the latest release. The affected matching runs against developer-authored glob configuration only, and the vulnerability is not reachable from the published package.
+
+## [0.1.1] - 2026-11-17
+
+### Fixed
+
+- `vanilla-vite` starters now generate `vite ^8.3.8` instead of `^5.2.0`, so new projects no longer start on the Vite 5 line that carries the reported advisories.
+- Generated `package.json` files declare `engines.node` matching the Vite 8 requirement.
 
 ## [0.2.0] - 2026-11-17
 
