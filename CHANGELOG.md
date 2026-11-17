@@ -4,6 +4,8 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-17
+
 ### Added
 
 - `@luisrodonccs/create-simplest-ui` with `vanilla-vite`, `laravel-vite`, and `laravel-package` starters.
