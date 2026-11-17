@@ -2,7 +2,7 @@
 
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> Current release: `v0.1.1`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+> Current release: `v0.2.0`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
 
 Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
 
@@ -43,6 +43,20 @@ import "@luisrodonccs/simplest-ui/components/card.css";
 ```
 
 This is suitable for vanilla applications and Laravel Blade projects built with Vite. The package uses `ui-` CSS classes, `sui-` custom-element names, and `--sui-` tokens.
+
+## Starters and Laravel integrations
+
+Use the companion generator to start a Vite project or add the integration files to
+an existing Laravel project:
+
+```bash
+npm create @luisrodonccs/simplest-ui@latest my-app -- --template vanilla-vite
+npx @luisrodonccs/create-simplest-ui@latest . --template laravel-vite
+```
+
+For Laravel packages, use `--template laravel-package`. Laravel packages should
+render compatible Blade markup, while the host application imports Simplest UI once
+through Vite. See the visual documentation for the complete integration guide.
 
 ## CSS components
 
@@ -104,7 +118,7 @@ Use `<html data-theme="dark">` to apply the built-in dark token mapping.
 | Rendering | CSS during SSR; Web Components in the client bundle. |
 | Accessibility | WCAG 2.2 AA target; no `critical` or `serious` Axe violations. |
 
-React, Vue, Bootstrap, and Tailwind integration are not validated for the `0.1.x` release line. See [SUPPORT.md](./SUPPORT.md) for the complete policy, including SSR and known limitations.
+React, Vue, Bootstrap, and Tailwind integration are not validated for the `0.2.x` release line. See [SUPPORT.md](./SUPPORT.md) for the complete policy, including SSR and known limitations.
 
 ## Documentation
 

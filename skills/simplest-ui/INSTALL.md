@@ -44,3 +44,8 @@ The skill follows the open [Agent Skills](https://agentskills.io) format. Copy t
 ## Verify the installation
 
 Ask the agent to build a card with a status and action in a project using Simplest UI. It should select `ui-card`, `ui-badge`, and `ui-button`, inspect `components.manifest.json`, and avoid inventing a `<sui-card>` element.
+
+For Laravel, ask the agent to add Simplest UI to an existing application or
+Composer package. It should inspect `integrations.manifest.json`, select
+`laravel-vite` or `laravel-package`, keep Vite asset imports in the host
+application, and avoid copying `dist` or referencing `vendor/simplest-ui`.

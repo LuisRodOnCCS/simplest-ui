@@ -47,3 +47,9 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 - **Grid**: `ui-grid`, `ui-grid--auto`
 - **App Shell**: `ui-app-shell`, `ui-app-shell--contained`, `ui-app-shell__sidebar`, `ui-app-shell__header`, `ui-app-shell__main`
 - **Skip Link**: `ui-skip-link`
+
+## Integrations
+
+- **Vanilla + Vite** (stable): `vanilla-vite`
+- **Laravel Blade + Vite** (stable): `laravel-vite`
+- **Laravel package development** (stable): `laravel-package`

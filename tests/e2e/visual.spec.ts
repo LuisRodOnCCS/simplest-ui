@@ -68,6 +68,14 @@ test("agent skill documentation stays visually stable in light theme", async ({ 
   await snapshot(page, page.locator("#agent-skill .docs-grid"), "docs-agent-skill-light.png");
 });
 
+test("Laravel integration documentation keeps the preview and code sequence", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await openDocs(page);
+  await settle(page);
+
+  await snapshot(page, page.locator("#laravel-vite .docs-guide-stack"), "docs-laravel-vite-light.png");
+});
+
 test("documentation tabs stay visually stable in light theme", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await openDocs(page);

@@ -38,6 +38,27 @@
       ]
     },
     {
+      "id": "integrations",
+      "label": "Integrations",
+      "items": [
+        {
+          "id": "vanilla-vite",
+          "label": "Vanilla + Vite",
+          "kind": "integration"
+        },
+        {
+          "id": "laravel-vite",
+          "label": "Laravel Blade + Vite",
+          "kind": "integration"
+        },
+        {
+          "id": "laravel-package",
+          "label": "Laravel package development",
+          "kind": "integration"
+        }
+      ]
+    },
+    {
       "id": "css-components",
       "label": "CSS components",
       "items": [

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "corePackage": "@luisrodonccs/simplest-ui",
+  "starters": [
+    {
+      "id": "vanilla-vite",
+      "label": "Vanilla + Vite",
+      "status": "stable",
+      "documentationId": "vanilla-vite",
+      "templatePath": "packages/create-simplest-ui/templates/vanilla-vite",
+      "requires": ["Node.js >=18"]
+    },
+    {
+      "id": "laravel-vite",
+      "label": "Laravel Blade + Vite",
+      "status": "stable",
+      "documentationId": "laravel-vite",
+      "templatePath": "packages/create-simplest-ui/templates/laravel-vite",
+      "requires": ["Node.js >=18", "an existing Laravel application"]
+    },
+    {
+      "id": "laravel-package",
+      "label": "Laravel package development",
+      "status": "stable",
+      "documentationId": "laravel-package",
+      "templatePath": "packages/create-simplest-ui/templates/laravel-package",
+      "requires": ["Node.js >=18", "an existing Laravel package"]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: simplest-ui
-description: Build, extend, review, or document interfaces that use the Simplest UI design system. Use this skill whenever a task occurs in a project with @luisrodonccs/simplest-ui installed, imports ui-* classes or sui-* elements, or asks to add UI to Simplest UI. Check the existing catalog before creating markup or components, reuse the system first, and preserve its accessibility and token conventions.
+description: Build, extend, review, or document interfaces that use the Simplest UI design system. Use this skill whenever a task occurs in a project with @luisrodonccs/simplest-ui installed, imports ui-* classes or sui-* elements, adds UI to Laravel Blade or a Laravel package using Simplest UI, or asks to add UI to Simplest UI. Check the existing catalog and integration manifest before creating markup or components, reuse the system first, and preserve its accessibility and token conventions.
 ---
 
 # Simplest UI
@@ -17,7 +17,9 @@ Build with Simplest UI as an existing product system, not as a bag of styles. Th
 3. Reuse the closest existing primitive. Compose CSS components before proposing a new component.
 4. Never invent an unregistered `<sui-*>` tag. In particular, cards, tables and alerts are CSS components, not Custom Elements.
 
-Read [references/catalog.md](references/catalog.md) for the current public surface and [references/authoring.md](references/authoring.md) before extending it.
+Read [references/catalog.md](references/catalog.md) for the current public surface,
+[references/integrations.md](references/integrations.md) for installation workflows,
+and [references/authoring.md](references/authoring.md) before extending it.
 
 ## Use the correct entrypoint
 
@@ -28,14 +30,51 @@ import "@luisrodonccs/simplest-ui/tokens.css";
 import "@luisrodonccs/simplest-ui/styles.css";
 ```
 
-When Bootstrap, Tailwind, or another system owns global styles, omit the Simplest reset:
+When Bootstrap, Tailwind, or another system owns global styles, omit the Simplest
+reset. Add `base.css` when the markup uses layout primitives such as
+`ui-app-shell` or `ui-skip-link`:
 
 ```ts
 import "@luisrodonccs/simplest-ui/tokens.css";
+import "@luisrodonccs/simplest-ui/base.css";
 import "@luisrodonccs/simplest-ui/components.css";
 ```
 
 Register all Web Components with `components.js`, or import only the needed behavior from `components/<name>`.
+
+## Select the integration workflow
+
+Read `integrations.manifest.json` when it is available. It records the supported
+starter workflows; do not infer framework support from the presence of an old
+example file.
+
+- **Vanilla + Vite:** use `vanilla-vite` as the reference. Install the core package,
+  import `tokens.css` before `styles.css`, and import only the needed Web Component
+  entrypoints where practical.
+- **Laravel application:** use `laravel-vite`. The application owns the Vite
+  imports and loads Simplest UI once from `resources/css` and `resources/js`.
+- **Laravel Composer package:** use `laravel-package` for workbench development.
+  The package may render `ui-*` and `sui-*` Blade markup. Separate the asset
+  decision into these two contexts in both implementation and explanation:
+  1. **Workbench development:** its Vite entrypoints may load the package demo's
+     CSS and required Web Component JavaScript.
+  2. **Installed package in production:** the host application owns Simplest UI
+     CSS and JavaScript by default. This is mandatory when the package renders a
+     `sui-*` Web Component such as `sui-drawer`.
+
+An exception is a documented `package` asset mode for no-Node consumers. It may
+compile CSS from public Simplest UI exports into a package-owned artifact and
+publish that artifact with the upstream license. It must be mutually exclusive
+with host Vite mode, must not copy `dist`, and is appropriate only when the
+package does not require Simplest UI Web Component JavaScript. Do not use
+`asset('vendor/simplest-ui/...')`; package mode points to the package's own
+published artifact.
+
+For every Laravel Composer package response, explicitly state the workbench asset
+owner, the production asset owner, and whether package-assets mode is valid. If
+the package requires any Simplest UI Web Component JavaScript, say that
+package-assets mode is invalid and that the host must import the matching
+JavaScript entrypoint.
 
 ## Build markup
 
@@ -49,14 +88,28 @@ Register all Web Components with `components.js`, or import only the needed beha
 
 Create a new CSS component if composition cannot communicate a reusable visual pattern. Create a Web Component only if the pattern has reusable state or complex accessible interaction.
 
-When adding either kind:
+Before proposing or implementing a new component, state that the current catalog
+does not provide the required primitive and why composition is insufficient. A
+project that merely consumes Simplest UI must not add a new `sui-*` element
+locally: propose the upstream Simplest UI extension instead. Only implement a
+new public component when working in the Simplest UI source repository.
+
+When adding either kind in Simplest UI:
 
 1. Reuse tokens and prefixes (`ui-`, `sui-`, `--sui-`).
 2. Implement keyboard support, focus behavior, semantic roles and `prefers-reduced-motion` where interaction requires them.
 3. Add unit tests for behavior; do not rely solely on a demo.
-4. Update `components.manifest.json`, the visual catalog, README, TypeScript JSX declarations when relevant, and changelog.
-5. Run `npm run typecheck`, `npm test`, `npm run build`, and `npm pack --dry-run`.
+4. Update `components.manifest.json`, `integrations.manifest.json` when a supported
+   workflow changes, the visual catalog, README, TypeScript JSX declarations when
+   relevant, and changelog.
+5. Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and
+   `npm pack --dry-run`.
+
+An extension response must name the missing primitive, explain the composition
+gap, and list the required tests, manifest, catalog, documentation, exports, and
+changelog work. Do not present an implementation as complete while those public
+surface updates are missing.
 
 ## Output expectations
 
-When responding to an implementation request, state which existing system primitive you selected and why. If no suitable primitive exists, briefly justify the extension before adding it. Mention any import requirement for new behavior.
+When responding to an implementation request, state which existing system primitive you selected and why. If no suitable primitive exists, briefly justify the extension before adding it and list its required public-surface work. Mention any import requirement for new behavior. For a Laravel Composer package, also explicitly state the workbench asset owner, the production asset owner, and whether package-assets mode is valid.
