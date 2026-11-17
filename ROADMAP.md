@@ -1,6 +1,6 @@
 # Roadmap
 
-`v0.2.0` is the latest published release. Work for the next version is not
+`v0.2.1` is the latest published release. Work for the next version is not
 started yet; released work is summarized below and detailed in the changelog,
 and this roadmap emphasizes the work still needed to release the next version.
 
