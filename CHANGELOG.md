@@ -6,6 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Added
 
+
+## [0.3.0] - 2026-11-19
+
+### Added
+
 - `schemaVersion: 1` and a documented manifest schema in `docs/manifest-schema.md`.
 - A `contract` plus one or more `examples` for every CSS component, layout and
   Web Component in `components.manifest.json`. `npm run catalog:check` now fails

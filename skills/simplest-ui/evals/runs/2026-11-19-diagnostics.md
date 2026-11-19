@@ -625,3 +625,30 @@ single-engine observation as environment/tooling, and required evidence before
 any contract edit. This matches the recorded Playwright reproduction: WebKit's
 default Tab order excluded the anchor, while an explicit `tabindex="0"` made it
 reachable in that automation configuration.
+
+---
+
+## Laravel integration prompts (4–8)
+
+These prompts come from the same `evals.json` shipped with the package. They
+exercise the Laravel integration contract (asset ownership, host vs. package
+mode, Web Component JavaScript requirement). Recorded here so the skill and its
+evals stay in one place; the Laravel adapter repo only consumes the packaged
+skill.
+
+### Results
+
+| ID | Scenario | Result | Evidence |
+| --- | --- | --- | --- |
+| 4 | Laravel host assets + drawer | Pass | `laravel-vite`: tokens.css + styles.css, drawer JS, Blade markup, Vite config; no dist/vendor assets. |
+| 5 | Composer package workbench drawer | Pass | `laravel-package`: workbench assets as dev tooling; host-owned production assets; CSS-only rejected. |
+| 6 | Drawer without Composer dependency | Pass | Host Vite CSS + drawer JS; direct `sui-drawer` markup; no `x-sui::*` assumption. |
+| 7 | Package-owned assets (no Node) | Pass | Package-assets mode with CSS + drawer JS, published artifacts, upstream license, mutually exclusive with host. |
+| 8 | Existing laravel-simplest-ui app | Pass | Used `x-sui::drawer`, respected host asset owner, no duplicate imports. |
+
+### Notes
+
+- No code or manifest changes were required; all responses followed the skill
+  guidance.
+- Prompts 1–3 (billing summary, export actions, date-range picker) are
+  covered in the earlier section of this file.

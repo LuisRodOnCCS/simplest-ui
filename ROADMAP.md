@@ -6,10 +6,26 @@ updates are described in the changelog; released work is summarized below.
 ## Unreleased — integration guidance
 
 - [x] Clarify direct Laravel usage, optional Blade wrappers and the separate
-  Laravel adapter.
+      Laravel adapter.
 - [x] Document exclusive package-owned builds containing the required CSS and
-  JavaScript.
-- [ ] Run and record the updated Laravel skill evaluation prompts.
+      JavaScript.
+- [x] Run and record the updated Laravel skill evaluation prompts.
+
+## Unreleased — manifest and contract centralization
+
+- [x] Add `schemaVersion: 1` and document the manifest schema in
+      `docs/manifest-schema.md`.
+- [x] Add a `contract` plus one or more `examples` for every CSS component,
+      layout and Web Component in `components.manifest.json`.
+- [x] Generate `docs/contracts.json` as the single source for copyable snippets
+      and contract rows; `docs/catalog.json` remains navigation only.
+- [x] Render additional examples as stacked `Variants` blocks in the visual
+      documentation.
+- [x] Validate that documented entries declare a contract and a `default`
+      example, that example ids are unique, that `ui-*` classes are declared, and
+      that non-default examples have a complete preview.
+- [x] Align `AGENTS.md` and `CLAUDE.md`; update `CONTRIBUTING.md`.
+- [x] Add manifest and package-content tests; stabilize visual baselines.
 
 ## v0.2.0 — Vanilla and Laravel integrations
 

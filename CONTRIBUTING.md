@@ -16,7 +16,9 @@
 - [ ] For Web Components, document attributes, slots, events, methods, and focus behavior.
 - [ ] Add behavior tests and React JSX declarations when applicable.
 - [ ] Update the manifest, visual documentation, README, skill references, and changelog.
-- [ ] Give every documented `cssComponents` and `layouts` entry a `contract` and a `default` example. Follow [`docs/manifest-schema.md`](./docs/manifest-schema.md).
+- [ ] Give every documented `cssComponents`, `layouts` and `webComponents` entry a `contract` and a `default` example. Follow [`docs/manifest-schema.md`](./docs/manifest-schema.md).
+- [ ] When adding a CSS component: create `src/components/<name>.css`, add its export in `package.json`, import it in `src/styles/components.css`, add `<name>` to `cssComponentNames` in `vite.config.ts`, register it in `components.manifest.json` (`classes`, `contract`, `examples`), add a case in `docs/assets/docs.ts` (`componentBody` + `cssReferences` + translations), run `npm run catalog:generate`, then `catalog:check`, `test`, `typecheck`, `docs:build`, `build` and `pack --dry-run`.
+- [ ] When adding a Web Component: create `src/components/<name>.ts` and register `sui-<name>`; add `import`/`export` in `src/components/index.ts`; add the entry in `vite.config.ts`; add exports in `package.json` (`.js` + `.d.ts`, plus `.css` if it uses light-DOM classes); register it in `components.manifest.json` (`webComponents` with `tag`, `import`, `attributes`, `properties`, `slots`, `events`, `keyboard`, `contract`, `examples`); add a case in `docs/assets/docs.ts` (`showcase` + `api` rows + translations); run `npm run catalog:generate`, then `catalog:check`, `test`, `typecheck`, `docs:build`, `build` and `pack --dry-run`.
 - [ ] Do not edit `docs/catalog.json`, `docs/contracts.json` or `skills/simplest-ui/references/catalog.md` by hand.
 - [ ] Run `npm run catalog:generate` after changing `components.manifest.json`.
 - [ ] Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and `npm pack --dry-run`.

@@ -26,6 +26,49 @@ agent skill. Keep the public surface small, semantic and evidence-based.
 - Do not put bilingual copy, previews or demo HTML in the manifest.
 - Do not invent `ui-*` classes, `sui-*` elements or tokens.
 
+## Adding a CSS component
+
+1. Create `src/components/<name>.css` using `--sui-*` tokens; no hardcoded colors,
+   animations or shadows unless justified.
+2. Add `"./components/<name>.css": "./dist/components/<name>.css"` to
+   `package.json` exports.
+3. Add `@import "../components/<name>.css";` to `src/styles/components.css` so the
+   styles ship in the `components.css` bundle.
+4. Add `<name>` to `cssComponentNames` in `vite.config.ts` so the build emits
+   `dist/components/<name>.css`.
+5. Register the entry in `components.manifest.json` (`cssComponents`) with
+   `classes`, `contract` and at least one example with `id: "default"`.
+6. Add a case in `docs/assets/docs.ts` (`componentBody`) plus a `cssReferences`
+   entry and translations.
+7. Run `npm run catalog:generate`, then `catalog:check`, `test`, `typecheck`,
+   `docs:build`, `build` and `pack --dry-run`.
+
+## Adding a Web Component
+
+Use this only when the component provides reusable state or accessible
+interaction (principle 4 in `CONTRIBUTING.md`).
+
+1. Create `src/components/<name>.ts` (light-DOM or encapsulated) and register
+   `sui-<name>` via `customElements.define`, exporting the class.
+2. Add `import "./<name>";` and `export { Sui<Name> } from "./<name>";` to
+   `src/components/index.ts`.
+3. Add `<name>: resolve(import.meta.dirname, "src/components/<name>.ts")` to
+   the `entry` object in `vite.config.ts`.
+4. Add `"./components/<name>": { "types": "./dist/components/<name>.d.ts",
+   "import": "./dist/<name>.js" }` to `package.json` exports.
+5. If the component uses light-DOM classes (like `sui-tooltip`, `sui-popover`,
+   `sui-tag`), also create `src/components/<name>.css`, import it in
+   `src/styles/components.css`, add it to `cssComponentNames`, and add a
+   `"./components/<name>.css"` export.
+6. Register the entry in `components.manifest.json` (`webComponents`) with
+   `tag`, `import`, `attributes`, `properties`, `slots`, `events`, `keyboard`,
+   `contract` and at least one example with `id: "default"`. Its markup uses
+   `sui-*` tags; `ui-*` classes are not validated for Web Components.
+7. Add a case in `docs/assets/docs.ts` (`componentBody`) using `showcase(...)` +
+   `api([...])` rows, plus translations.
+8. Run `npm run catalog:generate`, then `catalog:check`, `test`, `typecheck`,
+   `docs:build`, `build` and `pack --dry-run`.
+
 ## Generated files
 
 Do not edit these by hand:

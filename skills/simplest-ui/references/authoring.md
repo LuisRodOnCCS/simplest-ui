@@ -16,6 +16,39 @@
   beneath its preview. Do not place bare dark code blocks inside reference cards
   or side-by-side grids.
 
+## Adding components
+
+### CSS component
+
+1. Create `src/components/<name>.css` using `--sui-*` tokens.
+2. Add the export in `package.json`, import it in `src/styles/components.css`,
+   and add `<name>` to `cssComponentNames` in `vite.config.ts`.
+3. Register the entry in `components.manifest.json` (`cssComponents`) with
+   `classes`, `contract` and at least one `default` example.
+4. Add a case in `docs/assets/docs.ts` (`componentBody` + `cssReferences` +
+   translations).
+5. Run `npm run catalog:generate`, then `catalog:check`, `test`, `typecheck`,
+   `docs:build`, `build` and `pack --dry-run`.
+
+### Web Component
+
+Use this only when the component provides reusable state or accessible
+interaction.
+
+1. Create `src/components/<name>.ts`, register `sui-<name>`, and export the class
+   from `src/components/index.ts`.
+2. Add the entry to `vite.config.ts` and the `.js`/`.d.ts` exports to
+   `package.json`.
+3. If it uses light-DOM classes (like `sui-tooltip`, `sui-popover`, `sui-tag`),
+   also create its `.css`, import it in `src/styles/components.css`, add it to
+   `cssComponentNames`, and add a `.css` export.
+4. Register the entry in `components.manifest.json` (`webComponents`) with `tag`,
+   `import`, `attributes`, `properties`, `slots`, `events`, `keyboard`,
+   `contract` and at least one `default` example. Markup uses `sui-*` tags.
+5. Add a case in `docs/assets/docs.ts` (`showcase` + `api` rows + translations).
+6. Run `npm run catalog:generate`, then `catalog:check`, `test`, `typecheck`,
+   `docs:build`, `build` and `pack --dry-run`.
+
 ## Integration
 
 When Bootstrap or Tailwind supplies a reset, import `tokens.css` and
