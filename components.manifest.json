@@ -398,6 +398,49 @@
           "recommended": []
         }
       ]
+    },
+    {
+      "tag": "sui-tag",
+      "documentationId": "tag",
+      "import": "@luisrodonccs/simplest-ui/components/tag",
+      "className": "SuiTag",
+      "attributes": [
+        "variant"
+      ],
+      "properties": {
+        "variant": "string"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [],
+      "keyboard": [],
+      "contract": {
+        "required": [
+          "Use sui-tag for ribbon-shaped labels with a pointed end.",
+          "Set variant for color (primary, success, warning, danger, info, outline)."
+        ],
+        "recommended": [
+          "Scale with --sui-tag-height.",
+          "Use a button element for interactive tags (focus ring provided)."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Tag label",
+          "markup": "<sui-tag>Design systems</sui-tag>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "button",
+          "label": "Interactive tag",
+          "markup": "<sui-tag variant=\"primary\">Filter</sui-tag>",
+          "required": [],
+          "recommended": []
+        }
+      ]
     }
   ],
   "cssComponents": [

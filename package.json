@@ -42,6 +42,7 @@
     "./components/toast.css": "./dist/components/toast.css",
     "./components/tooltip.css": "./dist/components/tooltip.css",
     "./components/topbar.css": "./dist/components/topbar.css",
+    "./components/tag.css": "./dist/components/tag.css",
     "./components.js": {
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components.js"
@@ -77,6 +78,10 @@
     "./components/tooltip": {
       "types": "./dist/components/tooltip.d.ts",
       "import": "./dist/tooltip.js"
+    },
+    "./components/tag": {
+      "types": "./dist/components/tag.d.ts",
+      "import": "./dist/tag.js"
     },
     "./components.manifest.json": "./components.manifest.json",
     "./integrations.manifest.json": "./integrations.manifest.json",

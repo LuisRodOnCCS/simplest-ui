@@ -16,6 +16,7 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 | `sui-popover` | `@luisrodonccs/simplest-ui/components/popover` | ArrowDown, Enter, Space, Escape, Tab |
 | `sui-tooltip` | `@luisrodonccs/simplest-ui/components/tooltip` | focus |
 | `sui-toast` | `@luisrodonccs/simplest-ui/components/toast` | None |
+| `sui-tag` | `@luisrodonccs/simplest-ui/components/tag` | None |
 
 ## CSS components
 
