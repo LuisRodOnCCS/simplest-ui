@@ -21,6 +21,10 @@ Read [references/catalog.md](references/catalog.md) for the current public surfa
 [references/integrations.md](references/integrations.md) for installation workflows,
 and [references/authoring.md](references/authoring.md) before extending it.
 
+When editing the manifest, follow `docs/manifest-schema.md`. Every documented CSS
+component or layout declares a `contract` and at least one example with
+`id: "default"`; treat those as the normative markup, not the visual preview.
+
 ## Use the correct entrypoint
 
 Use the full bundle when Simplest UI owns the page foundation:

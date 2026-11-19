@@ -16,6 +16,8 @@
 - [ ] For Web Components, document attributes, slots, events, methods, and focus behavior.
 - [ ] Add behavior tests and React JSX declarations when applicable.
 - [ ] Update the manifest, visual documentation, README, skill references, and changelog.
+- [ ] Give every documented `cssComponents` and `layouts` entry a `contract` and a `default` example. Follow [`docs/manifest-schema.md`](./docs/manifest-schema.md).
+- [ ] Do not edit `docs/catalog.json`, `docs/contracts.json` or `skills/simplest-ui/references/catalog.md` by hand.
 - [ ] Run `npm run catalog:generate` after changing `components.manifest.json`.
 - [ ] Run `npm run typecheck`, `npm test`, `npm run build`, `npm run docs:build`, and `npm pack --dry-run`.
 

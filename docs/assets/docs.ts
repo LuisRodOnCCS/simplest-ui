@@ -1,11 +1,22 @@
 import catalogData from "../catalog.json";
+import contractsData from "../contracts.json";
 
 type Language = "en" | "es";
 type ThemeChoice = "light" | "dark" | "system";
 type CatalogItem = { id: string; label: string; kind: string; href?: string };
 type CatalogGroup = { id: string; label: string; items: CatalogItem[] };
+type ContractExample = { id: string; label: string; markup: string; required: string[]; recommended: string[] };
+type ContractEntry = {
+  name: string;
+  kind: "css" | "layout";
+  classes: string[];
+  contract: { required: string[]; recommended: string[] };
+  examples: ContractExample[];
+};
+type Contracts = { schemaVersion: number; version: string; components: Record<string, ContractEntry> };
 
 const catalog = catalogData as { groups: CatalogGroup[] };
+const contracts = contractsData as Contracts;
 const languageKey = "simplest-ui-docs-language";
 const themeKey = "simplest-ui-docs-theme";
 const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -81,8 +92,28 @@ function api(rows: Array<[string, string]>) {
   return `<div class="docs-reference"><h3>API</h3><table class="docs-api"><tbody>${rows.map(([key, value]) => `<tr><th><code>${key}</code></th><td>${value}</td></tr>`).join("")}</tbody></table></div>`;
 }
 
+function contractRows(id: string): Array<[string, string]> {
+  const entry = contracts.components[id];
+  if (!entry) return [];
+  const rows: Array<[string, string]> = [];
+  for (const item of entry.contract.required) rows.push(["Required", item]);
+  for (const item of entry.contract.recommended) rows.push(["Recommended", item]);
+  for (const example of entry.examples.filter((candidate) => candidate.id !== "default")) {
+    for (const item of example.required) rows.push([`Required (${example.label})`, item]);
+    for (const item of example.recommended) rows.push([`Recommended (${example.label})`, item]);
+  }
+  return rows;
+}
+
 function implementation(id: string, preview: string, rows: Array<[string, string]>) {
-  return `<div class="docs-implementation">${showcase(preview, snippets[id])}${api(rows)}</div>`;
+  const seen = new Set<string>();
+  const merged = [...rows, ...contractRows(id)].filter(([key, value]) => {
+    const token = `${key}\u0000${value}`;
+    if (seen.has(token)) return false;
+    seen.add(token);
+    return true;
+  });
+  return `<div class="docs-implementation">${showcase(preview, snippets[id])}${api(merged)}</div>`;
 }
 
 function guideCard(title: string, copy: string, snippet: string) {
@@ -93,40 +124,24 @@ function guideStack(...cards: string[]) {
   return `<div class="docs-guide-stack">${cards.join("")}</div>`;
 }
 
-const snippets: Record<string, string> = {
-  button: `<button class="ui-button ui-button--primary" type="button">Save changes</button>`,
-  field: `<div class="ui-field">\n  <label class="ui-label" for="name">Name</label>\n  <input class="ui-input" id="name" aria-describedby="name-help" />\n  <div class="ui-help" id="name-help">Use your full name.</div>\n</div>`,
-  "input-field": `<div class="ui-field">\n  <label class="ui-label" for="name">Name</label>\n  <input class="ui-input" id="name" aria-describedby="name-help" />\n  <div class="ui-help" id="name-help">Use your full name.</div>\n</div>\n<div class="ui-field">\n  <label class="ui-label" for="disabled-name">Name</label>\n  <input class="ui-input" id="disabled-name" value="Disabled" disabled />\n</div>`,
-  textarea: `<label class="ui-label" for="message">Message</label>\n<textarea class="ui-textarea" id="message"></textarea>`,
-  select: `<label class="ui-label" for="country">Country</label>\n<select class="ui-select" id="country">\n  <option>Mexico</option>\n</select>`,
-  checkbox: `<label class="ui-checkbox">\n  <input type="checkbox" name="updates" />\n  Receive updates\n</label>`,
-  radio: `<fieldset class="ui-radio-group">\n  <legend class="ui-label">Plan</legend>\n  <label class="ui-radio"><input type="radio" name="plan" /> Starter</label>\n</fieldset>`,
-  switch: `<label class="ui-switch">\n  <input type="checkbox" role="switch" />\n  <span class="ui-switch__track"></span>\n  Notifications\n</label>`,
-  card: `<article class="ui-card ui-card--raised">\n  <header class="ui-card__header"><h3 class="ui-card__title">Title</h3></header>\n  <p class="ui-card__body">Supporting content.</p>\n</article>`,
-  "badge-chip": `<span class="ui-badge ui-badge--success">Active</span>\n<span class="ui-chip">Design systems</span>`,
-  alert: `<div class="ui-alert ui-alert--warning" role="status">\n  <div><div class="ui-alert__title">Review required</div><div class="ui-alert__body">Two fields are missing.</div></div>\n</div>`,
-  spinner: `<span class="ui-spinner" role="status" aria-label="Loading"></span>`,
-  skeleton: `<div class="ui-skeleton ui-skeleton--title"></div>\n<div class="ui-skeleton ui-skeleton--text"></div>`,
-  progress: `<div class="ui-progress" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100">\n  <div class="ui-progress__bar" style="width: 64%"></div>\n</div>`,
+const elementSnippets: Record<string, string> = {
   drawer: `<sui-drawer label="Filters" close-label="Close filters">\n  <span slot="title">Filters</span>\n  <p>Adjust the results.</p>\n  <div slot="footer">...</div>\n</sui-drawer>`,
   modal: `<sui-modal label="Confirm action">\n  <span slot="title">Confirmation</span>\n  <p>Do you want to continue?</p>\n</sui-modal>`,
-  table: `<div class="ui-table-wrap" role="region" aria-label="Users" tabindex="0">\n  <table class="ui-table">\n    <caption class="sr-only">Users</caption>\n    ...\n  </table>\n</div>`,
-  avatar: `<span class="ui-avatar" aria-label="Ada Lovelace">AL</span>\n<span class="ui-avatar"><img src="avatar.jpg" alt="Ada Lovelace" /></span>`,
-  stat: `<div class="ui-stat">\n  <div class="ui-stat__label">Users</div>\n  <div class="ui-stat__value">1,284</div>\n  <div class="ui-stat__hint">+12% this month</div>\n</div>`,
-  "empty-state": `<div class="ui-empty">\n  <h3 class="ui-empty__title">No results</h3>\n  <p class="ui-empty__body">Create a record to get started.</p>\n</div>`,
-  nav: `<nav class="ui-nav" aria-label="Workspace">\n  <a class="ui-nav__item ui-nav__item--active" href="/dashboard" aria-current="page">Dashboard</a>\n</nav>`,
   dropdown: `<sui-dropdown>\n  <span slot="trigger">Actions</span>\n  <button type="button" data-value="export">Export</button>\n  <button type="button" data-value="archive">Archive</button>\n</sui-dropdown>`,
   tabs: `<sui-tabs value="general">\n  <div data-tab="general" label="General">General content.</div>\n  <div data-tab="security" label="Security">Security content.</div>\n</sui-tabs>`,
   accordion: `<sui-accordion>\n  <div class="ui-accordion__item open">\n    <button class="ui-accordion__trigger" type="button">Details</button>\n    <div class="ui-accordion__content">Content.</div>\n  </div>\n</sui-accordion>`,
   popover: `<sui-popover label="Actions">\n  <button slot="trigger" type="button">Actions</button>\n  <div slot="content">Contextual content.</div>\n</sui-popover>`,
-  tooltip: `<sui-tooltip content="Additional context">\n  <button type="button">Hover or focus</button>\n</sui-tooltip>`,
-  container: `<div class="ui-container">...</div>`,
-  stack: `<div class="ui-stack">\n  <div>One</div><div>Two</div>\n</div>`,
-  cluster: `<div class="ui-cluster">\n  <button>One</button><button>Two</button>\n</div>`,
-  grid: `<div class="ui-grid ui-grid--auto">\n  <article>One</article><article>Two</article>\n</div>`,
-  "app-shell": `<div class="ui-app-shell">\n  <aside class="ui-app-shell__sidebar">...</aside>\n  <div class="ui-app-shell__content">\n    <header class="ui-app-shell__header">...</header>\n    <main class="ui-app-shell__main">...</main>\n  </div>\n</div>`,
-  "topbar": `<header class="ui-topbar">\n  <a class="ui-topbar__brand" href="/"><span class="ui-topbar__mark">S</span><span>Simplest UI</span></a>\n  <div class="ui-topbar__controls">...</div>\n</header>`,
-  "skip-link": `<a class="ui-skip-link" href="#main-content">Skip to content</a>\n<main id="main-content" tabindex="-1">...</main>`
+  tooltip: `<sui-tooltip content="Additional context">\n  <button type="button">Hover or focus</button>\n</sui-tooltip>`
+};
+
+const snippets: Record<string, string> = {
+  ...elementSnippets,
+  ...Object.fromEntries(
+    Object.entries(contracts.components).map(([id, entry]) => {
+      const example = entry.examples.find((candidate) => candidate.id === "default") ?? entry.examples[0];
+      return [id, example.markup];
+    })
+  )
 };
 
 const cssReferences: Record<string, Array<[string, string]>> = {
@@ -143,7 +158,7 @@ const cssReferences: Record<string, Array<[string, string]>> = {
   spinner: [["Classes", "ui-spinner, --sm, --lg"], ["Tokens", "--sui-spinner-size, --sui-spinner-border, --sui-duration-spinner"]],
   skeleton: [["Classes", "ui-skeleton, --text, --title, --avatar, --block"], ["Tokens", "--sui-skeleton-block-height, --sui-duration-shimmer"]],
   progress: [["Classes", "ui-progress, __bar, --indeterminate"], ["Tokens", "--sui-progress-height, --sui-duration-progress"]],
-  table: [["Classes", "ui-table-wrap, ui-table"], ["Token", "--sui-table-min-width"], ["Required markup", "role=region, an accessible name, tabindex=0, and an accessible table name, preferably a caption"]],
+  table: [["Classes", "ui-table-wrap, ui-table"], ["Token", "--sui-table-min-width"]],
   avatar: [["Classes", "ui-avatar, --sm, --lg, ui-avatar-group"], ["Token", "--sui-avatar-size"]],
   stat: [["Classes", "ui-stat, __label, __value, __hint"], ["Tokens", "--sui-gradient-primary, --sui-space-4, --sui-radius-xl"]],
   "empty-state": [["Classes", "ui-empty, __title, __body"], ["Tokens", "--sui-space-10, --sui-radius-xl"]],
@@ -151,9 +166,9 @@ const cssReferences: Record<string, Array<[string, string]>> = {
   container: [["Class", "ui-container"], ["Tokens", "--sui-container-sm, --sui-container-md, --sui-container-lg, --sui-container-xl"]],
   stack: [["Class", "ui-stack"], ["Token", "--ui-stack-gap"]],
   cluster: [["Class", "ui-cluster"], ["Token", "--ui-cluster-gap"]],
-  grid: [["Classes", "ui-grid, ui-grid--auto"], ["Tokens", "--ui-grid-cols, --ui-grid-gap"], ["Required markup", "Use ui-grid--auto when columns must adapt to the viewport"]],
+  grid: [["Classes", "ui-grid, ui-grid--auto"], ["Tokens", "--ui-grid-cols, --ui-grid-gap"]],
   "app-shell": [["Classes", "ui-app-shell, --contained, __sidebar, __content, __header, __main"], ["Token", "--sui-sidebar-width"]],
-  "skip-link": [["Class", "ui-skip-link"], ["Behavior", "Visible only on keyboard focus"], ["Required markup", "First focusable element; href targets the main landmark with tabindex=-1"], ["Compatibility", "Some engines omit links from the default Tab order; test the target environment before adding tabindex=0"]],
+  "skip-link": [["Class", "ui-skip-link"], ["Behavior", "Visible only on keyboard focus"], ["Compatibility", "Some engines omit links from the default Tab order; test the target environment before adding tabindex=0"]],
   "topbar": [["Classes", "ui-topbar, __brand, __mark, __controls, --glass"], ["Tokens", "--sui-z-popover, --sui-blur-lg, --sui-shadow-card"]]
 };
 

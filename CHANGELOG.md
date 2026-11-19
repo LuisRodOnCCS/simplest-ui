@@ -6,6 +6,15 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Added
 
+- `schemaVersion: 1` and a documented manifest schema in `docs/manifest-schema.md`.
+- A `contract` plus one or more `examples` for every CSS component and layout in
+  `components.manifest.json`, including the existing table, grid and skip-link
+  contracts. `npm run catalog:check` now fails when a documented entry lacks a
+  contract or a `default` example, uses an undeclared `ui-*` class, or repeats an
+  example id.
+- Generated `docs/contracts.json`, consumed by the visual documentation so that
+  copyable snippets and contract rows no longer have a second hand-written copy.
+- Short `AGENTS.md` and `CLAUDE.md` repository guides for agent consistency.
 - Markup contracts for `ui-table-wrap`, `ui-grid--auto` and `ui-skip-link` in
   `components.manifest.json`, including generated agent-catalog guidance and
   browser tests for keyboard reachability, focus transfer and responsive columns.
@@ -16,6 +25,9 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Changed
 
+- The visual documentation now builds copyable snippets and contract rows from
+  `docs/contracts.json`. Previews, translations and demo compositions stay in
+  `docs/assets/docs.ts`.
 - Clarified direct Laravel integration, optional Blade wrappers and the separate
   Laravel adapter in the agent skill and package starter documentation.
 - Clarified that an exclusive package-owned asset build may include the CSS and

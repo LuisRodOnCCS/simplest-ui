@@ -87,7 +87,8 @@
     "skills",
     "LICENSE",
     "components.manifest.json",
-    "integrations.manifest.json"
+    "integrations.manifest.json",
+    "docs/manifest-schema.md"
   ],
   "scripts": {
     "dev": "vite --config vite.docs.config.ts --open /docs/",
