@@ -7,11 +7,10 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 ### Added
 
 - `schemaVersion: 1` and a documented manifest schema in `docs/manifest-schema.md`.
-- A `contract` plus one or more `examples` for every CSS component and layout in
-  `components.manifest.json`, including the existing table, grid and skip-link
-  contracts. `npm run catalog:check` now fails when a documented entry lacks a
-  contract or a `default` example, uses an undeclared `ui-*` class, or repeats an
-  example id.
+- A `contract` plus one or more `examples` for every CSS component, layout and
+  Web Component in `components.manifest.json`. `npm run catalog:check` now fails
+  when a documented entry lacks a contract or a `default` example, uses an
+  undeclared `ui-*` class, or repeats an example id.
 - Generated `docs/contracts.json`, consumed by the visual documentation so that
   copyable snippets and contract rows no longer have a second hand-written copy.
 - Additional examples now render as stacked `Variants` blocks in the visual

@@ -13,7 +13,7 @@ describe("components manifest", () => {
   });
 
   it("declares a contract and a default example for every documented entry", () => {
-    for (const entry of [...manifest.cssComponents, ...manifest.layouts]) {
+    for (const entry of [...manifest.cssComponents, ...manifest.layouts, ...manifest.webComponents]) {
       expect(entry.contract, entry.name).toBeDefined();
       expect(entry.examples.some((example: { id: string }) => example.id === "default"), entry.name).toBe(true);
     }

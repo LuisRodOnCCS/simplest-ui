@@ -746,6 +746,390 @@
           "recommended": []
         }
       ]
+    },
+    "modal": {
+      "name": "sui-modal",
+      "kind": "web-component",
+      "tag": "sui-modal",
+      "import": "@luisrodonccs/simplest-ui/components/modal",
+      "attributes": [
+        "open",
+        "label",
+        "close-label",
+        "disable-backdrop-close"
+      ],
+      "properties": {
+        "open": "boolean",
+        "label": "string",
+        "closeLabel": "string",
+        "disableBackdropClose": "boolean"
+      },
+      "slots": [
+        "title",
+        "default",
+        "footer"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close"
+      ],
+      "eventDetails": {
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+      },
+      "keyboard": [
+        "Escape",
+        "focus trap"
+      ],
+      "contract": {
+        "required": [
+          "Provide a title slot or label attribute for the accessible name.",
+          "Use the footer slot for actions."
+        ],
+        "recommended": [
+          "Set close-label when the default close button is visible.",
+          "Emit lifecycle events only after real state transitions."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "modal",
+          "markup": "<sui-modal label=\"Confirm action\">\n  <span slot=\"title\">Confirmation</span>\n  <p>Do you want to continue?</p>\n</sui-modal>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "drawer": {
+      "name": "sui-drawer",
+      "kind": "web-component",
+      "tag": "sui-drawer",
+      "import": "@luisrodonccs/simplest-ui/components/drawer",
+      "attributes": [
+        "open",
+        "label",
+        "close-label",
+        "disable-backdrop-close"
+      ],
+      "properties": {
+        "open": "boolean",
+        "label": "string",
+        "closeLabel": "string",
+        "disableBackdropClose": "boolean"
+      },
+      "slots": [
+        "title",
+        "default",
+        "footer"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close"
+      ],
+      "eventDetails": {
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+      },
+      "keyboard": [
+        "Escape",
+        "focus trap"
+      ],
+      "contract": {
+        "required": [
+          "Provide a title slot or label attribute for the accessible name."
+        ],
+        "recommended": [
+          "Set close-label when the default close button is visible.",
+          "Use the footer slot for actions."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "drawer",
+          "markup": "<sui-drawer label=\"Filters\" close-label=\"Close filters\">\n  <span slot=\"title\">Filters</span>\n  <p>Adjust the results.</p>\n  <div slot=\"footer\">...</div>\n</sui-drawer>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "dropdown": {
+      "name": "sui-dropdown",
+      "kind": "web-component",
+      "tag": "sui-dropdown",
+      "import": "@luisrodonccs/simplest-ui/components/dropdown",
+      "attributes": [
+        "open"
+      ],
+      "properties": {
+        "open": "boolean"
+      },
+      "slots": [
+        "trigger",
+        "default"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close",
+        "sui-toggle",
+        "sui-select"
+      ],
+      "eventDetails": {
+        "sui-select": "{ value: string }"
+      },
+      "keyboard": [
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End",
+        "Enter",
+        "Space",
+        "Escape",
+        "Tab"
+      ],
+      "contract": {
+        "required": [
+          "Provide a trigger slot.",
+          "Provide menu items as buttons."
+        ],
+        "recommended": [
+          "Mark disabled items with disabled or aria-disabled.",
+          "Listen to sui-select for the chosen value."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "dropdown",
+          "markup": "<sui-dropdown>\n  <span slot=\"trigger\">Actions</span>\n  <button type=\"button\" data-value=\"export\">Export</button>\n  <button type=\"button\" data-value=\"archive\">Archive</button>\n</sui-dropdown>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "tabs": {
+      "name": "sui-tabs",
+      "kind": "web-component",
+      "tag": "sui-tabs",
+      "import": "@luisrodonccs/simplest-ui/components/tabs",
+      "attributes": [
+        "value",
+        "variant"
+      ],
+      "properties": {
+        "value": "string",
+        "variant": "'pill' | 'box'"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [
+        "sui-change"
+      ],
+      "eventDetails": {
+        "sui-change": "{ value: string }"
+      },
+      "keyboard": [
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "Home",
+        "End"
+      ],
+      "contract": {
+        "required": [
+          "Provide tab panels with data-tab and label."
+        ],
+        "recommended": [
+          "Use variant=\"box\" for compact selectors.",
+          "Mark disabled tabs with disabled."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "tabs",
+          "markup": "<sui-tabs value=\"general\">\n  <div data-tab=\"general\" label=\"General\">General content.</div>\n  <div data-tab=\"security\" label=\"Security\">Security content.</div>\n</sui-tabs>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "accordion": {
+      "name": "sui-accordion",
+      "kind": "web-component",
+      "tag": "sui-accordion",
+      "import": "@luisrodonccs/simplest-ui/components/accordion",
+      "attributes": [
+        "multiple"
+      ],
+      "properties": {
+        "multiple": "boolean"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [
+        "sui-change"
+      ],
+      "eventDetails": {
+        "sui-change": "{ open: string[] }"
+      },
+      "keyboard": [
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End"
+      ],
+      "contract": {
+        "required": [
+          "Use ui-accordion__item, ui-accordion__trigger and ui-accordion__content."
+        ],
+        "recommended": [
+          "Mark disabled items with disabled.",
+          "Set multiple to allow several open sections."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "accordion",
+          "markup": "<sui-accordion>\n  <div class=\"ui-accordion__item open\">\n    <button class=\"ui-accordion__trigger\" type=\"button\">Details</button>\n    <div class=\"ui-accordion__content\">Content.</div>\n  </div>\n</sui-accordion>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "popover": {
+      "name": "sui-popover",
+      "kind": "web-component",
+      "tag": "sui-popover",
+      "import": "@luisrodonccs/simplest-ui/components/popover",
+      "attributes": [
+        "open",
+        "label"
+      ],
+      "properties": {
+        "open": "boolean",
+        "label": "string"
+      },
+      "slots": [
+        "trigger",
+        "content"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close"
+      ],
+      "keyboard": [
+        "ArrowDown",
+        "Enter",
+        "Space",
+        "Escape",
+        "Tab"
+      ],
+      "contract": {
+        "required": [
+          "Provide trigger and content slots."
+        ],
+        "recommended": [
+          "Set label for the accessible name.",
+          "Use Enter, Space and Escape to operate."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "popover",
+          "markup": "<sui-popover label=\"Actions\">\n  <button slot=\"trigger\" type=\"button\">Actions</button>\n  <div slot=\"content\">Contextual content.</div>\n</sui-popover>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "tooltip": {
+      "name": "sui-tooltip",
+      "kind": "web-component",
+      "tag": "sui-tooltip",
+      "import": "@luisrodonccs/simplest-ui/components/tooltip",
+      "attributes": [
+        "content"
+      ],
+      "properties": {
+        "content": "string"
+      },
+      "slots": [
+        "trigger",
+        "content"
+      ],
+      "events": [],
+      "keyboard": [
+        "focus"
+      ],
+      "contract": {
+        "required": [
+          "Provide content and a trigger child."
+        ],
+        "recommended": [
+          "Disabled triggers do not show the tooltip.",
+          "Content becomes aria-describedby automatically."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "tooltip",
+          "markup": "<sui-tooltip content=\"Additional context\">\n  <button type=\"button\">Hover or focus</button>\n</sui-tooltip>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    "toast": {
+      "name": "sui-toast",
+      "kind": "web-component",
+      "tag": "sui-toast",
+      "import": "@luisrodonccs/simplest-ui/components/toast",
+      "attributes": [
+        "title",
+        "message",
+        "variant",
+        "duration"
+      ],
+      "properties": {
+        "title": "string",
+        "message": "string",
+        "variant": "'default' | 'success' | 'warning' | 'danger'",
+        "duration": "number"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [
+        "sui-dismiss"
+      ],
+      "keyboard": [],
+      "api": [
+        "SuiToast.show({ title, message, variant, duration })"
+      ],
+      "contract": {
+        "required": [
+          "Call SuiToast.show with title or message."
+        ],
+        "recommended": [
+          "Use variant to communicate severity.",
+          "Set duration for transient feedback."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "toast",
+          "markup": "import { SuiToast } from \"@luisrodonccs/simplest-ui\";\n\nSuiToast.show({ title: \"Changes saved\", variant: \"success\" });",
+          "required": [],
+          "recommended": []
+        }
+      ]
     }
   }
 }

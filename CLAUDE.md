@@ -12,8 +12,8 @@ agent skill. Keep the public surface small, semantic and evidence-based.
 
 ## Manifest rules
 
-- Every documented entry in `cssComponents` and `layouts` needs a `contract`
-  and at least one example with `id: "default"`.
+- Every documented entry in `cssComponents`, `layouts` and `webComponents` needs a
+  `contract` and at least one example with `id: "default"`.
 - Global requirements belong in `contract`; example-specific requirements belong
   in `examples[].required` or `examples[].recommended`. Do not duplicate them.
 - Add another example only when it changes markup, state, accessibility or

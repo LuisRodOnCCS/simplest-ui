@@ -86,7 +86,7 @@ Additional examples appear in the agent catalog and in the reference table.
 Generated artifacts, which must not be edited by hand:
 
 - `docs/catalog.json`: navigation only.
-- `docs/contracts.json`: contracts and examples for CSS components and layouts.
+- `docs/contracts.json`: contracts and examples for CSS components, layouts and Web Components.
 - `skills/simplest-ui/references/catalog.md`: agent-facing catalog.
 
 ## Example

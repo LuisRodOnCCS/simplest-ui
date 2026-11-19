@@ -8,8 +8,17 @@ type CatalogGroup = { id: string; label: string; items: CatalogItem[] };
 type ContractExample = { id: string; label: string; markup: string; preview?: string; required: string[]; recommended: string[] };
 type ContractEntry = {
   name: string;
-  kind: "css" | "layout";
-  classes: string[];
+  kind: "css" | "layout" | "web-component";
+  classes?: string[];
+  tag?: string;
+  import?: string;
+  attributes?: string[];
+  properties?: Record<string, string>;
+  slots?: string[];
+  events?: string[];
+  eventDetails?: Record<string, string>;
+  keyboard?: string[];
+  api?: string[];
   contract: { required: string[]; recommended: string[] };
   examples: ContractExample[];
 };
@@ -132,25 +141,12 @@ function guideStack(...cards: string[]) {
   return `<div class="docs-guide-stack">${cards.join("")}</div>`;
 }
 
-const elementSnippets: Record<string, string> = {
-  drawer: `<sui-drawer label="Filters" close-label="Close filters">\n  <span slot="title">Filters</span>\n  <p>Adjust the results.</p>\n  <div slot="footer">...</div>\n</sui-drawer>`,
-  modal: `<sui-modal label="Confirm action">\n  <span slot="title">Confirmation</span>\n  <p>Do you want to continue?</p>\n</sui-modal>`,
-  dropdown: `<sui-dropdown>\n  <span slot="trigger">Actions</span>\n  <button type="button" data-value="export">Export</button>\n  <button type="button" data-value="archive">Archive</button>\n</sui-dropdown>`,
-  tabs: `<sui-tabs value="general">\n  <div data-tab="general" label="General">General content.</div>\n  <div data-tab="security" label="Security">Security content.</div>\n</sui-tabs>`,
-  accordion: `<sui-accordion>\n  <div class="ui-accordion__item open">\n    <button class="ui-accordion__trigger" type="button">Details</button>\n    <div class="ui-accordion__content">Content.</div>\n  </div>\n</sui-accordion>`,
-  popover: `<sui-popover label="Actions">\n  <button slot="trigger" type="button">Actions</button>\n  <div slot="content">Contextual content.</div>\n</sui-popover>`,
-  tooltip: `<sui-tooltip content="Additional context">\n  <button type="button">Hover or focus</button>\n</sui-tooltip>`
-};
-
-const snippets: Record<string, string> = {
-  ...elementSnippets,
-  ...Object.fromEntries(
-    Object.entries(contracts.components).map(([id, entry]) => {
-      const example = entry.examples.find((candidate) => candidate.id === "default") ?? entry.examples[0];
-      return [id, example.markup];
-    })
-  )
-};
+const snippets: Record<string, string> = Object.fromEntries(
+  Object.entries(contracts.components).map(([id, entry]) => {
+    const example = entry.examples.find((candidate) => candidate.id === "default") ?? entry.examples[0];
+    return [id, example.markup];
+  })
+);
 
 const cssReferences: Record<string, Array<[string, string]>> = {
   button: [["Classes", "ui-button, --primary, --danger, --ghost, --sm"], ["Tokens", "--sui-control-height-*, --sui-radius-full, --sui-gradient-primary"]],

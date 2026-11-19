@@ -2,48 +2,1158 @@
   "name": "Simplest UI",
   "version": "0.2.1",
   "schemaVersion": 1,
-  "prefixes": {"customElement":"sui-","cssClass":"ui-","token":"--sui-"},
-  "cssEntrypoints": {"tokens":"@luisrodonccs/simplest-ui/tokens.css","reset":"@luisrodonccs/simplest-ui/reset.css","base":"@luisrodonccs/simplest-ui/base.css","components":"@luisrodonccs/simplest-ui/components.css","all":"@luisrodonccs/simplest-ui/styles.css"},
+  "prefixes": {
+    "customElement": "sui-",
+    "cssClass": "ui-",
+    "token": "--sui-"
+  },
+  "cssEntrypoints": {
+    "tokens": "@luisrodonccs/simplest-ui/tokens.css",
+    "reset": "@luisrodonccs/simplest-ui/reset.css",
+    "base": "@luisrodonccs/simplest-ui/base.css",
+    "components": "@luisrodonccs/simplest-ui/components.css",
+    "all": "@luisrodonccs/simplest-ui/styles.css"
+  },
   "webComponents": [
-    {"tag":"sui-modal","documentationId":"modal","import":"@luisrodonccs/simplest-ui/components/modal","className":"SuiModal","attributes":["open","label","close-label","disable-backdrop-close"],"properties":{"open":"boolean","label":"string","closeLabel":"string","disableBackdropClose":"boolean"},"slots":["title","default","footer"],"events":["sui-open","sui-close"],"eventDetails":{"sui-close":"{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"},"keyboard":["Escape","focus trap"]},
-    {"tag":"sui-drawer","documentationId":"drawer","import":"@luisrodonccs/simplest-ui/components/drawer","className":"SuiDrawer","attributes":["open","label","close-label","disable-backdrop-close"],"properties":{"open":"boolean","label":"string","closeLabel":"string","disableBackdropClose":"boolean"},"slots":["title","default","footer"],"events":["sui-open","sui-close"],"eventDetails":{"sui-close":"{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"},"keyboard":["Escape","focus trap"]},
-    {"tag":"sui-dropdown","documentationId":"dropdown","import":"@luisrodonccs/simplest-ui/components/dropdown","className":"SuiDropdown","attributes":["open"],"properties":{"open":"boolean"},"slots":["trigger","default"],"events":["sui-open","sui-close","sui-toggle","sui-select"],"eventDetails":{"sui-select":"{ value: string }"},"keyboard":["ArrowUp","ArrowDown","Home","End","Enter","Space","Escape","Tab"]},
-    {"tag":"sui-tabs","documentationId":"tabs","import":"@luisrodonccs/simplest-ui/components/tabs","className":"SuiTabs","attributes":["value","variant"],"properties":{"value":"string","variant":"'pill' | 'box'"},"slots":["default"],"events":["sui-change"],"eventDetails":{"sui-change":"{ value: string }"},"keyboard":["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Home","End"]},
-    {"tag":"sui-accordion","documentationId":"accordion","import":"@luisrodonccs/simplest-ui/components/accordion","className":"SuiAccordion","attributes":["multiple"],"properties":{"multiple":"boolean"},"slots":["default"],"events":["sui-change"],"eventDetails":{"sui-change":"{ open: string[] }"},"keyboard":["ArrowUp","ArrowDown","Home","End"]},
-    {"tag":"sui-popover","documentationId":"popover","import":"@luisrodonccs/simplest-ui/components/popover","className":"SuiPopover","attributes":["open","label"],"properties":{"open":"boolean","label":"string"},"slots":["trigger","content"],"events":["sui-open","sui-close"],"keyboard":["ArrowDown","Enter","Space","Escape","Tab"]},
-    {"tag":"sui-tooltip","documentationId":"tooltip","import":"@luisrodonccs/simplest-ui/components/tooltip","className":"SuiTooltip","attributes":["content"],"properties":{"content":"string"},"slots":["trigger","content"],"events":[],"keyboard":["focus"]},
-    {"tag":"sui-toast","documentationId":"toast","import":"@luisrodonccs/simplest-ui/components/toast","className":"SuiToast","attributes":["title","message","variant","duration"],"properties":{"title":"string","message":"string","variant":"'default' | 'success' | 'warning' | 'danger'","duration":"number"},"slots":["default"],"events":["sui-dismiss"],"keyboard":[],"api":["SuiToast.show({ title, message, variant, duration })"]}
+    {
+      "tag": "sui-modal",
+      "documentationId": "modal",
+      "import": "@luisrodonccs/simplest-ui/components/modal",
+      "className": "SuiModal",
+      "attributes": [
+        "open",
+        "label",
+        "close-label",
+        "disable-backdrop-close"
+      ],
+      "properties": {
+        "open": "boolean",
+        "label": "string",
+        "closeLabel": "string",
+        "disableBackdropClose": "boolean"
+      },
+      "slots": [
+        "title",
+        "default",
+        "footer"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close"
+      ],
+      "eventDetails": {
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+      },
+      "keyboard": [
+        "Escape",
+        "focus trap"
+      ],
+      "contract": {
+        "required": [
+          "Provide a title slot or label attribute for the accessible name.",
+          "Use the footer slot for actions."
+        ],
+        "recommended": [
+          "Set close-label when the default close button is visible.",
+          "Emit lifecycle events only after real state transitions."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "modal",
+          "markup": "<sui-modal label=\"Confirm action\">\n  <span slot=\"title\">Confirmation</span>\n  <p>Do you want to continue?</p>\n</sui-modal>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-drawer",
+      "documentationId": "drawer",
+      "import": "@luisrodonccs/simplest-ui/components/drawer",
+      "className": "SuiDrawer",
+      "attributes": [
+        "open",
+        "label",
+        "close-label",
+        "disable-backdrop-close"
+      ],
+      "properties": {
+        "open": "boolean",
+        "label": "string",
+        "closeLabel": "string",
+        "disableBackdropClose": "boolean"
+      },
+      "slots": [
+        "title",
+        "default",
+        "footer"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close"
+      ],
+      "eventDetails": {
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+      },
+      "keyboard": [
+        "Escape",
+        "focus trap"
+      ],
+      "contract": {
+        "required": [
+          "Provide a title slot or label attribute for the accessible name."
+        ],
+        "recommended": [
+          "Set close-label when the default close button is visible.",
+          "Use the footer slot for actions."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "drawer",
+          "markup": "<sui-drawer label=\"Filters\" close-label=\"Close filters\">\n  <span slot=\"title\">Filters</span>\n  <p>Adjust the results.</p>\n  <div slot=\"footer\">...</div>\n</sui-drawer>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-dropdown",
+      "documentationId": "dropdown",
+      "import": "@luisrodonccs/simplest-ui/components/dropdown",
+      "className": "SuiDropdown",
+      "attributes": [
+        "open"
+      ],
+      "properties": {
+        "open": "boolean"
+      },
+      "slots": [
+        "trigger",
+        "default"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close",
+        "sui-toggle",
+        "sui-select"
+      ],
+      "eventDetails": {
+        "sui-select": "{ value: string }"
+      },
+      "keyboard": [
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End",
+        "Enter",
+        "Space",
+        "Escape",
+        "Tab"
+      ],
+      "contract": {
+        "required": [
+          "Provide a trigger slot.",
+          "Provide menu items as buttons."
+        ],
+        "recommended": [
+          "Mark disabled items with disabled or aria-disabled.",
+          "Listen to sui-select for the chosen value."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "dropdown",
+          "markup": "<sui-dropdown>\n  <span slot=\"trigger\">Actions</span>\n  <button type=\"button\" data-value=\"export\">Export</button>\n  <button type=\"button\" data-value=\"archive\">Archive</button>\n</sui-dropdown>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-tabs",
+      "documentationId": "tabs",
+      "import": "@luisrodonccs/simplest-ui/components/tabs",
+      "className": "SuiTabs",
+      "attributes": [
+        "value",
+        "variant"
+      ],
+      "properties": {
+        "value": "string",
+        "variant": "'pill' | 'box'"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [
+        "sui-change"
+      ],
+      "eventDetails": {
+        "sui-change": "{ value: string }"
+      },
+      "keyboard": [
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "Home",
+        "End"
+      ],
+      "contract": {
+        "required": [
+          "Provide tab panels with data-tab and label."
+        ],
+        "recommended": [
+          "Use variant=\"box\" for compact selectors.",
+          "Mark disabled tabs with disabled."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "tabs",
+          "markup": "<sui-tabs value=\"general\">\n  <div data-tab=\"general\" label=\"General\">General content.</div>\n  <div data-tab=\"security\" label=\"Security\">Security content.</div>\n</sui-tabs>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-accordion",
+      "documentationId": "accordion",
+      "import": "@luisrodonccs/simplest-ui/components/accordion",
+      "className": "SuiAccordion",
+      "attributes": [
+        "multiple"
+      ],
+      "properties": {
+        "multiple": "boolean"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [
+        "sui-change"
+      ],
+      "eventDetails": {
+        "sui-change": "{ open: string[] }"
+      },
+      "keyboard": [
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End"
+      ],
+      "contract": {
+        "required": [
+          "Use ui-accordion__item, ui-accordion__trigger and ui-accordion__content."
+        ],
+        "recommended": [
+          "Mark disabled items with disabled.",
+          "Set multiple to allow several open sections."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "accordion",
+          "markup": "<sui-accordion>\n  <div class=\"ui-accordion__item open\">\n    <button class=\"ui-accordion__trigger\" type=\"button\">Details</button>\n    <div class=\"ui-accordion__content\">Content.</div>\n  </div>\n</sui-accordion>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-popover",
+      "documentationId": "popover",
+      "import": "@luisrodonccs/simplest-ui/components/popover",
+      "className": "SuiPopover",
+      "attributes": [
+        "open",
+        "label"
+      ],
+      "properties": {
+        "open": "boolean",
+        "label": "string"
+      },
+      "slots": [
+        "trigger",
+        "content"
+      ],
+      "events": [
+        "sui-open",
+        "sui-close"
+      ],
+      "keyboard": [
+        "ArrowDown",
+        "Enter",
+        "Space",
+        "Escape",
+        "Tab"
+      ],
+      "contract": {
+        "required": [
+          "Provide trigger and content slots."
+        ],
+        "recommended": [
+          "Set label for the accessible name.",
+          "Use Enter, Space and Escape to operate."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "popover",
+          "markup": "<sui-popover label=\"Actions\">\n  <button slot=\"trigger\" type=\"button\">Actions</button>\n  <div slot=\"content\">Contextual content.</div>\n</sui-popover>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-tooltip",
+      "documentationId": "tooltip",
+      "import": "@luisrodonccs/simplest-ui/components/tooltip",
+      "className": "SuiTooltip",
+      "attributes": [
+        "content"
+      ],
+      "properties": {
+        "content": "string"
+      },
+      "slots": [
+        "trigger",
+        "content"
+      ],
+      "events": [],
+      "keyboard": [
+        "focus"
+      ],
+      "contract": {
+        "required": [
+          "Provide content and a trigger child."
+        ],
+        "recommended": [
+          "Disabled triggers do not show the tooltip.",
+          "Content becomes aria-describedby automatically."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "tooltip",
+          "markup": "<sui-tooltip content=\"Additional context\">\n  <button type=\"button\">Hover or focus</button>\n</sui-tooltip>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-toast",
+      "documentationId": "toast",
+      "import": "@luisrodonccs/simplest-ui/components/toast",
+      "className": "SuiToast",
+      "attributes": [
+        "title",
+        "message",
+        "variant",
+        "duration"
+      ],
+      "properties": {
+        "title": "string",
+        "message": "string",
+        "variant": "'default' | 'success' | 'warning' | 'danger'",
+        "duration": "number"
+      },
+      "slots": [
+        "default"
+      ],
+      "events": [
+        "sui-dismiss"
+      ],
+      "keyboard": [],
+      "api": [
+        "SuiToast.show({ title, message, variant, duration })"
+      ],
+      "contract": {
+        "required": [
+          "Call SuiToast.show with title or message."
+        ],
+        "recommended": [
+          "Use variant to communicate severity.",
+          "Set duration for transient feedback."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "toast",
+          "markup": "import { SuiToast } from \"@luisrodonccs/simplest-ui\";\n\nSuiToast.show({ title: \"Changes saved\", variant: \"success\" });",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    }
   ],
   "cssComponents": [
-    {"name":"button","documentationId":"button","classes":["ui-button","ui-button--primary","ui-button--danger","ui-button--ghost","ui-button--sm"],"contract":{"required":["Use a native button element with an explicit type."],"recommended":["Use a link for navigation and a button for actions."]},"examples":[{"id":"default","label":"Primary action","markup":"<button class=\"ui-button ui-button--primary\" type=\"button\">Save changes</button>","required":[],"recommended":[]},{"id":"variants","label":"Variants and sizes","markup":"<button class=\"ui-button\" type=\"button\">Cancel</button>\n<button class=\"ui-button ui-button--ghost\" type=\"button\">More options</button>\n<button class=\"ui-button ui-button--danger\" type=\"button\">Delete</button>\n<button class=\"ui-button ui-button--sm\" type=\"button\" disabled>Disabled</button>","required":[],"recommended":["Use ui-button--sm for compact toolbars and secondary actions."]}]},
-    {"name":"input-field","documentationId":"input-field","classes":["ui-field","ui-label","ui-help","ui-error","ui-input","ui-input--invalid"],"contract":{"required":["Associate every input with a visible label using for and id.","Link help and error text with aria-describedby."],"recommended":["Set aria-invalid on the input when ui-input--invalid is used."]},"examples":[{"id":"default","label":"Input with help text","markup":"<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"name\">Name</label>\n  <input class=\"ui-input\" id=\"name\" aria-describedby=\"name-help\" />\n  <div class=\"ui-help\" id=\"name-help\">Use your full name.</div>\n</div>\n<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"disabled-name\">Name</label>\n  <input class=\"ui-input\" id=\"disabled-name\" value=\"Disabled\" disabled />\n</div>","required":[],"recommended":[]},{"id":"invalid","label":"Invalid input","markup":"<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"email\">Email</label>\n  <input class=\"ui-input ui-input--invalid\" id=\"email\" value=\"not-an-email\" aria-invalid=\"true\" aria-describedby=\"email-error\" />\n  <div class=\"ui-error\" id=\"email-error\">Enter a valid email address.</div>\n</div>","required":["Mark invalid inputs with aria-invalid=\"true\"."],"recommended":[]}]},
-    {"name":"textarea","documentationId":"textarea","classes":["ui-textarea","ui-textarea--invalid"],"contract":{"required":["Associate the textarea with a visible label."],"recommended":["Link error text with aria-describedby."]},"examples":[{"id":"default","label":"Textarea with label","markup":"<label class=\"ui-label\" for=\"message\">Message</label>\n<textarea class=\"ui-textarea\" id=\"message\"></textarea>","required":[],"recommended":[]},{"id":"invalid","label":"Invalid textarea","markup":"<label class=\"ui-label\" for=\"message-error\">Message</label>\n<textarea class=\"ui-textarea ui-textarea--invalid\" id=\"message-error\" aria-invalid=\"true\" aria-describedby=\"message-error-text\">Too short</textarea>\n<div class=\"ui-error\" id=\"message-error-text\">Add at least 20 characters.</div>","required":["Mark invalid textareas with aria-invalid=\"true\"."],"recommended":[]}]},
-    {"name":"select","documentationId":"select","classes":["ui-select","ui-select--invalid"],"contract":{"required":["Associate the select with a visible label."],"recommended":["Link error text with aria-describedby."]},"examples":[{"id":"default","label":"Select with label","markup":"<label class=\"ui-label\" for=\"country\">Country</label>\n<select class=\"ui-select\" id=\"country\">\n  <option>Mexico</option>\n</select>","required":[],"recommended":[]},{"id":"invalid","label":"Invalid select","markup":"<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"country-error\">Country</label>\n  <select class=\"ui-select ui-select--invalid\" id=\"country-error\" aria-invalid=\"true\" aria-describedby=\"country-error-text\">\n    <option>Select a country</option>\n  </select>\n  <div class=\"ui-error\" id=\"country-error-text\">Choose an option.</div>\n</div>","required":["Mark invalid selects with aria-invalid=\"true\"."],"recommended":[]}]},
-    {"name":"checkbox","documentationId":"checkbox","classes":["ui-checkbox","ui-checkbox--disabled"],"contract":{"required":["Wrap the native checkbox and its label text in the same label element."],"recommended":[]},"examples":[{"id":"default","label":"Checkbox with label","markup":"<label class=\"ui-checkbox\">\n  <input type=\"checkbox\" name=\"updates\" />\n  Receive updates\n</label>","required":[],"recommended":[]},{"id":"disabled","label":"Disabled checkbox","markup":"<label class=\"ui-checkbox ui-checkbox--disabled\">\n  <input type=\"checkbox\" disabled />\n  Disabled option\n</label>","required":[],"recommended":[]}]},
-    {"name":"radio","documentationId":"radio","classes":["ui-radio","ui-radio-group"],"contract":{"required":["Group related radios in a fieldset with a legend."],"recommended":[]},"examples":[{"id":"default","label":"Radio group","markup":"<fieldset class=\"ui-radio-group\">\n  <legend class=\"ui-label\">Plan</legend>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Starter</label>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Pro</label>\n</fieldset>","required":[],"recommended":[]}]},
-    {"name":"switch","documentationId":"switch","classes":["ui-switch","ui-switch__track"],"contract":{"required":["Use a native checkbox with role=\"switch\" and an associated label."],"recommended":[]},"examples":[{"id":"default","label":"Switch","markup":"<label class=\"ui-switch\">\n  <input type=\"checkbox\" role=\"switch\" checked />\n  <span class=\"ui-switch__track\"></span>\n  Notifications\n</label>","required":[],"recommended":[]},{"id":"disabled","label":"Disabled switch","markup":"<label class=\"ui-switch\">\n  <input type=\"checkbox\" role=\"switch\" disabled />\n  <span class=\"ui-switch__track\"></span>\n  Disabled\n</label>","required":[],"recommended":[]}]},
-    {"name":"card","documentationId":"card","classes":["ui-card","ui-card--raised","ui-card--glass","ui-card__header","ui-card__title","ui-card__body","ui-card__footer"],"contract":{"required":[],"recommended":["Use a heading inside ui-card__title when the card represents a section."]},"examples":[{"id":"default","label":"Card with heading","markup":"<article class=\"ui-card\">\n  <header class=\"ui-card__header\"><h3 class=\"ui-card__title\">Title</h3></header>\n  <div class=\"ui-card__body\">Supporting content.</div>\n</article>","required":[],"recommended":[]},{"id":"raised","label":"Raised card","markup":"<article class=\"ui-card ui-card--raised\">\n  <div class=\"ui-card__body\">Higher visual separation.</div>\n</article>","required":[],"recommended":[]}]},
-    {"name":"badge-chip","documentationId":"badge-chip","classes":["ui-badge","ui-badge--primary","ui-badge--success","ui-badge--warning","ui-badge--danger","ui-badge--info","ui-badge--outline","ui-chip"],"contract":{"required":[],"recommended":["Use a badge for status and a chip for categories or filters."]},"examples":[{"id":"default","label":"Badge and chip","markup":"<span class=\"ui-badge ui-badge--success\">Active</span>\n<span class=\"ui-chip\">Design systems</span>","required":[],"recommended":[]}]},
-    {"name":"alert","documentationId":"alert","classes":["ui-alert","ui-alert--success","ui-alert--warning","ui-alert--danger","ui-alert--info","ui-alert__title","ui-alert__body"],"contract":{"required":["Use role=\"status\" for non-urgent updates and role=\"alert\" for urgent errors."],"recommended":[]},"examples":[{"id":"default","label":"Status alert","markup":"<div class=\"ui-alert ui-alert--warning\" role=\"status\">\n  <div>\n    <div class=\"ui-alert__title\">Review required</div>\n    <div class=\"ui-alert__body\">Two fields are missing.</div>\n  </div>\n</div>","required":[],"recommended":[]},{"id":"urgent","label":"Urgent alert","markup":"<div class=\"ui-alert ui-alert--danger\" role=\"alert\">\n  <div>\n    <div class=\"ui-alert__title\">Connection failed</div>\n    <div class=\"ui-alert__body\">Try again in a moment.</div>\n  </div>\n</div>","required":[],"recommended":[]}]},
-    {"name":"spinner","documentationId":"spinner","classes":["ui-spinner","ui-spinner--sm","ui-spinner--lg"],"contract":{"required":["Give the spinner role=\"status\" and an accessible name."],"recommended":[]},"examples":[{"id":"default","label":"Spinner","markup":"<span class=\"ui-spinner\" role=\"status\" aria-label=\"Loading\"></span>","required":[],"recommended":[]},{"id":"sizes","label":"Small and large spinners","markup":"<span class=\"ui-spinner ui-spinner--sm\" role=\"status\" aria-label=\"Loading\"></span>\n<span class=\"ui-spinner ui-spinner--lg\" role=\"status\" aria-label=\"Loading\"></span>","required":[],"recommended":[]}]},
-    {"name":"skeleton","documentationId":"skeleton","classes":["ui-skeleton","ui-skeleton--text","ui-skeleton--title","ui-skeleton--avatar","ui-skeleton--block"],"contract":{"required":[],"recommended":["Hide decorative skeletons from assistive technology when nearby text already announces loading."]},"examples":[{"id":"default","label":"Text skeleton","markup":"<div class=\"ui-skeleton ui-skeleton--title\"></div>\n<div class=\"ui-skeleton ui-skeleton--text\"></div>","required":[],"recommended":[]}]},
-    {"name":"progress","documentationId":"progress","classes":["ui-progress","ui-progress__bar","ui-progress--indeterminate"],"contract":{"required":["Use role=\"progressbar\" with aria-valuemin, aria-valuemax and aria-valuenow for determinate progress.","Omit aria-valuenow for indeterminate progress."],"recommended":[]},"examples":[{"id":"default","label":"Determinate progress","markup":"<div class=\"ui-progress\" role=\"progressbar\" aria-label=\"Upload progress\" aria-valuenow=\"64\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n  <div class=\"ui-progress__bar\" style=\"width: 64%\"></div>\n</div>","required":[],"recommended":[]},{"id":"indeterminate","label":"Indeterminate progress","markup":"<div class=\"ui-progress ui-progress--indeterminate\" role=\"progressbar\" aria-label=\"Loading\">\n  <div class=\"ui-progress__bar\"></div>\n</div>","required":[],"recommended":[]}]},
-    {"name":"table","documentationId":"table","classes":["ui-table-wrap","ui-table"],"contract":{"required":["Give every table an accessible name, preferably with a caption, visible or visually hidden."],"recommended":[]},"examples":[{"id":"default","label":"Scrollable table","markup":"<div class=\"ui-table-wrap\" role=\"region\" aria-label=\"Users\" tabindex=\"0\">\n  <table class=\"ui-table\">\n    <caption class=\"sr-only\">Users</caption>\n    ...\n  </table>\n</div>","required":["Wrap tables that can overflow in ui-table-wrap with role=\"region\" and an accessible name.","Add tabindex=\"0\" to the scroll wrapper so it is reachable from the keyboard."],"recommended":["Keep the wrapper label and the table caption consistent when both describe the same content."]},{"id":"static","label":"Static table","markup":"<table class=\"ui-table\">\n  <caption>Users</caption>\n  <thead>\n    <tr><th>Name</th><th>Role</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Ana García</td><td>Admin</td></tr>\n  </tbody>\n</table>","required":[],"recommended":["Use ui-table-wrap only when the table can overflow its container."]}]},
-    {"name":"avatar","documentationId":"avatar","classes":["ui-avatar","ui-avatar--sm","ui-avatar--lg","ui-avatar-group"],"contract":{"required":["Give an initials avatar an accessible label, or hide it when adjacent text names the person.","Provide alt text for avatar images."],"recommended":[]},"examples":[{"id":"default","label":"Initials and image avatar","markup":"<span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n<span class=\"ui-avatar\"><img src=\"avatar.jpg\" alt=\"Ada Lovelace\" /></span>","required":[],"recommended":[]},{"id":"group","label":"Avatar group","markup":"<div class=\"ui-avatar-group\" aria-label=\"Team members\">\n  <span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n  <span class=\"ui-avatar\" aria-label=\"Grace Hopper\">GH</span>\n</div>","required":[],"recommended":[]}]},
-    {"name":"stat","documentationId":"stat","classes":["ui-stat","ui-stat__label","ui-stat__value","ui-stat__hint"],"contract":{"required":[],"recommended":["Use a label that explains what the value measures."]},"examples":[{"id":"default","label":"Stat","markup":"<div class=\"ui-stat\">\n  <div class=\"ui-stat__label\">Users</div>\n  <div class=\"ui-stat__value\">1,284</div>\n  <div class=\"ui-stat__hint\">+12% this month</div>\n</div>","required":[],"recommended":[]}]},
-    {"name":"empty-state","documentationId":"empty-state","classes":["ui-empty","ui-empty__title","ui-empty__body"],"contract":{"required":[],"recommended":["Explain the next action in ui-empty__body."]},"examples":[{"id":"default","label":"Empty state","markup":"<div class=\"ui-empty\">\n  <h3 class=\"ui-empty__title\">No results</h3>\n  <p class=\"ui-empty__body\">Create a record to get started.</p>\n</div>","required":[],"recommended":[]}]},
-    {"name":"nav","documentationId":"nav","classes":["ui-nav","ui-nav__item","ui-nav__item--active","ui-nav__group-title"],"contract":{"required":["Mark the current link with aria-current=\"page\"."],"recommended":["Give the nav element an accessible name when the page has more than one navigation landmark."]},"examples":[{"id":"default","label":"Navigation with current page","markup":"<nav class=\"ui-nav\" aria-label=\"Workspace\">\n  <a class=\"ui-nav__item ui-nav__item--active\" href=\"/dashboard\" aria-current=\"page\">Dashboard</a>\n</nav>","required":[],"recommended":[]}]},
-    {"name":"topbar","documentationId":"topbar","classes":["ui-topbar","ui-topbar__brand","ui-topbar__mark","ui-topbar__controls","ui-topbar--glass"],"contract":{"required":[],"recommended":["Use a header element when the topbar introduces the page."]},"examples":[{"id":"default","label":"Topbar","markup":"<header class=\"ui-topbar\">\n  <a class=\"ui-topbar__brand\" href=\"/\"><span class=\"ui-topbar__mark\">S</span><span>Simplest UI</span></a>\n  <div class=\"ui-topbar__controls\">...</div>\n</header>","required":[],"recommended":[]}]}
+    {
+      "name": "button",
+      "documentationId": "button",
+      "classes": [
+        "ui-button",
+        "ui-button--primary",
+        "ui-button--danger",
+        "ui-button--ghost",
+        "ui-button--sm"
+      ],
+      "contract": {
+        "required": [
+          "Use a native button element with an explicit type."
+        ],
+        "recommended": [
+          "Use a link for navigation and a button for actions."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Primary action",
+          "markup": "<button class=\"ui-button ui-button--primary\" type=\"button\">Save changes</button>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "variants",
+          "label": "Variants and sizes",
+          "markup": "<button class=\"ui-button\" type=\"button\">Cancel</button>\n<button class=\"ui-button ui-button--ghost\" type=\"button\">More options</button>\n<button class=\"ui-button ui-button--danger\" type=\"button\">Delete</button>\n<button class=\"ui-button ui-button--sm\" type=\"button\" disabled>Disabled</button>",
+          "required": [],
+          "recommended": [
+            "Use ui-button--sm for compact toolbars and secondary actions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "input-field",
+      "documentationId": "input-field",
+      "classes": [
+        "ui-field",
+        "ui-label",
+        "ui-help",
+        "ui-error",
+        "ui-input",
+        "ui-input--invalid"
+      ],
+      "contract": {
+        "required": [
+          "Associate every input with a visible label using for and id.",
+          "Link help and error text with aria-describedby."
+        ],
+        "recommended": [
+          "Set aria-invalid on the input when ui-input--invalid is used."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Input with help text",
+          "markup": "<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"name\">Name</label>\n  <input class=\"ui-input\" id=\"name\" aria-describedby=\"name-help\" />\n  <div class=\"ui-help\" id=\"name-help\">Use your full name.</div>\n</div>\n<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"disabled-name\">Name</label>\n  <input class=\"ui-input\" id=\"disabled-name\" value=\"Disabled\" disabled />\n</div>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "invalid",
+          "label": "Invalid input",
+          "markup": "<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"email\">Email</label>\n  <input class=\"ui-input ui-input--invalid\" id=\"email\" value=\"not-an-email\" aria-invalid=\"true\" aria-describedby=\"email-error\" />\n  <div class=\"ui-error\" id=\"email-error\">Enter a valid email address.</div>\n</div>",
+          "required": [
+            "Mark invalid inputs with aria-invalid=\"true\"."
+          ],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "documentationId": "textarea",
+      "classes": [
+        "ui-textarea",
+        "ui-textarea--invalid"
+      ],
+      "contract": {
+        "required": [
+          "Associate the textarea with a visible label."
+        ],
+        "recommended": [
+          "Link error text with aria-describedby."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Textarea with label",
+          "markup": "<label class=\"ui-label\" for=\"message\">Message</label>\n<textarea class=\"ui-textarea\" id=\"message\"></textarea>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "invalid",
+          "label": "Invalid textarea",
+          "markup": "<label class=\"ui-label\" for=\"message-error\">Message</label>\n<textarea class=\"ui-textarea ui-textarea--invalid\" id=\"message-error\" aria-invalid=\"true\" aria-describedby=\"message-error-text\">Too short</textarea>\n<div class=\"ui-error\" id=\"message-error-text\">Add at least 20 characters.</div>",
+          "required": [
+            "Mark invalid textareas with aria-invalid=\"true\"."
+          ],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "documentationId": "select",
+      "classes": [
+        "ui-select",
+        "ui-select--invalid"
+      ],
+      "contract": {
+        "required": [
+          "Associate the select with a visible label."
+        ],
+        "recommended": [
+          "Link error text with aria-describedby."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Select with label",
+          "markup": "<label class=\"ui-label\" for=\"country\">Country</label>\n<select class=\"ui-select\" id=\"country\">\n  <option>Mexico</option>\n</select>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "invalid",
+          "label": "Invalid select",
+          "markup": "<div class=\"ui-field\">\n  <label class=\"ui-label\" for=\"country-error\">Country</label>\n  <select class=\"ui-select ui-select--invalid\" id=\"country-error\" aria-invalid=\"true\" aria-describedby=\"country-error-text\">\n    <option>Select a country</option>\n  </select>\n  <div class=\"ui-error\" id=\"country-error-text\">Choose an option.</div>\n</div>",
+          "required": [
+            "Mark invalid selects with aria-invalid=\"true\"."
+          ],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "documentationId": "checkbox",
+      "classes": [
+        "ui-checkbox",
+        "ui-checkbox--disabled"
+      ],
+      "contract": {
+        "required": [
+          "Wrap the native checkbox and its label text in the same label element."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Checkbox with label",
+          "markup": "<label class=\"ui-checkbox\">\n  <input type=\"checkbox\" name=\"updates\" />\n  Receive updates\n</label>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "disabled",
+          "label": "Disabled checkbox",
+          "markup": "<label class=\"ui-checkbox ui-checkbox--disabled\">\n  <input type=\"checkbox\" disabled />\n  Disabled option\n</label>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "radio",
+      "documentationId": "radio",
+      "classes": [
+        "ui-radio",
+        "ui-radio-group"
+      ],
+      "contract": {
+        "required": [
+          "Group related radios in a fieldset with a legend."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Radio group",
+          "markup": "<fieldset class=\"ui-radio-group\">\n  <legend class=\"ui-label\">Plan</legend>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Starter</label>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Pro</label>\n</fieldset>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "documentationId": "switch",
+      "classes": [
+        "ui-switch",
+        "ui-switch__track"
+      ],
+      "contract": {
+        "required": [
+          "Use a native checkbox with role=\"switch\" and an associated label."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Switch",
+          "markup": "<label class=\"ui-switch\">\n  <input type=\"checkbox\" role=\"switch\" checked />\n  <span class=\"ui-switch__track\"></span>\n  Notifications\n</label>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "disabled",
+          "label": "Disabled switch",
+          "markup": "<label class=\"ui-switch\">\n  <input type=\"checkbox\" role=\"switch\" disabled />\n  <span class=\"ui-switch__track\"></span>\n  Disabled\n</label>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "documentationId": "card",
+      "classes": [
+        "ui-card",
+        "ui-card--raised",
+        "ui-card--glass",
+        "ui-card__header",
+        "ui-card__title",
+        "ui-card__body",
+        "ui-card__footer"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Use a heading inside ui-card__title when the card represents a section."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Card with heading",
+          "markup": "<article class=\"ui-card\">\n  <header class=\"ui-card__header\"><h3 class=\"ui-card__title\">Title</h3></header>\n  <div class=\"ui-card__body\">Supporting content.</div>\n</article>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "raised",
+          "label": "Raised card",
+          "markup": "<article class=\"ui-card ui-card--raised\">\n  <div class=\"ui-card__body\">Higher visual separation.</div>\n</article>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "badge-chip",
+      "documentationId": "badge-chip",
+      "classes": [
+        "ui-badge",
+        "ui-badge--primary",
+        "ui-badge--success",
+        "ui-badge--warning",
+        "ui-badge--danger",
+        "ui-badge--info",
+        "ui-badge--outline",
+        "ui-chip"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Use a badge for status and a chip for categories or filters."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Badge and chip",
+          "markup": "<span class=\"ui-badge ui-badge--success\">Active</span>\n<span class=\"ui-chip\">Design systems</span>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "documentationId": "alert",
+      "classes": [
+        "ui-alert",
+        "ui-alert--success",
+        "ui-alert--warning",
+        "ui-alert--danger",
+        "ui-alert--info",
+        "ui-alert__title",
+        "ui-alert__body"
+      ],
+      "contract": {
+        "required": [
+          "Use role=\"status\" for non-urgent updates and role=\"alert\" for urgent errors."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Status alert",
+          "markup": "<div class=\"ui-alert ui-alert--warning\" role=\"status\">\n  <div>\n    <div class=\"ui-alert__title\">Review required</div>\n    <div class=\"ui-alert__body\">Two fields are missing.</div>\n  </div>\n</div>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent alert",
+          "markup": "<div class=\"ui-alert ui-alert--danger\" role=\"alert\">\n  <div>\n    <div class=\"ui-alert__title\">Connection failed</div>\n    <div class=\"ui-alert__body\">Try again in a moment.</div>\n  </div>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "documentationId": "spinner",
+      "classes": [
+        "ui-spinner",
+        "ui-spinner--sm",
+        "ui-spinner--lg"
+      ],
+      "contract": {
+        "required": [
+          "Give the spinner role=\"status\" and an accessible name."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Spinner",
+          "markup": "<span class=\"ui-spinner\" role=\"status\" aria-label=\"Loading\"></span>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "sizes",
+          "label": "Small and large spinners",
+          "markup": "<span class=\"ui-spinner ui-spinner--sm\" role=\"status\" aria-label=\"Loading\"></span>\n<span class=\"ui-spinner ui-spinner--lg\" role=\"status\" aria-label=\"Loading\"></span>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "documentationId": "skeleton",
+      "classes": [
+        "ui-skeleton",
+        "ui-skeleton--text",
+        "ui-skeleton--title",
+        "ui-skeleton--avatar",
+        "ui-skeleton--block"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Hide decorative skeletons from assistive technology when nearby text already announces loading."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Text skeleton",
+          "markup": "<div class=\"ui-skeleton ui-skeleton--title\"></div>\n<div class=\"ui-skeleton ui-skeleton--text\"></div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "documentationId": "progress",
+      "classes": [
+        "ui-progress",
+        "ui-progress__bar",
+        "ui-progress--indeterminate"
+      ],
+      "contract": {
+        "required": [
+          "Use role=\"progressbar\" with aria-valuemin, aria-valuemax and aria-valuenow for determinate progress.",
+          "Omit aria-valuenow for indeterminate progress."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Determinate progress",
+          "markup": "<div class=\"ui-progress\" role=\"progressbar\" aria-label=\"Upload progress\" aria-valuenow=\"64\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n  <div class=\"ui-progress__bar\" style=\"width: 64%\"></div>\n</div>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "indeterminate",
+          "label": "Indeterminate progress",
+          "markup": "<div class=\"ui-progress ui-progress--indeterminate\" role=\"progressbar\" aria-label=\"Loading\">\n  <div class=\"ui-progress__bar\"></div>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "documentationId": "table",
+      "classes": [
+        "ui-table-wrap",
+        "ui-table"
+      ],
+      "contract": {
+        "required": [
+          "Give every table an accessible name, preferably with a caption, visible or visually hidden."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Scrollable table",
+          "markup": "<div class=\"ui-table-wrap\" role=\"region\" aria-label=\"Users\" tabindex=\"0\">\n  <table class=\"ui-table\">\n    <caption class=\"sr-only\">Users</caption>\n    ...\n  </table>\n</div>",
+          "required": [
+            "Wrap tables that can overflow in ui-table-wrap with role=\"region\" and an accessible name.",
+            "Add tabindex=\"0\" to the scroll wrapper so it is reachable from the keyboard."
+          ],
+          "recommended": [
+            "Keep the wrapper label and the table caption consistent when both describe the same content."
+          ]
+        },
+        {
+          "id": "static",
+          "label": "Static table",
+          "markup": "<table class=\"ui-table\">\n  <caption>Users</caption>\n  <thead>\n    <tr><th>Name</th><th>Role</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Ana García</td><td>Admin</td></tr>\n  </tbody>\n</table>",
+          "required": [],
+          "recommended": [
+            "Use ui-table-wrap only when the table can overflow its container."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "documentationId": "avatar",
+      "classes": [
+        "ui-avatar",
+        "ui-avatar--sm",
+        "ui-avatar--lg",
+        "ui-avatar-group"
+      ],
+      "contract": {
+        "required": [
+          "Give an initials avatar an accessible label, or hide it when adjacent text names the person.",
+          "Provide alt text for avatar images."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Initials and image avatar",
+          "markup": "<span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n<span class=\"ui-avatar\"><img src=\"avatar.jpg\" alt=\"Ada Lovelace\" /></span>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "group",
+          "label": "Avatar group",
+          "markup": "<div class=\"ui-avatar-group\" aria-label=\"Team members\">\n  <span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n  <span class=\"ui-avatar\" aria-label=\"Grace Hopper\">GH</span>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "stat",
+      "documentationId": "stat",
+      "classes": [
+        "ui-stat",
+        "ui-stat__label",
+        "ui-stat__value",
+        "ui-stat__hint"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Use a label that explains what the value measures."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Stat",
+          "markup": "<div class=\"ui-stat\">\n  <div class=\"ui-stat__label\">Users</div>\n  <div class=\"ui-stat__value\">1,284</div>\n  <div class=\"ui-stat__hint\">+12% this month</div>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "empty-state",
+      "documentationId": "empty-state",
+      "classes": [
+        "ui-empty",
+        "ui-empty__title",
+        "ui-empty__body"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Explain the next action in ui-empty__body."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Empty state",
+          "markup": "<div class=\"ui-empty\">\n  <h3 class=\"ui-empty__title\">No results</h3>\n  <p class=\"ui-empty__body\">Create a record to get started.</p>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "nav",
+      "documentationId": "nav",
+      "classes": [
+        "ui-nav",
+        "ui-nav__item",
+        "ui-nav__item--active",
+        "ui-nav__group-title"
+      ],
+      "contract": {
+        "required": [
+          "Mark the current link with aria-current=\"page\"."
+        ],
+        "recommended": [
+          "Give the nav element an accessible name when the page has more than one navigation landmark."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Navigation with current page",
+          "markup": "<nav class=\"ui-nav\" aria-label=\"Workspace\">\n  <a class=\"ui-nav__item ui-nav__item--active\" href=\"/dashboard\" aria-current=\"page\">Dashboard</a>\n</nav>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "topbar",
+      "documentationId": "topbar",
+      "classes": [
+        "ui-topbar",
+        "ui-topbar__brand",
+        "ui-topbar__mark",
+        "ui-topbar__controls",
+        "ui-topbar--glass"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Use a header element when the topbar introduces the page."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Topbar",
+          "markup": "<header class=\"ui-topbar\">\n  <a class=\"ui-topbar__brand\" href=\"/\"><span class=\"ui-topbar__mark\">S</span><span>Simplest UI</span></a>\n  <div class=\"ui-topbar__controls\">...</div>\n</header>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    }
   ],
   "layouts": [
-    {"name":"container","documentationId":"container","classes":["ui-container"],"contract":{"required":[],"recommended":["Use one ui-container per content region; do not nest containers."]},"examples":[{"id":"default","label":"Container","markup":"<div class=\"ui-container\">...</div>","required":[],"recommended":[]}]},
-    {"name":"stack","documentationId":"stack","classes":["ui-stack"],"contract":{"required":[],"recommended":["Adjust spacing with --ui-stack-gap instead of margins on children."]},"examples":[{"id":"default","label":"Stack","markup":"<div class=\"ui-stack\">\n  <div>One</div>\n  <div>Two</div>\n</div>","required":[],"recommended":[]}]},
-    {"name":"cluster","documentationId":"cluster","classes":["ui-cluster"],"contract":{"required":[],"recommended":["Adjust spacing with --ui-cluster-gap instead of margins on children."]},"examples":[{"id":"default","label":"Cluster","markup":"<div class=\"ui-cluster\">\n  <button type=\"button\">One</button>\n  <button type=\"button\">Two</button>\n</div>","required":[],"recommended":[]}]},
-    {"name":"grid","documentationId":"grid","classes":["ui-grid","ui-grid--auto"],"contract":{"required":["Use ui-grid to place content in a grid."],"recommended":[]},"examples":[{"id":"default","label":"Adaptive grid","markup":"<div class=\"ui-grid ui-grid--auto\">\n  <article>One</article>\n  <article>Two</article>\n</div>","required":["Use ui-grid--auto when the column count must adapt to the viewport."],"recommended":["Do not force a fixed column count for content that must reflow on narrow screens."]},{"id":"fixed","label":"Fixed columns","markup":"<div class=\"ui-grid\" style=\"--ui-grid-cols: 2\">\n  <article>One</article>\n  <article>Two</article>\n</div>","required":["Set --ui-grid-cols only when the layout must keep a fixed column count."],"recommended":[]}]},
-    {"name":"app-shell","documentationId":"app-shell","classes":["ui-app-shell","ui-app-shell--contained","ui-app-shell__sidebar","ui-app-shell__content","ui-app-shell__header","ui-app-shell__main"],"contract":{"required":["Give the main region a main element."],"recommended":["Use ui-app-shell--contained when the shell should respect the container width."]},"examples":[{"id":"default","label":"App shell","markup":"<div class=\"ui-app-shell\">\n  <aside class=\"ui-app-shell__sidebar\">...</aside>\n  <div class=\"ui-app-shell__content\">\n    <header class=\"ui-app-shell__header\">...</header>\n    <main class=\"ui-app-shell__main\">...</main>\n  </div>\n</div>","required":[],"recommended":[]}]},
-    {"name":"skip-link","documentationId":"skip-link","classes":["ui-skip-link"],"contract":{"required":["Place it as the first focusable element in the document.","Point href at the id of the main landmark.","Give the target tabindex=\"-1\" so activation transfers focus."],"recommended":["Verify real sequential Tab navigation, visible focus and focus transfer in the supported engines.","If the target engine excludes links from its default Tab order, test whether an explicit tabindex=\"0\" is needed for that environment instead of treating it as a universal requirement."]},"examples":[{"id":"default","label":"Skip to main content","markup":"<a class=\"ui-skip-link\" href=\"#main-content\">Skip to content</a>\n<main id=\"main-content\" tabindex=\"-1\">...</main>","required":[],"recommended":[]}]}
+    {
+      "name": "container",
+      "documentationId": "container",
+      "classes": [
+        "ui-container"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Use one ui-container per content region; do not nest containers."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Container",
+          "markup": "<div class=\"ui-container\">...</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "stack",
+      "documentationId": "stack",
+      "classes": [
+        "ui-stack"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Adjust spacing with --ui-stack-gap instead of margins on children."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Stack",
+          "markup": "<div class=\"ui-stack\">\n  <div>One</div>\n  <div>Two</div>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "cluster",
+      "documentationId": "cluster",
+      "classes": [
+        "ui-cluster"
+      ],
+      "contract": {
+        "required": [],
+        "recommended": [
+          "Adjust spacing with --ui-cluster-gap instead of margins on children."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Cluster",
+          "markup": "<div class=\"ui-cluster\">\n  <button type=\"button\">One</button>\n  <button type=\"button\">Two</button>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "grid",
+      "documentationId": "grid",
+      "classes": [
+        "ui-grid",
+        "ui-grid--auto"
+      ],
+      "contract": {
+        "required": [
+          "Use ui-grid to place content in a grid."
+        ],
+        "recommended": []
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Adaptive grid",
+          "markup": "<div class=\"ui-grid ui-grid--auto\">\n  <article>One</article>\n  <article>Two</article>\n</div>",
+          "required": [
+            "Use ui-grid--auto when the column count must adapt to the viewport."
+          ],
+          "recommended": [
+            "Do not force a fixed column count for content that must reflow on narrow screens."
+          ]
+        },
+        {
+          "id": "fixed",
+          "label": "Fixed columns",
+          "markup": "<div class=\"ui-grid\" style=\"--ui-grid-cols: 2\">\n  <article>One</article>\n  <article>Two</article>\n</div>",
+          "required": [
+            "Set --ui-grid-cols only when the layout must keep a fixed column count."
+          ],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "app-shell",
+      "documentationId": "app-shell",
+      "classes": [
+        "ui-app-shell",
+        "ui-app-shell--contained",
+        "ui-app-shell__sidebar",
+        "ui-app-shell__content",
+        "ui-app-shell__header",
+        "ui-app-shell__main"
+      ],
+      "contract": {
+        "required": [
+          "Give the main region a main element."
+        ],
+        "recommended": [
+          "Use ui-app-shell--contained when the shell should respect the container width."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "App shell",
+          "markup": "<div class=\"ui-app-shell\">\n  <aside class=\"ui-app-shell__sidebar\">...</aside>\n  <div class=\"ui-app-shell__content\">\n    <header class=\"ui-app-shell__header\">...</header>\n    <main class=\"ui-app-shell__main\">...</main>\n  </div>\n</div>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "name": "skip-link",
+      "documentationId": "skip-link",
+      "classes": [
+        "ui-skip-link"
+      ],
+      "contract": {
+        "required": [
+          "Place it as the first focusable element in the document.",
+          "Point href at the id of the main landmark.",
+          "Give the target tabindex=\"-1\" so activation transfers focus."
+        ],
+        "recommended": [
+          "Verify real sequential Tab navigation, visible focus and focus transfer in the supported engines.",
+          "If the target engine excludes links from its default Tab order, test whether an explicit tabindex=\"0\" is needed for that environment instead of treating it as a universal requirement."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Skip to main content",
+          "markup": "<a class=\"ui-skip-link\" href=\"#main-content\">Skip to content</a>\n<main id=\"main-content\" tabindex=\"-1\">...</main>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    }
   ],
   "pages": [
-    {"name":"dashboard","documentationId":"dashboard","path":"docs/pages/dashboard.html"}
+    {
+      "name": "dashboard",
+      "documentationId": "dashboard",
+      "path": "docs/pages/dashboard.html"
+    }
   ]
 }

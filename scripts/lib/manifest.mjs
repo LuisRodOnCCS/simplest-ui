@@ -27,11 +27,7 @@ export function validateManifest(manifest) {
 
   const declaredClasses = new Set(entries.flatMap((entry) => entry.classes ?? []));
 
-  for (const entry of entries) {
-    const name = entry.name;
-    if (!Array.isArray(entry.classes) || entry.classes.length === 0) {
-      errors.push(`Entry "${name}" must declare at least one class.`);
-    }
+  const validateComponentEntry = (entry, name, validateClasses) => {
     if (!entry.contract || typeof entry.contract !== "object") {
       errors.push(`Entry "${name}" must declare a contract.`);
     } else {
@@ -40,7 +36,7 @@ export function validateManifest(manifest) {
     }
     if (!Array.isArray(entry.examples) || entry.examples.length === 0) {
       errors.push(`Entry "${name}" must declare at least one example.`);
-      continue;
+      return;
     }
 
     const exampleIds = new Set();
@@ -68,9 +64,11 @@ export function validateManifest(manifest) {
       validateStringArray(example.required, `${location}.required`, errors);
       validateStringArray(example.recommended, `${location}.recommended`, errors);
 
-      for (const className of new Set([...classesIn(example.markup), ...classesIn(preview)])) {
-        if (className.startsWith("ui-") && !declaredClasses.has(className)) {
-          errors.push(`${location} uses undeclared class "${className}". Add it to the entry classes first.`);
+      if (validateClasses) {
+        for (const className of new Set([...classesIn(example.markup), ...classesIn(preview)])) {
+          if (className.startsWith("ui-") && !declaredClasses.has(className)) {
+            errors.push(`${location} uses undeclared class "${className}". Add it to the entry classes first.`);
+          }
         }
       }
     }
@@ -78,6 +76,18 @@ export function validateManifest(manifest) {
     if (!exampleIds.has("default")) {
       errors.push(`Entry "${name}" must declare an example with id "default".`);
     }
+  };
+
+  for (const entry of entries) {
+    const name = entry.name;
+    if (!Array.isArray(entry.classes) || entry.classes.length === 0) {
+      errors.push(`Entry "${name}" must declare at least one class.`);
+    }
+    validateComponentEntry(entry, name, true);
+  }
+
+  for (const entry of manifest.webComponents ?? []) {
+    validateComponentEntry(entry, entry.tag ?? entry.documentationId ?? "unknown", false);
   }
 
   return errors;
@@ -90,6 +100,23 @@ export function buildContracts(manifest) {
       name: entry.name,
       kind: manifest.layouts.includes(entry) ? "layout" : "css",
       classes: entry.classes,
+      contract: entry.contract,
+      examples: entry.examples
+    };
+  }
+  for (const entry of manifest.webComponents ?? []) {
+    components[entry.documentationId] = {
+      name: entry.tag,
+      kind: "web-component",
+      tag: entry.tag,
+      import: entry.import,
+      attributes: entry.attributes,
+      properties: entry.properties,
+      slots: entry.slots,
+      events: entry.events,
+      eventDetails: entry.eventDetails,
+      keyboard: entry.keyboard,
+      api: entry.api,
       contract: entry.contract,
       examples: entry.examples
     };
