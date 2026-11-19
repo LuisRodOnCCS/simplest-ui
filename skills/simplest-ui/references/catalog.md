@@ -48,6 +48,60 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 - **App Shell**: `ui-app-shell`, `ui-app-shell--contained`, `ui-app-shell__sidebar`, `ui-app-shell__header`, `ui-app-shell__main`
 - **Skip Link**: `ui-skip-link`
 
+## Markup contracts
+
+These entries require markup beyond their class names. Follow the example and requirements for the installed version.
+
+### Table
+
+```html
+<div class="ui-table-wrap" role="region" aria-label="Users" tabindex="0">
+  <table class="ui-table">
+    <caption class="sr-only">Users</caption>
+    ...
+  </table>
+</div>
+```
+
+Required:
+- The scroll container needs role="region" and an accessible name
+- tabindex="0" keeps the horizontal scroll container reachable from the keyboard
+- Give the table an accessible name; a caption, visible or visually hidden, is the preferred mechanism
+
+Recommended:
+- Keep the caption and the region label consistent when both name the same content
+
+### Grid
+
+```html
+<div class="ui-grid ui-grid--auto">
+  <article>One</article>
+  <article>Two</article>
+</div>
+```
+
+Required:
+- Use ui-grid--auto when the column count must adapt to the viewport
+
+Recommended:
+- Do not force a fixed column count for content that must reflow on narrow screens
+
+### Skip Link
+
+```html
+<a class="ui-skip-link" href="#main-content">Skip to content</a>
+<main id="main-content" tabindex="-1">...</main>
+```
+
+Required:
+- Place it as the first focusable element in the document
+- Point href at the id of the main landmark
+- Give the target tabindex="-1" so activation transfers focus
+
+Recommended:
+- Verify real sequential Tab navigation, visible focus and focus transfer in the supported engines
+- If the target engine excludes links from its default Tab order, test whether an explicit tabindex="0" is needed for that environment instead of treating it as a universal requirement
+
 ## Integrations
 
 - **Vanilla + Vite** (stable): `vanilla-vite`

@@ -4,6 +4,28 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Added
+
+- Markup contracts for `ui-table-wrap`, `ui-grid--auto` and `ui-skip-link` in
+  `components.manifest.json`, including generated agent-catalog guidance and
+  browser tests for keyboard reachability, focus transfer and responsive columns.
+- A `references/core-feedback.md` diagnostic workflow and evaluation prompts 9–15
+  for classifying integration findings without automatically blaming the core or
+  the adapter. The prompts ran on 2026-11-19; results and responses are recorded
+  under `skills/simplest-ui/evals/runs/`.
+
+### Changed
+
+- Clarified direct Laravel integration, optional Blade wrappers and the separate
+  Laravel adapter in the agent skill and package starter documentation.
+- Clarified that an exclusive package-owned asset build may include the CSS and
+  JavaScript needed for Web Components, together with the upstream license.
+- Added skill evaluation prompts for direct integration, custom wrappers and the
+  Laravel adapter; these prompts still require a new evaluation run.
+- Aligned the table examples with the documented accessible-name guidance,
+  including a caption example, and aligned `SUPPORT.md` Laravel package guidance
+  with the exclusive package asset mode.
+
 ## [0.2.1] - 2026-11-17
 
 ### Security

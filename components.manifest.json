@@ -33,7 +33,7 @@
     { "name": "spinner", "documentationId": "spinner", "classes": ["ui-spinner", "ui-spinner--sm", "ui-spinner--lg"] },
     { "name": "skeleton", "documentationId": "skeleton", "classes": ["ui-skeleton", "ui-skeleton--text", "ui-skeleton--title", "ui-skeleton--avatar", "ui-skeleton--block"] },
     { "name": "progress", "documentationId": "progress", "classes": ["ui-progress", "ui-progress__bar", "ui-progress--indeterminate"] },
-    { "name": "table", "documentationId": "table", "classes": ["ui-table-wrap", "ui-table"] },
+    { "name": "table", "documentationId": "table", "classes": ["ui-table-wrap", "ui-table"], "markup": "<div class=\"ui-table-wrap\" role=\"region\" aria-label=\"Users\" tabindex=\"0\">\n  <table class=\"ui-table\">\n    <caption class=\"sr-only\">Users</caption>\n    ...\n  </table>\n</div>", "required": ["The scroll container needs role=\"region\" and an accessible name", "tabindex=\"0\" keeps the horizontal scroll container reachable from the keyboard", "Give the table an accessible name; a caption, visible or visually hidden, is the preferred mechanism"], "recommended": ["Keep the caption and the region label consistent when both name the same content"] },
     { "name": "avatar", "documentationId": "avatar", "classes": ["ui-avatar", "ui-avatar--sm", "ui-avatar--lg", "ui-avatar-group"] },
     { "name": "stat", "documentationId": "stat", "classes": ["ui-stat", "ui-stat__label", "ui-stat__value", "ui-stat__hint"] },
     { "name": "empty-state", "documentationId": "empty-state", "classes": ["ui-empty", "ui-empty__title", "ui-empty__body"] },
@@ -44,9 +44,9 @@
     { "name": "container", "documentationId": "container", "classes": ["ui-container"] },
     { "name": "stack", "documentationId": "stack", "classes": ["ui-stack"] },
     { "name": "cluster", "documentationId": "cluster", "classes": ["ui-cluster"] },
-    { "name": "grid", "documentationId": "grid", "classes": ["ui-grid", "ui-grid--auto"] },
+    { "name": "grid", "documentationId": "grid", "classes": ["ui-grid", "ui-grid--auto"], "markup": "<div class=\"ui-grid ui-grid--auto\">\n  <article>One</article>\n  <article>Two</article>\n</div>", "required": ["Use ui-grid--auto when the column count must adapt to the viewport"], "recommended": ["Do not force a fixed column count for content that must reflow on narrow screens"] },
     { "name": "app-shell", "documentationId": "app-shell", "classes": ["ui-app-shell", "ui-app-shell--contained", "ui-app-shell__sidebar", "ui-app-shell__header", "ui-app-shell__main"] },
-    { "name": "skip-link", "documentationId": "skip-link", "classes": ["ui-skip-link"] }
+    { "name": "skip-link", "documentationId": "skip-link", "classes": ["ui-skip-link"], "markup": "<a class=\"ui-skip-link\" href=\"#main-content\">Skip to content</a>\n<main id=\"main-content\" tabindex=\"-1\">...</main>", "required": ["Place it as the first focusable element in the document", "Point href at the id of the main landmark", "Give the target tabindex=\"-1\" so activation transfers focus"], "recommended": ["Verify real sequential Tab navigation, visible focus and focus transfer in the supported engines", "If the target engine excludes links from its default Tab order, test whether an explicit tabindex=\"0\" is needed for that environment instead of treating it as a universal requirement"] }
   ],
   "pages": [
     { "name": "dashboard", "documentationId": "dashboard", "path": "docs/pages/dashboard.html" }

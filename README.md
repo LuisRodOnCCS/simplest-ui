@@ -69,7 +69,10 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 </article>
 
 <div class="ui-table-wrap" role="region" aria-label="Users" tabindex="0">
-  <table class="ui-table">...</table>
+  <table class="ui-table">
+    <caption class="sr-only">Users</caption>
+    ...
+  </table>
 </div>
 ```
 

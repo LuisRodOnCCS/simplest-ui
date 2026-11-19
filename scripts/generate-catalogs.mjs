@@ -5,6 +5,17 @@ const root = process.cwd();
 const manifest = JSON.parse(readFileSync(resolve(root, "components.manifest.json"), "utf8"));
 const integrations = JSON.parse(readFileSync(resolve(root, "integrations.manifest.json"), "utf8"));
 
+const documentedEntries = [...manifest.cssComponents, ...manifest.layouts];
+
+for (const entry of documentedEntries) {
+  if (entry.required?.length && !entry.markup) {
+    console.error(`Manifest entry "${entry.name}" declares required markup without a markup example.`);
+    process.exit(1);
+  }
+}
+
+const markupContracts = documentedEntries.filter((entry) => entry.markup);
+
 const catalog = {
   groups: [
     {
@@ -75,6 +86,20 @@ const markdown = [
   "",
   ...manifest.layouts.map((entry) => `- **${title(entry.name)}**: ${entry.classes.map((name) => `\`${name}\``).join(", ")}`),
   "",
+  "## Markup contracts",
+  "",
+  "These entries require markup beyond their class names. Follow the example and requirements for the installed version.",
+  "",
+  ...markupContracts.flatMap((entry) => [
+    `### ${title(entry.name)}`,
+    "",
+    "```html",
+    entry.markup,
+    "```",
+    "",
+    ...(entry.required?.length ? ["Required:", ...entry.required.map((item) => `- ${item}`), ""] : []),
+    ...(entry.recommended?.length ? ["Recommended:", ...entry.recommended.map((item) => `- ${item}`), ""] : [])
+  ]),
   "## Integrations",
   "",
   ...integrations.starters.map((entry) => `- **${entry.label}** (${entry.status}): \`${entry.id}\``)

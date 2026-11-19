@@ -32,10 +32,14 @@ into another utility system.
   Web Component JavaScript once.
 - A Composer package can render `ui-*` classes and registered `sui-*` elements in
   Blade views. Its normal production contract is host-owned Vite assets.
+- Blade wrappers are optional: use a locally registered wrapper or, when the
+  Laravel adapter is installed, its `x-sui::*` components. Neither is provided
+  by the npm package alone.
 - A no-Node package may offer an explicitly selected package-assets mode that
-  compiles public Simplest UI CSS exports into its own published stylesheet and
-  includes the upstream license. This mode is exclusive with host mode, may not
-  copy `dist`, and must not ship Simplest UI Web Component JavaScript.
+  compiles the required public Simplest UI CSS and JavaScript exports into its
+  own published artifacts and includes the upstream license. It is exclusive
+  with host loading and must not copy `dist`. A CSS-only build is insufficient
+  when Web Components need JavaScript.
 - Use `laravel-vite` for an existing application and `laravel-package` for an
   existing Composer package. Read [integrations.md](integrations.md) before adding
   or changing either workflow.

@@ -47,5 +47,7 @@ Ask the agent to build a card with a status and action in a project using Simple
 
 For Laravel, ask the agent to add Simplest UI to an existing application or
 Composer package. It should inspect `integrations.manifest.json`, select
-`laravel-vite` or `laravel-package`, keep Vite asset imports in the host
-application, and avoid copying `dist` or referencing `vendor/simplest-ui`.
+`laravel-vite` or `laravel-package`, distinguish direct markup from optional
+Blade wrappers, default to host-owned Vite imports, and avoid copying `dist`
+or referencing `vendor/simplest-ui`. An explicitly selected package mode may
+instead ship its own compiled CSS and required JavaScript with the license.

@@ -94,6 +94,12 @@ test("generates Blade and workbench files for a Laravel package", async (context
   const workbenchCss = await readFile(join(target, "workbench/resources/css/simplest-ui.css"), "utf8");
   assert.match(workbenchCss, /@luisrodonccs\/simplest-ui\/tokens\.css/);
   assert.match(workbenchCss, /@luisrodonccs\/simplest-ui\/styles\.css/);
+  const example = await readFile(join(target, "resources/views/examples/simplest-ui.blade.php"), "utf8");
+  assert.match(example, /<x-sui-drawer\b/);
+  const guide = await readFile(join(target, "README.md"), "utf8");
+  assert.match(guide, /Register the package's anonymous component path/);
+  assert.match(guide, /CSS and\s+JavaScript exports/);
+  assert.match(guide, /not required by this\s+starter/);
 });
 
 test("does not write files during a dry run", async (context) => {

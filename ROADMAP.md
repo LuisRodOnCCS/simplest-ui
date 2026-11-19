@@ -1,8 +1,15 @@
 # Roadmap
 
-`v0.2.1` is the latest published release. Work for the next version is not
-started yet; released work is summarized below and detailed in the changelog,
-and this roadmap emphasizes the work still needed to release the next version.
+`v0.2.1` is the latest published release. Unreleased integration guidance
+updates are described in the changelog; released work is summarized below.
+
+## Unreleased — integration guidance
+
+- [x] Clarify direct Laravel usage, optional Blade wrappers and the separate
+  Laravel adapter.
+- [x] Document exclusive package-owned builds containing the required CSS and
+  JavaScript.
+- [ ] Run and record the updated Laravel skill evaluation prompts.
 
 ## v0.2.0 — Vanilla and Laravel integrations
 

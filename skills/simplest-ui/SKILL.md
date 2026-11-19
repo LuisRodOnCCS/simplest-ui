@@ -54,27 +54,46 @@ example file.
 - **Laravel application:** use `laravel-vite`. The application owns the Vite
   imports and loads Simplest UI once from `resources/css` and `resources/js`.
 - **Laravel Composer package:** use `laravel-package` for workbench development.
-  The package may render `ui-*` and `sui-*` Blade markup. Separate the asset
-  decision into these two contexts in both implementation and explanation:
+  Blade can render `ui-*` classes and `sui-*` elements directly; neither requires
+  a Laravel adapter. A package may instead provide its own registered Blade
+  wrappers. Separate the asset decision into these contexts:
   1. **Workbench development:** its Vite entrypoints may load the package demo's
      CSS and required Web Component JavaScript.
   2. **Installed package in production:** the host application owns Simplest UI
-     CSS and JavaScript by default. This is mandatory when the package renders a
-     `sui-*` Web Component such as `sui-drawer`.
+     CSS and JavaScript by default.
 
-An exception is a documented `package` asset mode for no-Node consumers. It may
-compile CSS from public Simplest UI exports into a package-owned artifact and
-publish that artifact with the upstream license. It must be mutually exclusive
-with host Vite mode, must not copy `dist`, and is appropriate only when the
-package does not require Simplest UI Web Component JavaScript. Do not use
-`asset('vendor/simplest-ui/...')`; package mode points to the package's own
-published artifact.
+If `luisrodonccs/laravel-simplest-ui` is installed, its registered `x-sui::*`
+Blade components are an optional alternative; consult that package's own
+documentation for its API and available asset modes. Do not assume that npm
+installation or the `laravel-package` starter registers that namespace. The
+starter's `x-sui-drawer` is a separate example wrapper and requires registration
+by the consuming package.
 
-For every Laravel Composer package response, explicitly state the workbench asset
-owner, the production asset owner, and whether package-assets mode is valid. If
-the package requires any Simplest UI Web Component JavaScript, say that
-package-assets mode is invalid and that the host must import the matching
-JavaScript entrypoint.
+A documented `package` asset mode may compile the required public CSS and
+JavaScript exports into package-owned artifacts and publish them with the
+upstream license. It must be exclusive with host asset loading: CSS-only builds
+are insufficient when the rendered UI requires Web Component JavaScript. Do
+not copy `dist` or use `asset('vendor/simplest-ui/...')`; package mode points to
+the package's own published artifacts. Check version compatibility and load
+Simplest UI only once per document. Its reset and root tokens are document-wide;
+choose selective exports when another system owns the page foundation.
+
+For every Laravel Composer package response, state the workbench and production
+asset owners and which CSS and JavaScript the selected mode supplies.
+
+## Diagnose an integration finding
+
+When rendered behavior differs from expectations, do not assume either the core or
+the adapter is at fault. Follow
+[references/core-feedback.md](references/core-feedback.md): identify the installed
+version and asset owner, compare against the contract for that installation,
+reproduce with the package's documented markup where feasible, classify the cause,
+and recommend the smallest fix in the repository that owns it.
+
+Do not invent `ui-*` classes or `sui-*` elements, do not modify another repository
+without authorization, and do not apply speculative core extensions. Never customize
+an installed consumer skill copy as the permanent fix: correct the upstream source
+and synchronize installed copies afterward.
 
 ## Build markup
 

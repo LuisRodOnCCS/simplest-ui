@@ -1,5 +1,33 @@
 # OpenCode evaluation results
 
+These are historical results for earlier skill guidance, not evaluations of the
+current asset contract, the integration diagnostics, or the newer Laravel
+integration prompts.
+
+## Diagnostic workflow run — 2026-11-19
+
+Prompts 9–15 were executed on 2026-11-19 with independent general subagents that
+loaded the current skill sources. The full prompts, responses and assessments are
+in [runs/2026-11-19-diagnostics.md](./runs/2026-11-19-diagnostics.md).
+
+| ID | Scenario | Result |
+| --- | --- | --- |
+| 9 | Blade wrapper omits documented table attributes | Pass |
+| 10 | Missing focus indicator with only `styles.css` | Pass after prompt correction |
+| 11 | Forced two-column grid overflows at 320px | Pass |
+| 12 | Runtime correct but integration guidance missing | Pass |
+| 13 | Vendored 0.1.0 plus npm 0.2.1 assets | Pass |
+| 14 | Auth screens and demo widths requested in core | Pass with note |
+| 15 | WebKit Tab skips the skip link | Pass |
+
+The run tested diagnosis after the skill was loaded; it did not test automatic
+skill selection or a packaged-tarball replay. Prompt 10 originally implied that
+`styles.css` was a complete bundle. That contradicted the documented install
+contract, so the prompt and expected output were corrected and the case rerun;
+both runs rejected a core defect.
+
+The evaluations below predate these changes.
+
 Evaluated on 2026-11-05 with OpenCode v2.2.5 and `openai/gpt-5.6-terra`.
 
 ## Fixture
