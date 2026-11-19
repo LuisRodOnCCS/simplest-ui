@@ -376,7 +376,12 @@ Recommended for this example:
 ```html
 <table class="ui-table">
   <caption>Users</caption>
-  ...
+  <thead>
+    <tr><th>Name</th><th>Role</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ana García</td><td>Admin</td></tr>
+  </tbody>
 </table>
 ```
 

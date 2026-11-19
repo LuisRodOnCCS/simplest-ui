@@ -446,7 +446,7 @@
         {
           "id": "static",
           "label": "Static table",
-          "markup": "<table class=\"ui-table\">\n  <caption>Users</caption>\n  ...\n</table>",
+          "markup": "<table class=\"ui-table\">\n  <caption>Users</caption>\n  <thead>\n    <tr><th>Name</th><th>Role</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Ana García</td><td>Admin</td></tr>\n  </tbody>\n</table>",
           "required": [],
           "recommended": [
             "Use ui-table-wrap only when the table can overflow its container."

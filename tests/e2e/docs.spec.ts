@@ -25,6 +25,17 @@ test("integration guides keep every code block below its preview", async ({ page
   }
 });
 
+test("additional examples render as variants with preview and code", async ({ page }) => {
+  await openDocs(page);
+
+  for (const id of ["button", "input-field", "table"]) {
+    const variants = page.locator(`#${id} .docs-variant`);
+    await expect(variants).toHaveCount(1);
+    await expect(variants.locator(".docs-variant__preview")).toHaveCount(1);
+    await expect(variants.locator("pre.docs-code")).toHaveCount(1);
+  }
+});
+
 test("switches language and rerenders the documentation", async ({ page }) => {
   await openDocs(page);
 

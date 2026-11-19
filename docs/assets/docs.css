@@ -37,6 +37,11 @@
 .docs-guide-preview h3, .docs-guide-preview p { margin: 0; }
 .docs-guide-preview p { max-width: 58ch; overflow-wrap: anywhere; color: var(--sui-color-text-muted); }
 .docs-code { position: relative; margin: 0; padding: var(--sui-space-4) var(--sui-space-5); overflow-x: auto; color: var(--sui-color-inverse-text); background: var(--sui-color-inverse-surface); border-top: 1px solid var(--sui-color-border); border-radius: 0 0 var(--sui-radius-xl) var(--sui-radius-xl); font-size: var(--sui-font-size-xs); line-height: 1.65; }
+.docs-variants { display: grid; gap: var(--sui-space-3); margin-top: var(--sui-space-4); }
+.docs-variants > h3 { margin: 0; font-size: var(--sui-font-size-md); }
+.docs-variant { overflow: hidden; border: 1px solid var(--sui-color-border); border-radius: var(--sui-radius-xl); background: var(--sui-color-surface); box-shadow: var(--sui-shadow-card); }
+.docs-variant h4 { margin: 0; padding: var(--sui-space-3) var(--sui-space-4) 0; color: var(--sui-color-text-muted); font-size: var(--sui-font-size-sm); }
+.docs-variant__preview { padding: var(--sui-space-5); }
 .docs-copy { position: absolute; top: var(--sui-space-2); right: var(--sui-space-2); padding: var(--sui-space-1) var(--sui-space-2); color: var(--sui-color-inverse-text); background: transparent; border: 1px solid color-mix(in srgb,var(--sui-color-inverse-text) 30%,transparent); border-radius: var(--sui-radius-sm); font-size: var(--sui-font-size-2xs); }
 .docs-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--sui-space-4); }
 .docs-grid > * { min-width: 0; }

@@ -19,6 +19,9 @@ agent skill. Keep the public surface small, semantic and evidence-based.
 - Add another example only when it changes markup, state, accessibility or
   behavior. Do not add cosmetic variants.
 - Example ids are lowercase kebab-case and unique within their entry.
+- Non-default examples render as visual variants, so their markup must be
+  complete. Use `...` only in the `default` example, which has a dedicated
+  preview in the documentation.
 - Every `ui-*` class in example markup must already be declared in `classes`.
 - Do not put bilingual copy, previews or demo HTML in the manifest.
 - Do not invent `ui-*` classes, `sui-*` elements or tokens.

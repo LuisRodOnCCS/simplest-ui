@@ -14,6 +14,10 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
   example id.
 - Generated `docs/contracts.json`, consumed by the visual documentation so that
   copyable snippets and contract rows no longer have a second hand-written copy.
+- Additional examples now render as stacked `Variants` blocks in the visual
+  documentation, each with its own preview and copyable code. The generator
+  rejects a non-default example whose preview is incomplete or still contains a
+  `...` placeholder.
 - Short `AGENTS.md` and `CLAUDE.md` repository guides for agent consistency.
 - Markup contracts for `ui-table-wrap`, `ui-grid--auto` and `ui-skip-link` in
   `components.manifest.json`, including generated agent-catalog guidance and

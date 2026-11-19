@@ -47,8 +47,14 @@ Every entry must declare exactly one example with `id: "default"`.
 | `id` | string | Lowercase kebab-case, unique within the entry. |
 | `label` | string | Short English fallback label. Translations stay in `docs/assets/docs.ts`. |
 | `markup` | string | Copyable HTML. It must only use declared `ui-*` classes. |
+| `preview` | string? | Optional HTML rendered in the visual documentation. Defaults to `markup`. |
 | `required` | string[] | Requirements specific to this example. |
 | `recommended` | string[] | Advice specific to this example. |
+
+The `default` example uses the dedicated preview in `docs/assets/docs.ts`.
+Every other example is rendered as a visual variant, so its preview must be
+complete: replace placeholders such as `...` with concrete content, or provide a
+`preview` with the full markup.
 
 Add another example only when it changes markup, state, accessibility or
 behavior. Do not add examples for isolated color, size or spacing variations
@@ -73,6 +79,7 @@ Additional examples appear in the agent catalog and in the reference table.
 - a documented entry has no `contract`;
 - a documented entry has no `examples`, no `default` example, or duplicate ids;
 - an example has no `label` or `markup`;
+- a non-default example has no complete preview: its effective preview is empty or still contains `...`;
 - an example uses a `ui-*` class that no entry declares;
 - a `documentationId` is duplicated.
 

@@ -59,10 +59,16 @@ export function validateManifest(manifest) {
       if (typeof example.markup !== "string" || !example.markup.trim()) {
         errors.push(`${location} must have markup.`);
       }
+      const preview = example.preview ?? example.markup;
+      if (typeof preview !== "string" || !preview.trim()) {
+        errors.push(`${location} must have a preview.`);
+      } else if (example.id !== "default" && preview.includes("...")) {
+        errors.push(`${location} needs a complete preview; replace "..." with concrete content or add a preview.`);
+      }
       validateStringArray(example.required, `${location}.required`, errors);
       validateStringArray(example.recommended, `${location}.recommended`, errors);
 
-      for (const className of classesIn(example.markup)) {
+      for (const className of new Set([...classesIn(example.markup), ...classesIn(preview)])) {
         if (className.startsWith("ui-") && !declaredClasses.has(className)) {
           errors.push(`${location} uses undeclared class "${className}". Add it to the entry classes first.`);
         }
@@ -109,6 +115,7 @@ function validateStringArray(value, location, errors) {
 
 function classesIn(markup) {
   const classes = new Set();
+  if (typeof markup !== "string") return classes;
   for (const match of markup.matchAll(/\bclass="([^"]*)"/g)) {
     for (const className of match[1].split(/\s+/)) {
       if (className) classes.add(className);

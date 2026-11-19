@@ -49,6 +49,12 @@ describe("components manifest", () => {
     expect(validateManifest(broken)).toContainEqual(expect.stringContaining("duplicate example id"));
   });
 
+  it("rejects a non-default example without a complete preview", () => {
+    const broken = clone();
+    broken.cssComponents[0].examples[1].markup = "<div>...</div>";
+    expect(validateManifest(broken)).toContainEqual(expect.stringContaining("needs a complete preview"));
+  });
+
   it("rejects undeclared ui classes", () => {
     const broken = clone();
     broken.cssComponents[0].examples[0].markup = '<button class="ui-button ui-invented" type="button">Save</button>';
