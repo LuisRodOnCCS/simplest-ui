@@ -24,3 +24,19 @@ customElements.whenDefined("sui-tabs").then(() => {
 media.addEventListener("change", () => { if (document.documentElement.dataset.themeChoice === "system") setTheme("system"); });
 setLanguage(language);
 setTheme((localStorage.getItem(themeKey) as ThemeChoice) || "system");
+
+const header = document.querySelector<HTMLElement>("#dashboard-header");
+const modeSelect = document.querySelector<HTMLSelectElement>("#dashboard-header-mode");
+
+const applyMode = () => {
+  const floating = modeSelect?.value === "floating";
+  header?.classList.toggle("ui-app-shell__header--floating", floating);
+};
+modeSelect?.addEventListener("change", applyMode);
+applyMode();
+
+const updateHeader = () => {
+  header?.classList.toggle("ui-app-shell__header--scrolled", window.scrollY > 16);
+};
+window.addEventListener("scroll", updateHeader, { passive: true });
+updateHeader();

@@ -26,6 +26,16 @@ agent skill. Keep the public surface small, semantic and evidence-based.
 - Do not put bilingual copy, previews or demo HTML in the manifest.
 - Do not invent `ui-*` classes, `sui-*` elements or tokens.
 
+## Component selection
+
+- `ui-topbar` is a standalone app-level bar (brand + controls, glass, sticky).
+  `ui-app-shell__header` is the header region inside an app shell (title +
+  actions). They are independent and composable; never assume one replaces the
+  other. `--sticky` keeps it visible on scroll with its original styles;
+  `--scrolled` is a state (no visual change alone); `--floating` combined with
+  `--scrolled` adopts a topbar-like look (radius + shadow). Toggle `--scrolled`
+  with consumer JS.
+
 ## Adding a CSS component
 
 1. Create `src/components/<name>.css` using `--sui-*` tokens; no hardcoded colors,

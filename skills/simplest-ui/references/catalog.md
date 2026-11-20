@@ -46,7 +46,7 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 - **Stack**: `ui-stack`
 - **Cluster**: `ui-cluster`
 - **Grid**: `ui-grid`, `ui-grid--auto`
-- **App Shell**: `ui-app-shell`, `ui-app-shell--contained`, `ui-app-shell__sidebar`, `ui-app-shell__content`, `ui-app-shell__header`, `ui-app-shell__main`
+- **App Shell**: `ui-app-shell`, `ui-app-shell--contained`, `ui-app-shell__sidebar`, `ui-app-shell__content`, `ui-app-shell__header`, `ui-app-shell__header--sticky`, `ui-app-shell__header--scrolled`, `ui-app-shell__header--floating`, `ui-app-shell__main`
 - **Skip Link**: `ui-skip-link`
 
 ## Markup contracts
@@ -460,6 +460,8 @@ Recommended:
 
 Recommended:
 - Use a header element when the topbar introduces the page.
+- Use ui-topbar for a standalone app-level bar (brand + controls) outside an app shell.
+- Inside ui-app-shell, prefer ui-app-shell__header (optionally --sticky/--scrolled); do not combine with a separate ui-topbar unless you want both.
 
 #### Topbar (`default`)
 
@@ -548,6 +550,8 @@ Required:
 
 Recommended:
 - Use ui-app-shell--contained when the shell should respect the container width.
+- Use ui-app-shell__header for the header region inside the shell (title + actions).
+- Add --sticky and/or --scrolled modifiers to __header for a glass/sticky bar; or place a ui-topbar inside __content for an autonomous top bar. Do not combine both by default.
 
 #### App shell (`default`)
 

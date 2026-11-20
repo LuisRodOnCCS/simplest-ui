@@ -158,6 +158,30 @@ hr {
   justify-content: space-between;
 }
 
+/* Optional: sticky header (position only; appearance unchanged on scroll). */
+.ui-app-shell__header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--sui-z-popover);
+}
+
+/* State toggled by consumer JS on scroll. By itself it changes nothing, so the
+   header keeps its original styles. */
+.ui-app-shell__header--scrolled {
+}
+
+/* Opt-in: when scrolled, adopt a topbar-like floating appearance. Requires
+   --sticky and --scrolled together. Aligns with main padding and keeps the same
+   spacing on top; no layout shift on the content below. */
+.ui-app-shell__header--floating.ui-app-shell__header--scrolled {
+  top: var(--sui-space-4-5);
+  margin-inline: var(--sui-space-4-5);
+  border-radius: var(--sui-radius-xl);
+  box-shadow: var(--sui-shadow-card);
+  border-color: var(--sui-color-border);
+  background: var(--sui-color-surface);
+}
+
 .ui-app-shell__title {
   font-size: var(--sui-font-size-md);
   font-weight: var(--sui-font-weight-semibold);

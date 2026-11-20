@@ -7,6 +7,7 @@
 3. Prefer semantic HTML before creating a custom element.
 4. Create a Web Component only when it provides reusable state or accessible interaction.
 5. Keep component code as the source of truth. Documentation and examples must consume it instead of recreating behavior.
+6. `ui-topbar` and `ui-app-shell__header` are independent and composable: do not assume one replaces the other. Use `--sticky`/`--scrolled` modifiers on `__header` for a glass/sticky look.
 
 ## Change checklist
 

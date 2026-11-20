@@ -25,6 +25,21 @@ When editing the manifest, follow `docs/manifest-schema.md`. Every documented CS
 component or layout declares a `contract` and at least one example with
 `id: "default"`; treat those as the normative markup, not the visual preview.
 
+## Selecting a top bar vs. an app shell header
+
+- `ui-topbar` is a standalone app-level bar (brand + controls, glass, sticky).
+  Use it when there is no `ui-app-shell`, or when you want an autonomous bar.
+- `ui-app-shell__header` is the header region inside an app shell (title +
+  actions). Use it inside `ui-app-shell`.
+- They are independent and composable: put a `ui-topbar` inside
+  `ui-app-shell__content` if you want the glass/sticky bar inside a shell.
+  Never assume one replaces the other.
+- `ui-app-shell__header` supports optional `--sticky` (sticky positioning),
+  `--scrolled` (state toggled by consumer JS; by itself changes nothing), and
+  `--floating` (when combined with `--scrolled`, adopts a topbar-like look:
+  rounded corners, card shadow). Toggle `--scrolled` on scroll; add `--floating`
+  only if you want the floating appearance.
+
 ## Use the correct entrypoint
 
 Use the full bundle when Simplest UI owns the page foundation:

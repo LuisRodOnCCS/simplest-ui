@@ -9,6 +9,11 @@
 
 ## Visual language
 
+- `ui-topbar` is a standalone app-level bar; `ui-app-shell__header` is the
+  header region inside an app shell. They are independent and composable; never
+  assume one replaces the other. Use `--sticky`/`--scrolled` modifiers on
+  `__header` for a glass/sticky look.
+
 - Use semantic `--sui-*` tokens, not literal visual values.
 - Preserve the soft surface, rounded border, and restrained glass effect of the system.
 - Make focus visible and preserve reduced-motion behavior.
