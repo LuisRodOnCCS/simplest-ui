@@ -577,6 +577,9 @@
         "required": [],
         "recommended": [
           "Use a header element when the topbar introduces the page.",
+          "Use wrapping groups such as ui-cluster for controls; children must be able to shrink or wrap on narrow screens.",
+          "Brand content can be text, an image or both; the application chooses any compact alternative and action priorities.",
+          "ui-select uses natural width within the bar; fixed or excessive minimum widths can still overflow.",
           "Use ui-topbar for a standalone app-level bar (brand + controls) outside an app shell.",
           "Inside ui-app-shell, prefer ui-app-shell__header (optionally --sticky/--scrolled); do not combine with a separate ui-topbar unless you want both."
         ]
@@ -721,6 +724,9 @@
           "Use ui-app-shell__sidebar--sticky for a sticky sidebar; constrain its height to the scrollport for independent menu scrolling. Sticky is disabled below 768px.",
           "Use ui-app-shell__sidebar--scroll when the menu should move with the content but scroll internally if it is too long.",
           "Use ui-app-shell__bar as an optional full-width region. Sticky positioning and measuring its height are the consuming application's responsibility.",
+          "Bar and header contents wrap; group actions with ui-cluster and ensure nested controls can shrink or wrap.",
+          "ui-select uses natural width within the bar or header; the application chooses brand content, action priorities and compact alternatives.",
+          "Fixed or excessive minimum widths on nested content can still cause overflow.",
           "Set --sui-app-shell-top-offset to the height of any sticky bar above the sidebar and floating header."
         ]
       },

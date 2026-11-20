@@ -34,6 +34,9 @@ component or layout declares a `contract` and at least one example with
 - They are independent and composable: put a `ui-topbar` inside
   `ui-app-shell__content` if you want the glass/sticky bar inside a shell.
   Never assume one replaces the other.
+- Bars wrap as space requires. Use shrinkable or wrapping control groups; the
+  application chooses brand content, action priorities and compact alternatives.
+  See [responsive navigation guidance](../../docs/responsive-navigation.md).
 - `ui-app-shell__header` supports optional `--sticky` (sticky positioning),
   `--scrolled` (state toggled by consumer JS; by itself changes nothing), and
   `--floating` (when combined with `--scrolled`, adopts a topbar-like look:

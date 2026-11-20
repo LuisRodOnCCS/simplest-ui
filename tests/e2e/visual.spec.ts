@@ -11,11 +11,54 @@ async function settle(page: Page) {
   await page.mouse.move(1, 1);
 }
 
+/**
+ * Stabilizes screenshot coordinates. Fractional layout offsets shift element
+ * captures by a pixel when surrounding content changes height, which makes
+ * unrelated baselines fail. The target is offset by less than a pixel to sit on
+ * whole coordinates and restored after the capture.
+ */
+async function stabilize(target: Locator) {
+  await target.evaluate((element) => {
+    const html = element as HTMLElement;
+    const scroller = document.scrollingElement ?? document.documentElement;
+    scroller.scrollTop = Math.round(scroller.scrollTop);
+    scroller.scrollLeft = Math.round(scroller.scrollLeft);
+
+    const rect = element.getBoundingClientRect();
+    const dx = rect.left - Math.round(rect.left);
+    const dy = rect.top - Math.round(rect.top);
+    const style = getComputedStyle(html);
+    html.dataset.suiSnapshotPosition = `${style.position}|${html.style.top}|${html.style.left}`;
+    if (style.position === "static") {
+      html.style.position = "relative";
+    }
+    if (Math.abs(dy) > 0.01) {
+      html.style.top = `${-dy}px`;
+    }
+    if (Math.abs(dx) > 0.01) {
+      html.style.left = `${-dx}px`;
+    }
+  });
+}
+
+async function restore(target: Locator) {
+  await target.evaluate((element) => {
+    const html = element as HTMLElement;
+    const [position = "", top = "", left = ""] = (html.dataset.suiSnapshotPosition ?? "").split("|");
+    html.style.position = position;
+    html.style.top = top;
+    html.style.left = left;
+    delete html.dataset.suiSnapshotPosition;
+  });
+}
+
 async function snapshot(page: Page, target: Locator, name: string) {
   await target.scrollIntoViewIfNeeded();
   await target.evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));
+  await stabilize(target);
   await page.mouse.move(1, 1);
   await expect(target).toHaveScreenshot(name);
+  await restore(target);
 }
 
 async function snapshotInPlace(page: Page, target: Locator, name: string) {

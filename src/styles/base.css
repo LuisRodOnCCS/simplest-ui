@@ -63,6 +63,8 @@ hr {
 .ui-cluster {
   display: flex;
   flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
   gap: var(--ui-cluster-gap, var(--sui-space-2));
   align-items: center;
 }
@@ -122,6 +124,8 @@ hr {
 .ui-app-shell__bar {
   grid-column: 1 / -1;
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
   gap: var(--sui-space-3);
@@ -191,8 +195,17 @@ hr {
   backdrop-filter: blur(var(--sui-blur-sm));
   -webkit-backdrop-filter: blur(var(--sui-blur-sm));
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  gap: var(--sui-space-3);
   align-items: center;
   justify-content: space-between;
+}
+
+.ui-app-shell__bar > *, .ui-app-shell__header > * {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 /* Optional: sticky header (position only; appearance unchanged on scroll). */

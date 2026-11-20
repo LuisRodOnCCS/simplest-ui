@@ -6,6 +6,25 @@ default behavior of either component. The
 [visual documentation](https://luisrodonccs.github.io/simplest-ui/) includes a
 working dashboard example.
 
+## Customizing top bars
+
+`ui-topbar`, `ui-app-shell__bar`, and `ui-app-shell__header` are independent
+building blocks. Their contents stay on one row when space permits and wrap
+when needed. Use `ui-cluster` or another wrapping group for actions, and ensure
+nested controls can shrink or wrap. Fixed widths or minimum widths larger than
+the available space can still cause overflow; the components cannot adapt
+arbitrary content automatically.
+
+The brand may contain text, an image, or both. The components do not
+automatically hide part of it; choose and provide a compact logo explicitly if
+the application needs one. Provide appropriate alternative text for an image.
+
+`ui-select` uses its natural width inside these bars, while retaining its normal
+full-width behavior outside them. The application decides which actions are
+important, when to group or move them to a menu, and which breakpoint to use.
+Review keyboard access, wrapping and available vertical space with real content
+at narrow widths and short viewport heights.
+
 ## Imports
 
 ```js
