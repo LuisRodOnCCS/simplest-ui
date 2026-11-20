@@ -4,6 +4,11 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Changed
+
+- `create-simplest-ui` 0.1.2 generates Vanilla starters using Simplest UI
+  `^0.3.0`.
+
 ## [0.3.0] - 2026-11-20
 
 ### Added
