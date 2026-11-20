@@ -4,21 +4,13 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-20
+
 ### Added
 
 - `sui-drawer` supports `hide-close-button` when an accessible custom close control is supplied.
-
-### Changed
-
-- Topbars and App Shell bars wrap their content on narrow screens; nested
-  control groups should also allow wrapping or shrinking.
-- Optional app shell bar, sticky sidebar and opt-in floating header states.
 - `sui-tag`, a ribbon-shaped Web Component with independent CSS and JavaScript exports.
-
-## [0.3.0] - 2026-11-19
-
-### Added
-
+- Responsive mobile navigation pattern for the App Shell (dashboard example) and the documentation, reusing `sui-drawer` with a hidden built-in close button and an accessible footer control.
 - `schemaVersion: 1` and a documented manifest schema in `docs/manifest-schema.md`.
 - A `contract` plus one or more `examples` for every CSS component, layout and
   Web Component in `components.manifest.json`. `npm run catalog:check` now fails
@@ -41,6 +33,10 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Changed
 
+- Topbars and App Shell bars wrap their content on narrow screens; nested
+  control groups should also allow wrapping or shrinking.
+- Optional app shell bar, sticky sidebar and opt-in floating header states.
+- Mobile navigation pattern (drawer-based) for the documentation site.
 - The visual documentation now builds copyable snippets and contract rows from
   `docs/contracts.json`. Previews, translations and demo compositions stay in
   `docs/assets/docs.ts`.

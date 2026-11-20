@@ -1,18 +1,14 @@
 # Roadmap
 
-`v0.2.1` is the latest published release. Unreleased integration guidance
-updates are described in the changelog; released work is summarized below.
+`v0.3.0` is the current release. Released work is summarized below.
 
-## Unreleased — integration guidance
+## v0.3.0 — Integration guidance, manifest and contract centralization
 
 - [x] Clarify direct Laravel usage, optional Blade wrappers and the separate
       Laravel adapter.
 - [x] Document exclusive package-owned builds containing the required CSS and
       JavaScript.
 - [x] Run and record the updated Laravel skill evaluation prompts.
-
-## Unreleased — manifest and contract centralization
-
 - [x] Add `schemaVersion: 1` and document the manifest schema in
       `docs/manifest-schema.md`.
 - [x] Add a `contract` plus one or more `examples` for every CSS component,
@@ -26,6 +22,10 @@ updates are described in the changelog; released work is summarized below.
       that non-default examples have a complete preview.
 - [x] Align `AGENTS.md` and `CLAUDE.md`; update `CONTRIBUTING.md`.
 - [x] Add manifest and package-content tests; stabilize visual baselines.
+- [x] Make `ui-topbar`, `ui-app-shell__bar` and `ui-app-shell__header` wrap on
+      narrow screens; document the responsive contract and limitations.
+- [x] Add mobile navigation pattern to the dashboard example and to the
+      documentation site, reusing `sui-drawer`.
 
 ## v0.2.0 — Vanilla and Laravel integrations
 
