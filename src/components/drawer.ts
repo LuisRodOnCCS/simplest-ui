@@ -89,6 +89,7 @@ export class SuiDrawer extends LitElement {
 
     .body {
       flex: 1;
+      min-height: 0;
       padding: var(--sui-space-4);
       overflow: auto;
       color: var(--sui-color-text-muted);
@@ -97,6 +98,9 @@ export class SuiDrawer extends LitElement {
 
     .footer {
       display: flex;
+      flex-shrink: 0;
+      min-height: var(--sui-drawer-footer-min-height, 0px);
+      box-sizing: border-box;
       justify-content: flex-end;
       gap: var(--sui-space-2);
       padding: var(--sui-space-4);
@@ -114,6 +118,9 @@ export class SuiDrawer extends LitElement {
 
   /** Set to true to keep the drawer open when its backdrop is clicked. */
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;
+
+  /** Hide the built-in close button when an accessible alternative is provided. */
+  @property({ type: Boolean, attribute: "hide-close-button" }) hideCloseButton = false;
 
   private get titleId() {
     return `sui-drawer-title-${this.uid}`;
@@ -159,7 +166,8 @@ export class SuiDrawer extends LitElement {
 
   private focusInitial() {
     const close = this.renderRoot.querySelector<HTMLButtonElement>(".close");
-    close?.focus();
+    const customClose = this.querySelector<HTMLElement>('[slot="footer"] button, button[slot="footer"]');
+    (close ?? customClose ?? this.renderRoot.querySelector<HTMLElement>(".panel"))?.focus();
   }
 
   private handleKeydown = (event: KeyboardEvent) => {
@@ -223,7 +231,7 @@ export class SuiDrawer extends LitElement {
         >
           <div class="header">
             <div class="title" id=${this.titleId}><slot name="title"></slot></div>
-            <button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close("dismiss")}>×</button>
+            ${this.hideCloseButton ? nothing : html`<button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close("dismiss")}>×</button>`}
           </div>
           <div class="body" id=${this.bodyId}><slot></slot></div>
           <div class="footer"><slot name="footer"></slot></div>

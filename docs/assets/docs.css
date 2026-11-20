@@ -104,6 +104,15 @@ body { margin: 0; }
 .docs-dashboard .ui-app-shell__header--floating.ui-app-shell__header--scrolled {
   top: calc(var(--dashboard-bar-height, 0px) + var(--sui-space-4-5));
 }
+.docs-menu-trigger { display: none; }
+.docs-menu-close { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(var(--sui-space-4), env(safe-area-inset-bottom)); padding: var(--sui-space-3); }
+@media (max-width: 1024px) {
+  .docs-dashboard.ui-app-shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .docs-dashboard .ui-app-shell__sidebar { display: none; }
+  .docs-menu-trigger { display: inline-flex; position: fixed; left: 50%; transform: translateX(-50%); bottom: max(var(--sui-space-4), env(safe-area-inset-bottom)); z-index: var(--sui-z-popover); padding: var(--sui-space-3); }
+  .docs-dashboard .ui-app-shell__main { padding-bottom: calc(5rem + max(var(--sui-space-4), env(safe-area-inset-bottom))); }
+  #dashboard-menu .ui-app-shell__sidebar { position: static; height: auto; overflow: visible; border: 0; background: transparent; }
+}
 @media (max-width: 767px) {
   .docs-dashboard .ui-app-shell__sidebar--sticky {
     position: static;

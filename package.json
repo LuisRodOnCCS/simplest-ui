@@ -93,7 +93,8 @@
     "LICENSE",
     "components.manifest.json",
     "integrations.manifest.json",
-    "docs/manifest-schema.md"
+    "docs/manifest-schema.md",
+    "docs/responsive-navigation.md"
   ],
   "scripts": {
     "dev": "vite --config vite.docs.config.ts --open /docs/",

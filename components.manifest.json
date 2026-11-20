@@ -24,13 +24,15 @@
         "open",
         "label",
         "close-label",
-        "disable-backdrop-close"
+        "disable-backdrop-close",
+        "hide-close-button"
       ],
       "properties": {
         "open": "boolean",
         "label": "string",
         "closeLabel": "string",
-        "disableBackdropClose": "boolean"
+        "disableBackdropClose": "boolean",
+        "hideCloseButton": "boolean"
       },
       "slots": [
         "title",
@@ -51,7 +53,8 @@
       "contract": {
         "required": [
           "Provide a title slot or label attribute for the accessible name.",
-          "Use the footer slot for actions."
+          "Use the footer slot for actions.",
+          "When using hide-close-button, provide an accessible close control that calls close(); Escape remains available."
         ],
         "recommended": [
           "Set close-label when the default close button is visible.",

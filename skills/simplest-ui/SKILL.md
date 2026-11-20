@@ -49,6 +49,11 @@ component or layout declares a `contract` and at least one example with
   spanning both columns; use it when the configuration belongs to the shell.
   Its sticky positioning and height measurement belong to the application.
   Set `--sui-app-shell-top-offset` to the height of a sticky bar above the shell.
+- When a sidebar no longer fits, optionally compose a full-screen `sui-drawer`
+  for navigation. Keep one navigation tree, preserve accessible close and
+  focus behavior, and choose a breakpoint for the application. See the visual
+  documentation's dashboard example; do not assume its 1024px breakpoint is
+  required.
 
 ## Use the correct entrypoint
 

@@ -6,6 +6,7 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Added
 
+- `sui-drawer` supports `hide-close-button` when an accessible custom close control is supplied.
 - Optional app shell bar, sticky sidebar and opt-in floating header states.
 - `sui-tag`, a ribbon-shaped Web Component with independent CSS and JavaScript exports.
 

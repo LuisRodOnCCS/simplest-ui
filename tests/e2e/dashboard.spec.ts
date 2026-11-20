@@ -103,7 +103,43 @@ test("short dashboard sidebar fills the remaining shell height", async ({ page }
 test("dashboard sidebar returns to normal flow on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 800 });
   await openDashboard(page);
-  await expect(page.locator(".ui-app-shell__sidebar")).toHaveCSS("position", "static");
+  await expect(page.locator("#dashboard-menu-trigger")).toBeVisible();
+  await expect(page.locator(".docs-dashboard .ui-app-shell__sidebar")).toHaveCount(0);
+});
+
+test("compact navigation opens, closes and returns to desktop without duplication", async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 700 });
+  await openDashboard(page);
+  const trigger = page.locator("#dashboard-menu-trigger");
+  const menu = page.locator("#dashboard-menu");
+  await trigger.click();
+  await expect(menu).toHaveAttribute("open", "");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(menu.getByRole("link", { name: "Projects" })).toBeVisible();
+  const close = page.locator("#dashboard-menu-close");
+  await expect(close).toBeFocused();
+  await expect.poll(async () => {
+    const triggerBox = await trigger.boundingBox();
+    const closeBox = await close.boundingBox();
+    return Math.max(Math.abs((triggerBox!.x + triggerBox!.width / 2) - (closeBox!.x + closeBox!.width / 2)), Math.abs(triggerBox!.y - closeBox!.y));
+  }).toBeLessThan(2);
+  await expect(page.locator(".ui-app-shell__sidebar")).toHaveCount(1);
+  await expect(page.locator(".docs-dashboard")).toHaveCSS("overflow-y", "hidden");
+  await page.keyboard.press("Escape");
+  await expect(menu).not.toHaveAttribute("open", "");
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await expect(menu).toHaveAttribute("open", "");
+  await close.click();
+  await expect(menu).not.toHaveAttribute("open", "");
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await expect(menu).toHaveAttribute("open", "");
+  await page.setViewportSize({ width: 1280, height: 700 });
+  await expect(menu).not.toHaveAttribute("open", "");
+  await expect(page.locator(".docs-dashboard .ui-app-shell__sidebar")).toBeVisible();
+  await expect(page.locator(".ui-app-shell__sidebar")).toHaveCount(1);
+  await expect(page.locator(".docs-dashboard")).toHaveCSS("overflow-y", "auto");
 });
 
 test("long sidebar supports independent wheel scrolling", async ({ page }) => {

@@ -99,6 +99,11 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 
 Interactive components expose `sui-*` custom events and include keyboard behavior, ARIA relationships, visible focus, and reduced-motion support.
 
+For an optional full-screen mobile navigation pattern, see
+[Responsive navigation with App Shell and Drawer](./docs/responsive-navigation.md)
+and the dashboard in the visual documentation. Applications choose their own
+breakpoint and manage any scroll container outside the drawer.
+
 ## Theme
 
 Override semantic tokens to adapt the full system:
