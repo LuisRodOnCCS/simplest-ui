@@ -1,6 +1,6 @@
 {
 	"name": "@luisrodonccs/create-simplest-ui",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Create Vanilla and Laravel projects that consume Simplest UI.",
 	"type": "module",
 	"bin": {
@@ -16,7 +16,7 @@
 		"node": ">=18"
 	},
 	"simplestUi": {
-		"coreRange": "^0.2.0"
+		"coreRange": "^0.3.0"
 	},
 	"scripts": {
 		"test": "node --test test/**/*.test.mjs"

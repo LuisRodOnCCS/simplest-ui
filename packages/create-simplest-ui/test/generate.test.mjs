@@ -34,7 +34,7 @@ test("generates a Vanilla starter using public package imports", async (context)
   assert.equal(existsSync(join(target, "index.html")), true);
   assert.match(await readFile(join(target, "src/main.js"), "utf8"), /@luisrodonccs\/simplest-ui\/tokens\.css/);
   assert.match(await readFile(join(target, "src/main.js"), "utf8"), /@luisrodonccs\/simplest-ui\/styles\.css/);
-  assert.match(await readFile(join(target, "package.json"), "utf8"), /"\^0\.2\.0"/);
+  assert.match(await readFile(join(target, "package.json"), "utf8"), /"\^0\.3\.0"/);
 });
 
 test("refuses conflicts unless force is passed", async (context) => {
