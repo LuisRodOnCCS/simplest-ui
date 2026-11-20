@@ -1,9 +1,12 @@
 # Skill evaluation protocol
 
-The prompts in `evals.json` evaluate five decisions the skill must make: compose
+The prompts in `evals.json` evaluate decisions the skill must make: compose
 existing primitives, select an existing interactive component, justify a new
 component only when composition is insufficient, integrate a Laravel application,
-and develop a Laravel Composer package without duplicating assets.
+develop a Laravel Composer package without duplicating assets, distinguish direct
+usage and local wrappers from the optional Laravel adapter, supply JavaScript
+in a package build when interactive components require it, and diagnose
+integration findings without automatically blaming the core or the adapter.
 
 ## Run an evaluation
 
@@ -23,8 +26,20 @@ and develop a Laravel Composer package without duplicating assets.
   Vite imports for `tokens.css`, either `styles.css` or the required base and
   component styles, and Web Component JavaScript.
 - Laravel Composer package requests select `laravel-package`; package views render
-  compatible markup but do not copy `dist`. CSS-only package-assets mode is
-  allowed only when it is exclusive with host mode and the package needs no
-  Simplest UI Web Component JavaScript.
+  compatible markup without copying `dist`. Package assets are exclusive with
+  host assets and include the CSS and JavaScript required by rendered elements,
+  together with the upstream license.
+- Direct Laravel usage does not assume `x-sui::*` exists. Existing local Blade
+  wrappers retain their registered names; the optional Laravel adapter uses its
+  own documented namespace and currently implemented asset contract.
+- Diagnostic responses identify the installed version and asset source, compare
+  against that version's contract, and inspect rendered HTML and loaded assets.
+- Diagnostic responses classify the cause, state confidence and missing evidence,
+  and name the repository that owns the smallest appropriate fix.
+- Missing documented attributes in a wrapper are not treated as a core defect, and
+  a reproducible failure of correct documented markup is not blamed on the
+  consumer.
+- Browser-specific observations are not promoted to universal requirements
+  without reproduction across the supported engines.
 
-Record the date, agent/version, fixture revision, prompt, output, and pass/fail result in a release or pull-request discussion, or in a versioned results file such as [RESULTS.md](./RESULTS.md). Do not mark the roadmap evaluation item complete until all three prompts have been reviewed successfully.
+Record the date, agent/version, fixture revision, prompt, output, and pass/fail result in a release or pull-request discussion, or in a versioned results file such as [RESULTS.md](./RESULTS.md). Historical results do not constitute a run of newly added or revised prompts.

@@ -4,6 +4,52 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-20
+
+### Added
+
+- `sui-drawer` supports `hide-close-button` when an accessible custom close control is supplied.
+- `sui-tag`, a ribbon-shaped Web Component with independent CSS and JavaScript exports.
+- Responsive mobile navigation pattern for the App Shell (dashboard example) and the documentation, reusing `sui-drawer` with a hidden built-in close button and an accessible footer control.
+- `schemaVersion: 1` and a documented manifest schema in `docs/manifest-schema.md`.
+- A `contract` plus one or more `examples` for every CSS component, layout and
+  Web Component in `components.manifest.json`. `npm run catalog:check` now fails
+  when a documented entry lacks a contract or a `default` example, uses an
+  undeclared `ui-*` class, or repeats an example id.
+- Generated `docs/contracts.json`, consumed by the visual documentation so that
+  copyable snippets and contract rows no longer have a second hand-written copy.
+- Additional examples now render as stacked `Variants` blocks in the visual
+  documentation, each with its own preview and copyable code. The generator
+  rejects a non-default example whose preview is incomplete or still contains a
+  `...` placeholder.
+- Short `AGENTS.md` and `CLAUDE.md` repository guides for agent consistency.
+- Markup contracts for `ui-table-wrap`, `ui-grid--auto` and `ui-skip-link` in
+  `components.manifest.json`, including generated agent-catalog guidance and
+  browser tests for keyboard reachability, focus transfer and responsive columns.
+- A `references/core-feedback.md` diagnostic workflow and evaluation prompts 9–15
+  for classifying integration findings without automatically blaming the core or
+  the adapter. The prompts ran on 2026-11-19; results and responses are recorded
+  under `skills/simplest-ui/evals/runs/`.
+
+### Changed
+
+- Topbars and App Shell bars wrap their content on narrow screens; nested
+  control groups should also allow wrapping or shrinking.
+- Optional app shell bar, sticky sidebar and opt-in floating header states.
+- Mobile navigation pattern (drawer-based) for the documentation site.
+- The visual documentation now builds copyable snippets and contract rows from
+  `docs/contracts.json`. Previews, translations and demo compositions stay in
+  `docs/assets/docs.ts`.
+- Clarified direct Laravel integration, optional Blade wrappers and the separate
+  Laravel adapter in the agent skill and package starter documentation.
+- Clarified that an exclusive package-owned asset build may include the CSS and
+  JavaScript needed for Web Components, together with the upstream license.
+- Added skill evaluation prompts for direct integration, custom wrappers and the
+  Laravel adapter; these prompts still require a new evaluation run.
+- Aligned the table examples with the documented accessible-name guidance,
+  including a caption example, and aligned `SUPPORT.md` Laravel package guidance
+  with the exclusive package asset mode.
+
 ## [0.2.1] - 2026-11-17
 
 ### Security

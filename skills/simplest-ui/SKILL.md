@@ -21,6 +21,43 @@ Read [references/catalog.md](references/catalog.md) for the current public surfa
 [references/integrations.md](references/integrations.md) for installation workflows,
 and [references/authoring.md](references/authoring.md) before extending it.
 
+When editing the manifest, follow `docs/manifest-schema.md`. Every documented CSS
+component or layout declares a `contract` and at least one example with
+`id: "default"`; treat those as the normative markup, not the visual preview.
+
+## Selecting a top bar vs. an app shell header
+
+- `ui-topbar` is a standalone app-level bar (brand + controls, glass, sticky).
+  Use it when there is no `ui-app-shell`, or when you want an autonomous bar.
+- `ui-app-shell__header` is the header region inside an app shell (title +
+  actions). Use it inside `ui-app-shell`.
+- They are independent and composable: put a `ui-topbar` inside
+  `ui-app-shell__content` if you want the glass/sticky bar inside a shell.
+  Never assume one replaces the other.
+- Bars wrap as space requires. Use shrinkable or wrapping control groups; the
+  application chooses brand content, action priorities and compact alternatives.
+  See [responsive navigation guidance](../../docs/responsive-navigation.md).
+- `ui-app-shell__header` supports optional `--sticky` (sticky positioning),
+  `--scrolled` (state toggled by consumer JS; by itself changes nothing), and
+  `--floating` (when combined with `--scrolled`, adopts a topbar-like look:
+  rounded corners, card shadow). Toggle `--scrolled` on scroll; add `--floating`
+  only if you want the floating appearance.
+- `ui-app-shell__sidebar` supports optional `--sticky`: the sidebar stays
+  visible while the main content scrolls. Constrain its height to the scrollport
+  for independent menu scrolling. Disabled automatically on mobile.
+- `ui-app-shell__sidebar` supports optional `--scroll`: the sidebar moves
+  with the content, but a long menu scrolls internally instead of stretching
+  the page.
+- `ui-app-shell__bar` is an optional full-width top region (brand + controls)
+  spanning both columns; use it when the configuration belongs to the shell.
+  Its sticky positioning and height measurement belong to the application.
+  Set `--sui-app-shell-top-offset` to the height of a sticky bar above the shell.
+- When a sidebar no longer fits, optionally compose a full-screen `sui-drawer`
+  for navigation. Keep one navigation tree, preserve accessible close and
+  focus behavior, and choose a breakpoint for the application. See the visual
+  documentation's dashboard example; do not assume its 1024px breakpoint is
+  required.
+
 ## Use the correct entrypoint
 
 Use the full bundle when Simplest UI owns the page foundation:
@@ -54,27 +91,46 @@ example file.
 - **Laravel application:** use `laravel-vite`. The application owns the Vite
   imports and loads Simplest UI once from `resources/css` and `resources/js`.
 - **Laravel Composer package:** use `laravel-package` for workbench development.
-  The package may render `ui-*` and `sui-*` Blade markup. Separate the asset
-  decision into these two contexts in both implementation and explanation:
+  Blade can render `ui-*` classes and `sui-*` elements directly; neither requires
+  a Laravel adapter. A package may instead provide its own registered Blade
+  wrappers. Separate the asset decision into these contexts:
   1. **Workbench development:** its Vite entrypoints may load the package demo's
      CSS and required Web Component JavaScript.
   2. **Installed package in production:** the host application owns Simplest UI
-     CSS and JavaScript by default. This is mandatory when the package renders a
-     `sui-*` Web Component such as `sui-drawer`.
+     CSS and JavaScript by default.
 
-An exception is a documented `package` asset mode for no-Node consumers. It may
-compile CSS from public Simplest UI exports into a package-owned artifact and
-publish that artifact with the upstream license. It must be mutually exclusive
-with host Vite mode, must not copy `dist`, and is appropriate only when the
-package does not require Simplest UI Web Component JavaScript. Do not use
-`asset('vendor/simplest-ui/...')`; package mode points to the package's own
-published artifact.
+If `luisrodonccs/laravel-simplest-ui` is installed, its registered `x-sui::*`
+Blade components are an optional alternative; consult that package's own
+documentation for its API and available asset modes. Do not assume that npm
+installation or the `laravel-package` starter registers that namespace. The
+starter's `x-sui-drawer` is a separate example wrapper and requires registration
+by the consuming package.
 
-For every Laravel Composer package response, explicitly state the workbench asset
-owner, the production asset owner, and whether package-assets mode is valid. If
-the package requires any Simplest UI Web Component JavaScript, say that
-package-assets mode is invalid and that the host must import the matching
-JavaScript entrypoint.
+A documented `package` asset mode may compile the required public CSS and
+JavaScript exports into package-owned artifacts and publish them with the
+upstream license. It must be exclusive with host asset loading: CSS-only builds
+are insufficient when the rendered UI requires Web Component JavaScript. Do
+not copy `dist` or use `asset('vendor/simplest-ui/...')`; package mode points to
+the package's own published artifacts. Check version compatibility and load
+Simplest UI only once per document. Its reset and root tokens are document-wide;
+choose selective exports when another system owns the page foundation.
+
+For every Laravel Composer package response, state the workbench and production
+asset owners and which CSS and JavaScript the selected mode supplies.
+
+## Diagnose an integration finding
+
+When rendered behavior differs from expectations, do not assume either the core or
+the adapter is at fault. Follow
+[references/core-feedback.md](references/core-feedback.md): identify the installed
+version and asset owner, compare against the contract for that installation,
+reproduce with the package's documented markup where feasible, classify the cause,
+and recommend the smallest fix in the repository that owns it.
+
+Do not invent `ui-*` classes or `sui-*` elements, do not modify another repository
+without authorization, and do not apply speculative core extensions. Never customize
+an installed consumer skill copy as the permanent fix: correct the upstream source
+and synchronize installed copies afterward.
 
 ## Build markup
 

@@ -28,7 +28,67 @@
     {
       "id": 5,
       "prompt": "My Composer package exposes Blade components and needs a Simplest UI drawer for its workbench demo.",
-      "expected_output": "The agent selects laravel-package, keeps workbench assets as development tooling, renders compatible Blade markup, and documents host-owned assets for the drawer because Web Component JavaScript excludes CSS-only package-assets mode.",
+      "expected_output": "The agent selects laravel-package, keeps workbench assets as development tooling, uses direct markup or an explicitly registered wrapper, and defaults to host-owned CSS and drawer JavaScript. A separate package mode may bundle both; CSS alone cannot provide drawer behavior.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Add a drawer to my Laravel Blade application using Simplest UI directly; I do not want another Composer dependency.",
+      "expected_output": "The agent uses the registered sui-drawer element and host Vite CSS and JavaScript, without assuming any x-sui::* Blade components or installing laravel-simplest-ui.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "My Composer package has its own registered x-acme::drawer Blade wrapper. Let customers use it without Node by publishing the assets.",
+      "expected_output": "The agent preserves the existing wrapper and explains an exclusive package-owned build with the required CSS, drawer JavaScript and upstream license, compatible versions and an upgrade procedure; it does not require laravel-simplest-ui.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "This app already uses luisrodonccs/laravel-simplest-ui. Add a drawer without loading Simplest UI twice.",
+      "expected_output": "The agent verifies the installed adapter API and uses its x-sui::drawer component if available, respects the configured asset owner, and does not add duplicate Simplest UI imports or assume future features are already implemented.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Our Blade wrapper renders <div class=\"ui-table-wrap\"><table class=\"ui-table\">...</table></div>. QA says the scrolling table is not reachable with the keyboard. We installed @luisrodonccs/simplest-ui 0.2.1 from npm. What should we change?",
+      "expected_output": "The agent quotes the installed manifest's table markup contract, classifies this as an adapter implementation defect plus a wrapper that omitted documented attributes, and fixes the wrapper with role=region, an accessible name, tabindex=0 and a caption. It does not propose new core CSS or a core component.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Static HTML using the exact 0.2.1 documented table wrapper with role=region, aria-label, tabindex=0 and a caption shows no visible focus when tabbed. Only the installed public styles.css is loaded; tokens.css is not loaded and there are no duplicate assets. Determine the cause.",
+      "expected_output": "The agent detects that styles.css omits the token layer by design, classifies consumer configuration rather than a core or adapter defect, and fixes the import by loading tokens.css before styles.css. It may note the metadata risk of calling styles.css the complete entrypoint, but it does not add focus CSS to the core to compensate.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Our Laravel dashboard uses <div class=\"ui-grid\" style=\"grid-template-columns: 1fr 1fr\"> and overflows horizontally at 320px. Simplest UI 0.2.1 is installed through the host application. Fix the layout.",
+      "expected_output": "The agent classifies a consumer composition issue, replaces the forced two-column usage with the documented ui-grid--auto primitive, and does not add a new core layout. Evidence such as the 320px reproduction is requested or stated.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "Our direct Blade usage renders and behaves correctly with Simplest UI 0.2.1 from npm, but our team cannot find whether x-sui::* exists or which asset mode applies. Improve the situation.",
+      "expected_output": "The agent classifies missing or inconsistent core documentation and metadata rather than a runtime defect, explains that x-sui::* belongs to the optional laravel-simplest-ui adapter, distinguishes host and package asset modes, and recommends an upstream documentation or skill change without modifying the consumer or adding core primitives.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "prompt": "An app loads a vendored Simplest UI 0.1.0 stylesheet and also imports tokens and components from @luisrodonccs/simplest-ui 0.2.1. Table focus and spacing differ between pages. Diagnose it.",
+      "expected_output": "The agent identifies mixed versions and duplicate asset ownership, inspects the rendered CSS and package sources, classifies version drift or distribution issues, and recommends removing the vendored copy and loading the installed version once. It does not change core behavior to accommodate the duplicate.",
+      "files": []
+    },
+    {
+      "id": 14,
+      "prompt": "Add authentication screens and the fixed panel widths from our Laravel workbench demo to Simplest UI core so other consumers get them.",
+      "expected_output": "The agent classifies this as a consumer or adapter composition requirement, states that no reusable core gap is demonstrated, keeps Blade routes, slots and demo sizing in the adapter or demo, and does not add speculative core primitives.",
+      "files": []
+    },
+    {
+      "id": 15,
+      "prompt": "In Playwright WebKit, pressing Tab after page load skips over our ui-skip-link. Add tabindex=0 to the required ui-skip-link markup everywhere.",
+      "expected_output": "The agent treats the browser-specific observation as environment or tooling behavior with insufficient evidence, reproduces real sequential Tab navigation and focus transfer in the supported engines, and does not encode tabindex=0 as a universal requirement before confirming an implementation defect. It may propose a regression test or documentation clarification, with confidence and missing evidence stated.",
       "files": []
     }
   ]

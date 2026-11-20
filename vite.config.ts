@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 const cssComponentNames = [
   "accordion", "alert", "avatar", "badge", "button", "card", "checkbox",
   "empty-state", "input", "nav", "popover", "progress", "radio", "select",
-  "skeleton", "spinner", "stat", "switch", "table", "textarea", "toast",
+  "skeleton", "spinner", "stat", "switch", "table", "tag", "textarea", "toast",
   "tooltip", "topbar"
 ];
 
@@ -29,6 +29,7 @@ export default defineConfig({
         modal: resolve(import.meta.dirname, "src/components/modal.ts"),
         popover: resolve(import.meta.dirname, "src/components/popover.ts"),
         tabs: resolve(import.meta.dirname, "src/components/tabs.ts"),
+        tag: resolve(import.meta.dirname, "src/components/tag.ts"),
         toast: resolve(import.meta.dirname, "src/components/toast.ts"),
         tooltip: resolve(import.meta.dirname, "src/components/tooltip.ts"),
         tokens: resolve(import.meta.dirname, "src/tokens/index.css"),

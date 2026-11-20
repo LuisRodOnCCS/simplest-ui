@@ -2,7 +2,7 @@
 
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> Current release: `v0.2.1`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+> Current release: `v0.3.0`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
 
 Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
 
@@ -69,7 +69,10 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 </article>
 
 <div class="ui-table-wrap" role="region" aria-label="Users" tabindex="0">
-  <table class="ui-table">...</table>
+  <table class="ui-table">
+    <caption class="sr-only">Users</caption>
+    ...
+  </table>
 </div>
 ```
 
@@ -95,6 +98,11 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 ```
 
 Interactive components expose `sui-*` custom events and include keyboard behavior, ARIA relationships, visible focus, and reduced-motion support.
+
+For an optional full-screen mobile navigation pattern, see
+[Responsive navigation with App Shell and Drawer](./docs/responsive-navigation.md)
+and the dashboard in the visual documentation. Applications choose their own
+breakpoint and manage any scroll container outside the drawer.
 
 ## Theme
 

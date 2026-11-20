@@ -10,7 +10,7 @@ const themeKey = "simplest-ui-docs-theme";
 const media = window.matchMedia("(prefers-color-scheme: dark)");
 let language: Language = localStorage.getItem(languageKey) === "es" || (!localStorage.getItem(languageKey) && navigator.language.toLowerCase().startsWith("es")) ? "es" : "en";
 
-function setLanguage(next: Language) { language = next; document.documentElement.lang = next; localStorage.setItem(languageKey, next); document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((el) => { const value = translations[next][el.dataset.i18n ?? ""]; if (value) el.textContent = value; }); document.querySelectorAll<HTMLElement>("[data-i18n-label]").forEach((el) => { const value = translations[next][el.dataset.i18nLabel ?? ""]; if (value) el.setAttribute("label", value); }); const langTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-language-tabs"); if (langTabs) langTabs.value = next; }
+function setLanguage(next: Language) { language = next; document.documentElement.lang = next; localStorage.setItem(languageKey, next); document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((el) => { const value = translations[next][el.dataset.i18n ?? ""]; if (value) el.textContent = value; }); document.querySelectorAll<HTMLElement>("[data-i18n-label]").forEach((el) => { const value = translations[next][el.dataset.i18nLabel ?? ""]; if (value) el.setAttribute("label", value); }); document.querySelector("#dashboard-menu-trigger")?.setAttribute("aria-label", next === "es" ? "Abrir menú" : "Open menu"); document.querySelector("#dashboard-menu")?.setAttribute("label", next === "es" ? "Navegación" : "Navigation"); document.querySelector("#dashboard-menu")?.setAttribute("close-label", next === "es" ? "Cerrar menú" : "Close menu"); const langTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-language-tabs"); if (langTabs) langTabs.value = next; }
 function setTheme(choice: ThemeChoice) { document.documentElement.dataset.theme = choice === "system" ? (media.matches ? "dark" : "light") : choice; document.documentElement.dataset.themeChoice = choice; localStorage.setItem(themeKey, choice); const themeTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-theme-tabs"); if (themeTabs) themeTabs.value = choice; }
 
 customElements.whenDefined("sui-tabs").then(() => {
@@ -18,9 +18,89 @@ customElements.whenDefined("sui-tabs").then(() => {
   const themeTabs = document.querySelector<HTMLElement & { value: string }>("#dashboard-theme-tabs");
   if (langTabs) langTabs.value = language;
   if (themeTabs) themeTabs.value = (localStorage.getItem(themeKey) as ThemeChoice) || "system";
-  langTabs?.addEventListener("sui-change", (event) => setLanguage((event as CustomEvent).detail.value as Language));
+  langTabs?.addEventListener("sui-change", (event) => {
+    setLanguage((event as CustomEvent).detail.value as Language);
+    document.querySelector("#dashboard-menu-close")?.setAttribute("aria-label", language === "es" ? "Cerrar menú" : "Close menu");
+  });
   themeTabs?.addEventListener("sui-change", (event) => setTheme((event as CustomEvent).detail.value as ThemeChoice));
 });
 media.addEventListener("change", () => { if (document.documentElement.dataset.themeChoice === "system") setTheme("system"); });
 setLanguage(language);
 setTheme((localStorage.getItem(themeKey) as ThemeChoice) || "system");
+
+const header = document.querySelector<HTMLElement>("#dashboard-header");
+const shell = document.querySelector<HTMLElement>(".docs-dashboard");
+const bar = document.querySelector<HTMLElement>(".docs-dashboard .ui-app-shell__bar");
+const sidebar = document.querySelector<HTMLElement>(".docs-dashboard .ui-app-shell__sidebar--sticky");
+const modeSelect = document.querySelector<HTMLSelectElement>("#dashboard-header-mode");
+
+const applyMode = () => {
+  const floating = modeSelect?.value === "floating";
+  header?.classList.toggle("ui-app-shell__header--floating", floating);
+};
+modeSelect?.addEventListener("change", applyMode);
+applyMode();
+
+const updateLayout = () => {
+  if (!shell || !bar) return;
+  const barHeight = bar.offsetHeight;
+  shell.style.setProperty("--dashboard-bar-height", `${barHeight}px`);
+  shell.style.setProperty("--sui-app-shell-top-offset", `${barHeight}px`);
+  if (sidebar) {
+    shell.style.setProperty("--dashboard-sidebar-height", `${Math.max(0, shell.clientHeight - barHeight)}px`);
+  }
+};
+const layoutObserver = new ResizeObserver(updateLayout);
+if (bar) layoutObserver.observe(bar);
+if (shell) layoutObserver.observe(shell);
+updateLayout();
+
+const updateHeader = () => {
+  const scrolled = (shell?.scrollTop ?? 0) > 16;
+  header?.classList.toggle("ui-app-shell__header--scrolled", scrolled);
+};
+shell?.addEventListener("scroll", updateHeader, { passive: true });
+updateHeader();
+
+const compactNavigation = window.matchMedia("(max-width: 1024px)");
+const menu = document.querySelector<HTMLElement & { open: boolean; close: (reason?: "dismiss") => void }>("#dashboard-menu");
+const menuTrigger = document.querySelector<HTMLButtonElement>("#dashboard-menu-trigger");
+const menuClose = document.querySelector<HTMLButtonElement>("#dashboard-menu-close");
+menuClose?.setAttribute("aria-label", language === "es" ? "Cerrar menú" : "Close menu");
+const sidebarHome = sidebar?.parentElement;
+const sidebarNext = sidebar?.nextSibling ?? null;
+let shellOverflow = "";
+
+function syncNavigation() {
+  if (!sidebar || !sidebarHome || !menu) return;
+  if (compactNavigation.matches) {
+    menu.append(sidebar);
+  } else {
+    const wasOpen = menu.open;
+    if (wasOpen) menu.close();
+    sidebarHome.insertBefore(sidebar, sidebarNext);
+    if (wasOpen) requestAnimationFrame(() => sidebar.querySelector<HTMLElement>("a")?.focus());
+  }
+}
+
+menuTrigger?.addEventListener("click", () => {
+  menuTrigger.focus();
+  if (menu) menu.open = true;
+});
+menuClose?.addEventListener("click", () => menu?.close("dismiss"));
+menu?.addEventListener("sui-open", () => {
+  menuTrigger?.setAttribute("aria-expanded", "true");
+  if (shell) {
+    shellOverflow = shell.style.overflow;
+    shell.style.overflow = "hidden";
+  }
+});
+menu?.addEventListener("sui-close", () => {
+  menuTrigger?.setAttribute("aria-expanded", "false");
+  if (shell) shell.style.overflow = shellOverflow;
+});
+menu?.addEventListener("click", (event) => {
+  if ((event.target as Element).closest("a")) menu.close();
+});
+compactNavigation.addEventListener("change", syncNavigation);
+syncNavigation();

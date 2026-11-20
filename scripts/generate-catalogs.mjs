@@ -1,9 +1,18 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { buildContracts, validateManifest } from "./lib/manifest.mjs";
 
 const root = process.cwd();
 const manifest = JSON.parse(readFileSync(resolve(root, "components.manifest.json"), "utf8"));
 const integrations = JSON.parse(readFileSync(resolve(root, "integrations.manifest.json"), "utf8"));
+
+const errors = validateManifest(manifest);
+if (errors.length) {
+  console.error(`components.manifest.json is invalid:\n${errors.map((error) => `- ${error}`).join("\n")}`);
+  process.exit(1);
+}
+
+const documentedEntries = [...manifest.cssComponents, ...manifest.layouts];
 
 const catalog = {
   groups: [
@@ -75,6 +84,26 @@ const markdown = [
   "",
   ...manifest.layouts.map((entry) => `- **${title(entry.name)}**: ${entry.classes.map((name) => `\`${name}\``).join(", ")}`),
   "",
+  "## Markup contracts",
+  "",
+  "Each documented entry declares a contract and one or more examples. Start with the `default` example.",
+  "",
+  ...documentedEntries.flatMap((entry) => [
+    `### ${title(entry.name)}`,
+    "",
+    ...(entry.contract.required.length ? ["Required:", ...entry.contract.required.map((item) => `- ${item}`), ""] : []),
+    ...(entry.contract.recommended.length ? ["Recommended:", ...entry.contract.recommended.map((item) => `- ${item}`), ""] : []),
+    ...entry.examples.flatMap((example) => [
+      `#### ${example.label} (\`${example.id}\`)`,
+      "",
+      "```html",
+      example.markup,
+      "```",
+      "",
+      ...(example.required.length ? ["Required for this example:", ...example.required.map((item) => `- ${item}`), ""] : []),
+      ...(example.recommended.length ? ["Recommended for this example:", ...example.recommended.map((item) => `- ${item}`), ""] : [])
+    ])
+  ]),
   "## Integrations",
   "",
   ...integrations.starters.map((entry) => `- **${entry.label}** (${entry.status}): \`${entry.id}\``)
@@ -82,6 +111,7 @@ const markdown = [
 
 const outputs = new Map([
   [resolve(root, "docs/catalog.json"), `${JSON.stringify(catalog, null, 2)}\n`],
+  [resolve(root, "docs/contracts.json"), `${JSON.stringify(buildContracts(manifest), null, 2)}\n`],
   [resolve(root, "skills/simplest-ui/references/catalog.md"), markdown]
 ]);
 

@@ -57,9 +57,16 @@ Automated Axe audits must report no `critical` or `serious` violations before a 
 ## Laravel package authors
 
 Laravel packages may render `ui-*` classes and `sui-*` custom elements directly in
-Blade views. They must not bundle a private copy of Simplest UI assets. The host
-application imports the package once through Vite; package workbenches can use the
-`laravel-package` generator overlay for local development and browser verification.
+Blade views. By default the host application owns Simplest UI assets and imports
+them once through Vite; package workbenches can use the `laravel-package` generator
+overlay for local development and browser verification.
+
+A package that must serve consumers without Node may instead publish its own build
+of the required public CSS and JavaScript exports, together with the upstream
+license. That package asset mode must be exclusive with host asset loading. It must
+include JavaScript whenever the rendered elements require it; CSS-only output is
+insufficient for Web Components. Do not copy `dist` directly or reference
+`vendor/simplest-ui` assets.
 
 ## Version support
 

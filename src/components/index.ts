@@ -6,6 +6,7 @@ import "./accordion";
 import "./popover";
 import "./tooltip";
 import "./toast";
+import "./tag";
 
 export { SuiModal } from "./modal";
 export type {
@@ -20,3 +21,4 @@ export { SuiAccordion } from "./accordion";
 export { SuiPopover } from "./popover";
 export { SuiTooltip } from "./tooltip";
 export { SuiToast, SuiToastContainer } from "./toast";
+export { SuiTag } from "./tag";

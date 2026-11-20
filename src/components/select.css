@@ -20,6 +20,14 @@
               box-shadow var(--sui-duration-fast) var(--sui-easing-standard);
 }
 
+/* In wrapping bars, selects use their natural width until space is constrained. */
+.ui-topbar .ui-select,
+.ui-app-shell__bar .ui-select,
+.ui-app-shell__header .ui-select {
+  width: auto;
+  max-width: 100%;
+}
+
 .ui-select:focus {
   border-color: var(--sui-color-focus);
   box-shadow: var(--sui-focus-ring);
