@@ -31,7 +31,7 @@ const themeKey = "simplest-ui-docs-theme";
 const media = window.matchMedia("(prefers-color-scheme: dark)");
 
 const es: Record<string, string> = {
-  "skip": "Saltar al contenido", "search": "Buscar componentes", "overview": "Introducción", "installation": "Instalación", "tokens": "Tokens", "support": "Soporte", "agent-skill": "Skill de Simplest UI", "foundations": "Fundamentos", "agents": "Agentes", "integrations": "Integraciones", "vanilla-vite": "Vanilla + Vite", "laravel-vite": "Laravel Blade + Vite", "laravel-package": "Desarrollo de paquetes Laravel", "css-components": "Componentes CSS", "web-components": "Web Components", "layouts": "Layouts", "pages": "Páginas", "foundation": "Fundamento", "agent": "Agente", "integration": "Integración", "css": "CSS", "web-component": "Web Component", "layout": "Layout", "page": "Página",
+  "skip": "Saltar al contenido", "search": "Buscar componentes", "docs-menu": "Navegación", "open-docs-menu": "Abrir navegación", "close-docs-menu": "Cerrar navegación", "overview": "Introducción", "installation": "Instalación", "tokens": "Tokens", "support": "Soporte", "agent-skill": "Skill de Simplest UI", "foundations": "Fundamentos", "agents": "Agentes", "integrations": "Integraciones", "vanilla-vite": "Vanilla + Vite", "laravel-vite": "Laravel Blade + Vite", "laravel-package": "Desarrollo de paquetes Laravel", "css-components": "Componentes CSS", "web-components": "Web Components", "layouts": "Layouts", "pages": "Páginas", "foundation": "Fundamento", "agent": "Agente", "integration": "Integración", "css": "CSS", "web-component": "Web Component", "layout": "Layout", "page": "Página",
   "hero.title": "Interfaces simples, con un sistema claro.", "hero.copy": "Tokens CSS, componentes semánticos y Web Components accesibles para construir productos sin depender de un framework.", "hero.audit": "P0–P2 auditado", "hero.framework": "Framework-agnostic",
   "installation.title": "Instalación", "installation.copy": "Importa CSS para la apariencia e importa JavaScript solo para los elementos interactivos que necesites.", "installation.note": "Cards, tables, alerts y controles de formulario son componentes CSS. Solo los elementos documentados como Web Components usan etiquetas sui-*.",
   "vanilla-vite.title": "Vanilla + Vite", "vanilla-vite.copy": "Proyecto Vite mínimo que consume exclusivamente los exports públicos de npm.", "laravel-vite.title": "Laravel Blade + Vite", "laravel-vite.copy": "Archivos de integración para una aplicación Laravel existente; la aplicación carga los assets una sola vez.", "laravel-package.title": "Desarrollo de paquetes Laravel", "laravel-package.copy": "Workbench y ejemplos Blade para paquetes Composer que producen HTML compatible.",
@@ -94,7 +94,7 @@ function showcase(preview: string, snippet?: string) {
 }
 
 function section(id: string, kind: string, title: string, copy: string, body: string) {
-  return `<section class="docs-section" id="${id}" data-search="${title.toLowerCase()} ${kind}"><div class="docs-section__heading"><div><h2>${title}</h2><p>${copy}</p></div><span class="docs-kind">${t(kind, kind)}</span></div>${body}</section>`;
+  return `<section class="docs-section" id="${id}" data-search="${id} ${title.toLowerCase()} ${kind}"><div class="docs-section__heading"><div><h2>${title}</h2><p>${copy}</p></div><span class="docs-kind">${t(kind, kind)}</span></div>${body}</section>`;
 }
 
 function api(rows: Array<[string, string]>) {
@@ -307,7 +307,9 @@ function render() {
   document.documentElement.lang = language;
   document.title = language === "es" ? "Simplest UI · Documentación" : "Simplest UI · Documentation";
   document.querySelector("#docs-root")!.innerHTML = `
-    <div class="docs-shell"><header class="ui-topbar"><a class="ui-topbar__brand" href="#overview"><span class="ui-topbar__mark" aria-hidden="true">S</span><span>Simplest UI</span></a><div class="ui-topbar__controls"><sui-tabs variant="box" value="${language}" id="docs-language-tabs" aria-label="Language"><span data-tab="en" label="EN"></span><span data-tab="es" label="ES"></span></sui-tabs><sui-tabs variant="box" value="${themeChoice()}" id="docs-theme-tabs" aria-label="Theme"><span data-tab="system" label="${t("system", "System")}"></span><span data-tab="light" label="${t("light", "Light")}"></span><span data-tab="dark" label="${t("dark", "Dark")}"></span></sui-tabs></div></header><div class="docs-layout"><nav class="docs-nav" aria-label="Documentation"><input class="docs-search" type="search" placeholder="${t("search", "Search components")}" aria-label="${t("search", "Search components")}" />${renderNav()}</nav><main class="docs-content" id="content" tabindex="-1">${renderSections()}</main></div></div>
+    <div class="docs-shell"><header class="ui-topbar"><a class="ui-topbar__brand" href="#overview"><span class="ui-topbar__mark" aria-hidden="true">S</span><span>Simplest UI</span></a><div class="ui-topbar__controls"><sui-tabs variant="box" value="${language}" id="docs-language-tabs" aria-label="Language"><span data-tab="en" label="EN"></span><span data-tab="es" label="ES"></span></sui-tabs><sui-tabs variant="box" value="${themeChoice()}" id="docs-theme-tabs" aria-label="Theme"><span data-tab="system" label="${t("system", "System")}"></span><span data-tab="light" label="${t("light", "Light")}"></span><span data-tab="dark" label="${t("dark", "Dark")}"></span></sui-tabs></div></header><div class="docs-layout"><nav class="docs-nav" id="docs-nav" aria-label="Documentation"><input class="docs-search" type="search" placeholder="${t("search", "Search components")}" aria-label="${t("search", "Search components")}" />${renderNav()}</nav><main class="docs-content" id="content" tabindex="-1">${renderSections()}</main></div></div>
+    <button type="button" id="docs-menu-trigger" class="docs-menu-trigger" aria-label="${t("open-docs-menu", "Open navigation")}" aria-expanded="false" aria-controls="docs-menu"><span aria-hidden="true">&#9776;</span></button>
+    <sui-drawer id="docs-menu" label="${t("docs-menu", "Navigation")}" close-label="${t("close-docs-menu", "Close navigation")}" hide-close-button style="--sui-drawer-width: 100%; --sui-drawer-footer-min-height: calc(4rem + max(var(--sui-space-4), env(safe-area-inset-bottom)))"><span slot="title">${t("docs-menu", "Navigation")}</span><button type="button" slot="footer" id="docs-menu-close" class="docs-menu-close" aria-label="${t("close-docs-menu", "Close navigation")}"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l14 14M19 5L5 19" /></svg></button></sui-drawer>
     <sui-modal id="docs-modal" label="${t("modal-label", "Confirmation")}" close-label="${t("modal-close", "Close modal")}"><span slot="title">${t("modal-label", "Confirmation")}</span><p>${t("modal-message", "Do you want to continue with this action?")}</p><div slot="footer"><button class="ui-button" type="button" data-close-modal>${t("cancel", "Cancel")}</button><button class="ui-button ui-button--primary" type="button">${t("confirm", "Confirm")}</button></div></sui-modal>
     <sui-drawer id="docs-drawer" label="${t("drawer-label", "Filters")}" close-label="${t("drawer-close", "Close filters")}"><span slot="title">${t("drawer-label", "Filters")}</span><p>${t("drawer-message", "Adjust the results without leaving this view.")}</p><label class="ui-checkbox"><input type="checkbox" checked /> ${t("active-only", "Active only")}</label><div slot="footer"><button class="ui-button ui-button--ghost ui-button--sm" type="button">${t("reset", "Reset")}</button><button class="ui-button ui-button--primary ui-button--sm" type="button">${t("apply", "Apply")}</button></div></sui-drawer>`;
   localizePreviewText();
@@ -341,7 +343,7 @@ function bindInteractions() {
   search?.addEventListener("input", () => {
     const query = search.value.trim().toLowerCase();
     document.querySelectorAll<HTMLElement>(".docs-section").forEach((item) => item.classList.toggle("docs-filtered", Boolean(query) && !item.dataset.search?.includes(query)));
-    document.querySelectorAll<HTMLElement>("[data-nav-id]").forEach((item) => item.classList.toggle("docs-filtered", Boolean(query) && !item.textContent?.toLowerCase().includes(query)));
+    document.querySelectorAll<HTMLElement>("[data-nav-id]").forEach((item) => item.classList.toggle("docs-filtered", Boolean(query) && !item.textContent?.toLowerCase().includes(query) && !item.dataset.navId?.toLowerCase().includes(query)));
   });
   const setActiveNavigation = (id: string) => {
     document.querySelectorAll("[data-nav-id]").forEach((link) => link.removeAttribute("aria-current"));
@@ -356,6 +358,43 @@ function bindInteractions() {
     setActiveNavigation(entry.target.id);
   }), { rootMargin: "-20% 0px -70% 0px" });
   document.querySelectorAll<HTMLElement>(".docs-hero[id], .docs-section").forEach((item) => observer.observe(item));
+
+  const compactNavigation = window.matchMedia("(max-width: 880px)");
+  const docsNav = document.querySelector<HTMLElement>("#docs-nav");
+  const docsMenu = document.querySelector<HTMLElement & { open: boolean; close: (reason?: string) => void }>("#docs-menu");
+  const docsMenuTrigger = document.querySelector<HTMLButtonElement>("#docs-menu-trigger");
+  const docsMenuClose = document.querySelector<HTMLButtonElement>("#docs-menu-close");
+  const navHome = docsNav?.parentElement ?? null;
+  const navNext = docsNav?.nextSibling ?? null;
+
+  function syncDocumentationNavigation() {
+    if (!docsNav || !docsMenu) return;
+    if (compactNavigation.matches) {
+      docsMenu.append(docsNav);
+    } else {
+      if (docsMenu.open) docsMenu.close("dismiss");
+      if (navHome) navHome.insertBefore(docsNav, navNext);
+    }
+  }
+
+  docsMenuTrigger?.addEventListener("click", () => {
+    docsMenuTrigger.focus();
+    if (docsMenu) docsMenu.open = true;
+  });
+  docsMenuClose?.addEventListener("click", () => docsMenu?.close("dismiss"));
+  docsMenu?.addEventListener("sui-open", () => {
+    docsMenuTrigger?.setAttribute("aria-expanded", "true");
+    docsMenuClose?.focus();
+  });
+  docsMenu?.addEventListener("sui-close", () => {
+    docsMenuTrigger?.setAttribute("aria-expanded", "false");
+    docsMenuTrigger?.focus();
+  });
+  docsMenu?.addEventListener("click", (event) => {
+    if ((event.target as Element).closest("a")) docsMenu.close("dismiss");
+  });
+  compactNavigation.addEventListener("change", syncDocumentationNavigation);
+  syncDocumentationNavigation();
 }
 
 media.addEventListener("change", () => { if (document.documentElement.dataset.themeChoice === "system") setTheme("system"); });

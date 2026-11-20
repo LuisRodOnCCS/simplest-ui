@@ -110,7 +110,8 @@
         ],
         "recommended": [
           "Set close-label when the default close button is visible.",
-          "Use the footer slot for actions."
+          "Use the footer slot for actions.",
+          "For mobile navigation, hide the built-in close button with hide-close-button and provide an accessible close control in the footer slot; see docs/responsive-navigation.md for the standard button pattern."
         ]
       },
       "examples": [
