@@ -39,6 +39,16 @@ component or layout declares a `contract` and at least one example with
   `--floating` (when combined with `--scrolled`, adopts a topbar-like look:
   rounded corners, card shadow). Toggle `--scrolled` on scroll; add `--floating`
   only if you want the floating appearance.
+- `ui-app-shell__sidebar` supports optional `--sticky`: the sidebar stays
+  visible while the main content scrolls. Constrain its height to the scrollport
+  for independent menu scrolling. Disabled automatically on mobile.
+- `ui-app-shell__sidebar` supports optional `--scroll`: the sidebar moves
+  with the content, but a long menu scrolls internally instead of stretching
+  the page.
+- `ui-app-shell__bar` is an optional full-width top region (brand + controls)
+  spanning both columns; use it when the configuration belongs to the shell.
+  Its sticky positioning and height measurement belong to the application.
+  Set `--sui-app-shell-top-offset` to the height of a sticky bar above the shell.
 
 ## Use the correct entrypoint
 

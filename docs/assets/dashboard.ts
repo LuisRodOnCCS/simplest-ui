@@ -26,6 +26,9 @@ setLanguage(language);
 setTheme((localStorage.getItem(themeKey) as ThemeChoice) || "system");
 
 const header = document.querySelector<HTMLElement>("#dashboard-header");
+const shell = document.querySelector<HTMLElement>(".docs-dashboard");
+const bar = document.querySelector<HTMLElement>(".docs-dashboard .ui-app-shell__bar");
+const sidebar = document.querySelector<HTMLElement>(".docs-dashboard .ui-app-shell__sidebar--sticky");
 const modeSelect = document.querySelector<HTMLSelectElement>("#dashboard-header-mode");
 
 const applyMode = () => {
@@ -35,8 +38,23 @@ const applyMode = () => {
 modeSelect?.addEventListener("change", applyMode);
 applyMode();
 
-const updateHeader = () => {
-  header?.classList.toggle("ui-app-shell__header--scrolled", window.scrollY > 16);
+const updateLayout = () => {
+  if (!shell || !bar) return;
+  const barHeight = bar.offsetHeight;
+  shell.style.setProperty("--dashboard-bar-height", `${barHeight}px`);
+  shell.style.setProperty("--sui-app-shell-top-offset", `${barHeight}px`);
+  if (sidebar) {
+    shell.style.setProperty("--dashboard-sidebar-height", `${Math.max(0, shell.clientHeight - barHeight)}px`);
+  }
 };
-window.addEventListener("scroll", updateHeader, { passive: true });
+const layoutObserver = new ResizeObserver(updateLayout);
+if (bar) layoutObserver.observe(bar);
+if (shell) layoutObserver.observe(shell);
+updateLayout();
+
+const updateHeader = () => {
+  const scrolled = (shell?.scrollTop ?? 0) > 16;
+  header?.classList.toggle("ui-app-shell__header--scrolled", scrolled);
+};
+shell?.addEventListener("scroll", updateHeader, { passive: true });
 updateHeader();

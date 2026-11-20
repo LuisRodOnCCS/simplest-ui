@@ -6,6 +6,8 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Added
 
+- Optional app shell bar, sticky sidebar and opt-in floating header states.
+- `sui-tag`, a ribbon-shaped Web Component with independent CSS and JavaScript exports.
 
 ## [0.3.0] - 2026-11-19
 

@@ -46,7 +46,7 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 - **Stack**: `ui-stack`
 - **Cluster**: `ui-cluster`
 - **Grid**: `ui-grid`, `ui-grid--auto`
-- **App Shell**: `ui-app-shell`, `ui-app-shell--contained`, `ui-app-shell__sidebar`, `ui-app-shell__content`, `ui-app-shell__header`, `ui-app-shell__header--sticky`, `ui-app-shell__header--scrolled`, `ui-app-shell__header--floating`, `ui-app-shell__main`
+- **App Shell**: `ui-app-shell`, `ui-app-shell--contained`, `ui-app-shell__bar`, `ui-app-shell__sidebar`, `ui-app-shell__sidebar--sticky`, `ui-app-shell__sidebar--scroll`, `ui-app-shell__content`, `ui-app-shell__header`, `ui-app-shell__header--sticky`, `ui-app-shell__header--scrolled`, `ui-app-shell__header--floating`, `ui-app-shell__main`
 - **Skip Link**: `ui-skip-link`
 
 ## Markup contracts
@@ -551,7 +551,11 @@ Required:
 Recommended:
 - Use ui-app-shell--contained when the shell should respect the container width.
 - Use ui-app-shell__header for the header region inside the shell (title + actions).
-- Add --sticky and/or --scrolled modifiers to __header for a glass/sticky bar; or place a ui-topbar inside __content for an autonomous top bar. Do not combine both by default.
+- Use ui-app-shell__header--sticky for positioning; add --floating and toggle --scrolled from application code to opt into the floating appearance.
+- Use ui-app-shell__sidebar--sticky for a sticky sidebar; constrain its height to the scrollport for independent menu scrolling. Sticky is disabled below 768px.
+- Use ui-app-shell__sidebar--scroll when the menu should move with the content but scroll internally if it is too long.
+- Use ui-app-shell__bar as an optional full-width region. Sticky positioning and measuring its height are the consuming application's responsibility.
+- Set --sui-app-shell-top-offset to the height of any sticky bar above the sidebar and floating header.
 
 #### App shell (`default`)
 
@@ -561,6 +565,19 @@ Recommended:
   <div class="ui-app-shell__content">
     <header class="ui-app-shell__header">...</header>
     <main class="ui-app-shell__main">...</main>
+  </div>
+</div>
+```
+
+#### Shell with global bar (`with-bar`)
+
+```html
+<div class="ui-app-shell ui-app-shell--contained">
+  <header class="ui-app-shell__bar">Workspace controls</header>
+  <aside class="ui-app-shell__sidebar"><nav aria-label="Workspace">Navigation</nav></aside>
+  <div class="ui-app-shell__content">
+    <header class="ui-app-shell__header">Dashboard</header>
+    <main class="ui-app-shell__main">Content</main>
   </div>
 </div>
 ```

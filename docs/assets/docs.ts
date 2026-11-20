@@ -172,7 +172,7 @@ const cssReferences: Record<string, Array<[string, string]>> = {
   stack: [["Class", "ui-stack"], ["Token", "--ui-stack-gap"]],
   cluster: [["Class", "ui-cluster"], ["Token", "--ui-cluster-gap"]],
   grid: [["Classes", "ui-grid, ui-grid--auto"], ["Tokens", "--ui-grid-cols, --ui-grid-gap"]],
-  "app-shell": [["Classes", "ui-app-shell, --contained, __sidebar, __content, __header, __header--sticky, __header--scrolled, __header--floating, __main"], ["Token", "--sui-sidebar-width"], ["Flexibility", "Compose ui-topbar inside __content for an autonomous bar; __header is the in-shell region; --floating adopts topbar-like look on scroll"]],
+  "app-shell": [["Classes", "ui-app-shell, --contained, __bar, __sidebar, __sidebar--sticky, __sidebar--scroll, __content, __header, __header--sticky, __header--scrolled, __header--floating, __main"], ["Token", "--sui-sidebar-width"], ["Flexibility", "Optional __bar spans both columns; compose ui-topbar inside __content for an autonomous bar; __header is the in-shell region; --floating adopts topbar-like look on scroll; --sidebar--sticky keeps the menu visible; --sidebar--scroll lets a long menu scroll internally"]],
   "skip-link": [["Class", "ui-skip-link"], ["Behavior", "Visible only on keyboard focus"], ["Compatibility", "Some engines omit links from the default Tab order; test the target environment before adding tabindex=0"]],
   "topbar": [["Classes", "ui-topbar, __brand, __mark, __controls, --glass"], ["Tokens", "--sui-z-popover, --sui-blur-lg, --sui-shadow-card"], ["Usage", "Standalone app-level bar; do not nest inside ui-app-shell by default"]]
 };

@@ -11,8 +11,11 @@
 
 - `ui-topbar` is a standalone app-level bar; `ui-app-shell__header` is the
   header region inside an app shell. They are independent and composable; never
-  assume one replaces the other. Use `--sticky`/`--scrolled` modifiers on
-  `__header` for a glass/sticky look.
+  assume one replaces the other. Use `--sticky`/`--scrolled`/`--floating`
+  modifiers on `__header` for a glass/sticky look.
+- `ui-app-shell__sidebar` supports `--sticky`; constrain its height to the
+  scrollport for independent menu scrolling. Sticky is disabled on mobile.
+  Set `--sui-app-shell-top-offset` for a sticky bar above the shell.
 
 - Use semantic `--sui-*` tokens, not literal visual values.
 - Preserve the soft surface, rounded border, and restrained glass effect of the system.

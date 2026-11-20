@@ -35,7 +35,9 @@ agent skill. Keep the public surface small, semantic and evidence-based.
   `--scrolled` is a state (no visual change alone); `--floating` combined with
   `--scrolled` adopts a topbar-like look (radius + shadow). Toggle `--scrolled`
   with consumer JS.
-
+- `ui-app-shell__sidebar` supports optional `--sticky`: the sidebar stays
+  visible while the main content scrolls; a long menu scrolls internally.
+  Disabled automatically on mobile.
 ## Adding a CSS component
 
 1. Create `src/components/<name>.css` using `--sui-*` tokens; no hardcoded colors,
