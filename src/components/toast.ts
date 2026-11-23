@@ -11,6 +11,7 @@ export class SuiToast extends HTMLElement {
   private generated: HTMLElement | null = null;
   private ownedVariant = "";
   private ownsRole = false;
+  private renderTimer: number | undefined;
 
   static get observedAttributes() {
     return ["title", "message", "variant", "duration"];
@@ -57,18 +58,36 @@ export class SuiToast extends HTMLElement {
         this.ownsRole = true;
       }
     }
-    this.render();
-    this.scheduleDismiss();
+    if (this.closest("sui-toast-container")) {
+      this.render();
+    } else {
+      // Let the empty status region enter the accessibility tree before adding
+      // generated text. Screen readers may ignore content present at creation.
+      this.generated?.remove();
+      this.generated = null;
+      this.renderTimer = window.setTimeout(() => {
+        this.renderTimer = undefined;
+        if (this.isConnected) {
+          this.render();
+          this.scheduleDismiss();
+        }
+      }, 100);
+    }
+    if (this.renderTimer === undefined) this.scheduleDismiss();
   }
 
   disconnectedCallback() {
     window.clearTimeout(this.dismissTimer);
+    window.clearTimeout(this.renderTimer);
+    this.renderTimer = undefined;
   }
 
   attributeChangedCallback() {
     if (this.isConnected) {
-      this.render();
-      this.scheduleDismiss();
+      if (this.renderTimer === undefined) {
+        this.render();
+        this.scheduleDismiss();
+      }
     }
   }
 

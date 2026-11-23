@@ -184,3 +184,102 @@ test("mutating one popover does not disturb another", async ({ page }) => {
   await expect(secondTrigger).toHaveAttribute("aria-controls", controls!);
   await expect(page.getByRole("button", { name: "Second action" })).toBeFocused();
 });
+
+test("tabs handle disabling, re-enabling, replacement and removal", async ({ page }) => {
+  await page.evaluate(() => {
+    document.body.innerHTML = `<sui-tabs><div data-tab="a" label="A">Panel A</div>
+      <div data-tab="b" label="B">Panel B</div></sui-tabs>`;
+    const tabs = document.querySelector("sui-tabs")!;
+    (window as unknown as { tabChanges: string[] }).tabChanges = [];
+    tabs.addEventListener("sui-change", (event) =>
+      (window as unknown as { tabChanges: string[] }).tabChanges.push((event as CustomEvent<{ value: string }>).detail.value));
+  });
+  const b = page.getByRole("tab", { name: "B" });
+  await expect(b).toBeEnabled();
+  await page.locator("[data-tab=b]").evaluate((panel) => panel.setAttribute("disabled", ""));
+  await expect(b).toBeDisabled();
+  await page.locator("[data-tab=b]").evaluate((panel) => panel.removeAttribute("disabled"));
+  await expect(b).toBeEnabled();
+  await b.click();
+  await expect(b).toHaveAttribute("aria-selected", "true");
+  await page.locator("[data-tab=b]").evaluate((panel) => {
+    const replacement = document.createElement("div");
+    replacement.dataset.tab = "b";
+    replacement.setAttribute("label", "B replacement");
+    replacement.textContent = "Replacement panel";
+    panel.replaceWith(replacement);
+  });
+  await expect(page.getByRole("tab", { name: "B replacement" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("[data-tab=b]")).toBeVisible();
+  await page.locator("[data-tab=b]").evaluate((panel) => panel.remove());
+  await expect(page.getByRole("tab", { name: "B replacement" })).toHaveCount(0);
+  await expect(page.getByRole("tab", { name: "A" })).toHaveAttribute("aria-selected", "true");
+  expect(await page.evaluate(() => (window as unknown as { tabChanges: string[] }).tabChanges)).toEqual(["b"]);
+});
+
+test("accordion respects disabled items and preserves the remaining item's references", async ({ page }) => {
+  await page.evaluate(() => {
+    document.body.innerHTML = `<sui-accordion>
+      <div class="ui-accordion__item" id="item-a"><button class="ui-accordion__trigger">A</button><div class="ui-accordion__content">Panel A</div></div>
+      <div class="ui-accordion__item" id="item-b"><button class="ui-accordion__trigger">B</button><div class="ui-accordion__content">Panel B</div></div>
+      </sui-accordion>`;
+    (window as unknown as { accordionChanges: string[][] }).accordionChanges = [];
+    document.querySelector("sui-accordion")!.addEventListener("sui-change", (event) =>
+      (window as unknown as { accordionChanges: string[][] }).accordionChanges.push((event as CustomEvent<{ open: string[] }>).detail.open));
+  });
+  const trigger = page.locator("#item-a button");
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await page.locator("#item-a").evaluate((item) => item.setAttribute("disabled", ""));
+  await trigger.press("Enter");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await page.locator("#item-a").evaluate((item) => item.removeAttribute("disabled"));
+  await trigger.press("Enter");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await page.locator("#item-a").evaluate((item) => item.remove());
+  const remaining = page.locator("#item-b");
+  const panelId = await remaining.locator(".ui-accordion__content").getAttribute("id");
+  expect(panelId).toBeTruthy();
+  await expect(remaining.locator("button")).toHaveAttribute("aria-controls", panelId!);
+  expect(await page.evaluate(() => (window as unknown as { accordionChanges: string[][] }).accordionChanges)).toEqual([["item-a"], []]);
+});
+
+test("drawer retains keyboard escape after removing focused content", async ({ page }) => {
+  await page.evaluate(async () => {
+    document.body.innerHTML = `<button id="origin">Origin</button><sui-drawer label="Panel" hide-close-button>
+      <button id="inside">Inside</button><button slot="footer" id="close">Close</button></sui-drawer>`;
+    const drawer = document.querySelector("sui-drawer") as Dialog;
+    document.querySelector<HTMLButtonElement>("#origin")!.focus();
+    await drawer.updateComplete;
+    drawer.open = true;
+    await drawer.updateComplete;
+  });
+  await page.locator("#inside").focus();
+  await page.locator("#inside").evaluate((element) => element.remove());
+  await page.keyboard.press("Tab");
+  await expect(page.locator("#close")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("sui-drawer")).not.toHaveAttribute("open");
+  await expect(page.locator("#origin")).toBeFocused();
+});
+
+test("tooltip transfers its description when the trigger is replaced and restored", async ({ page }) => {
+  await page.evaluate(() => {
+    document.body.innerHTML = `<p id="help">Existing help</p><sui-tooltip content="Tip">
+      <button slot="trigger" aria-describedby="help">Old</button></sui-tooltip>`;
+  });
+  await expect(page.getByRole("button", { name: "Old" })).toHaveAccessibleDescription("Existing help Tip");
+  await page.evaluate(() => {
+    const old = document.querySelector("sui-tooltip button")!;
+    (window as unknown as { oldTrigger: Element }).oldTrigger = old;
+    const replacement = document.createElement("button");
+    replacement.slot = "trigger";
+    replacement.textContent = "New";
+    replacement.setAttribute("aria-describedby", "help");
+    old.replaceWith(replacement);
+  });
+  await expect(page.getByRole("button", { name: "New" })).toHaveAccessibleDescription("Existing help Tip");
+  expect(await page.evaluate(() => (window as unknown as { oldTrigger: Element }).oldTrigger.getAttribute("aria-describedby"))).toBe("help");
+  await page.evaluate(() => document.querySelector("sui-tooltip button")!.replaceWith((window as unknown as { oldTrigger: Element }).oldTrigger));
+  await expect(page.getByRole("button", { name: "Old" })).toHaveAccessibleDescription("Existing help Tip");
+});

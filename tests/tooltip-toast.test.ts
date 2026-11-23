@@ -97,6 +97,7 @@ describe("sui-toast", () => {
   });
 
   it("acepta message, variant y duration como propiedades", () => {
+    vi.useFakeTimers();
     const toast = document.createElement("sui-toast") as SuiToast;
     toast.setAttribute("title", "Inicial");
     toast.setAttribute("duration", "0");
@@ -105,10 +106,42 @@ describe("sui-toast", () => {
     toast.message = "Mensaje actualizado";
     toast.variant = "success";
     toast.duration = 0;
+    vi.advanceTimersByTime(100);
 
     expect(toast.getAttribute("message")).toBe("Mensaje actualizado");
     expect(toast.classList.contains("ui-toast--success")).toBe(true);
     expect(toast.textContent).toContain("Mensaje actualizado");
     expect(toast.duration).toBe(0);
+  });
+
+  it("prepara la región independiente antes de insertar texto y usa el valor más reciente", () => {
+    vi.useFakeTimers();
+    const toast = document.createElement("sui-toast") as SuiToast;
+    toast.message = "Inicial";
+    toast.duration = 0;
+    document.body.append(toast);
+    expect(toast.getAttribute("role")).toBe("status");
+    expect(toast.textContent).toBe("");
+    toast.message = "Actualizado";
+    vi.advanceTimersByTime(100);
+    expect(toast.textContent).toBe("Actualizado");
+  });
+
+  it("cancela la inserción pendiente al desconectar y no duplica al mover al contenedor", () => {
+    vi.useFakeTimers();
+    const toast = document.createElement("sui-toast") as SuiToast;
+    toast.message = "Mensaje";
+    toast.duration = 0;
+    document.body.append(toast);
+    toast.remove();
+    vi.advanceTimersByTime(100);
+    expect(toast.textContent).toBe("");
+    const container = document.createElement("sui-toast-container");
+    document.body.append(container);
+    container.append(toast);
+    expect(toast.hasAttribute("role")).toBe(false);
+    expect(toast.textContent).toBe("Mensaje");
+    vi.advanceTimersByTime(100);
+    expect(toast.textContent).toBe("Mensaje");
   });
 });
