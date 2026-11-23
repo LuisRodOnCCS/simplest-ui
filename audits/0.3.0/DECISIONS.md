@@ -564,11 +564,15 @@ adapters.
 
 ## Acceptance
 
-The audit can be rerun against 0.3.1 with:
+Validate the current release's packed assets with:
 
 ```bash
-node audits/0.3.0/reproduce.mjs /path/to/install/node_modules/@luisrodonccs/simplest-ui
+npm run test:packed-matrix
 ```
+
+The historical `reproduce.mjs` remains pinned to the published `0.3.0` baseline;
+it records observations and rejects `0.3.1`. Do not treat it as the current
+release's pass/fail suite or change its baseline version to bypass that guard.
 
 Acceptance is not a clean exit. It is: every finding that is marked **Confirmed
 defect** or **Metadata correction** above no longer reproduces its recorded

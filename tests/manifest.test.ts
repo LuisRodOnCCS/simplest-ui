@@ -3,11 +3,20 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import manifest from "../components.manifest.json";
 import generatedContracts from "../docs/contracts.json";
+import packageMetadata from "../package.json";
+import packageLock from "../package-lock.json";
 import { buildContracts, validateManifest } from "../scripts/lib/manifest.mjs";
 
 const clone = () => JSON.parse(JSON.stringify(manifest));
 
 describe("components manifest", () => {
+  it("keeps the package, lockfile, manifest and documentation on the same release", () => {
+    expect(manifest.version).toBe(packageMetadata.version);
+    expect(generatedContracts.version).toBe(packageMetadata.version);
+    expect(packageLock.version).toBe(packageMetadata.version);
+    expect(packageLock.packages[""].version).toBe(packageMetadata.version);
+  });
+
   it("passes the schema validation", () => {
     expect(validateManifest(manifest)).toEqual([]);
   });

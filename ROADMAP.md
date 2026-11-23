@@ -1,6 +1,19 @@
 # Roadmap
 
-`v0.3.0` is the current release. Released work is summarized below.
+`v0.3.1` is the current release. Released work is summarized below.
+
+## v0.3.1 — Adapter contract hardening and tooltip overflow fixes
+
+- [x] Align documented Web Component attributes, writable properties and event details
+      with the runtime and type declarations.
+- [x] Preserve tooltip descriptions, toast content and caller-owned classes during updates.
+- [x] Share modal/drawer scroll locks and close only the topmost overlay on Escape.
+- [x] Reconcile dynamic tooltip/popover content and observe disabled tab changes.
+- [x] Prevent closed tooltips from widening the page and constrain open tooltips
+      to the viewport's horizontal edges.
+- [x] Add packed-package regressions and validate both Laravel asset modes locally.
+- [x] Derive the visual documentation version from generated metadata and align
+      `create-simplest-ui` 0.1.3 with core range `^0.3.1`.
 
 ## v0.3.0 — Integration guidance, manifest and contract centralization
 

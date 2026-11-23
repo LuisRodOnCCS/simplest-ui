@@ -4,16 +4,22 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-23
+
 ### Fixed
 
 - Closed tooltips no longer create horizontal page overflow. Open Web Component
   tooltips wrap long content and stay within the viewport's horizontal edges,
   including after content changes, scrolling and resizing.
+- The visual documentation reads its release badge and support line from generated
+  metadata instead of retaining hardcoded versions from earlier releases.
 
 ### Added
 
 - Contract tests that compare `components.manifest.json` with the exported
   classes, observed attributes and writable properties of every Web Component.
+- Release-coherence tests for package metadata, generated documentation and the
+  starter generator's core version range.
 - `sui-modal` supports `hide-close-button` / `hideCloseButton`, matching the
   drawer and the published manifest.
 - `sui-tooltip` exposes a writable `content` property.
@@ -36,8 +42,8 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
   set as a property.
 - `validateManifest` checks Web Component metadata shape, duplicate tags and
   attributes, and event details that reference undeclared events.
-- `create-simplest-ui` 0.1.2 generates Vanilla starters using Simplest UI
-  `^0.3.0`.
+- `create-simplest-ui` 0.1.3 generates Vanilla starters using Simplest UI
+  `^0.3.1`, excluding earlier patches while retaining compatible updates.
 
 ## [0.3.0] - 2026-11-20
 

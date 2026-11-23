@@ -1,9 +1,12 @@
 import { execFileSync } from "node:child_process";
+import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 
 const root = process.cwd();
+const coreMetadata = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+const generatorMetadata = JSON.parse(await readFile(resolve(root, "packages/create-simplest-ui/package.json"), "utf8"));
 const temporaryDirectory = await mkdtemp(join(tmpdir(), "simplest-ui-starter-package-"));
 
 function npm(argumentsList, cwd = root) {
@@ -41,6 +44,7 @@ try {
     "bin",
     "create-simplest-ui.mjs"
   );
+  assert.equal(execFileSync(process.execPath, [generator, "--version"], { encoding: "utf8" }).trim(), generatorMetadata.version);
   execFileSync(process.execPath, [generator, applicationDirectory, "--template", "vanilla-vite"], {
     cwd: temporaryDirectory,
     stdio: "inherit"
@@ -48,13 +52,16 @@ try {
 
   const manifestPath = join(applicationDirectory, "package.json");
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  assert.equal(manifest.dependencies["@luisrodonccs/simplest-ui"], generatorMetadata.simplestUi.coreRange);
+  assert.equal(generatorMetadata.simplestUi.coreRange, `^${coreMetadata.version}`);
   manifest.dependencies["@luisrodonccs/simplest-ui"] = `file:${relative(applicationDirectory, coreTarball).replaceAll("\\", "/")}`;
   await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 
-  npm(["install"], applicationDirectory);
-  // Reinstall by absolute tarball path. npm's Windows handling of a relative
-  // `file:` specifier can otherwise retain the template's registry dependency.
+  // Install by absolute tarball path before resolving other dependencies:
+  // this release may not exist in the registry yet.
   npm(["install", "--save-exact", coreTarball], applicationDirectory);
+  const installedCore = JSON.parse(await readFile(join(applicationDirectory, "node_modules/@luisrodonccs/simplest-ui/package.json"), "utf8"));
+  assert.equal(installedCore.version, coreMetadata.version);
   npm(["run", "build"], applicationDirectory);
   console.log("Verified the packed generator creates a Vanilla Vite application from the packed core package.");
 } finally {
