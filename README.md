@@ -86,7 +86,7 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 | `<sui-tabs>` | `components/tabs` | Arrow-key tab navigation. |
 | `<sui-accordion>` | `components/accordion` | Single or multiple disclosure panels. |
 | `<sui-popover>` | `components/popover` | Contextual dialog and viewport placement. |
-| `<sui-tooltip>` | `components/tooltip` | Automatic `aria-describedby`. |
+| `<sui-tooltip>` | `components/tooltip` | Automatic `aria-describedby`, wrapped text and horizontal viewport placement. |
 | `<sui-toast>` | `components/toast` | Live announcements and `SuiToast.show()`. |
 
 ```html

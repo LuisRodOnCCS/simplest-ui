@@ -105,8 +105,11 @@ test("tooltip appears on hover", async ({ page }, testInfo) => {
 test("toast announces a message", async ({ page }) => {
   await page.locator("[data-show-toast]").click({ force: true });
 
-  const toast = page.locator(".ui-toast");
+  const container = page.locator("sui-toast-container");
+  const toast = container.locator(".ui-toast");
   await expect(toast).toBeVisible();
-  await expect(toast).toHaveRole("status");
+  await expect(container).toHaveAttribute("aria-live", "polite");
+  await expect(toast).not.toHaveAttribute("role");
+  await expect(toast).not.toHaveAttribute("aria-live");
   await expect(toast).toContainText("Changes saved");
 });

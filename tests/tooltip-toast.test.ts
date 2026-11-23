@@ -9,6 +9,8 @@ beforeEach(() => {
 afterEach(() => {
   vi.useRealTimers();
   document.body.innerHTML = "";
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe("sui-tooltip", () => {
@@ -55,6 +57,46 @@ describe("sui-tooltip", () => {
     trigger.removeAttribute("aria-disabled");
     trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
     expect(tooltip.classList.contains("ui-tooltip--visible")).toBe(true);
+  });
+
+  it("observa la geometría sólo mientras está visible y restaura estilos del consumidor", async () => {
+    const observe = vi.fn();
+    const disconnect = vi.fn();
+    vi.stubGlobal("ResizeObserver", class {
+      observe = observe;
+      disconnect = disconnect;
+    });
+    const add = vi.spyOn(window, "addEventListener");
+    const remove = vi.spyOn(window, "removeEventListener");
+    const cancel = vi.spyOn(window, "cancelAnimationFrame");
+    document.body.innerHTML = `<sui-tooltip><button>Help</button>
+      <span slot="content" style="left: 12px !important; max-width: 260px !important; color: red">Help text</span>
+      </sui-tooltip>`;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const tooltip = document.querySelector("sui-tooltip")!;
+    const trigger = tooltip.querySelector("button")!;
+    const content = tooltip.querySelector<HTMLElement>("[slot=content]")!;
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    expect(observe).toHaveBeenCalledTimes(2);
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    expect(observe).toHaveBeenCalledTimes(2);
+    expect(add).toHaveBeenCalledWith("scroll", expect.any(Function), true);
+    window.dispatchEvent(new Event("resize"));
+    trigger.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(disconnect).toHaveBeenCalledTimes(1);
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(remove).toHaveBeenCalledWith("resize", expect.any(Function));
+    expect(remove).toHaveBeenCalledWith("scroll", expect.any(Function), true);
+    expect(content.style.left).toBe("12px");
+    expect(content.style.getPropertyPriority("left")).toBe("important");
+    expect(content.style.maxWidth).toBe("260px");
+    expect(content.style.getPropertyPriority("max-width")).toBe("important");
+    expect(content.style.color).toBe("red");
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    tooltip.remove();
+    expect(disconnect).toHaveBeenCalledTimes(2);
+    expect(content.style.maxWidth).toBe("260px");
+    expect(tooltip.classList.contains("ui-tooltip--visible")).toBe(false);
   });
 });
 

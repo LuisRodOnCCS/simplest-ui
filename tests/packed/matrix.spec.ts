@@ -54,6 +54,96 @@ test("tooltip uses the explicit trigger and hides disabled triggers", async ({ p
   await expect(page.locator("sui-tooltip [role=tooltip]")).toHaveCSS("opacity", "0");
 });
 
+for (const edge of ["left", "right"] as const) {
+  test(`tooltip stays inside the viewport at the ${edge} edge when closed and open`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 600 });
+    await page.evaluate((edge) => {
+      document.body.innerHTML = `<p id="prior">Existing help</p><div style="display:flex;justify-content:${edge === "right" ? "flex-end" : "flex-start"};padding-top:120px">
+        <sui-tooltip content="Additional context with a long explanation near the viewport edge">
+          <button aria-describedby="prior">Help</button>
+        </sui-tooltip></div>`;
+    }, edge);
+    const trigger = page.getByRole("button", { name: "Help" });
+    const content = page.locator("sui-tooltip [role=tooltip]");
+    await expect(trigger).toHaveAccessibleDescription("Existing help Additional context with a long explanation near the viewport edge");
+    await expect(content).toBeHidden();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+
+    await trigger.focus();
+    await expect(content).toBeVisible();
+    await expect.poll(async () => {
+      const box = await content.boundingBox();
+      return Boolean(box && box.x >= 0 && box.x + box.width <= 320);
+    }).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+
+    await trigger.blur();
+    await expect(content).toBeHidden();
+    // Pointer dispatch exercises the same handler in WebKit without depending
+    // on its platform-specific CSS hover emulation.
+    await trigger.dispatchEvent("pointerenter");
+    await expect(content).toBeVisible();
+    await trigger.dispatchEvent("pointerleave");
+    await expect(content).toBeHidden();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  });
+}
+
+test("visible tooltip wraps long words and tracks resizing, scrolling and content replacement", async ({ page }) => {
+  await page.setViewportSize({ width: 480, height: 600 });
+  await page.evaluate(() => {
+    document.body.innerHTML = `<div id="scroller" style="overflow:auto;width:100%;height:300px">
+      <div style="width:800px;padding-top:120px">
+        <sui-tooltip style="margin-left:160px" content="Initial help"><button>Help</button></sui-tooltip>
+      </div></div>`;
+  });
+  const trigger = page.getByRole("button", { name: "Help" });
+  await trigger.focus();
+  await page.locator("sui-tooltip").evaluate((element) => element.setAttribute("content", "word".repeat(100)));
+  const content = page.locator("sui-tooltip [role=tooltip]");
+  const expectInsideViewport = async () => {
+    await expect.poll(async () => content.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return rect.left >= -0.5 && rect.right <= document.documentElement.clientWidth + 0.5 &&
+        element.scrollWidth <= element.clientWidth + 1;
+    })).toBe(true);
+    const layout = await page.evaluate(() => ({
+      viewport: innerWidth,
+      width: document.documentElement.scrollWidth,
+      boxes: [...document.querySelectorAll("body *")].map((element) => {
+        const rect = element.getBoundingClientRect();
+        return { tag: element.tagName, style: element.getAttribute("style"), left: rect.left, right: rect.right, width: rect.width };
+      })
+    }));
+    expect(layout.width, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
+  };
+  await expectInsideViewport();
+  await page.setViewportSize({ width: 320, height: 600 });
+  await expectInsideViewport();
+  await page.locator("#scroller").evaluate((element) => element.scrollLeft = 100);
+  await expectInsideViewport();
+  await page.locator("sui-tooltip").evaluate((element) => {
+    const replacement = document.createElement("span");
+    replacement.slot = "content";
+    replacement.style.color = "inherit";
+    replacement.textContent = "Replacement " + "longword".repeat(50);
+    element.append(replacement);
+  });
+  await expect(trigger).toHaveAccessibleDescription(/Replacement longword/);
+  await expect(content).toBeVisible();
+  await expectInsideViewport();
+  await trigger.blur();
+  await expect(content).toBeHidden();
+  await expect(content).toHaveAttribute("style", "color: inherit;");
+  await page.locator("sui-tooltip").evaluate((element) => {
+    element.remove();
+    document.body.append(element);
+  });
+  await expect(trigger).toHaveAccessibleDescription(/Replacement longword/);
+  await trigger.focus();
+  await expectInsideViewport();
+});
+
 test("popover updates label and reconciles focused panel removal and reinsertion", async ({ page }) => {
   await page.evaluate(() => {
     document.body.innerHTML = `<sui-popover label="Original"><button slot="trigger">Open</button>

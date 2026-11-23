@@ -15,10 +15,14 @@ test("manual accessibility fixture exposes working review scenarios", async ({ p
   await expect(trigger).toHaveAccessibleDescription("Ayuda previa: el correo es obligatorio. Tooltip actualizado: revisa el dominio de tu correo.");
 
   const drawerButton = page.getByRole("button", { name: "Abrir panel lateral" });
-  await drawerButton.click();
+  // Keyboard activation establishes the focus return target in every engine;
+  // WebKit does not focus native buttons on a pointer click.
+  await drawerButton.focus();
+  await drawerButton.press("Enter");
   await expect(page.getByRole("dialog", { name: "Panel lateral de prueba" })).toBeVisible();
   const modalButton = page.getByRole("button", { name: "Abrir diálogo interior" });
-  await modalButton.click();
+  await modalButton.focus();
+  await modalButton.press("Enter");
   await expect(page.getByRole("dialog", { name: "Diálogo interior de prueba" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Diálogo interior de prueba" })).toBeHidden();

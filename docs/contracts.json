@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "components": {
     "button": {
       "name": "button",
@@ -1109,7 +1109,8 @@
         "recommended": [
           "Disabled triggers do not show the tooltip; provide visible help or describe a wrapper instead.",
           "Replace trigger or content nodes instead of reassigning slots between existing nodes.",
-          "Content becomes aria-describedby automatically."
+          "Content becomes aria-describedby automatically.",
+          "Text wraps and the Web Component keeps open tooltips within the viewport's horizontal edges."
         ]
       },
       "examples": [

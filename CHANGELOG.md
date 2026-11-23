@@ -4,6 +4,12 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Fixed
+
+- Closed tooltips no longer create horizontal page overflow. Open Web Component
+  tooltips wrap long content and stay within the viewport's horizontal edges,
+  including after content changes, scrolling and resizing.
+
 ### Added
 
 - Contract tests that compare `components.manifest.json` with the exported
