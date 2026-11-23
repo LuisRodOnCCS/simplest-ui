@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import type { PropertyValues } from "lit";
+import { createId } from "./internal/id";
 
 type TabItem = {
   id: string;
@@ -11,8 +12,7 @@ type TabItem = {
 
 @customElement("sui-tabs")
 export class SuiTabs extends LitElement {
-  private static instanceCount = 0;
-  private readonly uid = ++SuiTabs.instanceCount;
+  private readonly uid = createId("sui-tabs");
 
   static styles = css`
     :host {
@@ -127,7 +127,7 @@ export class SuiTabs extends LitElement {
   `;
 
   @property({ type: String }) value = "";
-  @property({ type: String }) variant: "pill" | "box" = "pill";
+  @property({ type: String, reflect: true }) variant: "pill" | "box" = "pill";
 
   @state() private tabs: TabItem[] = [];
 
@@ -140,7 +140,7 @@ export class SuiTabs extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.labelObserver.observe(this, { attributes: true, attributeFilter: ["label"], subtree: true });
+    this.labelObserver.observe(this, { attributes: true, attributeFilter: ["label", "disabled", "data-tab"], subtree: true });
     this.collectTabs();
     // Los hijos pueden no estar disponibles durante el parseo inicial del HTML.
     queueMicrotask(() => {

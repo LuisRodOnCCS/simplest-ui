@@ -1,8 +1,6 @@
 export type ToastVariant = "default" | "success" | "warning" | "danger";
 
-export type ToastOptions = {
-  title: string;
-  message?: string;
+export type ToastOptions = ({ title: string; message?: string } | { title?: string; message: string }) & {
   variant?: ToastVariant;
   duration?: number;
 };
@@ -10,7 +8,10 @@ export type ToastOptions = {
 /** Declarative toast, also available as `SuiToast.show(options)`. */
 export class SuiToast extends HTMLElement {
   private dismissTimer: number | undefined;
-  private generated = false;
+  private generated: HTMLElement | null = null;
+  private ownedVariant = "";
+  private ownsRole = false;
+  private renderTimer: number | undefined;
 
   static get observedAttributes() {
     return ["title", "message", "variant", "duration"];
@@ -21,22 +22,72 @@ export class SuiToast extends HTMLElement {
     return Number.isFinite(value) ? Math.max(0, value) : 5000;
   }
 
+  set duration(value: number) {
+    const next = Number(value);
+    if (Number.isFinite(next) && next >= 0) this.setAttribute("duration", String(next));
+    else this.removeAttribute("duration");
+  }
+
+  get message(): string {
+    return this.getAttribute("message") ?? "";
+  }
+
+  set message(value: string) {
+    if (value) this.setAttribute("message", value);
+    else this.removeAttribute("message");
+  }
+
+  get variant(): ToastVariant {
+    const value = this.getAttribute("variant");
+    return value === "success" || value === "warning" || value === "danger" ? value : "default";
+  }
+
+  set variant(value: ToastVariant) {
+    if (!value || value === "default") this.removeAttribute("variant");
+    else this.setAttribute("variant", value);
+  }
+
   connectedCallback() {
     this.classList.add("ui-toast");
-    this.setAttribute("role", this.getAttribute("role") ?? "status");
-    this.setAttribute("aria-live", this.getAttribute("aria-live") ?? "polite");
-    this.render();
-    this.scheduleDismiss();
+    if (this.closest("sui-toast-container")) {
+      if (this.ownsRole && this.getAttribute("role") === "status") this.removeAttribute("role");
+      this.ownsRole = false;
+    } else {
+      if (!this.hasAttribute("role")) {
+        this.setAttribute("role", "status");
+        this.ownsRole = true;
+      }
+    }
+    if (this.closest("sui-toast-container")) {
+      this.render();
+    } else {
+      // Let the empty status region enter the accessibility tree before adding
+      // generated text. Screen readers may ignore content present at creation.
+      this.generated?.remove();
+      this.generated = null;
+      this.renderTimer = window.setTimeout(() => {
+        this.renderTimer = undefined;
+        if (this.isConnected) {
+          this.render();
+          this.scheduleDismiss();
+        }
+      }, 100);
+    }
+    if (this.renderTimer === undefined) this.scheduleDismiss();
   }
 
   disconnectedCallback() {
     window.clearTimeout(this.dismissTimer);
+    window.clearTimeout(this.renderTimer);
+    this.renderTimer = undefined;
   }
 
   attributeChangedCallback() {
     if (this.isConnected) {
-      this.render();
-      this.scheduleDismiss();
+      if (this.renderTimer === undefined) {
+        this.render();
+        this.scheduleDismiss();
+      }
     }
   }
 
@@ -48,28 +99,28 @@ export class SuiToast extends HTMLElement {
 
   private render() {
     const variant = this.getAttribute("variant") ?? "default";
-    this.className = `ui-toast${variant !== "default" ? ` ui-toast--${variant}` : ""}`;
-    if (!this.getAttribute("title")) {
-      if (this.generated) this.replaceChildren();
-      return;
-    }
-    if (this.children.length && !this.generated) return;
-
-    if (this.generated) this.replaceChildren();
-
-    const content = document.createElement("div");
-    const title = document.createElement("div");
-    title.className = "ui-toast__title";
-    title.textContent = this.getAttribute("title");
-    content.append(title);
-    this.generated = true;
+    if (this.ownedVariant) this.classList.remove(this.ownedVariant);
+    this.ownedVariant = variant !== "default" && /^(success|warning|danger)$/.test(variant) ? `ui-toast--${variant}` : "";
+    if (this.ownedVariant) this.classList.add(this.ownedVariant);
+    const titleText = this.getAttribute("title");
     const message = this.getAttribute("message");
+    this.generated?.remove();
+    this.generated = null;
+    if (!titleText && !message) return;
+    const content = document.createElement("div");
+    if (titleText) {
+      const title = document.createElement("div");
+      title.className = "ui-toast__title";
+      title.textContent = titleText;
+      content.append(title);
+    }
     if (message) {
       const body = document.createElement("div");
       body.className = "ui-toast__body";
       body.textContent = message;
       content.append(body);
     }
+    this.generated = content;
     this.append(content);
   }
 
@@ -87,7 +138,7 @@ export class SuiToast extends HTMLElement {
       document.body.append(container);
     }
     const toast = document.createElement("sui-toast") as SuiToast;
-    toast.setAttribute("title", options.title);
+    if (options.title) toast.setAttribute("title", options.title);
     if (options.message) toast.setAttribute("message", options.message);
     if (options.variant && options.variant !== "default") toast.setAttribute("variant", options.variant);
     if (options.duration !== undefined) toast.setAttribute("duration", String(options.duration));

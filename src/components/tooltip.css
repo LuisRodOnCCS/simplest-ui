@@ -4,6 +4,7 @@
 }
 
 .ui-tooltip__content {
+  display: none;
   position: absolute;
   bottom: calc(100% + var(--sui-space-1-5));
   left: 50%;
@@ -13,14 +14,26 @@
   color: var(--sui-color-inverse-text);
   background: var(--sui-color-inverse-surface);
   border-radius: var(--sui-radius-xs);
-  white-space: nowrap;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--sui-space-2-5));
+  white-space: normal;
+  overflow-wrap: anywhere;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--sui-duration-fast) var(--sui-easing-standard);
   z-index: var(--sui-z-popover);
 }
 
-.ui-tooltip:hover .ui-tooltip__content,
-.ui-tooltip:focus-within .ui-tooltip__content {
+sui-tooltip .ui-tooltip__content {
+  /* The Web Component centers and clamps the actual box, not a transformed
+     box whose original bounds can still contribute to scrollable overflow. */
+  transform: none;
+}
+
+sui-tooltip.ui-tooltip--visible:not(:has([data-sui-tooltip-trigger]:disabled, [data-sui-tooltip-trigger][aria-disabled="true"])) .ui-tooltip__content,
+.ui-tooltip:not(sui-tooltip):hover .ui-tooltip__content,
+.ui-tooltip:not(sui-tooltip):focus-within .ui-tooltip__content {
+  display: block;
   opacity: 1;
 }

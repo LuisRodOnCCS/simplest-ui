@@ -1,5 +1,23 @@
 import { expect, test } from "@playwright/test";
 import { openDocs } from "./helpers";
+import { readFileSync } from "node:fs";
+
+const { version } = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string };
+
+test("release badge and support line follow package metadata in both languages", async ({ page }) => {
+  await openDocs(page);
+  const releaseLine = `${version.split(".").slice(0, 2).join(".")}.x`;
+  for (const width of [1280, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const language of ["EN", "ES"]) {
+      await page.locator("#docs-language-tabs").getByRole("tab", { name: language, exact: true }).click({ force: true });
+      await expect(page.locator("#overview .docs-hero__meta .ui-badge").first()).toHaveText(`v${version}`);
+      await expect(page.locator("#support .docs-section__heading p")).toContainText(releaseLine);
+      await expect(page.locator("#support .docs-api").filter({ hasText: "React, Vue" })).toContainText(releaseLine);
+      await expect(page.locator("#support")).not.toContainText("0.2.x");
+    }
+  }
+});
 
 test("catalog navigation exposes every current entry", async ({ page }) => {
   await openDocs(page);

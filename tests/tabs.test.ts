@@ -25,6 +25,18 @@ const shadowTabs = () => Array.from(tabs.shadowRoot!.querySelectorAll<HTMLButton
 const panels = () => Array.from(tabs.querySelectorAll<HTMLElement>("[data-tab]"));
 
 describe("sui-tabs", () => {
+  it("refleja cambios dinámicos de disabled sin cambiar la selección", async () => {
+    panels()[1].setAttribute("disabled", "");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await tabs.updateComplete;
+    expect(shadowTabs()[1].disabled).toBe(true);
+    shadowTabs()[1].click();
+    expect(tabs.value).toBe("general");
+    panels()[1].removeAttribute("disabled");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await tabs.updateComplete;
+    expect(shadowTabs()[1].disabled).toBe(false);
+  });
   it("construye una pestaña por cada hijo con data-tab", () => {
     expect(shadowTabs().map((tab) => tab.textContent?.trim())).toEqual([
       "General",

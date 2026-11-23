@@ -1,3 +1,5 @@
+import { createId } from "./internal/id";
+
 const ITEM_SELECTOR = ".ui-accordion__item";
 const TRIGGER_SELECTOR = ".ui-accordion__trigger";
 
@@ -17,6 +19,10 @@ export class SuiAccordion extends HTMLElement {
 
   get multiple(): boolean {
     return this.hasAttribute("multiple");
+  }
+
+  set multiple(value: boolean) {
+    this.toggleAttribute("multiple", value);
   }
 
   connectedCallback() {
@@ -54,13 +60,14 @@ export class SuiAccordion extends HTMLElement {
   private upgradeItems() {
     this.suppressEvents = true;
 
-    this.items.forEach((item, index) => {
+    this.items.forEach((item) => {
       const trigger = item.querySelector<HTMLButtonElement>(TRIGGER_SELECTOR);
       const panel = item.querySelector<HTMLElement>(".ui-accordion__content");
       if (!trigger || !panel) return;
 
       trigger.type = "button";
-      if (!panel.id) panel.id = `sui-accordion-panel-${crypto.randomUUID?.() ?? `${Date.now()}-${index}`}`;
+      if (!item.id) item.id = createId("sui-accordion-item");
+      if (!panel.id) panel.id = createId("sui-accordion-panel");
       if (!trigger.id) trigger.id = `sui-accordion-trigger-${panel.id}`;
 
       trigger.setAttribute("aria-controls", panel.id);

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revisión manual de accesibilidad · Simplest UI</title>
+  <link rel="stylesheet" href="../../src/tokens/index.css">
+  <link rel="stylesheet" href="../../src/styles/index.css">
+  <script type="module" src="../../src/components/index.ts"></script>
+  <script type="module" src="./manual-a11y.js"></script>
+</head>
+<body>
+  <main class="ui-container">
+    <h1>Revisión manual de accesibilidad</h1>
+    <p>Ejemplos locales para escuchar con NVDA. Las instrucciones y la plantilla de resultados están en <code>audits/0.3.0/MANUAL-A11Y.md</code>.</p>
+    <p>Esta página usa el código fuente de la copia de trabajo, no un paquete instalado ni publicado.</p>
+
+    <section aria-labelledby="toast-heading">
+      <h2 id="toast-heading">1. Avisos</h2>
+      <p>Activa cada botón una vez y escucha si el mensaje se anuncia y si se repite. Los avisos permanecen hasta pulsar «Limpiar avisos».</p>
+      <button type="button" class="ui-button" id="show-stack">Mostrar aviso en contenedor</button>
+      <button type="button" class="ui-button" id="show-standalone">Mostrar aviso independiente</button>
+      <button type="button" class="ui-button" id="clear-toasts">Limpiar avisos</button>
+      <sui-toast-container id="toast-stack"></sui-toast-container>
+      <div id="standalone-area"></div>
+    </section>
+
+    <section aria-labelledby="tooltip-heading">
+      <h2 id="tooltip-heading">2. Descripción y tooltip</h2>
+      <p id="prior-description">Ayuda previa: el correo es obligatorio.</p>
+      <p>Enfoca el botón «Información de correo». Después activa «Cambiar tooltip» y vuelve a enfocarlo.</p>
+      <sui-tooltip>
+        <button type="button" class="ui-button" slot="trigger" aria-describedby="prior-description">Información de correo</button>
+        <span slot="content" id="manual-tooltip">Tooltip inicial: usa tu correo de trabajo.</span>
+      </sui-tooltip>
+      <button type="button" class="ui-button" id="replace-tooltip">Cambiar tooltip</button>
+      <button type="button" class="ui-button" id="reset-tooltip">Restaurar tooltip inicial</button>
+    </section>
+
+    <section aria-labelledby="dialog-heading">
+      <h2 id="dialog-heading">3. Diálogos anidados</h2>
+      <p>Abre el panel lateral y, dentro de él, abre el diálogo. Pulsa Escape una vez para cada nivel.</p>
+      <button type="button" class="ui-button" id="open-drawer">Abrir panel lateral</button>
+      <sui-drawer id="manual-drawer" label="Panel lateral de prueba" close-label="Cerrar panel lateral">
+        <p>Este es el contenido del panel lateral.</p>
+        <button type="button" class="ui-button" id="open-modal">Abrir diálogo interior</button>
+        <sui-modal id="manual-modal" label="Diálogo interior de prueba" close-label="Cerrar diálogo interior">
+          <p>Este es el contenido del diálogo interior.</p>
+        </sui-modal>
+      </sui-drawer>
+    </section>
+  </main>
+</body>
+</html>

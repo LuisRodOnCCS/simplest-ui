@@ -30,6 +30,17 @@ afterEach(() => {
 });
 
 describe("sui-accordion", () => {
+  it("asigna IDs a items sin ID para el detalle del evento", async () => {
+    const item = accordion.querySelectorAll<HTMLElement>(".ui-accordion__item")[1];
+    item.removeAttribute("id");
+    accordion.append(item);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const listener = vi.fn();
+    accordion.addEventListener("sui-change", listener);
+    triggers[1].click();
+    expect(item.id).toBeTruthy();
+    expect(listener.mock.calls[0][0].detail.open).toEqual([item.id]);
+  });
   it("normaliza las relaciones ARIA y el estado inicial", () => {
     expect(accordion.classList.contains("ui-accordion")).toBe(true);
     expect(triggers[0].getAttribute("aria-expanded")).toBe("true");

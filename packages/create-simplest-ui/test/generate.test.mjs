@@ -6,6 +6,16 @@ import { join } from "node:path";
 import test from "node:test";
 import { generateStarter, parseArguments } from "../src/generate.mjs";
 
+const generatorMetadata = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+const coreMetadata = JSON.parse(await readFile(new URL("../../../package.json", import.meta.url), "utf8"));
+const lockfile = JSON.parse(await readFile(new URL("../../../package-lock.json", import.meta.url), "utf8"));
+
+test("keeps the generator release and generated core range aligned with package metadata", () => {
+  assert.equal(generatorMetadata.simplestUi.coreRange, `^${coreMetadata.version}`);
+  assert.equal(lockfile.packages["packages/create-simplest-ui"].version, generatorMetadata.version);
+  assert.equal(parseArguments(["--version"]).generatorVersion, generatorMetadata.version);
+});
+
 async function temporaryDirectory() {
   return mkdtemp(join(tmpdir(), "create-simplest-ui-"));
 }
@@ -34,7 +44,8 @@ test("generates a Vanilla starter using public package imports", async (context)
   assert.equal(existsSync(join(target, "index.html")), true);
   assert.match(await readFile(join(target, "src/main.js"), "utf8"), /@luisrodonccs\/simplest-ui\/tokens\.css/);
   assert.match(await readFile(join(target, "src/main.js"), "utf8"), /@luisrodonccs\/simplest-ui\/styles\.css/);
-  assert.match(await readFile(join(target, "package.json"), "utf8"), /"\^0\.3\.0"/);
+  const generated = JSON.parse(await readFile(join(target, "package.json"), "utf8"));
+  assert.equal(generated.dependencies["@luisrodonccs/simplest-ui"], generatorMetadata.simplestUi.coreRange);
 });
 
 test("refuses conflicts unless force is passed", async (context) => {

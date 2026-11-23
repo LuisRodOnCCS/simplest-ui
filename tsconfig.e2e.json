@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["playwright.config.ts", "tests/e2e/**/*.ts", "tests/fixtures/**/vite.config.ts"]
+  "include": ["playwright.config.ts", "playwright.packed.config.ts", "tests/e2e/**/*.ts", "tests/packed/**/*.ts", "tests/fixtures/**/vite.config.ts"]
 }

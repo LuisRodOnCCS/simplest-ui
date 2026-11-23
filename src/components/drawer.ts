@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js";
 import type { PropertyValues } from "lit";
 import { lockScroll, trapTabKey, unlockScroll } from "./internal/a11y";
 import type { SuiDialogCloseReason } from "./internal/dialog-events";
+import { createId } from "./internal/id";
+import { isTopOverlay, registerOverlay, unregisterOverlay } from "./internal/overlay";
 
 export type {
   SuiDialogCloseEvent,
@@ -16,8 +18,8 @@ export type {
  */
 @customElement("sui-drawer")
 export class SuiDrawer extends LitElement {
-  private static instanceCount = 0;
-  private readonly uid = ++SuiDrawer.instanceCount;
+  private readonly uid = createId("sui-drawer");
+  private readonly overlay = { close: (reason: "escape") => this.close(reason) };
   private previouslyFocused: HTMLElement | null = null;
   private holdsScrollLock = false;
   private closeReason: SuiDialogCloseReason | undefined;
@@ -120,14 +122,14 @@ export class SuiDrawer extends LitElement {
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;
 
   /** Hide the built-in close button when an accessible alternative is provided. */
-  @property({ type: Boolean, attribute: "hide-close-button" }) hideCloseButton = false;
+  @property({ type: Boolean, reflect: true, attribute: "hide-close-button" }) hideCloseButton = false;
 
   private get titleId() {
-    return `sui-drawer-title-${this.uid}`;
+    return `${this.uid}-title`;
   }
 
   private get bodyId() {
-    return `sui-drawer-body-${this.uid}`;
+    return `${this.uid}-body`;
   }
 
   protected updated(changed: PropertyValues) {
@@ -139,9 +141,10 @@ export class SuiDrawer extends LitElement {
 
     if (this.open) {
       this.closeReason = undefined;
-      this.previouslyFocused = document.activeElement as HTMLElement | null;
-      lockScroll();
-      this.holdsScrollLock = true;
+      if (wasClosed || previousOpen === undefined) {
+        this.previouslyFocused = document.activeElement as HTMLElement | null;
+      }
+      this.acquireOverlay();
       if (wasClosed) {
         this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
       }
@@ -149,7 +152,7 @@ export class SuiDrawer extends LitElement {
       return;
     }
 
-    this.releaseScrollLock();
+    this.releaseOverlay();
     if (wasOpen) {
       this.dispatchEvent(
         new CustomEvent("sui-close", {
@@ -171,15 +174,8 @@ export class SuiDrawer extends LitElement {
   }
 
   private handleKeydown = (event: KeyboardEvent) => {
-    if (!this.open) return;
-
-    if (event.key === "Escape") {
-      event.preventDefault();
-      this.close("escape");
-      return;
-    }
-
-    if (event.key === "Tab") trapTabKey(event, this);
+    if (!this.open || !isTopOverlay(this.overlay) || event.key !== "Tab") return;
+    trapTabKey(event, this);
   };
 
   private handleBackdropClick = (event: MouseEvent) => {
@@ -195,23 +191,33 @@ export class SuiDrawer extends LitElement {
     if (!this.open) return;
     this.closeReason = reason;
     this.open = false;
+    this.releaseOverlay();
   }
 
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener("keydown", this.handleKeydown);
+    if (this.open) this.acquireOverlay();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this.handleKeydown);
-    this.releaseScrollLock();
+    this.releaseOverlay();
   }
 
-  private releaseScrollLock() {
+  private acquireOverlay() {
+    if (this.holdsScrollLock) return;
+    this.holdsScrollLock = true;
+    lockScroll();
+    registerOverlay(this.overlay);
+  }
+
+  private releaseOverlay() {
     if (!this.holdsScrollLock) return;
-    unlockScroll();
     this.holdsScrollLock = false;
+    unlockScroll();
+    unregisterOverlay(this.overlay);
   }
 
   render() {

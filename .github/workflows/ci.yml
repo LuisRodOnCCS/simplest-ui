@@ -50,6 +50,24 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
+  packed-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:packed-matrix
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: packed-matrix-results
+          path: test-results/
+          retention-days: 7
+
   visual:
     runs-on: windows-latest
     steps:

@@ -86,8 +86,55 @@ export function validateManifest(manifest) {
     validateComponentEntry(entry, name, true);
   }
 
+  const webComponentTags = new Set();
   for (const entry of manifest.webComponents ?? []) {
-    validateComponentEntry(entry, entry.tag ?? entry.documentationId ?? "unknown", false);
+    const name = entry.tag ?? entry.documentationId ?? "unknown";
+
+    if (typeof entry.tag !== "string" || !entry.tag.trim()) {
+      errors.push(`Web Component "${name}" must declare a tag.`);
+    } else if (webComponentTags.has(entry.tag)) {
+      errors.push(`Duplicate web component tag "${entry.tag}".`);
+    } else {
+      webComponentTags.add(entry.tag);
+    }
+
+    for (const field of ["import", "className"]) {
+      if (typeof entry[field] !== "string" || !entry[field].trim()) {
+        errors.push(`Web Component "${name}" must declare ${field}.`);
+      }
+    }
+
+    for (const field of ["attributes", "slots", "events", "keyboard"]) {
+      validateStringArray(entry[field], `"${name}".${field}`, errors);
+    }
+
+    if (
+      Array.isArray(entry.attributes) &&
+      entry.attributes.length !== new Set(entry.attributes).size
+    ) {
+      errors.push(`Web Component "${name}" declares duplicate attributes.`);
+    }
+
+    if (!entry.properties || typeof entry.properties !== "object" || Array.isArray(entry.properties)) {
+      errors.push(`Web Component "${name}" must declare properties.`);
+    } else {
+      for (const [property, type] of Object.entries(entry.properties)) {
+        if (typeof type !== "string" || !type.trim()) {
+          errors.push(`"${name}".properties.${property} must be a non-empty string.`);
+        }
+      }
+    }
+
+    for (const [event, detail] of Object.entries(entry.eventDetails ?? {})) {
+      if (!Array.isArray(entry.events) || !entry.events.includes(event)) {
+        errors.push(`Web Component "${name}" declares eventDetails for undeclared event "${event}".`);
+      }
+      if (typeof detail !== "string" || !detail.trim()) {
+        errors.push(`"${name}".eventDetails.${event} must be a non-empty string.`);
+      }
+    }
+
+    validateComponentEntry(entry, name, false);
   }
 
   return errors;

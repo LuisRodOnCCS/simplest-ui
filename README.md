@@ -2,7 +2,7 @@
 
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> Current release: `v0.3.0`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+> Current release: `v0.3.1`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
 
 Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
 
@@ -86,7 +86,7 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 | `<sui-tabs>` | `components/tabs` | Arrow-key tab navigation. |
 | `<sui-accordion>` | `components/accordion` | Single or multiple disclosure panels. |
 | `<sui-popover>` | `components/popover` | Contextual dialog and viewport placement. |
-| `<sui-tooltip>` | `components/tooltip` | Automatic `aria-describedby`. |
+| `<sui-tooltip>` | `components/tooltip` | Automatic `aria-describedby`, wrapped text and horizontal viewport placement. |
 | `<sui-toast>` | `components/toast` | Live announcements and `SuiToast.show()`. |
 
 ```html
@@ -126,7 +126,7 @@ Use `<html data-theme="dark">` to apply the built-in dark token mapping.
 | Rendering | CSS during SSR; Web Components in the client bundle. |
 | Accessibility | WCAG 2.2 AA target; no `critical` or `serious` Axe violations. |
 
-React, Vue, Bootstrap, and Tailwind integration are not validated for the `0.2.x` release line. See [SUPPORT.md](./SUPPORT.md) for the complete policy, including SSR and known limitations.
+React, Vue, Bootstrap, and Tailwind integration are not validated for the `0.3.x` release line. See [SUPPORT.md](./SUPPORT.md) for the complete policy, including SSR and known limitations.
 
 ## Documentation
 

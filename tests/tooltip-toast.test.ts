@@ -9,6 +9,8 @@ beforeEach(() => {
 afterEach(() => {
   vi.useRealTimers();
   document.body.innerHTML = "";
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe("sui-tooltip", () => {
@@ -21,9 +23,101 @@ describe("sui-tooltip", () => {
     expect(content.getAttribute("role")).toBe("tooltip");
     expect(tooltip.getAttribute("aria-describedby")).toBe(content.id);
   });
+
+  it("actualiza contenido y conserva referencias ajenas al reemplazar nodos", async () => {
+    document.body.innerHTML = `<sui-tooltip content="Primero"><button slot="trigger" aria-describedby="ayuda error">Ayuda</button></sui-tooltip>`;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const tooltip = document.querySelector("sui-tooltip")!;
+    const old = tooltip.querySelector("button")!;
+    const content = tooltip.querySelector<HTMLElement>("[role=tooltip]")!;
+    expect(old.getAttribute("aria-describedby")).toBe(`ayuda error ${content.id}`);
+    tooltip.content = "Segundo";
+    expect(content.textContent).toBe("Segundo");
+    const replacement = document.createElement("button");
+    replacement.slot = "trigger";
+    replacement.setAttribute("aria-describedby", "otra");
+    old.replaceWith(replacement);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(old.getAttribute("aria-describedby")).toBe("ayuda error");
+    expect(replacement.getAttribute("aria-describedby")).toBe(`otra ${content.id}`);
+    tooltip.content = "";
+    expect(replacement.getAttribute("aria-describedby")).toBe("otra");
+    expect(tooltip.querySelector("[role=tooltip]")).toBeNull();
+  });
+
+  it("da prioridad al trigger explícito y no muestra controles deshabilitados", async () => {
+    document.body.innerHTML = `<sui-tooltip content="Ayuda"><button>Otro</button><button slot="trigger" aria-disabled="true">Abrir</button></sui-tooltip>`;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const tooltip = document.querySelector("sui-tooltip")!;
+    const [other, trigger] = tooltip.querySelectorAll("button");
+    expect(other.hasAttribute("aria-describedby")).toBe(false);
+    expect(trigger.hasAttribute("aria-describedby")).toBe(true);
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    expect(tooltip.classList.contains("ui-tooltip--visible")).toBe(false);
+    trigger.removeAttribute("aria-disabled");
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    expect(tooltip.classList.contains("ui-tooltip--visible")).toBe(true);
+  });
+
+  it("observa la geometría sólo mientras está visible y restaura estilos del consumidor", async () => {
+    const observe = vi.fn();
+    const disconnect = vi.fn();
+    vi.stubGlobal("ResizeObserver", class {
+      observe = observe;
+      disconnect = disconnect;
+    });
+    const add = vi.spyOn(window, "addEventListener");
+    const remove = vi.spyOn(window, "removeEventListener");
+    const cancel = vi.spyOn(window, "cancelAnimationFrame");
+    document.body.innerHTML = `<sui-tooltip><button>Help</button>
+      <span slot="content" style="left: 12px !important; max-width: 260px !important; color: red">Help text</span>
+      </sui-tooltip>`;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const tooltip = document.querySelector("sui-tooltip")!;
+    const trigger = tooltip.querySelector("button")!;
+    const content = tooltip.querySelector<HTMLElement>("[slot=content]")!;
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    expect(observe).toHaveBeenCalledTimes(2);
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    expect(observe).toHaveBeenCalledTimes(2);
+    expect(add).toHaveBeenCalledWith("scroll", expect.any(Function), true);
+    window.dispatchEvent(new Event("resize"));
+    trigger.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(disconnect).toHaveBeenCalledTimes(1);
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(remove).toHaveBeenCalledWith("resize", expect.any(Function));
+    expect(remove).toHaveBeenCalledWith("scroll", expect.any(Function), true);
+    expect(content.style.left).toBe("12px");
+    expect(content.style.getPropertyPriority("left")).toBe("important");
+    expect(content.style.maxWidth).toBe("260px");
+    expect(content.style.getPropertyPriority("max-width")).toBe("important");
+    expect(content.style.color).toBe("red");
+    trigger.dispatchEvent(new Event("focusin", { bubbles: true }));
+    tooltip.remove();
+    expect(disconnect).toHaveBeenCalledTimes(2);
+    expect(content.style.maxWidth).toBe("260px");
+    expect(tooltip.classList.contains("ui-tooltip--visible")).toBe(false);
+  });
 });
 
 describe("sui-toast", () => {
+  it("admite mensaje sin título y conserva clases e hijos del consumidor", () => {
+    const toast = SuiToast.show({ message: "Solo mensaje", duration: 0 });
+    expect(toast.querySelector(".ui-toast__title")).toBeNull();
+    expect(toast.textContent).toContain("Solo mensaje");
+    expect(toast.textContent).not.toContain("undefined");
+    expect(toast.hasAttribute("role")).toBe(false);
+    toast.classList.add("consumer");
+    const child = document.createElement("button");
+    toast.append(child);
+    toast.variant = "warning";
+    expect(toast.classList.contains("consumer")).toBe(true);
+    expect(toast.contains(child)).toBe(true);
+    document.body.append(toast);
+    expect(toast.getAttribute("role")).toBe("status");
+    document.querySelector("sui-toast-container")!.append(toast);
+    expect(toast.hasAttribute("role")).toBe(false);
+  });
   it("muestra toasts desde la API estática en un contenedor accesible", () => {
     const toast = SuiToast.show({ title: "Guardado", message: "Todo correcto", variant: "success", duration: 0 });
     const container = document.querySelector("sui-toast-container")!;
@@ -42,5 +136,54 @@ describe("sui-toast", () => {
     vi.advanceTimersByTime(100);
     expect(onDismiss).toHaveBeenCalledTimes(1);
     expect(toast.isConnected).toBe(false);
+  });
+
+  it("acepta message, variant y duration como propiedades", () => {
+    vi.useFakeTimers();
+    const toast = document.createElement("sui-toast") as SuiToast;
+    toast.setAttribute("title", "Inicial");
+    toast.setAttribute("duration", "0");
+    document.body.append(toast);
+
+    toast.message = "Mensaje actualizado";
+    toast.variant = "success";
+    toast.duration = 0;
+    vi.advanceTimersByTime(100);
+
+    expect(toast.getAttribute("message")).toBe("Mensaje actualizado");
+    expect(toast.classList.contains("ui-toast--success")).toBe(true);
+    expect(toast.textContent).toContain("Mensaje actualizado");
+    expect(toast.duration).toBe(0);
+  });
+
+  it("prepara la región independiente antes de insertar texto y usa el valor más reciente", () => {
+    vi.useFakeTimers();
+    const toast = document.createElement("sui-toast") as SuiToast;
+    toast.message = "Inicial";
+    toast.duration = 0;
+    document.body.append(toast);
+    expect(toast.getAttribute("role")).toBe("status");
+    expect(toast.textContent).toBe("");
+    toast.message = "Actualizado";
+    vi.advanceTimersByTime(100);
+    expect(toast.textContent).toBe("Actualizado");
+  });
+
+  it("cancela la inserción pendiente al desconectar y no duplica al mover al contenedor", () => {
+    vi.useFakeTimers();
+    const toast = document.createElement("sui-toast") as SuiToast;
+    toast.message = "Mensaje";
+    toast.duration = 0;
+    document.body.append(toast);
+    toast.remove();
+    vi.advanceTimersByTime(100);
+    expect(toast.textContent).toBe("");
+    const container = document.createElement("sui-toast-container");
+    document.body.append(container);
+    container.append(toast);
+    expect(toast.hasAttribute("role")).toBe(false);
+    expect(toast.textContent).toBe("Mensaje");
+    vi.advanceTimersByTime(100);
+    expect(toast.textContent).toBe("Mensaje");
   });
 });

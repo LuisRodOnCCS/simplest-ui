@@ -1,14 +1,14 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import type { PropertyValues } from "lit";
+import { createId } from "./internal/id";
 import { computePlacement, type Align, type Side } from "./internal/position";
 
 const ITEM_SELECTOR = '[role="menuitem"], button, a';
 
 @customElement("sui-dropdown")
 export class SuiDropdown extends LitElement {
-  private static instanceCount = 0;
-  private readonly uid = ++SuiDropdown.instanceCount;
+  private readonly uid = createId("sui-dropdown");
 
   static styles = css`
     :host {
