@@ -20,7 +20,8 @@
   z-index: var(--sui-z-popover);
 }
 
-.ui-tooltip:hover .ui-tooltip__content,
-.ui-tooltip:focus-within .ui-tooltip__content {
+sui-tooltip.ui-tooltip--visible:not(:has([data-sui-tooltip-trigger]:disabled, [data-sui-tooltip-trigger][aria-disabled="true"])) .ui-tooltip__content,
+.ui-tooltip:not(sui-tooltip):hover .ui-tooltip__content,
+.ui-tooltip:not(sui-tooltip):focus-within .ui-tooltip__content {
   opacity: 1;
 }

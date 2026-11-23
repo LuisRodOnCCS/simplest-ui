@@ -1,7 +1,10 @@
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import type { PropertyValues } from "lit";
+import { collectFocusable, lockScroll, trapTabKey, unlockScroll } from "./internal/a11y";
 import type { SuiDialogCloseReason } from "./internal/dialog-events";
+import { createId } from "./internal/id";
+import { isTopOverlay, registerOverlay, unregisterOverlay } from "./internal/overlay";
 
 export type {
   SuiDialogCloseEvent,
@@ -9,15 +12,10 @@ export type {
   SuiDialogCloseReason,
 } from "./internal/dialog-events";
 
-const FOCUSABLE_SELECTOR =
-  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
 @customElement("sui-modal")
 export class SuiModal extends LitElement {
-  private static instanceCount = 0;
-  private static scrollLocks = 0;
-  private static previousOverflow = "";
-  private readonly uid = ++SuiModal.instanceCount;
+  private readonly uid = createId("sui-modal");
+  private readonly overlay = { close: (reason: "escape") => this.close(reason) };
 
   static styles = css`
     :host {
@@ -113,11 +111,11 @@ export class SuiModal extends LitElement {
   private closeReason: SuiDialogCloseReason | undefined;
 
   private get titleId() {
-    return `sui-modal-title-${this.uid}`;
+    return `${this.uid}-title`;
   }
 
   private get bodyId() {
-    return `sui-modal-body-${this.uid}`;
+    return `${this.uid}-body`;
   }
 
   protected updated(changed: PropertyValues) {
@@ -129,15 +127,16 @@ export class SuiModal extends LitElement {
 
     if (this.open) {
       this.closeReason = undefined;
-      this.previouslyFocused = document.activeElement as HTMLElement | null;
-      SuiModal.lockScroll();
-      this.holdsScrollLock = true;
+      if (wasClosed || previousOpen === undefined) {
+        this.previouslyFocused = document.activeElement as HTMLElement | null;
+      }
+      this.acquireOverlay();
       if (wasClosed) {
         this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
       }
       this.updateComplete.then(() => this.focusInitial());
     } else {
-      this.releaseScrollLock();
+      this.releaseOverlay();
       if (wasOpen) {
         this.dispatchEvent(
           new CustomEvent("sui-close", {
@@ -153,28 +152,8 @@ export class SuiModal extends LitElement {
     }
   }
 
-  private static lockScroll() {
-    if (SuiModal.scrollLocks++ > 0) return;
-    SuiModal.previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-  }
-
-  private static unlockScroll() {
-    if (SuiModal.scrollLocks === 0) return;
-    SuiModal.scrollLocks--;
-    if (SuiModal.scrollLocks === 0) {
-      document.body.style.overflow = SuiModal.previousOverflow;
-    }
-  }
-
-  private getFocusable(): HTMLElement[] {
-    const inShadow = Array.from(this.renderRoot.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
-    const slotted = Array.from(this.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
-    return [...inShadow, ...slotted].filter((el) => !el.hasAttribute("disabled"));
-  }
-
   private focusInitial() {
-    const focusable = this.getFocusable();
+    const focusable = collectFocusable(this);
     if (focusable.length) {
       focusable[0].focus();
       return;
@@ -182,42 +161,9 @@ export class SuiModal extends LitElement {
     this.renderRoot.querySelector<HTMLElement>(".panel")?.focus();
   }
 
-  private getDeepActiveElement(): HTMLElement | null {
-    let active = document.activeElement as HTMLElement | null;
-    while (active?.shadowRoot?.activeElement) {
-      active = active.shadowRoot.activeElement as HTMLElement;
-    }
-    return active;
-  }
-
   private handleKeydown = (e: KeyboardEvent) => {
-    if (!this.open) return;
-
-    if (e.key === "Escape") {
-      e.preventDefault();
-      this.close("escape");
-      return;
-    }
-
-    if (e.key !== "Tab") return;
-
-    const focusable = this.getFocusable();
-    if (!focusable.length) {
-      e.preventDefault();
-      return;
-    }
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    const active = this.getDeepActiveElement();
-
-    if (e.shiftKey && (active === first || !this.contains(active))) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && (active === last || !this.contains(active))) {
-      e.preventDefault();
-      first.focus();
-    }
+    if (!this.open || !isTopOverlay(this.overlay) || e.key !== "Tab") return;
+    trapTabKey(e, this);
   };
 
   private handleBackdropClick = (e: MouseEvent) => {
@@ -233,23 +179,33 @@ export class SuiModal extends LitElement {
     if (!this.open) return;
     this.closeReason = reason;
     this.open = false;
+    this.releaseOverlay();
   }
 
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener("keydown", this.handleKeydown);
+    if (this.open) this.acquireOverlay();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this.handleKeydown);
-    this.releaseScrollLock();
+    this.releaseOverlay();
   }
 
-  private releaseScrollLock() {
+  private acquireOverlay() {
+    if (this.holdsScrollLock) return;
+    this.holdsScrollLock = true;
+    lockScroll();
+    registerOverlay(this.overlay);
+  }
+
+  private releaseOverlay() {
     if (!this.holdsScrollLock) return;
-    SuiModal.unlockScroll();
     this.holdsScrollLock = false;
+    unlockScroll();
+    unregisterOverlay(this.overlay);
   }
 
   render() {

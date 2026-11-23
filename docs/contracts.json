@@ -1067,6 +1067,8 @@
           "Provide trigger and content slots."
         ],
         "recommended": [
+          "This is a non-modal dialog; focus is not trapped.",
+          "Replace trigger or content nodes instead of reassigning slots between existing nodes.",
           "Set label for the accessible name.",
           "Use Enter, Space and Escape to operate."
         ]
@@ -1105,7 +1107,8 @@
           "Provide content and a trigger child."
         ],
         "recommended": [
-          "Disabled triggers do not show the tooltip.",
+          "Disabled triggers do not show the tooltip; provide visible help or describe a wrapper instead.",
+          "Replace trigger or content nodes instead of reassigning slots between existing nodes.",
           "Content becomes aria-describedby automatically."
         ]
       },
@@ -1152,7 +1155,8 @@
         ],
         "recommended": [
           "Use variant to communicate severity.",
-          "Set duration for transient feedback."
+          "Set duration for transient feedback.",
+          "The title attribute is also the native HTML title and may show a browser tooltip."
         ]
       },
       "examples": [

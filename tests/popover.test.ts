@@ -25,6 +25,21 @@ afterEach(() => {
 });
 
 describe("sui-popover", () => {
+  it("actualiza el nombre y cierra al retirar el panel", async () => {
+    popover.label = "Nuevo";
+    expect(panel.getAttribute("aria-label")).toBe("Nuevo");
+    const events: string[] = [];
+    popover.addEventListener("sui-close", () => events.push("close"));
+    popover.open = true;
+    panel.remove();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(popover.open).toBe(false);
+    expect(trigger.hasAttribute("aria-controls")).toBe(false);
+    expect(events).toEqual(["close"]);
+    popover.append(panel);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(trigger.getAttribute("aria-controls")).toBe(panel.id);
+  });
   it("prepara roles, relaciones ARIA y contenido oculto", () => {
     expect(popover.classList.contains("ui-popover")).toBe(true);
     expect(panel.classList.contains("ui-popover__content")).toBe(true);

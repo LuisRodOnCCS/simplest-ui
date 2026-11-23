@@ -17,6 +17,13 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Changed
 
+- Toasts accept message-only input, preserve consumer content and classes, and
+  avoid nested live regions. Tooltips reconcile generated content and ARIA
+  references, and suppress display for disabled triggers.
+- Modal and drawer share scroll lock and topmost Escape handling; popovers
+  refresh their accessible name and reconcile removed content.
+- Tabs observe disabled panel changes, and accordion change events identify
+  items even when their IDs were generated.
 - The drawer manifest documents `hide-close-button` / `hideCloseButton`, and the
   dropdown manifest documents the `sui-toggle` detail `{ open: boolean }`.
 - `sui-tabs.variant` reflects to its attribute so the box variant applies when
