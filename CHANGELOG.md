@@ -4,8 +4,25 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Added
+
+- Contract tests that compare `components.manifest.json` with the exported
+  classes, observed attributes and writable properties of every Web Component.
+- `sui-modal` supports `hide-close-button` / `hideCloseButton`, matching the
+  drawer and the published manifest.
+- `sui-tooltip` exposes a writable `content` property.
+- `sui-accordion.multiple`, `sui-popover.label`, `sui-toast.message`,
+  `sui-toast.variant` and `sui-toast.duration` are writable properties that
+  update their attributes.
+
 ### Changed
 
+- The drawer manifest documents `hide-close-button` / `hideCloseButton`, and the
+  dropdown manifest documents the `sui-toggle` detail `{ open: boolean }`.
+- `sui-tabs.variant` reflects to its attribute so the box variant applies when
+  set as a property.
+- `validateManifest` checks Web Component metadata shape, duplicate tags and
+  attributes, and event details that reference undeclared events.
 - `create-simplest-ui` 0.1.2 generates Vanilla starters using Simplest UI
   `^0.3.0`.
 

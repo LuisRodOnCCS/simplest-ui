@@ -839,13 +839,15 @@
         "open",
         "label",
         "close-label",
-        "disable-backdrop-close"
+        "disable-backdrop-close",
+        "hide-close-button"
       ],
       "properties": {
         "open": "boolean",
         "label": "string",
         "closeLabel": "string",
-        "disableBackdropClose": "boolean"
+        "disableBackdropClose": "boolean",
+        "hideCloseButton": "boolean"
       },
       "slots": [
         "title",
@@ -905,6 +907,7 @@
         "sui-select"
       ],
       "eventDetails": {
+        "sui-toggle": "{ open: boolean }",
         "sui-select": "{ value: string }"
       },
       "keyboard": [

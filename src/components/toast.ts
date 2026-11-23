@@ -21,6 +21,31 @@ export class SuiToast extends HTMLElement {
     return Number.isFinite(value) ? Math.max(0, value) : 5000;
   }
 
+  set duration(value: number) {
+    const next = Number(value);
+    if (Number.isFinite(next) && next >= 0) this.setAttribute("duration", String(next));
+    else this.removeAttribute("duration");
+  }
+
+  get message(): string {
+    return this.getAttribute("message") ?? "";
+  }
+
+  set message(value: string) {
+    if (value) this.setAttribute("message", value);
+    else this.removeAttribute("message");
+  }
+
+  get variant(): ToastVariant {
+    const value = this.getAttribute("variant");
+    return value === "success" || value === "warning" || value === "danger" ? value : "default";
+  }
+
+  set variant(value: ToastVariant) {
+    if (!value || value === "default") this.removeAttribute("variant");
+    else this.setAttribute("variant", value);
+  }
+
   connectedCallback() {
     this.classList.add("ui-toast");
     this.setAttribute("role", this.getAttribute("role") ?? "status");

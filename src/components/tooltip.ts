@@ -7,6 +7,15 @@ export class SuiTooltip extends HTMLElement {
     return ["content"];
   }
 
+  get content(): string {
+    return this.getAttribute("content") ?? "";
+  }
+
+  set content(value: string) {
+    if (value) this.setAttribute("content", value);
+    else this.removeAttribute("content");
+  }
+
   connectedCallback() {
     this.classList.add("ui-tooltip");
     this.upgrade();

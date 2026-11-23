@@ -25,6 +25,11 @@ export class SuiPopover extends HTMLElement {
     return this.getAttribute("label") ?? "";
   }
 
+  set label(value: string) {
+    if (value) this.setAttribute("label", value);
+    else this.removeAttribute("label");
+  }
+
   connectedCallback() {
     this.classList.add("ui-popover");
     this.upgrade();

@@ -67,6 +67,44 @@ describe("components manifest", () => {
     expect(validateManifest(broken)).toContainEqual(expect.stringContaining("Duplicate documentationId"));
   });
 
+  it("rejects a duplicate web component tag", () => {
+    const broken = clone();
+    broken.webComponents.push({ ...broken.webComponents[0] });
+    expect(validateManifest(broken)).toContainEqual(
+      expect.stringContaining('Duplicate web component tag "sui-modal"')
+    );
+  });
+
+  it("rejects a web component without a class name", () => {
+    const broken = clone();
+    delete broken.webComponents[0].className;
+    expect(validateManifest(broken)).toContainEqual(expect.stringContaining("must declare className"));
+  });
+
+  it("rejects duplicate documented attributes", () => {
+    const broken = clone();
+    broken.webComponents[0].attributes.push(broken.webComponents[0].attributes[0]);
+    expect(validateManifest(broken)).toContainEqual(
+      expect.stringContaining("declares duplicate attributes")
+    );
+  });
+
+  it("rejects event details for an undeclared event", () => {
+    const broken = clone();
+    broken.webComponents[0].eventDetails = { "sui-invented": "{ value: string }" };
+    expect(validateManifest(broken)).toContainEqual(
+      expect.stringContaining('eventDetails for undeclared event "sui-invented"')
+    );
+  });
+
+  it("rejects an empty event detail", () => {
+    const broken = clone();
+    broken.webComponents[0].eventDetails["sui-close"] = "";
+    expect(validateManifest(broken)).toContainEqual(
+      expect.stringContaining('eventDetails.sui-close must be a non-empty string')
+    );
+  });
+
   it("rejects an unsupported schema version", () => {
     const broken = clone();
     broken.schemaVersion = 2;

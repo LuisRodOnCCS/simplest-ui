@@ -120,7 +120,7 @@ export class SuiDrawer extends LitElement {
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;
 
   /** Hide the built-in close button when an accessible alternative is provided. */
-  @property({ type: Boolean, attribute: "hide-close-button" }) hideCloseButton = false;
+  @property({ type: Boolean, reflect: true, attribute: "hide-close-button" }) hideCloseButton = false;
 
   private get titleId() {
     return `sui-drawer-title-${this.uid}`;

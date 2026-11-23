@@ -146,6 +146,23 @@ describe("sui-modal", () => {
     expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("dismiss");
   });
 
+  it("oculta el botón de cierre con hideCloseButton y conserva Escape", async () => {
+    const onClose = vi.fn();
+    modal.addEventListener("sui-close", onClose);
+    modal.hideCloseButton = true;
+
+    await open();
+
+    expect(modal.hasAttribute("hide-close-button")).toBe(true);
+    expect(modal.shadowRoot!.querySelector(".close")).toBeNull();
+
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await modal.updateComplete;
+
+    expect(modal.open).toBe(false);
+    expect((onClose.mock.calls[0][0] as SuiDialogCloseEvent).detail.reason).toBe("escape");
+  });
+
   it("bloquea el scroll del body mientras está abierto", async () => {
     await open();
     expect(document.body.style.overflow).toBe("hidden");

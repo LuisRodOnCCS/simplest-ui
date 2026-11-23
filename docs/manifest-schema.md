@@ -81,7 +81,12 @@ Additional examples appear in the agent catalog and in the reference table.
 - an example has no `label` or `markup`;
 - a non-default example has no complete preview: its effective preview is empty or still contains `...`;
 - an example uses a `ui-*` class that no entry declares;
-- a `documentationId` is duplicated.
+- a `documentationId` is duplicated;
+- a Web Component entry lacks `tag`, `import` or `className`, or declares
+  duplicate tags or attributes;
+- a Web Component `properties` value is not a non-empty string;
+- an `eventDetails` key is not declared in `events`, or its description is not a
+  non-empty string.
 
 Generated artifacts, which must not be edited by hand:
 

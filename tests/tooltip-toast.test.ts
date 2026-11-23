@@ -43,4 +43,20 @@ describe("sui-toast", () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
     expect(toast.isConnected).toBe(false);
   });
+
+  it("acepta message, variant y duration como propiedades", () => {
+    const toast = document.createElement("sui-toast") as SuiToast;
+    toast.setAttribute("title", "Inicial");
+    toast.setAttribute("duration", "0");
+    document.body.append(toast);
+
+    toast.message = "Mensaje actualizado";
+    toast.variant = "success";
+    toast.duration = 0;
+
+    expect(toast.getAttribute("message")).toBe("Mensaje actualizado");
+    expect(toast.classList.contains("ui-toast--success")).toBe(true);
+    expect(toast.textContent).toContain("Mensaje actualizado");
+    expect(toast.duration).toBe(0);
+  });
 });

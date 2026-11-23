@@ -19,6 +19,10 @@ export class SuiAccordion extends HTMLElement {
     return this.hasAttribute("multiple");
   }
 
+  set multiple(value: boolean) {
+    this.toggleAttribute("multiple", value);
+  }
+
   connectedCallback() {
     this.classList.add("ui-accordion");
     this.setAttribute("role", "presentation");

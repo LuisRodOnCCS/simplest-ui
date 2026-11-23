@@ -127,7 +127,7 @@ export class SuiTabs extends LitElement {
   `;
 
   @property({ type: String }) value = "";
-  @property({ type: String }) variant: "pill" | "box" = "pill";
+  @property({ type: String, reflect: true }) variant: "pill" | "box" = "pill";
 
   @state() private tabs: TabItem[] = [];
 

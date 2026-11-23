@@ -105,6 +105,9 @@ export class SuiModal extends LitElement {
   /** Set to true to keep the modal open when the backdrop is clicked. */
   @property({ type: Boolean, attribute: "disable-backdrop-close" }) disableBackdropClose = false;
 
+  /** Hide the built-in close button when an accessible alternative is provided. */
+  @property({ type: Boolean, reflect: true, attribute: "hide-close-button" }) hideCloseButton = false;
+
   private previouslyFocused: HTMLElement | null = null;
   private holdsScrollLock = false;
   private closeReason: SuiDialogCloseReason | undefined;
@@ -267,7 +270,7 @@ export class SuiModal extends LitElement {
         >
           <div class="header">
             <div class="title" id=${this.titleId}><slot name="title"></slot></div>
-            <button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close("dismiss")}>×</button>
+            ${this.hideCloseButton ? nothing : html`<button class="close" type="button" aria-label=${this.closeLabel} @click=${() => this.close("dismiss")}>×</button>`}
           </div>
           <div class="body" id=${this.bodyId}><slot></slot></div>
           <div class="footer"><slot name="footer"></slot></div>
