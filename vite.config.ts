@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 const cssComponentNames = [
   "accordion", "alert", "avatar", "badge", "button", "card", "checkbox",
-  "empty-state", "input", "nav", "popover", "progress", "radio", "select",
+  "empty-state", "fieldset", "input", "nav", "popover", "progress", "radio", "select",
   "skeleton", "spinner", "stat", "switch", "table", "tag", "textarea", "toast",
   "tooltip", "topbar"
 ];

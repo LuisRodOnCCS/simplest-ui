@@ -63,12 +63,64 @@ test("switches language and rerenders the documentation", async ({ page }) => {
   await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Ejecuta el generador");
   await expect(page.locator("#modal .docs-api")).toContainText("el fondo permanece inerte");
   await expect(page.locator("#drawer .docs-api")).toContainText("updateComplete no espera");
+  await expect(page.locator("#radio .docs-section__heading p")).toHaveText("Agrupa opciones relacionadas mediante el mismo atributo name.");
 
   await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN" }).click({ force: true });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Run the generator");
   await expect(page.locator("#vanilla-vite .docs-section__heading p")).toContainText("A minimal Vite project");
   await expect(page.locator("#modal .docs-api")).toContainText("background content stays inert");
+  await expect(page.locator("#radio .docs-section__heading p")).toHaveText("Group related options using the same name attribute.");
+});
+
+for (const width of [1280, 375]) {
+  test(`language changes preserve the reading position and focus at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await openDocs(page, "#radio");
+    for (const id of ["radio", "modal"]) {
+      await page.locator(`#${id}`).evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 180));
+      const before = await page.locator(`#${id}`).evaluate(element => element.getBoundingClientRect().top);
+      const originalHash = new URL(page.url()).hash;
+      for (const [tab, lang] of [["ES", "es"], ["EN", "en"], ["ES", "es"], ["EN", "en"]]) {
+        await page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true }).click();
+        await expect(page.locator("html")).toHaveAttribute("lang", lang);
+        await expect(page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true })).toBeFocused();
+        await expect.poll(async () => Math.abs(
+          await page.locator(`#${id}`).evaluate(element => element.getBoundingClientRect().top) - before
+        )).toBeLessThan(5);
+        expect(new URL(page.url()).hash).toBe(originalHash);
+      }
+    }
+  });
+}
+
+test("language changes preserve the search filter and navigation scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await openDocs(page);
+  const nav = page.locator("#docs-nav");
+  await nav.evaluate(element => { element.scrollTop = 180; });
+  const before = await nav.evaluate(element => element.scrollTop);
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "ES", exact: true }).click();
+  expect(await page.locator("#docs-nav").evaluate(element => element.scrollTop)).toBe(before);
+  await page.locator(".docs-search").fill("radio");
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN", exact: true }).click();
+  await expect(page.locator(".docs-search")).toHaveValue("radio");
+  await expect(page.locator("#radio")).not.toHaveClass(/docs-filtered/);
+  await expect(page.locator("#button")).toHaveClass(/docs-filtered/);
+});
+
+test("keyboard language switching retains focus without moving the reading position", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await openDocs(page);
+  await page.locator("#radio").evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 180));
+  const before = await page.locator("#radio").evaluate(element => element.getBoundingClientRect().top);
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#docs-language-tabs").getByRole("tab", { name: "ES", exact: true })).toBeFocused();
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+  await expect.poll(async () => Math.abs(
+    await page.locator("#radio").evaluate(element => element.getBoundingClientRect().top) - before
+  )).toBeLessThan(3);
 });
 
 test("overlay lifecycle examples show events and provide copyable code", async ({ page }) => {

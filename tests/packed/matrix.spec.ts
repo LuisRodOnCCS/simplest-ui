@@ -7,6 +7,46 @@ test.beforeEach(async ({ page }) => {
   await page.waitForFunction(() => Boolean(customElements.get("sui-tooltip")));
 });
 
+test("opt-in fieldset styles preserve native radio grouping", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.evaluate(() => {
+    document.body.innerHTML = `<fieldset class="ui-fieldset"><legend class="ui-fieldset__legend">Plan</legend>
+      <div class="ui-radio-group"><label class="ui-radio"><input type="radio" name="plan" value="starter" checked> Starter</label>
+      <label class="ui-radio"><input type="radio" name="plan" value="pro"> Pro</label></div></fieldset>
+      <fieldset id="native"><legend>Native</legend></fieldset>`;
+  });
+  const group = page.getByRole("group", { name: "Plan" });
+  await expect(group).toBeVisible();
+  const styles = await group.evaluate(element => {
+    const style = getComputedStyle(element);
+    return { border: style.borderTopStyle, width: style.borderTopWidth, radius: style.borderTopLeftRadius, background: style.backgroundColor };
+  });
+  expect(styles.border).toBe("solid");
+  expect(styles.width).toBe("1px");
+  expect(parseFloat(styles.radius)).toBeGreaterThan(0);
+  expect(styles.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(await page.locator("#native").evaluate(el => getComputedStyle(el).borderTopLeftRadius)).toBe("0px");
+  await group.getByRole("radio", { name: "Pro" }).check();
+  await expect(group.getByRole("radio", { name: "Pro" })).toBeChecked();
+  await expect(group.getByRole("radio", { name: "Starter" })).not.toBeChecked();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  const lightBorder = await group.evaluate(el => getComputedStyle(el).borderTopColor);
+  await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
+  expect(await group.evaluate(el => getComputedStyle(el).borderTopColor)).not.toBe(lightBorder);
+});
+
+test("fieldset individual CSS entrypoint works with tokens only", async ({ page }) => {
+  await page.locator('link[href="/dist/styles.css"]').evaluate(link => link.remove());
+  await page.addStyleTag({ url: "/dist/components/fieldset.css" });
+  await page.evaluate(() => {
+    document.body.innerHTML = `<fieldset class="ui-fieldset"><legend class="ui-fieldset__legend">Options</legend><input aria-label="Value"></fieldset>`;
+  });
+  const group = page.getByRole("group", { name: "Options" });
+  await expect(group).toHaveCSS("border-top-style", "solid");
+  await expect(group).toHaveCSS("border-top-width", "1px");
+  expect(await group.evaluate(el => parseFloat(getComputedStyle(el).borderTopLeftRadius))).toBeGreaterThan(0);
+});
+
 test("drawer entry remains aligned to the viewport on repeated openings", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 375, height: 812 });

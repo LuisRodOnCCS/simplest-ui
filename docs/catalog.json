@@ -88,6 +88,11 @@
           "kind": "css"
         },
         {
+          "id": "fieldset",
+          "label": "Fieldset",
+          "kind": "css"
+        },
+        {
           "id": "radio",
           "label": "Radio",
           "kind": "css"

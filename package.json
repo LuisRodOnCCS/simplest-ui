@@ -27,6 +27,7 @@
     "./components/card.css": "./dist/components/card.css",
     "./components/checkbox.css": "./dist/components/checkbox.css",
     "./components/empty-state.css": "./dist/components/empty-state.css",
+    "./components/fieldset.css": "./dist/components/fieldset.css",
     "./components/input.css": "./dist/components/input.css",
     "./components/nav.css": "./dist/components/nav.css",
     "./components/popover.css": "./dist/components/popover.css",

@@ -4,6 +4,11 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Added
+
+- Opt-in `ui-fieldset` and `ui-fieldset__legend` styles for semantic groups
+  of form controls, available in the component bundle and as `fieldset.css`.
+
 ### Changed
 
 - Modal and drawer overlays use the browser top layer, escaping transformed
@@ -21,6 +26,8 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 - Drawer entry no longer jumps when the browser scrolls its backdrop to reveal
   the initially focused control while the panel is moving.
+- Switching the documentation language retains the reading position, language
+  control focus and search state; the radio description is available in English.
 
 ## [0.3.1] - 2026-11-23
 

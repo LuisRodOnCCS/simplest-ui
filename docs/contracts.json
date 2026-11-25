@@ -176,12 +176,38 @@
         }
       ]
     },
+    "fieldset": {
+      "name": "fieldset",
+      "kind": "css",
+      "classes": [
+        "ui-fieldset",
+        "ui-fieldset__legend"
+      ],
+      "contract": {
+        "required": [
+          "Use a fieldset with a legend to name the group."
+        ],
+        "recommended": [
+          "Compose with the appropriate form control classes for the group's contents."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Field group",
+          "markup": "<fieldset class=\"ui-fieldset\">\n  <legend class=\"ui-fieldset__legend\">Notifications</legend>\n  <label class=\"ui-checkbox\"><input type=\"checkbox\" name=\"email\" /> Email updates</label>\n</fieldset>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
     "radio": {
       "name": "radio",
       "kind": "css",
       "classes": [
         "ui-radio",
-        "ui-radio-group"
+        "ui-radio-group",
+        "ui-radio--disabled"
       ],
       "contract": {
         "required": [
@@ -193,7 +219,7 @@
         {
           "id": "default",
           "label": "Radio group",
-          "markup": "<fieldset class=\"ui-radio-group\">\n  <legend class=\"ui-label\">Plan</legend>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Starter</label>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Pro</label>\n</fieldset>",
+          "markup": "<fieldset class=\"ui-fieldset\">\n  <legend class=\"ui-fieldset__legend\">Plan</legend>\n  <div class=\"ui-radio-group\">\n    <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" value=\"starter\" /> Starter</label>\n    <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" value=\"pro\" /> Pro</label>\n  </div>\n</fieldset>",
           "required": [],
           "recommended": []
         }

@@ -38,6 +38,7 @@ const es: Record<string, string> = {
   "vanilla-vite.title": "Vanilla + Vite", "vanilla-vite.copy": "Proyecto Vite mínimo que consume exclusivamente los exports públicos de npm.", "laravel-vite.title": "Laravel Blade + Vite", "laravel-vite.copy": "Archivos de integración para una aplicación Laravel existente; la aplicación carga los assets una sola vez.", "laravel-package.title": "Desarrollo de paquetes Laravel", "laravel-package.copy": "Workbench y ejemplos Blade para paquetes Composer que producen HTML compatible.",
   "integration.start-project": "Crear un proyecto", "integration.vanilla-start-copy": "Genera una aplicación Vite cuyos estilos y elementos interactivos provienen del paquete npm público.", "integration.what-includes": "Qué incluye", "integration.vanilla-imports-copy": "El starter importa el bundle CSS completo y registra solo el ejemplo de drawer. Añade más componentes interactivos cuando los necesites.", "integration.add-application": "Añadir a una aplicación", "integration.laravel-start-copy": "Ejecuta el generador desde una aplicación Laravel existente después de instalar el paquete core.", "integration.load-vite": "Cargar una sola vez en Vite", "integration.laravel-imports-copy": "Los archivos locales generados mantienen los assets en la aplicación Laravel y después pueden reducirse a imports públicos seleccionados.", "integration.develop-package": "Desarrollar un paquete", "integration.package-start-copy": "Añade los assets del workbench y los ejemplos Blade a un paquete Composer existente.", "integration.asset-ownership": "Propiedad de los assets", "integration.package-assets-copy": "El modo host es el predeterminado: la aplicación Laravel importa Simplest UI una vez. Para consumidores sin Node, un paquete puede ofrecer un modo package exclusivo que compila el CSS y JavaScript necesarios desde exports públicos y publica sus propios archivos junto con la licencia original.",
   "tokens.title": "Tokens del sistema", "tokens.copy": "Los tokens semánticos mantienen colores, espaciado, tipografía y efectos coherentes en ambos temas.", "tokens.note": "Cambia el tema desde la cabecera para inspeccionar cómo se reasignan los tokens semánticos.",
+  "fieldset.title": "Agrupación de campos", "fieldset.copy": "Agrupa controles relacionados con fieldset y una leyenda accesible.", "fieldset.notifications": "Notificaciones", "fieldset.email": "Actualizaciones por correo",
   "support.title": "Soporte", "support.copy": `Qué ofrece Simplest UI para la línea de versión ${releaseLine}.`, "agent-skill.title": "Skill para agentes", "agent-skill.copy": "Guía a los agentes para reutilizar Simplest UI con componentes, tokens y accesibilidad consistentes.", "agent-skill.what-title": "Construye con el sistema, no a su alrededor", "agent-skill.what-copy": "La skill oficial lee el manifest, elige primero primitivas existentes y preserva las convenciones de accesibilidad y tokens del sistema.", "agent-skill.step-one": "Inspecciona components.manifest.json.", "agent-skill.step-two": "Compón primitivas ui-* y sui-* documentadas.", "agent-skill.step-three": "Extiende el sistema solo cuando la composición no sea suficiente.", "agent-skill.install-title": "Instalación", "agent-skill.install-copy": "El paquete npm incluye la skill, pero no la activa automáticamente.", "agent-skill.config-label": "Ejemplo de configuración de OpenCode", "agent-skill.invoke": "Usa @simplest-ui en OpenCode o /simplest-ui en Claude Code.", "agent-skill.guide": "Lee la guía de instalación completa",
   "button.title": "Button", "button.copy": "Acciones nativas con variantes semánticas, tamaño compacto y estados disabled.", "input-field.title": "Input & field", "input-field.copy": "Combina label, input, texto de ayuda y error con HTML nativo.", "textarea.title": "Textarea", "textarea.copy": "Área de texto con estados default, invalid y disabled.", "select.title": "Select", "select.copy": "Select nativo con estados de validación y disabled.", "checkbox.title": "Checkbox", "checkbox.copy": "Checkbox nativo con label asociado y estado disabled.", "radio.title": "Radio", "radio.copy": "Agrupa opciones relacionadas mediante el mismo atributo name.", "switch.title": "Switch", "switch.copy": "Interruptor basado en checkbox nativo.", "card.title": "Card", "card.copy": "Agrupa contenido con superficies default, raised y glass.", "badge-chip.title": "Badge & chip", "badge-chip.copy": "Etiquetas compactas para estados, categorías y metadatos.", "alert.title": "Alert", "alert.copy": "Mensajes semánticos con roles adecuados para cada nivel de urgencia.", "spinner.title": "Spinner", "spinner.copy": "Indicador de carga circular en tres tamaños.", "skeleton.title": "Skeleton", "skeleton.copy": "Placeholders de carga para texto, títulos, avatares y bloques.", "progress.title": "Progress", "progress.copy": "Progreso horizontal determinado e indeterminado.", "table.title": "Table", "table.copy": "Tabla semántica con wrapper accesible para desplazamiento horizontal en móvil.", "avatar.title": "Avatar", "avatar.copy": "Iniciales, imágenes, tamaños y grupos de avatares.", "stat.title": "Stat", "stat.copy": "Resumen de una métrica con etiqueta, valor y contexto.", "empty-state.title": "Empty state", "empty-state.copy": "Estado vacío que explica el siguiente paso posible.", "nav.title": "Navigation", "nav.copy": "Navegación agrupada con estado actual explícito.",
   "modal.title": "Modal", "modal.copy": "Diálogo modal con foco atrapado, scroll-lock y restauración de foco.", "drawer.title": "Drawer", "drawer.copy": "Panel lateral modal con el mismo contrato accesible que un diálogo.", "dropdown.title": "Dropdown", "dropdown.copy": "Menú de acciones con roles y teclado integrados.", "tabs.title": "Tabs", "tabs.copy": "Contenido por pestañas navegable con flechas, Home y End.", "accordion.title": "Accordion", "accordion.copy": "Secciones expandibles con relaciones ARIA normalizadas.", "popover.title": "Popover", "popover.copy": "Panel contextual que conserva y restaura el foco.", "tooltip.title": "Tooltip", "tooltip.copy": "Descripción breve que crea aria-describedby automáticamente.", "toast.title": "Toast", "toast.copy": "Feedback transitorio anunciado mediante aria-live.",
@@ -48,12 +49,44 @@ const es: Record<string, string> = {
 
 const englishSectionCopy: Record<string, string> = {
   support: `What Simplest UI supports for the ${releaseLine} release line.`,
+  fieldset: "Group related controls in a fieldset with an accessible legend.",
+  radio: "Group related options using the same name attribute.",
   "vanilla-vite": "A minimal Vite project that consumes only public npm exports.",
   "laravel-vite": "Integration files for an existing Laravel application; the application loads the assets once.",
   "laravel-package": "Workbench assets and Blade examples for Composer packages that render compatible HTML."
 };
 
 let language: Language = initialLanguage();
+let cleanupInteractions: (() => void) | undefined;
+
+type ViewState = {
+  sectionId?: string;
+  sectionTop?: number;
+  scrollX: number;
+  scrollY: number;
+  search: string;
+  navScrollTop: number;
+  restoreLanguageFocus: boolean;
+};
+
+function captureView(): ViewState {
+  const anchor = window.innerHeight * 0.2;
+  const sections = [...document.querySelectorAll<HTMLElement>("#content .docs-hero[id], #content .docs-section[id]")]
+    .filter((element) => element.getClientRects().length > 0);
+  const section = sections.find((element) => {
+    const rect = element.getBoundingClientRect();
+    return rect.top <= anchor && rect.bottom > anchor;
+  }) ?? sections.find((element) => element.getBoundingClientRect().bottom > anchor);
+  return {
+    sectionId: section?.id,
+    sectionTop: section?.getBoundingClientRect().top,
+    scrollX: window.scrollX,
+    scrollY: window.scrollY,
+    search: document.querySelector<HTMLInputElement>(".docs-search")?.value ?? "",
+    navScrollTop: document.querySelector<HTMLElement>("#docs-nav")?.scrollTop ?? 0,
+    restoreLanguageFocus: document.activeElement?.id === "docs-language-tabs",
+  };
+}
 
 function initialLanguage(): Language {
   try {
@@ -178,6 +211,7 @@ const cssReferences: Record<string, Array<[string, string]>> = {
   textarea: [["Classes", "ui-textarea, ui-textarea--invalid"], ["Token", "--sui-textarea-min-height"]],
   select: [["Classes", "ui-select, ui-select--invalid"], ["Tokens", "--sui-field-height, --sui-focus-ring"]],
   checkbox: [["Classes", "ui-checkbox, ui-checkbox--disabled"], ["Token", "--sui-check-size"]],
+  fieldset: [["Classes", "ui-fieldset, ui-fieldset__legend"], ["Tokens", "--sui-color-border, --sui-color-surface-raised, --sui-radius-md"], ["Import", "@luisrodonccs/simplest-ui/components/fieldset.css"]],
   radio: [["Classes", "ui-radio-group, ui-radio, ui-radio--disabled"], ["Token", "--sui-check-size"]],
   switch: [["Classes", "ui-switch, ui-switch__track"], ["Tokens", "--sui-switch-width, --sui-switch-height, --sui-switch-knob, --sui-switch-offset"]],
   card: [["Classes", "ui-card, --raised, --glass, __header, __title, __body, __footer"], ["Tokens", "--sui-shadow-card, --sui-shadow-card-hover, --sui-radius-xl"]],
@@ -251,7 +285,8 @@ function componentBody(id: string): string {
     case "textarea": return implementation("textarea", `<div class="docs-grid"><div class="ui-field"><label class="ui-label" for="docs-message">Message</label><textarea class="ui-textarea" id="docs-message" placeholder="Write a message"></textarea></div><div class="ui-field"><label class="ui-label" for="docs-invalid-message">Message</label><textarea class="ui-textarea ui-textarea--invalid" id="docs-invalid-message">Too short</textarea><div class="ui-error">Add at least 20 characters.</div></div><div class="ui-field"><label class="ui-label" for="docs-disabled-message">Message</label><textarea class="ui-textarea" id="docs-disabled-message" disabled>Disabled</textarea></div></div>`, cssReferences.textarea);
     case "select": return implementation("select", `<div class="docs-grid"><div class="ui-field"><label class="ui-label" for="docs-country">Country</label><select class="ui-select" id="docs-country"><option>Mexico</option><option>Spain</option><option>Argentina</option></select></div><div class="ui-field"><label class="ui-label" for="docs-invalid-country">Country</label><select class="ui-select ui-select--invalid" id="docs-invalid-country"><option>Select a country</option></select><div class="ui-error">Choose an option.</div></div><div class="ui-field"><label class="ui-label" for="docs-disabled-country">Country</label><select class="ui-select" id="docs-disabled-country" disabled><option>Disabled</option></select></div></div>`, cssReferences.select);
     case "checkbox": return implementation("checkbox", `<div class="ui-cluster"><label class="ui-checkbox"><input type="checkbox" checked /> ${t("active", "Active")}</label><label class="ui-checkbox"><input type="checkbox" /> Marketing emails</label><label class="ui-checkbox ui-checkbox--disabled"><input type="checkbox" disabled /> ${t("disabled", "Disabled")}</label></div>`, cssReferences.checkbox);
-    case "radio": return implementation("radio", `<fieldset class="ui-radio-group"><legend class="ui-label">Plan</legend><label class="ui-radio"><input type="radio" name="plan" checked /> Starter</label><label class="ui-radio"><input type="radio" name="plan" /> Pro</label><label class="ui-radio ui-radio--disabled"><input type="radio" name="plan" disabled /> Disabled</label></fieldset>`, cssReferences.radio);
+    case "fieldset": return implementation("fieldset", `<fieldset class="ui-fieldset"><legend class="ui-fieldset__legend">${t("fieldset.notifications", "Notifications")}</legend><label class="ui-checkbox"><input type="checkbox" name="docs-email" /> ${t("fieldset.email", "Email updates")}</label></fieldset>`, cssReferences.fieldset);
+    case "radio": return implementation("radio", `<fieldset class="ui-fieldset"><legend class="ui-fieldset__legend">Plan</legend><div class="ui-radio-group"><label class="ui-radio"><input type="radio" name="plan" value="starter" checked /> Starter</label><label class="ui-radio"><input type="radio" name="plan" value="pro" /> Pro</label><label class="ui-radio ui-radio--disabled"><input type="radio" name="plan" disabled /> ${t("disabled", "Disabled")}</label></div></fieldset>`, cssReferences.radio);
     case "switch": return implementation("switch", `<div class="ui-cluster"><label class="ui-switch"><input type="checkbox" checked /><span class="ui-switch__track"></span> Notifications</label><label class="ui-switch"><input type="checkbox" /><span class="ui-switch__track"></span> Digest</label><label class="ui-switch"><input type="checkbox" disabled /><span class="ui-switch__track"></span> ${t("disabled", "Disabled")}</label></div>`, cssReferences.switch);
     case "card": return implementation("card", `<div class="docs-grid docs-grid--three"><article class="ui-card"><div class="ui-card__title">Default</div><div class="ui-card__body">A quiet surface for grouped content.</div></article><article class="ui-card ui-card--raised"><div class="ui-card__title">Raised</div><div class="ui-card__body">Higher visual separation.</div></article><article class="ui-card ui-card--glass"><div class="ui-card__title">Glass</div><div class="ui-card__body">Soft blurred surface.</div></article></div>`, cssReferences.card);
     case "badge-chip": return implementation("badge-chip", `<div class="ui-cluster"><span class="ui-badge">Neutral</span><span class="ui-badge ui-badge--primary">Primary</span><span class="ui-badge ui-badge--success">${t("active", "Active")}</span><span class="ui-badge ui-badge--warning">${t("pending", "Pending")}</span><span class="ui-badge ui-badge--danger">${t("error", "Error")}</span><span class="ui-badge ui-badge--info">Info</span><span class="ui-badge ui-badge--outline">Outline</span><span class="ui-chip">Design systems</span></div>`, cssReferences["badge-chip"]);
@@ -327,7 +362,8 @@ function localizePreviewText() {
   });
 }
 
-function render() {
+function render(view?: ViewState) {
+  cleanupInteractions?.();
   document.documentElement.lang = language;
   document.title = language === "es" ? "Simplest UI · Documentación" : "Simplest UI · Documentation";
   document.querySelector("#docs-root")!.innerHTML = `
@@ -337,15 +373,37 @@ function render() {
     <sui-modal id="docs-modal" label="${t("modal-label", "Confirmation")}" close-label="${t("modal-close", "Close modal")}"><span slot="title">${t("modal-label", "Confirmation")}</span><p>${t("modal-message", "Do you want to continue with this action?")}</p><div slot="footer"><button class="ui-button" type="button" data-close-modal>${t("cancel", "Cancel")}</button><button class="ui-button ui-button--primary" type="button">${t("confirm", "Confirm")}</button></div></sui-modal>
     <sui-drawer id="docs-drawer" label="${t("drawer-label", "Filters")}" close-label="${t("drawer-close", "Close filters")}"><span slot="title">${t("drawer-label", "Filters")}</span><p style="color: var(--sui-color-text)">${t("drawer-message", "Adjust the results without leaving this view.")}</p><label class="ui-checkbox"><input type="checkbox" checked /> ${t("active-only", "Active only")}</label><div slot="footer"><button class="ui-button ui-button--ghost ui-button--sm" type="button">${t("reset", "Reset")}</button><button class="ui-button ui-button--primary ui-button--sm" type="button">${t("apply", "Apply")}</button></div></sui-drawer>`;
   localizePreviewText();
-  bindInteractions();
+  cleanupInteractions = bindInteractions();
   setTheme(themeChoice());
+  if (view) {
+    const search = document.querySelector<HTMLInputElement>(".docs-search");
+    if (search) {
+      search.value = view.search;
+      search.dispatchEvent(new Event("input"));
+    }
+    const nav = document.querySelector<HTMLElement>("#docs-nav");
+    if (nav) nav.scrollTop = view.navScrollTop;
+    const section = view.sectionId ? document.getElementById(view.sectionId) : null;
+    const top = section && view.sectionTop !== undefined && section.getClientRects().length
+      ? window.scrollY + section.getBoundingClientRect().top - view.sectionTop
+      : view.scrollY;
+    window.scrollTo({ left: view.scrollX, top, behavior: "instant" });
+    if (view.restoreLanguageFocus) {
+      const tabs = document.querySelector<HTMLElement & { updateComplete: Promise<boolean> }>("#docs-language-tabs");
+      tabs?.updateComplete.then(() => {
+        if (!tabs.isConnected || (document.activeElement !== document.body && document.activeElement !== tabs)) return;
+        tabs.shadowRoot?.querySelector<HTMLButtonElement>('[role="tab"][aria-selected="true"]')?.focus({ preventScroll: true });
+      });
+    }
+  }
 }
 
 function bindInteractions() {
   document.querySelector("#docs-language-tabs")?.addEventListener("sui-change", (event) => {
+    const view = captureView();
     language = (event as CustomEvent).detail.value as Language;
     try { localStorage.setItem(languageKey, language); } catch { /* Storage is optional. */ }
-    render();
+    render(view);
   });
   document.querySelector("#docs-theme-tabs")?.addEventListener("sui-change", (event) => {
     const choice = (event as CustomEvent).detail.value as ThemeChoice;
@@ -438,6 +496,10 @@ function bindInteractions() {
   });
   compactNavigation.addEventListener("change", syncDocumentationNavigation);
   syncDocumentationNavigation();
+  return () => {
+    observer.disconnect();
+    compactNavigation.removeEventListener("change", syncDocumentationNavigation);
+  };
 }
 
 media.addEventListener("change", () => { if (document.documentElement.dataset.themeChoice === "system") setTheme("system"); });
