@@ -1,6 +1,6 @@
 {
   "name": "Simplest UI",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "schemaVersion": 1,
   "prefixes": {
     "customElement": "sui-",

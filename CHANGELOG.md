@@ -4,12 +4,16 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-25
+
 ### Added
 
 - `sui-avatar-group`, an expandable non-modal avatar group showing three compact
   avatars and a remaining count. Optional visible names use a scrollable vertical
   list; external scrolling closes the group with an exit animation. Supports
   keyboard and pointer interaction and reduced motion.
+- `create-simplest-ui` 0.1.4 generates Vanilla starters with core `^0.4.0`;
+  Laravel overlays continue to leave dependency installation to the host.
 - Opt-in `ui-fieldset` and `ui-fieldset__legend` styles for semantic groups
   of form controls, available in the component bundle and as `fieldset.css`.
 

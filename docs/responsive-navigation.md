@@ -40,7 +40,7 @@ two copies. The drawer uses the browser top layer to cover the viewport even
 inside a transformed or clipped shell. Set `--sui-drawer-width: 100%` for
 full-screen presentation.
 
-In the upcoming 0.4.0 behavior, the background is inert while the drawer is
+With 0.4.0, the background is inert while the drawer is
 modal. Setting `open = false` or calling `close()` requests closure; the drawer,
 focus trap and scroll locks remain active during exit. `sui-close` fires after
 exit, while `updateComplete` only waits for the Lit update. Wait for `sui-close`
