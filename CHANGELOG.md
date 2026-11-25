@@ -6,6 +6,10 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Added
 
+- `sui-avatar-group`, an expandable non-modal avatar group showing three compact
+  avatars and a remaining count. Optional visible names use a scrollable vertical
+  list; external scrolling closes the group with an exit animation. Supports
+  keyboard and pointer interaction and reduced motion.
 - Opt-in `ui-fieldset` and `ui-fieldset__legend` styles for semantic groups
   of form controls, available in the component bundle and as `fieldset.css`.
 

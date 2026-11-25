@@ -24,6 +24,7 @@ export default defineConfig({
         index: resolve(import.meta.dirname, "src/index.ts"),
         components: resolve(import.meta.dirname, "src/components/index.ts"),
         accordion: resolve(import.meta.dirname, "src/components/accordion.ts"),
+        "avatar-group": resolve(import.meta.dirname, "src/components/avatar-group.ts"),
         dropdown: resolve(import.meta.dirname, "src/components/dropdown.ts"),
         drawer: resolve(import.meta.dirname, "src/components/drawer.ts"),
         modal: resolve(import.meta.dirname, "src/components/modal.ts"),

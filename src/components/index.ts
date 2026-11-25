@@ -7,6 +7,7 @@ import "./popover";
 import "./tooltip";
 import "./toast";
 import "./tag";
+import "./avatar-group";
 
 export { SuiModal } from "./modal";
 export type {
@@ -22,3 +23,4 @@ export { SuiPopover } from "./popover";
 export { SuiTooltip } from "./tooltip";
 export { SuiToast, SuiToastContainer } from "./toast";
 export { SuiTag } from "./tag";
+export { SuiAvatarGroup } from "./avatar-group";

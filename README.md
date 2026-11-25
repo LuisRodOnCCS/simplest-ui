@@ -82,6 +82,7 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 | --- | --- | --- |
 | `<sui-modal>` | `components/modal` | Focus trap, scroll lock, Escape, focus restoration. |
 | `<sui-drawer>` | `components/drawer` | Accessible modal side panel. |
+| `<sui-avatar-group>` | `components/avatar-group` | Three compact avatars and `+N`; expands in place, with an optional scrollable named list. |
 | `<sui-dropdown>` | `components/dropdown` | Action menu and keyboard navigation. |
 | `<sui-tabs>` | `components/tabs` | Arrow-key tab navigation. |
 | `<sui-accordion>` | `components/accordion` | Single or multiple disclosure panels. |
@@ -98,6 +99,19 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 ```
 
 Interactive components expose `sui-*` custom events and include keyboard behavior, ARIA relationships, visible focus, and reduced-motion support.
+
+### Interactive avatar groups
+
+Provide direct child avatars with accessible names (`aria-label`, image `alt` or
+text). Set `label` for the group and add `show-names` to display a vertical
+list. Named lists show five rows before scrolling by default; set
+`--sui-avatar-group-visible-rows` to change the limit. ArrowUp and ArrowDown
+scroll the focused list when it overflows. External scrolling closes the group
+with an exit animation; scrolling inside the list does not.
+
+The expanded surface uses the native Popover top layer when available and may
+otherwise be clipped by an ancestor. Entry and exit respect reduced motion.
+`open` changes when closing is requested, before the exit animation finishes.
 
 ### Modal overlays (upcoming 0.4.0)
 

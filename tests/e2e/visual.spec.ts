@@ -95,6 +95,22 @@ test("documentation form controls stay visually stable in light theme", async ({
   await snapshot(page, page.locator("#input-field .docs-showcase"), "docs-forms-light.png");
 });
 
+test("interactive avatar groups stay visually stable when expanded", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await openDocs(page);
+  await settle(page);
+  const group = page.locator("#avatar-group sui-avatar-group").first();
+  const preview = page.locator("#avatar-group .docs-preview").first();
+  await preview.evaluate(element => element.scrollIntoView({ block: "center", inline: "nearest" }));
+  await stabilize(preview);
+  await page.mouse.move(1, 1);
+  await group.evaluate((element) => { (element as HTMLElement & { open: boolean }).open = true; });
+  await expect(group).toHaveAttribute("open", "");
+  await expect(preview).toHaveScreenshot("docs-avatar-group-expanded-light.png");
+  await expect(group).toHaveAttribute("open", "");
+  await restore(preview);
+});
+
 test("dialog lifecycle documentation stays visually stable in light theme", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await openDocs(page);

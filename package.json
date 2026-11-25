@@ -52,6 +52,10 @@
       "types": "./dist/components/accordion.d.ts",
       "import": "./dist/accordion.js"
     },
+    "./components/avatar-group": {
+      "types": "./dist/components/avatar-group.d.ts",
+      "import": "./dist/avatar-group.js"
+    },
     "./components/dropdown": {
       "types": "./dist/components/dropdown.d.ts",
       "import": "./dist/dropdown.js"

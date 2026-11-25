@@ -64,6 +64,10 @@ test("switches language and rerenders the documentation", async ({ page }) => {
   await expect(page.locator("#modal .docs-api")).toContainText("el fondo permanece inerte");
   await expect(page.locator("#drawer .docs-api")).toContainText("updateComplete no espera");
   await expect(page.locator("#radio .docs-section__heading p")).toHaveText("Agrupa opciones relacionadas mediante el mismo atributo name.");
+  await expect(page.locator("#avatar-group .docs-api")).toContainText("el desplazamiento externo inicia el cierre animado");
+  await expect(page.locator("#avatar-group .docs-api")).toContainText("las animaciones JavaScript usan ease");
+  await expect(page.locator("#avatar-group .docs-variant h4")).toHaveText("Nombres visibles y desplazamiento");
+  await expect(page.locator("#avatar-group .docs-variant__preview sui-avatar-group")).toHaveAttribute("label", "Integrantes del equipo");
 
   await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN" }).click({ force: true });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
@@ -71,6 +75,9 @@ test("switches language and rerenders the documentation", async ({ page }) => {
   await expect(page.locator("#vanilla-vite .docs-section__heading p")).toContainText("A minimal Vite project");
   await expect(page.locator("#modal .docs-api")).toContainText("background content stays inert");
   await expect(page.locator("#radio .docs-section__heading p")).toHaveText("Group related options using the same name attribute.");
+  await expect(page.locator("#avatar-group .docs-api")).toContainText("external scrolling starts an animated close");
+  await expect(page.locator("#avatar-group .docs-variant h4")).toHaveText("Visible names and scrolling");
+  await expect(page.locator("#avatar-group .docs-variant__preview sui-avatar-group")).toHaveAttribute("label", "Team members");
 });
 
 for (const width of [1280, 375]) {
@@ -133,6 +140,28 @@ test("overlay lifecycle examples show events and provide copyable code", async (
     await page.keyboard.press("Escape");
     await expect(section.locator("[data-overlay-status]")).toHaveText("Closed: escape");
   }
+});
+
+test("interactive avatar examples show a count and optional names", async ({ page }) => {
+  await openDocs(page);
+  const groups = page.locator("#avatar-group sui-avatar-group");
+  const compact = groups.first();
+  const button = compact.getByRole("button", { name: "Team members" });
+  await expect(compact.locator(".surface .count")).toHaveText("+2");
+  await compact.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(150);
+  await button.hover();
+  await expect(button).toHaveAttribute("aria-expanded", "true");
+  await expect(compact.locator(".surface .name")).toHaveCount(0);
+  await page.mouse.move(1, 1);
+  const named = groups.nth(1);
+  const namedButton = named.getByRole("button", { name: "Team members" });
+  await namedButton.focus();
+  await expect(namedButton).toHaveAttribute("aria-expanded", "true");
+  await expect(named.locator(".surface .name")).toHaveText(["Ada Lovelace", "Grace Hopper", "Katherine Johnson", "Mary Jackson"]);
+  const scrolling = page.locator("#avatar-group .docs-variant__preview sui-avatar-group");
+  await expect(scrolling.locator("span.ui-avatar")).toHaveCount(6);
+  await expect(page.locator("#avatar-group .docs-variant pre")).toContainText("--sui-avatar-group-visible-rows: 3");
 });
 
 test("documentation navigation waits for exit and follows the latest breakpoint", async ({ page }) => {

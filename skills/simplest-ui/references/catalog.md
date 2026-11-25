@@ -9,6 +9,7 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 | Element | Import | Keyboard |
 | --- | --- | --- |
 | `sui-modal` | `@luisrodonccs/simplest-ui/components/modal` | Escape, focus trap |
+| `sui-avatar-group` | `@luisrodonccs/simplest-ui/components/avatar-group` | Enter, Space, Escape, ArrowUp, ArrowDown |
 | `sui-drawer` | `@luisrodonccs/simplest-ui/components/drawer` | Escape, focus trap |
 | `sui-dropdown` | `@luisrodonccs/simplest-ui/components/dropdown` | ArrowUp, ArrowDown, Home, End, Enter, Space, Escape, Tab |
 | `sui-tabs` | `@luisrodonccs/simplest-ui/components/tabs` | ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, End |

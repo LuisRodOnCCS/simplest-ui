@@ -75,6 +75,48 @@
       ]
     },
     {
+      "tag": "sui-avatar-group",
+      "documentationId": "avatar-group",
+      "import": "@luisrodonccs/simplest-ui/components/avatar-group",
+      "className": "SuiAvatarGroup",
+      "attributes": ["open", "show-names", "label"],
+      "properties": {
+        "open": "boolean",
+        "showNames": "boolean",
+        "label": "string"
+      },
+      "slots": [],
+      "events": [],
+      "keyboard": ["Enter", "Space", "Escape", "ArrowUp", "ArrowDown"],
+      "contract": {
+        "required": [
+          "Provide direct child avatars with names using aria-label, image alt or text."
+        ],
+        "recommended": [
+          "Set label to describe the group; use show-names to display names when expanded. The compact group shows three members and a remaining count.",
+          "With show-names, the vertical list shows five rows before scrolling; set --sui-avatar-group-visible-rows to change the limit. External scrolling closes the group without closing it for internal list scrolling.",
+          "Expansion uses the native top layer when Popover is supported; otherwise it may be clipped by an ancestor.",
+          "Entry and exit respect reduced motion. The open property changes when closing is requested; the surface remains visible until the exit animation finishes."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Expandable avatar group",
+          "markup": "<sui-avatar-group label=\"Team members\">\n  <span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n  <span class=\"ui-avatar\" aria-label=\"Grace Hopper\">GH</span>\n  <span class=\"ui-avatar\" aria-label=\"Katherine Johnson\">KJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Mary Jackson\">MJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Dorothy Vaughan\">DV</span>\n</sui-avatar-group>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "visible-names",
+          "label": "Visible names and scrolling",
+          "markup": "<sui-avatar-group label=\"Team members\" show-names style=\"--sui-avatar-group-visible-rows: 3\">\n  <span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n  <span class=\"ui-avatar\" aria-label=\"Grace Hopper\">GH</span>\n  <span class=\"ui-avatar\" aria-label=\"Katherine Johnson\">KJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Mary Jackson\">MJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Dorothy Vaughan\">DV</span>\n  <span class=\"ui-avatar\" aria-label=\"Annie Easley\">AE</span>\n</sui-avatar-group>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
       "tag": "sui-drawer",
       "documentationId": "drawer",
       "import": "@luisrodonccs/simplest-ui/components/drawer",
