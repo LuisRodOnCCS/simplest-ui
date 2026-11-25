@@ -61,11 +61,47 @@ test("switches language and rerenders the documentation", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await expect(page.locator('[data-nav-id="support"]')).toContainText("Soporte");
   await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Ejecuta el generador");
+  await expect(page.locator("#modal .docs-api")).toContainText("el fondo permanece inerte");
+  await expect(page.locator("#drawer .docs-api")).toContainText("updateComplete no espera");
 
   await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN" }).click({ force: true });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Run the generator");
   await expect(page.locator("#vanilla-vite .docs-section__heading p")).toContainText("A minimal Vite project");
+  await expect(page.locator("#modal .docs-api")).toContainText("background content stays inert");
+});
+
+test("overlay lifecycle examples show events and provide copyable code", async ({ page }) => {
+  await openDocs(page);
+  for (const kind of ["modal", "drawer"]) {
+    const section = page.locator(`#${kind}`);
+    await expect(section.locator(".docs-guide-stack pre code")).toContainText("sui-close");
+    await section.locator(`.docs-guide-stack button[data-lifecycle-open="${kind}"]`).click();
+    await expect(section.locator("[data-overlay-status]")).toHaveText("Open");
+    await page.keyboard.press("Escape");
+    await expect(section.locator("[data-overlay-status]")).toHaveText("Closed: escape");
+  }
+});
+
+test("documentation navigation waits for exit and follows the latest breakpoint", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 700, height: 800 });
+  await openDocs(page);
+  const menu = page.locator("#docs-menu");
+  await menu.evaluate(element => (element as HTMLElement).style.setProperty("--sui-duration-normal", "2s"));
+  await page.locator("#docs-menu-trigger").click();
+  await expect(menu).toHaveAttribute("open", "");
+  await page.setViewportSize({ width: 1200, height: 800 });
+  await expect(menu).not.toHaveAttribute("open");
+  await expect(menu.locator("#docs-nav")).toHaveCount(1);
+  expect(await menu.locator("dialog").evaluate(dialog => dialog.matches(":modal"))).toBe(true);
+  await page.setViewportSize({ width: 700, height: 800 });
+  await menu.evaluate(element => element.shadowRoot!.querySelectorAll("*").forEach(child =>
+    child.getAnimations().forEach(animation => animation.finish())
+  ));
+  await expect(menu.locator("dialog")).toHaveCount(0);
+  await expect(menu.locator("#docs-nav")).toHaveCount(1);
+  await expect(page.locator("#docs-nav")).toHaveCount(1);
 });
 
 test("applies light and dark themes", async ({ page }) => {

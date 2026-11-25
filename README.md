@@ -99,6 +99,20 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 
 Interactive components expose `sui-*` custom events and include keyboard behavior, ARIA relationships, visible focus, and reduced-motion support.
 
+### Modal overlays (upcoming 0.4.0)
+
+The upcoming modal and drawer use the browser's modal top layer, so transformed
+or clipped ancestors do not constrain them. Content outside the active dialog
+is inert, and dialogs stack in opening order rather than by `--sui-z-modal` or
+`--sui-z-drawer-backdrop`. Entry and exit respect reduced-motion preferences
+and use `--sui-duration-normal` and `--sui-easing-standard`.
+
+Setting `open = false` or calling `close()` requests a close. The dialog, focus
+trap and scroll lock remain active until its exit finishes, when `sui-close`
+fires. `updateComplete` does not wait for the animation. Wait for `sui-close`
+before removing the element or interacting with the background; reopening during
+exit cancels the pending close event. These changes are unreleased.
+
 For an optional full-screen mobile navigation pattern, see
 [Responsive navigation with App Shell and Drawer](./docs/responsive-navigation.md)
 and the dashboard in the visual documentation. Applications choose their own

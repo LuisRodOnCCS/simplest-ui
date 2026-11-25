@@ -44,7 +44,8 @@
         "sui-close"
       ],
       "eventDetails": {
-        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+        "sui-open": "Emitted after the dialog opens modally, without waiting for entry animation; initially open instances do not emit it.",
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }; emitted after the exit completes; a cancelled exit emits no close event."
       },
       "keyboard": [
         "Escape",
@@ -58,7 +59,9 @@
         ],
         "recommended": [
           "Set close-label when the default close button is visible.",
-          "Emit lifecycle events only after real state transitions."
+          "The dialog stays modal, with focus containment and scroll lock, until exit completes; background content is inert.",
+          "Motion uses --sui-duration-normal and --sui-easing-standard and is skipped when reduced motion is requested.",
+          "Wait for sui-close rather than updateComplete before removing the overlay after a close request."
         ]
       },
       "examples": [
@@ -100,7 +103,8 @@
         "sui-close"
       ],
       "eventDetails": {
-        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+        "sui-open": "Emitted after the dialog opens modally, without waiting for entry animation; initially open instances do not emit it.",
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }; emitted after the exit completes; a cancelled exit emits no close event."
       },
       "keyboard": [
         "Escape",
@@ -113,6 +117,9 @@
         "recommended": [
           "Set close-label when the default close button is visible.",
           "Use the footer slot for actions.",
+          "The dialog stays modal, with focus containment and scroll lock, until exit completes; background content is inert.",
+          "Motion uses --sui-duration-normal and --sui-easing-standard and is skipped when reduced motion is requested.",
+          "Wait for sui-close rather than updateComplete before removing the overlay after a close request.",
           "For mobile navigation, hide the built-in close button with hide-close-button and provide an accessible close control in the footer slot; see docs/responsive-navigation.md for the standard button pattern."
         ]
       },

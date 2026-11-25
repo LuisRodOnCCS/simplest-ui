@@ -142,6 +142,25 @@ test("compact navigation opens, closes and returns to desktop without duplicatio
   await expect(page.locator(".docs-dashboard")).toHaveCSS("overflow-y", "auto");
 });
 
+test("breakpoint changes retain navigation inside the drawer until exit completes", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 900, height: 700 });
+  await openDashboard(page);
+  const menu = page.locator("#dashboard-menu");
+  await menu.evaluate(element => (element as HTMLElement).style.setProperty("--sui-duration-normal", "2s"));
+  await page.locator("#dashboard-menu-trigger").click();
+  await expect(menu).toHaveAttribute("open", "");
+  await page.setViewportSize({ width: 1280, height: 700 });
+  await expect(menu).not.toHaveAttribute("open");
+  await expect(menu.locator(".ui-app-shell__sidebar")).toHaveCount(1);
+  expect(await menu.locator("dialog").evaluate(dialog => dialog.matches(":modal"))).toBe(true);
+  await menu.evaluate(element => element.shadowRoot!.querySelectorAll("*").forEach(child =>
+    child.getAnimations().forEach(animation => animation.finish())
+  ));
+  await expect(page.locator(".docs-dashboard .ui-app-shell__sidebar")).toBeVisible();
+  await expect(page.locator(".ui-app-shell__sidebar")).toHaveCount(1);
+});
+
 test("long sidebar supports independent wheel scrolling", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 700 });
   await openDashboard(page);

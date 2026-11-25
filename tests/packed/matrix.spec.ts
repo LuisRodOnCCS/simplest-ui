@@ -7,6 +7,211 @@ test.beforeEach(async ({ page }) => {
   await page.waitForFunction(() => Boolean(customElements.get("sui-tooltip")));
 });
 
+test("drawer entry remains aligned to the viewport on repeated openings", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 375, height: 812 });
+  const results = await page.evaluate(async () => {
+    document.body.innerHTML = `<div style="transform: translateY(-2px); overflow: hidden"><sui-drawer label="Drawer" style="--sui-duration-normal: 600ms"></sui-drawer></div>`;
+    const drawer = document.querySelector("sui-drawer") as Dialog & { close(): void };
+    await drawer.updateComplete;
+    const samples: { right: number; width: number; x: number; modal: boolean }[][] = [];
+    for (let i = 0; i < 3; i++) {
+      drawer.open = true;
+      await drawer.updateComplete;
+      const dialog = drawer.shadowRoot!.querySelector("dialog")!;
+      const panel = drawer.shadowRoot!.querySelector<HTMLElement>(".panel")!;
+      const animation = panel.getAnimations()[0];
+      if (!animation) throw new Error(`Missing entry animation on opening ${i}`);
+      animation.pause();
+      const frames = [];
+      for (const time of [0, 150, 300, 450, 600]) {
+        animation.currentTime = time;
+        const box = panel.getBoundingClientRect();
+        frames.push({ right: box.right, width: box.width, x: new DOMMatrix(getComputedStyle(panel).transform).m41, modal: dialog.matches(":modal") });
+      }
+      samples.push(frames);
+      animation.finish();
+      const closed = new Promise<void>(resolve => drawer.addEventListener("sui-close", () => resolve(), { once: true }));
+      drawer.close();
+      await closed;
+      await drawer.updateComplete;
+    }
+    return samples;
+  });
+  for (const frames of results) {
+    for (const frame of frames) {
+      expect(frame.modal).toBe(true);
+      expect(frame.right - frame.x, JSON.stringify(frames)).toBeCloseTo(375, 0);
+      expect(frame.x).toBeGreaterThanOrEqual(-0.5);
+      expect(frame.x).toBeLessThanOrEqual(frame.width + 0.5);
+    }
+    expect(frames[0].x).toBeGreaterThan(frames[4].x);
+    expect(frames[4].x).toBeCloseTo(0, 0);
+  }
+});
+
+for (const tag of ["sui-drawer", "sui-modal"]) {
+ for (const motion of ["reduce", "no-preference"] as const) {
+  test(`${tag} entry motion respects ${motion}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: motion });
+    const initial = await page.evaluate(async (name) => {
+      document.body.innerHTML = `<${name} label="Motion" style="--sui-duration-normal: 2s"></${name}>`;
+      const overlay = document.querySelector(name) as Dialog;
+      await overlay.updateComplete;
+      overlay.open = true;
+      await overlay.updateComplete;
+      const dialog = overlay.shadowRoot!.querySelector("dialog")!;
+      const panel = overlay.shadowRoot!.querySelector(".panel")!;
+      return {
+        modal: dialog.matches(":modal"),
+        animations: panel.getAnimations().length,
+        backdropAnimations: dialog.getAnimations().length,
+      };
+    }, tag);
+    expect(initial.modal).toBe(true);
+    if (motion === "reduce") {
+      expect(initial.animations).toBe(0);
+      expect(initial.backdropAnimations).toBe(0);
+    } else {
+      expect(initial.animations).toBeGreaterThan(0);
+      expect(initial.backdropAnimations).toBeGreaterThan(0);
+      await expect.poll(() => page.locator(`${tag} >> .panel`).evaluate((panel) =>
+        panel.getAnimations().some((animation) => Number(animation.currentTime) > 0)
+      )).toBe(true);
+      expect(await page.locator(`${tag} >> .panel`).evaluate((panel) =>
+        getComputedStyle(panel).transform
+      )).not.toBe("none");
+    }
+  });
+  test(`${tag} exit motion retains modality with ${motion}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: motion });
+    await page.evaluate(async (name) => {
+      document.body.innerHTML = `<button id="origin">Open</button><${name} label="Motion" style="--sui-duration-normal: 2s"></${name}>`;
+      const overlay = document.querySelector(name) as Dialog;
+      await overlay.updateComplete;
+      (document.querySelector("#origin") as HTMLElement).focus();
+      overlay.open = true;
+      await overlay.updateComplete;
+      overlay.open = false;
+      await overlay.updateComplete;
+    }, tag);
+    if (motion === "no-preference") {
+      const dialog = page.locator(`${tag} >> dialog`);
+      await expect(dialog).toBeVisible();
+      expect(await dialog.evaluate(el => el.matches(":modal"))).toBe(true);
+      expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+      await expect.poll(() => page.locator(`${tag} >> .panel`).evaluate(el =>
+        el.getAnimations().some(animation => Number(animation.currentTime) > 0)
+      )).toBe(true);
+    }
+    await expect(page.locator(`${tag} >> dialog`)).toHaveCount(0);
+    await expect(page.locator("#origin")).toBeFocused();
+    expect(await page.evaluate(() => document.body.style.overflow)).not.toBe("hidden");
+  });
+ }
+}
+
+for (const tag of ["sui-drawer", "sui-modal"]) {
+  test(`${tag} cancels interrupted exit and cleans up on removal`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    const result = await page.evaluate(async name => {
+      document.body.innerHTML = `<button id="origin">Open</button><${name} label="Overlay" style="--sui-duration-normal: 2s"></${name}>`;
+      const overlay = document.querySelector(name) as Dialog & { close(reason?: string): void };
+      const events: string[] = [];
+      overlay.addEventListener("sui-open", () => events.push("open"));
+      overlay.addEventListener("sui-close", event => events.push((event as CustomEvent).detail.reason));
+      await overlay.updateComplete;
+      (document.querySelector("#origin") as HTMLElement).focus();
+      overlay.open = true;
+      await overlay.updateComplete;
+      overlay.close("escape");
+      await overlay.updateComplete;
+      const duringExit = {
+        modal: overlay.shadowRoot!.querySelector("dialog")!.matches(":modal"),
+        overflow: document.body.style.overflow,
+      };
+      overlay.open = true;
+      await overlay.updateComplete;
+      const afterReopen = {
+        modal: overlay.shadowRoot!.querySelector("dialog")!.matches(":modal"),
+        overflow: document.body.style.overflow,
+        events: [...events],
+      };
+      overlay.close("backdrop");
+      overlay.close("escape");
+      await overlay.updateComplete;
+      const closed = new Promise<void>(resolve => overlay.addEventListener("sui-close", () => resolve(), { once: true }));
+      overlay.shadowRoot!.querySelectorAll("*").forEach(element =>
+        element.getAnimations().forEach(animation => animation.finish())
+      );
+      await closed;
+      await overlay.updateComplete;
+      const afterClose = { events: [...events], focus: document.activeElement?.id, overflow: document.body.style.overflow };
+      overlay.open = true;
+      await overlay.updateComplete;
+      overlay.open = false;
+      await overlay.updateComplete;
+      overlay.remove();
+      const afterRemove = document.body.style.overflow;
+      document.body.append(overlay);
+      await overlay.updateComplete;
+      return {
+        duringExit, afterReopen, afterClose, afterRemove,
+        dialogAfterReconnect: Boolean(overlay.shadowRoot!.querySelector("dialog")),
+        events,
+      };
+    }, tag);
+    expect(result.duringExit).toEqual({ modal: true, overflow: "hidden" });
+    expect(result.afterReopen).toEqual({ modal: true, overflow: "hidden", events: ["open"] });
+    expect(result.afterClose).toEqual({ events: ["open", "backdrop"], focus: "origin", overflow: "" });
+    expect(result.afterRemove).toBe("");
+    expect(result.dialogAfterReconnect).toBe(false);
+    expect(result.events).toEqual(["open", "backdrop", "open"]);
+  });
+
+  for (const [method, reason] of [["property", "programmatic"], ["api", "programmatic"], ["button", "dismiss"], ["backdrop", "backdrop"]] as const) {
+    test(`${tag} exits on ${method} with ${reason}`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.setViewportSize({ width: 375, height: 812 });
+      const result = await page.evaluate(async ([name, path]) => {
+        document.body.innerHTML = `<header style="position: sticky; top: 0">Header</header><div style="transform: translateY(-2px)"><${name} label="Overlay" style="--sui-duration-normal: 2s"></${name}></div>`;
+        const overlay = document.querySelector(name) as Dialog & { close(): void; disableBackdropClose: boolean };
+        await overlay.updateComplete;
+        overlay.open = true;
+        await overlay.updateComplete;
+        const dialog = overlay.shadowRoot!.querySelector("dialog")!;
+        if (path === "backdrop") {
+          overlay.disableBackdropClose = true;
+          dialog.click();
+          await overlay.updateComplete;
+          if (!overlay.open) throw new Error("disabled backdrop closed");
+          overlay.disableBackdropClose = false;
+        }
+        const closed = new Promise<string>(resolve => overlay.addEventListener("sui-close", e => resolve((e as CustomEvent).detail.reason), { once: true }));
+        if (path === "property") overlay.open = false;
+        if (path === "api") overlay.close();
+        if (path === "button") overlay.shadowRoot!.querySelector<HTMLButtonElement>(".close")!.click();
+        if (path === "backdrop") dialog.click();
+        await overlay.updateComplete;
+        const rect = dialog.getBoundingClientRect();
+        const during = {
+          modal: dialog.matches(":modal"),
+          overflow: document.body.style.overflow,
+          viewport: [rect.left, rect.top, rect.width, rect.height],
+          headerCovered: document.elementFromPoint(8, 8) === overlay,
+        };
+        overlay.shadowRoot!.querySelectorAll("*").forEach(element => element.getAnimations().forEach(animation => animation.finish()));
+        return { during, reason: await closed };
+      }, [tag, method]);
+      expect(result.during.modal).toBe(true);
+      expect(result.during.overflow).toBe("hidden");
+      expect(result.during.viewport).toEqual([0, 0, 375, 812]);
+      expect(result.during.headerCovered).toBe(true);
+      expect(result.reason).toBe(reason);
+    });
+  }
+}
+
 test("tooltip reconciles replacement, removal and reinsertion without losing descriptions", async ({ page }) => {
   await page.evaluate(() => {
     document.body.innerHTML = `<p id="prior">Existing help</p><sui-tooltip>
@@ -168,7 +373,82 @@ test("popover updates label and reconciles focused panel removal and reinsertion
   await expect(page.getByRole("dialog", { name: "Updated" })).toBeVisible();
 });
 
+for (const tag of ["sui-modal", "sui-drawer"]) {
+  for (const ancestor of ["transform: translateY(-2px)", "filter: blur(0px)", "perspective: 500px", "will-change: transform", "contain: paint", "overflow: hidden; transform: translateZ(0)"]) {
+    test(`${tag} covers viewport inside ${ancestor}`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.evaluate(async ([name, style]) => {
+        document.body.innerHTML = `<button id="outside">Outside</button><div id="ancestor" style="${style};width:200px;height:100px"><${name} label="Overlay" style="--sui-drawer-width: 250px"><button>Inside</button></${name}></div>`;
+        const overlay = document.querySelector(name) as Dialog;
+        await overlay.updateComplete;
+        overlay.open = true;
+        await overlay.updateComplete;
+      }, [tag, ancestor]);
+      const dialog = page.locator(`${tag} >> dialog`);
+      await expect(dialog).toBeVisible();
+      expect(await dialog.evaluate((el) => el.matches(":modal"))).toBe(true);
+      const rect = await dialog.boundingBox();
+      expect(rect).not.toBeNull();
+      expect(rect!.x).toBeCloseTo(0, 0);
+      expect(rect!.y).toBeCloseTo(0, 0);
+      expect(rect!.width).toBeCloseTo(375, 0);
+      expect(rect!.height).toBeCloseTo(812, 0);
+      await page.locator("#outside").evaluate((el: HTMLElement) => el.focus());
+      await expect(page.locator("#outside")).not.toBeFocused();
+      await page.keyboard.press("Escape");
+      await expect(page.locator(tag)).not.toHaveAttribute("open");
+    });
+  }
+}
+
 for (const [outer, inner] of [["sui-modal", "sui-drawer"], ["sui-drawer", "sui-modal"], ["sui-modal", "sui-modal"], ["sui-drawer", "sui-drawer"]]) {
+  test(`repeated Escape during exit keeps lower ${outer} open under ${inner}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.evaluate(async ([firstTag, secondTag]) => {
+      document.body.innerHTML = `<${firstTag} id="first" label="First"></${firstTag}><${secondTag} id="second" label="Second" style="--sui-duration-normal: 2s"></${secondTag}>`;
+      const first = document.querySelector("#first") as Dialog;
+      const second = document.querySelector("#second") as Dialog;
+      await Promise.all([first.updateComplete, second.updateComplete]);
+      first.open = true;
+      await first.updateComplete;
+      second.open = true;
+      await second.updateComplete;
+    }, [outer, inner]);
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#second")).not.toHaveAttribute("open");
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#first")).toHaveAttribute("open", "");
+    expect(await page.locator("#second >> dialog").evaluate(dialog => dialog.matches(":modal"))).toBe(true);
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+    await page.locator("#second").evaluate(element => element.shadowRoot!.querySelectorAll("*").forEach(
+      child => child.getAnimations().forEach(animation => animation.finish())
+    ));
+    await expect(page.locator("#second >> dialog")).toHaveCount(0);
+    await expect(page.locator("#first")).toHaveAttribute("open", "");
+  });
+
+  test(`real Escape closes only top ${outer} then ${inner}`, async ({ page }) => {
+    await page.evaluate(async ([firstTag, secondTag]) => {
+      document.body.innerHTML = `<button id="origin">Open</button><${firstTag} id="first" label="First"><button id="nested-origin">Next</button></${firstTag}><${secondTag} id="second" label="Second"></${secondTag}>`;
+      const first = document.querySelector("#first") as Dialog;
+      const second = document.querySelector("#second") as Dialog;
+      (document.querySelector("#origin") as HTMLElement).focus();
+      first.open = true;
+      await first.updateComplete;
+      (document.querySelector("#nested-origin") as HTMLElement).focus();
+      second.open = true;
+      await second.updateComplete;
+    }, [outer, inner]);
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#second")).not.toHaveAttribute("open");
+    await expect(page.locator("#first")).toHaveAttribute("open", "");
+    expect(await page.locator("#first >> dialog").evaluate((el) => el.matches(":modal"))).toBe(true);
+    await expect(page.locator("#nested-origin")).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#first")).not.toHaveAttribute("open");
+    await expect(page.locator("#origin")).toBeFocused();
+  });
+
   test(`overlay stack: ${outer} then ${inner}`, async ({ page }) => {
     const result = await page.evaluate(async ([firstTag, secondTag]) => {
       document.body.style.overflow = "scroll";
@@ -183,15 +463,17 @@ for (const [outer, inner] of [["sui-modal", "sui-drawer"], ["sui-drawer", "sui-m
       const events: string[] = [];
       first.addEventListener("sui-close", () => events.push("first"));
       second.addEventListener("sui-close", () => events.push("second"));
+      const secondClosed = new Promise<void>(resolve => second.addEventListener("sui-close", () => resolve(), { once: true }));
       document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-      await Promise.all([first.updateComplete, second.updateComplete]);
+      await secondClosed;
       const afterEscape = { first: first.open, second: second.open, overflow: document.body.style.overflow, events: [...events] };
       first.remove();
       const afterRemove = document.body.style.overflow;
       document.body.append(first);
       const afterReconnect = document.body.style.overflow;
+      const firstClosed = new Promise<void>(resolve => first.addEventListener("sui-close", () => resolve(), { once: true }));
       first.open = false;
-      await first.updateComplete;
+      await firstClosed;
       return { afterEscape, afterRemove, afterReconnect, final: document.body.style.overflow };
     }, [outer, inner]);
     expect(result.afterEscape).toEqual({ first: true, second: false, overflow: "hidden", events: ["second"] });
@@ -251,8 +533,9 @@ test("disconnecting the first overlay preserves the remaining lock", async ({ pa
     await second.updateComplete;
     first.remove();
     const remaining = document.body.style.overflow;
+    const closed = new Promise<void>(resolve => second.addEventListener("sui-close", () => resolve(), { once: true }));
     second.open = false;
-    await second.updateComplete;
+    await closed;
     return { remaining, final: document.body.style.overflow };
   });
   expect(states).toEqual({ remaining: "hidden", final: "scroll" });

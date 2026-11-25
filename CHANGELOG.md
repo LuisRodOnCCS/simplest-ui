@@ -4,6 +4,24 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+### Changed
+
+- Modal and drawer overlays use the browser top layer, escaping transformed
+  and clipped ancestors. While open, content outside the active dialog is inert.
+  Their stacking order now follows the order in which dialogs open rather than
+  `--sui-z-modal` or `--sui-z-drawer-backdrop`; outside notifications and controls
+  cannot be interacted with until the dialog closes.
+- Modal and drawer animate entry and exit unless reduced motion is requested.
+  The `open` property changes when closure is requested, but the dialog remains
+  modal and retains the scroll lock until the exit finishes. `sui-close` now
+  fires after that point; `updateComplete` does not wait for the animation.
+  Reopening during exit cancels that close without a `sui-close` event.
+
+### Fixed
+
+- Drawer entry no longer jumps when the browser scrolls its backdrop to reveal
+  the initially focused control while the panel is moving.
+
 ## [0.3.1] - 2026-11-23
 
 ### Fixed

@@ -5,6 +5,7 @@ import { collectFocusable, lockScroll, trapTabKey, unlockScroll } from "./intern
 import type { SuiDialogCloseReason } from "./internal/dialog-events";
 import { createId } from "./internal/id";
 import { isTopOverlay, registerOverlay, unregisterOverlay } from "./internal/overlay";
+import { animateOverlayExit } from "./internal/overlay-motion";
 
 export type {
   SuiDialogCloseEvent,
@@ -21,12 +22,20 @@ export class SuiModal extends LitElement {
     :host {
       display: none;
     }
-    :host([open]) {
+    :host([open]), :host([data-closing]) {
       display: block;
     }
     .backdrop {
       position: fixed;
       inset: 0;
+      box-sizing: border-box;
+      width: auto;
+      height: auto;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      border: 0;
+      overflow: hidden;
       background: var(--sui-color-backdrop);
       backdrop-filter: blur(var(--sui-blur-backdrop));
       -webkit-backdrop-filter: blur(var(--sui-blur-backdrop));
@@ -36,6 +45,7 @@ export class SuiModal extends LitElement {
       z-index: var(--sui-z-modal);
       padding: var(--sui-space-4);
     }
+    .backdrop::backdrop { background: transparent; }
     .panel {
       background: var(--sui-color-surface-raised);
       color: var(--sui-color-text);
@@ -50,6 +60,12 @@ export class SuiModal extends LitElement {
       overflow: auto;
       padding: var(--sui-space-5-5);
       outline: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .backdrop[open] { animation: sui-modal-backdrop-enter var(--sui-duration-normal) var(--sui-easing-standard); }
+      .backdrop[open] .panel { animation: sui-modal-enter var(--sui-duration-normal) var(--sui-easing-standard); }
+      @keyframes sui-modal-backdrop-enter { from { background-color: transparent; } to { background-color: var(--sui-color-backdrop); } }
+      @keyframes sui-modal-enter { from { opacity: 0; transform: translateY(var(--sui-space-4)); } to { opacity: 1; transform: translateY(0); } }
     }
     .header {
       display: flex;
@@ -109,6 +125,8 @@ export class SuiModal extends LitElement {
   private previouslyFocused: HTMLElement | null = null;
   private holdsScrollLock = false;
   private closeReason: SuiDialogCloseReason | undefined;
+  private retained = false;
+  private cancelExit: (() => void) | undefined;
 
   private get titleId() {
     return `${this.uid}-title`;
@@ -116,6 +134,10 @@ export class SuiModal extends LitElement {
 
   private get bodyId() {
     return `${this.uid}-body`;
+  }
+
+  protected willUpdate(changed: PropertyValues) {
+    if (changed.has("open") && !this.open && this.retained) this.setAttribute("data-closing", "");
   }
 
   protected updated(changed: PropertyValues) {
@@ -126,29 +148,52 @@ export class SuiModal extends LitElement {
     const wasClosed = previousOpen === false;
 
     if (this.open) {
+      const reopening = Boolean(this.cancelExit);
+      this.cancelExit?.();
+      this.cancelExit = undefined;
+      this.removeAttribute("data-closing");
+      this.retained = true;
       this.closeReason = undefined;
-      if (wasClosed || previousOpen === undefined) {
+      if (!reopening && (wasClosed || previousOpen === undefined)) {
         this.previouslyFocused = document.activeElement as HTMLElement | null;
       }
-      this.acquireOverlay();
-      if (wasClosed) {
+      if (this.isConnected) this.acquireOverlay();
+      this.showDialog();
+      if (wasClosed && !reopening) {
         this.dispatchEvent(new CustomEvent("sui-open", { bubbles: true, composed: true }));
       }
-      this.updateComplete.then(() => this.focusInitial());
+      if (this.isConnected) this.focusInitial();
     } else {
-      this.releaseOverlay();
-      if (wasOpen) {
-        this.dispatchEvent(
-          new CustomEvent("sui-close", {
-            detail: { reason: this.closeReason ?? "programmatic" },
-            bubbles: true,
-            composed: true,
-          })
-        );
-        this.previouslyFocused?.focus?.();
-        this.previouslyFocused = null;
+      if (wasOpen && this.retained) {
+        const finish = () => {
+          const reason = this.closeReason ?? "programmatic";
+          const restoreFocus = isTopOverlay(this.overlay);
+          const previousFocus = this.previouslyFocused;
+          this.cancelExit = undefined;
+          this.renderRoot.querySelector<HTMLDialogElement>("dialog")?.close();
+          this.retained = false;
+          this.removeAttribute("data-closing");
+          this.releaseOverlay();
+          this.previouslyFocused = null;
+          this.closeReason = undefined;
+          this.requestUpdate();
+          if (restoreFocus) previousFocus?.focus?.();
+          this.dispatchEvent(
+            new CustomEvent("sui-close", {
+              detail: { reason },
+              bubbles: true,
+              composed: true,
+            })
+          );
+        };
+        const dialog = this.renderRoot.querySelector<HTMLDialogElement>("dialog");
+        const panel = this.renderRoot.querySelector<HTMLElement>(".panel");
+        if (dialog && panel && this.isConnected) {
+          let completed = false;
+          const cancel = animateOverlayExit(dialog, panel, "modal", () => { completed = true; finish(); });
+          if (!completed) this.cancelExit = cancel;
+        } else finish();
       }
-      this.closeReason = undefined;
     }
   }
 
@@ -162,7 +207,7 @@ export class SuiModal extends LitElement {
   }
 
   private handleKeydown = (e: KeyboardEvent) => {
-    if (!this.open || !isTopOverlay(this.overlay) || e.key !== "Tab") return;
+    if (!this.holdsScrollLock || !isTopOverlay(this.overlay) || e.key !== "Tab") return;
     trapTabKey(e, this);
   };
 
@@ -171,27 +216,52 @@ export class SuiModal extends LitElement {
     this.close("backdrop");
   };
 
+  private handleCancel = (event: Event) => {
+    event.preventDefault();
+    if (isTopOverlay(this.overlay)) this.close("escape");
+  };
+
+  private showDialog() {
+    const dialog = this.renderRoot.querySelector<HTMLDialogElement>("dialog");
+    if (this.isConnected && dialog && !dialog.open) dialog.showModal();
+  }
+
   openModal() {
     this.open = true;
   }
 
+  /** Request closure; `sui-close` fires after exit, not after `updateComplete`. */
   close(reason: SuiDialogCloseReason = "programmatic") {
     if (!this.open) return;
     this.closeReason = reason;
     this.open = false;
-    this.releaseOverlay();
   }
 
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener("keydown", this.handleKeydown);
-    if (this.open) this.acquireOverlay();
+    if (this.open) {
+      this.acquireOverlay();
+      this.updateComplete.then(() => {
+        if (this.open) this.showDialog();
+      });
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this.handleKeydown);
+    this.cancelExit?.();
+    this.cancelExit = undefined;
+    this.retained = this.open;
+    this.removeAttribute("data-closing");
+    this.renderRoot.querySelector<HTMLDialogElement>("dialog")?.close();
     this.releaseOverlay();
+    if (!this.open) {
+      this.closeReason = undefined;
+      this.previouslyFocused = null;
+      this.requestUpdate();
+    }
   }
 
   private acquireOverlay() {
@@ -209,19 +279,16 @@ export class SuiModal extends LitElement {
   }
 
   render() {
-    if (!this.open) return nothing;
+    if (!this.open && !this.retained) return nothing;
 
     const labelledBy = this.label ? nothing : this.titleId;
 
     return html`
-      <div class="backdrop" @click=${this.handleBackdropClick}>
+      <dialog class="backdrop" role="dialog" aria-modal="true"
+        aria-label=${this.label || nothing} aria-labelledby=${labelledBy}
+        aria-describedby=${this.bodyId} @click=${this.handleBackdropClick} @cancel=${this.handleCancel}>
         <div
           class="panel"
-          role="dialog"
-          aria-modal="true"
-          aria-label=${this.label || nothing}
-          aria-labelledby=${labelledBy}
-          aria-describedby=${this.bodyId}
           tabindex="-1"
         >
           <div class="header">
@@ -231,7 +298,7 @@ export class SuiModal extends LitElement {
           <div class="body" id=${this.bodyId}><slot></slot></div>
           <div class="footer"><slot name="footer"></slot></div>
         </div>
-      </div>
+      </dialog>
     `;
   }
 }

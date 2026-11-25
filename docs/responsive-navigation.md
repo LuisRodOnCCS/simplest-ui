@@ -36,8 +36,16 @@ import "@luisrodonccs/simplest-ui/components/drawer";
 The application chooses its breakpoint. The dashboard uses `1024px` for its
 own layout; this is not a package requirement. Keep one navigation tree and move
 it between the sidebar and drawer when the layout changes rather than maintaining
-two copies. Place the drawer outside the scrollable shell so it can cover the
-viewport, and set `--sui-drawer-width: 100%` for full-screen presentation.
+two copies. The drawer uses the browser top layer to cover the viewport even
+inside a transformed or clipped shell. Set `--sui-drawer-width: 100%` for
+full-screen presentation.
+
+In the upcoming 0.4.0 behavior, the background is inert while the drawer is
+modal. Setting `open = false` or calling `close()` requests closure; the drawer,
+focus trap and scroll locks remain active during exit. `sui-close` fires after
+exit, while `updateComplete` only waits for the Lit update. Wait for `sui-close`
+before moving navigation out of the drawer or focusing the background. Reopening
+during exit cancels the pending close. Reduced motion skips the animation.
 
 The dashboard uses a centered, fixed menu button and provides a matching close
 button through the drawer's `footer` slot. Reserve enough bottom space in the
@@ -97,9 +105,9 @@ last navigation item.
   cursor: pointer;
 }
 
-/* Show the trigger only on compact layouts; show the close button only while open. */
+/* The close control stays available inside the drawer during its exit. */
 @media (min-width: 881px) {
-  .menu-trigger, .menu-close { display: none; }
+  .menu-trigger { display: none; }
 }
 ```
 
@@ -107,6 +115,7 @@ last navigation item.
 const trigger = document.querySelector("#menu-trigger");
 const menu = document.querySelector("#menu");
 const close = document.querySelector("#menu-close");
+const compact = window.matchMedia("(max-width: 880px)");
 
 trigger?.addEventListener("click", () => {
   trigger.focus();
@@ -116,16 +125,22 @@ close?.addEventListener("click", () => menu?.close("dismiss"));
 menu?.addEventListener("sui-open", () => trigger?.setAttribute("aria-expanded", "true"));
 menu?.addEventListener("sui-close", () => {
   trigger?.setAttribute("aria-expanded", "false");
-  trigger?.focus();
+  if (compact.matches) trigger?.focus();
+  // On wide layouts, move the navigation back to the sidebar here,
+  // then focus an appropriate visible control if needed.
 });
 menu?.addEventListener("click", (event) => {
   if ((event.target as Element).closest("a")) menu.close("dismiss");
+});
+compact.addEventListener("change", () => {
+  if (!compact.matches && menu?.open) menu.close("dismiss");
 });
 ```
 
 The drawer handles Escape, focus trapping, focus restoration and body scroll
 locking; the application closes the drawer on navigation or on return to the
-wide layout and moves the single navigation tree back.
+wide layout. Move the single navigation tree back after `sui-close`, checking
+the current breakpoint again because it may have changed during the exit.
 
 ## Close controls and focus
 
