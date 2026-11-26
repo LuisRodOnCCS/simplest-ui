@@ -6,6 +6,8 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [0.4.0] - 2026-11-25
 
+Migration guide: [`docs/migration-0.4.0.md`](./docs/migration-0.4.0.md)
+
 ### Added
 
 - `sui-avatar-group`, an expandable non-modal avatar group showing three compact

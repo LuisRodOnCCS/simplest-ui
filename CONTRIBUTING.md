@@ -42,4 +42,6 @@ Work from `dev` in a `feat/*`, `fix/*`, or `docs/*` branch. Changes land in `dev
 
 ## Releases
 
-Follow the [versioning and release policy](./VERSIONING.md). Keep release notes under `[Unreleased]` until the release is intentionally cut.
+Follow the [versioning and release policy](./VERSIONING.md), then run the
+[pre-release review](./RELEASING.md) before tagging or publishing. Keep release
+notes under `[Unreleased]` until the release is intentionally cut.
