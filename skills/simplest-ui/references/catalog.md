@@ -9,6 +9,7 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 | Element | Import | Keyboard |
 | --- | --- | --- |
 | `sui-modal` | `@luisrodonccs/simplest-ui/components/modal` | Escape, focus trap |
+| `sui-avatar-group` | `@luisrodonccs/simplest-ui/components/avatar-group` | Enter, Space, Escape, ArrowUp, ArrowDown |
 | `sui-drawer` | `@luisrodonccs/simplest-ui/components/drawer` | Escape, focus trap |
 | `sui-dropdown` | `@luisrodonccs/simplest-ui/components/dropdown` | ArrowUp, ArrowDown, Home, End, Enter, Space, Escape, Tab |
 | `sui-tabs` | `@luisrodonccs/simplest-ui/components/tabs` | ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, End |
@@ -25,7 +26,8 @@ Read `components.manifest.json` in the repository root first; it is the machine-
 - **Textarea**: `ui-textarea`, `ui-textarea--invalid`
 - **Select**: `ui-select`, `ui-select--invalid`
 - **Checkbox**: `ui-checkbox`, `ui-checkbox--disabled`
-- **Radio**: `ui-radio`, `ui-radio-group`
+- **Fieldset**: `ui-fieldset`, `ui-fieldset__legend`
+- **Radio**: `ui-radio`, `ui-radio-group`, `ui-radio--disabled`
 - **Switch**: `ui-switch`, `ui-switch__track`
 - **Card**: `ui-card`, `ui-card--raised`, `ui-card--glass`, `ui-card__header`, `ui-card__title`, `ui-card__body`, `ui-card__footer`
 - **Badge Chip**: `ui-badge`, `ui-badge--primary`, `ui-badge--success`, `ui-badge--warning`, `ui-badge--danger`, `ui-badge--info`, `ui-badge--outline`, `ui-chip`
@@ -196,6 +198,23 @@ Required:
 </label>
 ```
 
+### Fieldset
+
+Required:
+- Use a fieldset with a legend to name the group.
+
+Recommended:
+- Compose with the appropriate form control classes for the group's contents.
+
+#### Field group (`default`)
+
+```html
+<fieldset class="ui-fieldset">
+  <legend class="ui-fieldset__legend">Notifications</legend>
+  <label class="ui-checkbox"><input type="checkbox" name="email" /> Email updates</label>
+</fieldset>
+```
+
 ### Radio
 
 Required:
@@ -204,10 +223,12 @@ Required:
 #### Radio group (`default`)
 
 ```html
-<fieldset class="ui-radio-group">
-  <legend class="ui-label">Plan</legend>
-  <label class="ui-radio"><input type="radio" name="plan" /> Starter</label>
-  <label class="ui-radio"><input type="radio" name="plan" /> Pro</label>
+<fieldset class="ui-fieldset">
+  <legend class="ui-fieldset__legend">Plan</legend>
+  <div class="ui-radio-group">
+    <label class="ui-radio"><input type="radio" name="plan" value="starter" /> Starter</label>
+    <label class="ui-radio"><input type="radio" name="plan" value="pro" /> Pro</label>
+  </div>
 </fieldset>
 ```
 

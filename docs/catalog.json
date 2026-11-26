@@ -88,6 +88,11 @@
           "kind": "css"
         },
         {
+          "id": "fieldset",
+          "label": "Fieldset",
+          "kind": "css"
+        },
+        {
           "id": "radio",
           "label": "Radio",
           "kind": "css"
@@ -166,6 +171,11 @@
         {
           "id": "modal",
           "label": "Modal",
+          "kind": "web-component"
+        },
+        {
+          "id": "avatar-group",
+          "label": "Avatar Group",
           "kind": "web-component"
         },
         {

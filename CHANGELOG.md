@@ -4,6 +4,39 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-25
+
+### Added
+
+- `sui-avatar-group`, an expandable non-modal avatar group showing three compact
+  avatars and a remaining count. Optional visible names use a scrollable vertical
+  list; external scrolling closes the group with an exit animation. Supports
+  keyboard and pointer interaction and reduced motion.
+- `create-simplest-ui` 0.1.4 generates Vanilla starters with core `^0.4.0`;
+  Laravel overlays continue to leave dependency installation to the host.
+- Opt-in `ui-fieldset` and `ui-fieldset__legend` styles for semantic groups
+  of form controls, available in the component bundle and as `fieldset.css`.
+
+### Changed
+
+- Modal and drawer overlays use the browser top layer, escaping transformed
+  and clipped ancestors. While open, content outside the active dialog is inert.
+  Their stacking order now follows the order in which dialogs open rather than
+  `--sui-z-modal` or `--sui-z-drawer-backdrop`; outside notifications and controls
+  cannot be interacted with until the dialog closes.
+- Modal and drawer animate entry and exit unless reduced motion is requested.
+  The `open` property changes when closure is requested, but the dialog remains
+  modal and retains the scroll lock until the exit finishes. `sui-close` now
+  fires after that point; `updateComplete` does not wait for the animation.
+  Reopening during exit cancels that close without a `sui-close` event.
+
+### Fixed
+
+- Drawer entry no longer jumps when the browser scrolls its backdrop to reveal
+  the initially focused control while the panel is moving.
+- Switching the documentation language retains the reading position, language
+  control focus and search state; the radio description is available in English.
+
 ## [0.3.1] - 2026-11-23
 
 ### Fixed

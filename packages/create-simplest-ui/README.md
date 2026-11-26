@@ -3,8 +3,8 @@
 Create a Vanilla + Vite starter or add Simplest UI integration files to a Laravel
 application or package.
 
-Version `0.1.3` generates Vanilla projects with `@luisrodonccs/simplest-ui`
-`^0.3.1`. The generator and core have independent version numbers. Laravel
+Version `0.1.4` generates Vanilla projects with `@luisrodonccs/simplest-ui`
+`^0.4.0`. The generator and core have independent version numbers. Laravel
 overlays leave dependency installation to the host application or package.
 
 ```bash

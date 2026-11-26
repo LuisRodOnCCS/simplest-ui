@@ -13,3 +13,4 @@ export { SuiAccordion } from "./components/accordion";
 export { SuiPopover } from "./components/popover";
 export { SuiTooltip } from "./components/tooltip";
 export { SuiToast, SuiToastContainer } from "./components/toast";
+export { SuiAvatarGroup } from "./components/avatar-group";

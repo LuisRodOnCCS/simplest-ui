@@ -61,11 +61,150 @@ test("switches language and rerenders the documentation", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await expect(page.locator('[data-nav-id="support"]')).toContainText("Soporte");
   await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Ejecuta el generador");
+  await expect(page.locator("#modal .docs-api")).toContainText("el fondo permanece inerte");
+  await expect(page.locator("#drawer .docs-api")).toContainText("updateComplete no espera");
+  await expect(page.locator("#radio .docs-section__heading p")).toHaveText("Agrupa opciones relacionadas mediante el mismo atributo name.");
+  await expect(page.locator("#avatar-group .docs-api")).toContainText("el desplazamiento externo inicia el cierre animado");
+  await expect(page.locator("#avatar-group .docs-api")).toContainText("las animaciones JavaScript usan ease");
+  await expect(page.locator("#avatar-group .docs-variant h4")).toHaveText("Nombres visibles y desplazamiento");
+  await expect(page.locator("#avatar-group .docs-variant__preview sui-avatar-group")).toHaveAttribute("label", "Integrantes del equipo");
 
   await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN" }).click({ force: true });
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("#laravel-vite .docs-guide-preview").first()).toContainText("Run the generator");
   await expect(page.locator("#vanilla-vite .docs-section__heading p")).toContainText("A minimal Vite project");
+  await expect(page.locator("#modal .docs-api")).toContainText("background content stays inert");
+  await expect(page.locator("#radio .docs-section__heading p")).toHaveText("Group related options using the same name attribute.");
+  await expect(page.locator("#avatar-group .docs-api")).toContainText("external scrolling starts an animated close");
+  await expect(page.locator("#avatar-group .docs-variant h4")).toHaveText("Visible names and scrolling");
+  await expect(page.locator("#avatar-group .docs-variant__preview sui-avatar-group")).toHaveAttribute("label", "Team members");
+});
+
+for (const width of [1280, 375]) {
+  test(`language changes preserve the reading position and focus at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await openDocs(page, "#radio");
+    for (const id of ["radio", "modal"]) {
+      await page.locator(`#${id}`).evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 180));
+      const before = await page.locator(`#${id}`).evaluate(element => element.getBoundingClientRect().top);
+      const originalHash = new URL(page.url()).hash;
+      for (const [tab, lang] of [["ES", "es"], ["EN", "en"], ["ES", "es"], ["EN", "en"]]) {
+        await page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true }).click({ force: true });
+        await expect(page.locator("html")).toHaveAttribute("lang", lang);
+        await expect(page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true })).toBeFocused();
+        await expect.poll(async () => Math.abs(
+          await page.locator(`#${id}`).evaluate(element => element.getBoundingClientRect().top) - before
+        )).toBeLessThan(5);
+        expect(new URL(page.url()).hash).toBe(originalHash);
+      }
+    }
+  });
+}
+
+test("language changes preserve the search filter and navigation scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await openDocs(page);
+  const nav = page.locator("#docs-nav");
+  await nav.evaluate(element => { element.scrollTop = 180; });
+  const before = await nav.evaluate(element => element.scrollTop);
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "ES", exact: true }).click({ force: true });
+  expect(await page.locator("#docs-nav").evaluate(element => element.scrollTop)).toBe(before);
+  await page.locator(".docs-search").fill("radio");
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN", exact: true }).click({ force: true });
+  await expect(page.locator(".docs-search")).toHaveValue("radio");
+  await expect(page.locator("#radio")).not.toHaveClass(/docs-filtered/);
+  await expect(page.locator("#button")).toHaveClass(/docs-filtered/);
+});
+
+test("keyboard language switching retains focus without moving the reading position", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await openDocs(page);
+  await page.locator("#radio").evaluate(element => window.scrollTo(0, window.scrollY + element.getBoundingClientRect().top - 180));
+  const before = await page.locator("#radio").evaluate(element => element.getBoundingClientRect().top);
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#docs-language-tabs").getByRole("tab", { name: "ES", exact: true })).toBeFocused();
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+  await expect.poll(async () => Math.abs(
+    await page.locator("#radio").evaluate(element => element.getBoundingClientRect().top) - before
+  )).toBeLessThan(3);
+});
+
+test("overlay lifecycle examples show events and provide copyable code", async ({ page }) => {
+  await openDocs(page);
+  for (const kind of ["modal", "drawer"]) {
+    const section = page.locator(`#${kind}`);
+    await expect(section.locator(".docs-guide-stack pre code")).toContainText("sui-close");
+    await section.locator(`.docs-guide-stack button[data-lifecycle-open="${kind}"]`).click({ force: true });
+    await expect(section.locator("[data-overlay-status]")).toHaveText("Open");
+    await page.keyboard.press("Escape");
+    await expect(section.locator("[data-overlay-status]")).toHaveText("Closed: escape");
+  }
+});
+
+test("interactive avatar examples show a count and optional names", async ({ page }, testInfo) => {
+  await openDocs(page);
+  const groups = page.locator("#avatar-group sui-avatar-group");
+  const compact = groups.first();
+  const button = compact.getByRole("button", { name: "Team members" });
+  await expect(compact.locator(".surface .count")).toHaveText("+2");
+  await compact.evaluate(element => element.scrollIntoView({ block: "center" }));
+  await page.waitForTimeout(150);
+  // Playwright WebKit on Linux does not reliably deliver pointer hover in CI, so
+  // the documented pointerenter/pointerleave contract is exercised directly.
+  const pointer = async (type: "pointerenter" | "pointerleave") => {
+    if (testInfo.project.name === "webkit") {
+      await compact.evaluate((element, eventType) => {
+        element.shadowRoot!.querySelector(".surface")!
+          .dispatchEvent(new PointerEvent(eventType, { pointerType: "mouse" }));
+      }, type);
+      return;
+    }
+    if (type === "pointerenter") await button.hover();
+    else await page.mouse.move(1, 1);
+  };
+  await pointer("pointerenter");
+  await expect(button).toHaveAttribute("aria-expanded", "true");
+  await expect(compact.locator(".surface .name")).toHaveCount(0);
+  await pointer("pointerleave");
+  await expect(button).toHaveAttribute("aria-expanded", "false");
+  const named = groups.nth(1);
+  const namedButton = named.getByRole("button", { name: "Team members" });
+  await namedButton.focus();
+  await expect(namedButton).toHaveAttribute("aria-expanded", "true");
+  await expect(named.locator(".surface .name")).toHaveText(["Ada Lovelace", "Grace Hopper", "Katherine Johnson", "Mary Jackson"]);
+  const scrolling = page.locator("#avatar-group .docs-variant__preview sui-avatar-group");
+  await expect(scrolling.locator("span.ui-avatar")).toHaveCount(6);
+  await expect(page.locator("#avatar-group .docs-variant pre")).toContainText("--sui-avatar-group-visible-rows: 3");
+});
+
+test("documentation navigation waits for exit and follows the latest breakpoint", async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 700, height: 800 });
+  await openDocs(page);
+  const menu = page.locator("#docs-menu");
+  // WebKit on Linux can delay viewport notifications until the page paints, so
+  // the resize the engine would emit is delivered explicitly.
+  const resize = async (width: number) => {
+    await page.setViewportSize({ width, height: 800 });
+    if (testInfo.project.name === "webkit") {
+      await page.evaluate(() => window.dispatchEvent(new Event("resize")));
+    }
+  };
+  await menu.evaluate(element => (element as HTMLElement).style.setProperty("--sui-duration-normal", "2s"));
+  await page.locator("#docs-menu-trigger").click({ force: true });
+  await expect(menu).toHaveAttribute("open", "");
+  await resize(1200);
+  await expect(menu).not.toHaveAttribute("open");
+  await expect(menu.locator("#docs-nav")).toHaveCount(1);
+  expect(await menu.locator("dialog").evaluate(dialog => dialog.matches(":modal"))).toBe(true);
+  await resize(700);
+  await menu.evaluate(element => element.shadowRoot!.querySelectorAll("*").forEach(child =>
+    child.getAnimations().forEach(animation => animation.finish())
+  ));
+  await expect(menu.locator("dialog")).toHaveCount(0);
+  await expect(menu.locator("#docs-nav")).toHaveCount(1);
+  await expect(page.locator("#docs-nav")).toHaveCount(1);
 });
 
 test("applies light and dark themes", async ({ page }) => {

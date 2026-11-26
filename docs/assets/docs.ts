@@ -38,21 +38,58 @@ const es: Record<string, string> = {
   "vanilla-vite.title": "Vanilla + Vite", "vanilla-vite.copy": "Proyecto Vite mínimo que consume exclusivamente los exports públicos de npm.", "laravel-vite.title": "Laravel Blade + Vite", "laravel-vite.copy": "Archivos de integración para una aplicación Laravel existente; la aplicación carga los assets una sola vez.", "laravel-package.title": "Desarrollo de paquetes Laravel", "laravel-package.copy": "Workbench y ejemplos Blade para paquetes Composer que producen HTML compatible.",
   "integration.start-project": "Crear un proyecto", "integration.vanilla-start-copy": "Genera una aplicación Vite cuyos estilos y elementos interactivos provienen del paquete npm público.", "integration.what-includes": "Qué incluye", "integration.vanilla-imports-copy": "El starter importa el bundle CSS completo y registra solo el ejemplo de drawer. Añade más componentes interactivos cuando los necesites.", "integration.add-application": "Añadir a una aplicación", "integration.laravel-start-copy": "Ejecuta el generador desde una aplicación Laravel existente después de instalar el paquete core.", "integration.load-vite": "Cargar una sola vez en Vite", "integration.laravel-imports-copy": "Los archivos locales generados mantienen los assets en la aplicación Laravel y después pueden reducirse a imports públicos seleccionados.", "integration.develop-package": "Desarrollar un paquete", "integration.package-start-copy": "Añade los assets del workbench y los ejemplos Blade a un paquete Composer existente.", "integration.asset-ownership": "Propiedad de los assets", "integration.package-assets-copy": "El modo host es el predeterminado: la aplicación Laravel importa Simplest UI una vez. Para consumidores sin Node, un paquete puede ofrecer un modo package exclusivo que compila el CSS y JavaScript necesarios desde exports públicos y publica sus propios archivos junto con la licencia original.",
   "tokens.title": "Tokens del sistema", "tokens.copy": "Los tokens semánticos mantienen colores, espaciado, tipografía y efectos coherentes en ambos temas.", "tokens.note": "Cambia el tema desde la cabecera para inspeccionar cómo se reasignan los tokens semánticos.",
+  "fieldset.title": "Agrupación de campos", "fieldset.copy": "Agrupa controles relacionados con fieldset y una leyenda accesible.", "fieldset.notifications": "Notificaciones", "fieldset.email": "Actualizaciones por correo",
+  "avatar-group.title": "Grupo de avatares interactivo", "avatar-group.copy": "Amplía el grupo para ver a sus integrantes; los nombres visibles son opcionales.", "avatar-group.label": "Integrantes del equipo", "avatar-group.names": "Con nombres visibles",
+  "avatar-group.visible-names": "Nombres visibles y desplazamiento", "avatar-group.import": "Importación", "avatar-group.attributes": "Atributos", "avatar-group.keyboard": "Teclado", "avatar-group.keyboard-copy": "Enter y Space alternan; Escape cierra; ArrowUp y ArrowDown desplazan la lista cuando tiene scroll.", "avatar-group.behavior": "Comportamiento", "avatar-group.behavior-copy": "En reposo muestra hasta tres avatares y +N. Se expande con hover, foco o toque; el desplazamiento externo inicia el cierre animado, pero el scroll interno no lo cierra.", "avatar-group.scrolling": "Lista con nombres", "avatar-group.scrolling-copy": "show-names muestra nombres en una lista vertical. Muestra hasta cinco filas por defecto y después permite scroll; --sui-avatar-group-visible-rows cambia el límite. Las flechas desplazan la lista cuando tiene foco.", "avatar-group.layer": "Superposición", "avatar-group.layer-copy": "Usa la capa superior nativa si el navegador admite Popover; de lo contrario, un ancestro con overflow puede recortarla.", "avatar-group.motion": "Movimiento", "avatar-group.motion-copy": "La duración usa --sui-duration-normal; las transiciones CSS usan --sui-easing-standard y las animaciones JavaScript usan ease. Se respeta el movimiento reducido. open cambia al solicitar el cierre; la superficie permanece hasta terminar la salida.",
   "support.title": "Soporte", "support.copy": `Qué ofrece Simplest UI para la línea de versión ${releaseLine}.`, "agent-skill.title": "Skill para agentes", "agent-skill.copy": "Guía a los agentes para reutilizar Simplest UI con componentes, tokens y accesibilidad consistentes.", "agent-skill.what-title": "Construye con el sistema, no a su alrededor", "agent-skill.what-copy": "La skill oficial lee el manifest, elige primero primitivas existentes y preserva las convenciones de accesibilidad y tokens del sistema.", "agent-skill.step-one": "Inspecciona components.manifest.json.", "agent-skill.step-two": "Compón primitivas ui-* y sui-* documentadas.", "agent-skill.step-three": "Extiende el sistema solo cuando la composición no sea suficiente.", "agent-skill.install-title": "Instalación", "agent-skill.install-copy": "El paquete npm incluye la skill, pero no la activa automáticamente.", "agent-skill.config-label": "Ejemplo de configuración de OpenCode", "agent-skill.invoke": "Usa @simplest-ui en OpenCode o /simplest-ui en Claude Code.", "agent-skill.guide": "Lee la guía de instalación completa",
   "button.title": "Button", "button.copy": "Acciones nativas con variantes semánticas, tamaño compacto y estados disabled.", "input-field.title": "Input & field", "input-field.copy": "Combina label, input, texto de ayuda y error con HTML nativo.", "textarea.title": "Textarea", "textarea.copy": "Área de texto con estados default, invalid y disabled.", "select.title": "Select", "select.copy": "Select nativo con estados de validación y disabled.", "checkbox.title": "Checkbox", "checkbox.copy": "Checkbox nativo con label asociado y estado disabled.", "radio.title": "Radio", "radio.copy": "Agrupa opciones relacionadas mediante el mismo atributo name.", "switch.title": "Switch", "switch.copy": "Interruptor basado en checkbox nativo.", "card.title": "Card", "card.copy": "Agrupa contenido con superficies default, raised y glass.", "badge-chip.title": "Badge & chip", "badge-chip.copy": "Etiquetas compactas para estados, categorías y metadatos.", "alert.title": "Alert", "alert.copy": "Mensajes semánticos con roles adecuados para cada nivel de urgencia.", "spinner.title": "Spinner", "spinner.copy": "Indicador de carga circular en tres tamaños.", "skeleton.title": "Skeleton", "skeleton.copy": "Placeholders de carga para texto, títulos, avatares y bloques.", "progress.title": "Progress", "progress.copy": "Progreso horizontal determinado e indeterminado.", "table.title": "Table", "table.copy": "Tabla semántica con wrapper accesible para desplazamiento horizontal en móvil.", "avatar.title": "Avatar", "avatar.copy": "Iniciales, imágenes, tamaños y grupos de avatares.", "stat.title": "Stat", "stat.copy": "Resumen de una métrica con etiqueta, valor y contexto.", "empty-state.title": "Empty state", "empty-state.copy": "Estado vacío que explica el siguiente paso posible.", "nav.title": "Navigation", "nav.copy": "Navegación agrupada con estado actual explícito.",
   "modal.title": "Modal", "modal.copy": "Diálogo modal con foco atrapado, scroll-lock y restauración de foco.", "drawer.title": "Drawer", "drawer.copy": "Panel lateral modal con el mismo contrato accesible que un diálogo.", "dropdown.title": "Dropdown", "dropdown.copy": "Menú de acciones con roles y teclado integrados.", "tabs.title": "Tabs", "tabs.copy": "Contenido por pestañas navegable con flechas, Home y End.", "accordion.title": "Accordion", "accordion.copy": "Secciones expandibles con relaciones ARIA normalizadas.", "popover.title": "Popover", "popover.copy": "Panel contextual que conserva y restaura el foco.", "tooltip.title": "Tooltip", "tooltip.copy": "Descripción breve que crea aria-describedby automáticamente.", "toast.title": "Toast", "toast.copy": "Feedback transitorio anunciado mediante aria-live.",
+  "overlay.modality": "Modalidad", "overlay.modality-copy": "Capa superior nativa; el fondo permanece inerte y el orden sigue la apertura.", "overlay.motion": "Movimiento", "overlay.motion-copy": "La entrada y la salida usan los tokens de duración y easing; se omiten con movimiento reducido.", "overlay.lifecycle": "Ciclo de vida", "overlay.lifecycle-copy": "open=false solicita el cierre. sui-close se emite tras la salida; updateComplete no espera la animación. Reabrir cancela el cierre pendiente.", "overlay.demo-title": "Prueba el ciclo de vida", "overlay.ready": "Listo", "overlay.opened": "Abierto", "overlay.closed": "Cerrado",
   "container.title": "Container", "container.copy": "Limita el ancho del contenido y conserva padding lateral.", "stack.title": "Stack", "stack.copy": "Apila elementos con separación vertical consistente.", "cluster.title": "Cluster", "cluster.copy": "Agrupa elementos que pueden envolver en varias líneas.", "grid.title": "Grid", "grid.copy": "Distribuye contenido en columnas explícitas o automáticas.", "app-shell.title": "App shell", "app-shell.copy": "Estructura de aplicación con sidebar, cabecera y área principal.", "skip-link.title": "Skip link", "skip-link.copy": "Atajo de teclado para saltar directamente al contenido principal.", "dashboard.title": "Dashboard", "dashboard.copy": "Página completa que compone el App Shell y los componentes de datos.",
   "copy": "Copiar", "copied": "Copiado", "open": "Abrir", "close": "Cerrar", "save": "Guardar cambios", "cancel": "Cancelar", "confirm": "Confirmar", "delete": "Eliminar", "more": "Más opciones", "apply": "Aplicar", "reset": "Restablecer", "loading": "Cargando", "disabled": "Deshabilitado", "active": "Activo", "pending": "Pendiente", "error": "Error", "users": "Usuarios", "role": "Rol", "status": "Estado", "details": "Detalles", "history": "Historial", "actions": "Acciones", "general": "General", "security": "Seguridad", "notifications": "Notificaciones", "system": "Sistema", "light": "Claro", "dark": "Oscuro", "show-toast": "Mostrar toast", "open-modal": "Abrir modal", "open-drawer": "Abrir drawer", "table-note": "Usa ui-table-wrap con role=region, un nombre accesible y tabindex=0. Nombra la tabla; preferiblemente con un caption visible u oculto.", "page-open": "Abrir página", "previous": "Anterior", "next": "Siguiente", "modal-label": "Confirmación", "modal-close": "Cerrar modal", "modal-message": "¿Quieres continuar con esta acción?", "drawer-label": "Filtros", "drawer-close": "Cerrar filtros", "drawer-message": "Ajusta los resultados sin salir de esta vista.", "active-only": "Solo activos", "tag.title": "Etiqueta", "tag.copy": "Etiqueta ribbon escalable por altura, sin animación ni sombra.", "variants": "Variantes", "button.variants": "Variantes y tamaños", "input-field.invalid": "Input inválido", "textarea.invalid": "Textarea inválida", "select.invalid": "Select inválido", "checkbox.disabled": "Checkbox deshabilitado", "switch.disabled": "Switch deshabilitado", "card.raised": "Card elevada", "alert.urgent": "Alerta urgente", "spinner.sizes": "Spinners pequeño y grande", "progress.indeterminate": "Progreso indeterminado", "table.static": "Tabla estática", "avatar.group": "Grupo de avatares", "grid.fixed": "Columnas fijas"
 };
 
 const englishSectionCopy: Record<string, string> = {
   support: `What Simplest UI supports for the ${releaseLine} release line.`,
+  fieldset: "Group related controls in a fieldset with an accessible legend.",
+  "avatar-group": "Expand the group to see its members; visible names are optional.",
+  radio: "Group related options using the same name attribute.",
   "vanilla-vite": "A minimal Vite project that consumes only public npm exports.",
   "laravel-vite": "Integration files for an existing Laravel application; the application loads the assets once.",
   "laravel-package": "Workbench assets and Blade examples for Composer packages that render compatible HTML."
 };
 
 let language: Language = initialLanguage();
+let cleanupInteractions: (() => void) | undefined;
+
+type ViewState = {
+  sectionId?: string;
+  sectionTop?: number;
+  scrollX: number;
+  scrollY: number;
+  search: string;
+  navScrollTop: number;
+  restoreLanguageFocus: boolean;
+};
+
+function captureView(): ViewState {
+  const anchor = window.innerHeight * 0.2;
+  const sections = [...document.querySelectorAll<HTMLElement>("#content .docs-hero[id], #content .docs-section[id]")]
+    .filter((element) => element.getClientRects().length > 0);
+  const section = sections.find((element) => {
+    const rect = element.getBoundingClientRect();
+    return rect.top <= anchor && rect.bottom > anchor;
+  }) ?? sections.find((element) => element.getBoundingClientRect().bottom > anchor);
+  return {
+    sectionId: section?.id,
+    sectionTop: section?.getBoundingClientRect().top,
+    scrollX: window.scrollX,
+    scrollY: window.scrollY,
+    search: document.querySelector<HTMLInputElement>(".docs-search")?.value ?? "",
+    navScrollTop: document.querySelector<HTMLElement>("#docs-nav")?.scrollTop ?? 0,
+    restoreLanguageFocus: document.activeElement?.id === "docs-language-tabs",
+  };
+}
 
 function initialLanguage(): Language {
   try {
@@ -121,7 +158,13 @@ function variantExamples(id: string): string {
   if (!entry) return "";
   const examples = entry.examples.filter((candidate) => candidate.id !== "default");
   if (!examples.length) return "";
-  return `<div class="docs-variants"><h3>${t("variants", "Variants")}</h3>${examples.map((example) => `<div class="docs-variant"><h4>${t(`${id}.${example.id}`, example.label)}</h4><div class="docs-variant__preview">${example.preview ?? example.markup}</div>${code(example.markup)}</div>`).join("")}</div>`;
+  return `<div class="docs-variants"><h3>${t("variants", "Variants")}</h3>${examples.map((example) => {
+    const preview = example.preview ?? example.markup;
+    const localizedPreview = id === "avatar-group"
+      ? preview.replace('label="Team members"', `label="${t("avatar-group.label", "Team members")}"`)
+      : preview;
+    return `<div class="docs-variant"><h4>${t(`${id}.${example.id}`, example.label)}</h4><div class="docs-variant__preview">${localizedPreview}</div>${code(example.markup)}</div>`;
+  }).join("")}</div>`;
 }
 
 function implementation(id: string, preview: string, rows: Array<[string, string]>) {
@@ -143,6 +186,27 @@ function guideStack(...cards: string[]) {
   return `<div class="docs-guide-stack">${cards.join("")}</div>`;
 }
 
+function overlayLifecycleExample(kind: "modal" | "drawer") {
+  const label = kind === "modal" ? t("open-modal", "Open modal") : t("open-drawer", "Open drawer");
+  const snippet = `<button id="open-overlay" type="button">Open</button>
+<span id="overlay-status" role="status">Ready</span>
+<sui-${kind} id="overlay" label="Example">
+  <p>Close this overlay to see the lifecycle event.</p>
+</sui-${kind}>
+<script type="module">
+  const overlay = document.querySelector("#overlay");
+  const status = document.querySelector("#overlay-status");
+  document.querySelector("#open-overlay").addEventListener("click", () => {
+    overlay.open = true;
+  });
+  overlay.addEventListener("sui-open", () => { status.textContent = "Open"; });
+  overlay.addEventListener("sui-close", (event) => {
+    status.textContent = \`Closed: \${event.detail.reason}\`;
+  });
+</script>`;
+  return `<div class="docs-guide-stack"><h3>${t("overlay.demo-title", "Try the lifecycle")}</h3>${showcase(`<button class="ui-button" type="button" data-lifecycle-open="${kind}">${label}</button> <span role="status" data-overlay-status="${kind}">${t("overlay.ready", "Ready")}</span>`, snippet)}</div>`;
+}
+
 const snippets: Record<string, string> = Object.fromEntries(
   Object.entries(contracts.components).map(([id, entry]) => {
     const example = entry.examples.find((candidate) => candidate.id === "default") ?? entry.examples[0];
@@ -156,6 +220,7 @@ const cssReferences: Record<string, Array<[string, string]>> = {
   textarea: [["Classes", "ui-textarea, ui-textarea--invalid"], ["Token", "--sui-textarea-min-height"]],
   select: [["Classes", "ui-select, ui-select--invalid"], ["Tokens", "--sui-field-height, --sui-focus-ring"]],
   checkbox: [["Classes", "ui-checkbox, ui-checkbox--disabled"], ["Token", "--sui-check-size"]],
+  fieldset: [["Classes", "ui-fieldset, ui-fieldset__legend"], ["Tokens", "--sui-color-border, --sui-color-surface-raised, --sui-radius-md"], ["Import", "@luisrodonccs/simplest-ui/components/fieldset.css"]],
   radio: [["Classes", "ui-radio-group, ui-radio, ui-radio--disabled"], ["Token", "--sui-check-size"]],
   switch: [["Classes", "ui-switch, ui-switch__track"], ["Tokens", "--sui-switch-width, --sui-switch-height, --sui-switch-knob, --sui-switch-offset"]],
   card: [["Classes", "ui-card, --raised, --glass, __header, __title, __body, __footer"], ["Tokens", "--sui-shadow-card, --sui-shadow-card-hover, --sui-radius-xl"]],
@@ -229,7 +294,8 @@ function componentBody(id: string): string {
     case "textarea": return implementation("textarea", `<div class="docs-grid"><div class="ui-field"><label class="ui-label" for="docs-message">Message</label><textarea class="ui-textarea" id="docs-message" placeholder="Write a message"></textarea></div><div class="ui-field"><label class="ui-label" for="docs-invalid-message">Message</label><textarea class="ui-textarea ui-textarea--invalid" id="docs-invalid-message">Too short</textarea><div class="ui-error">Add at least 20 characters.</div></div><div class="ui-field"><label class="ui-label" for="docs-disabled-message">Message</label><textarea class="ui-textarea" id="docs-disabled-message" disabled>Disabled</textarea></div></div>`, cssReferences.textarea);
     case "select": return implementation("select", `<div class="docs-grid"><div class="ui-field"><label class="ui-label" for="docs-country">Country</label><select class="ui-select" id="docs-country"><option>Mexico</option><option>Spain</option><option>Argentina</option></select></div><div class="ui-field"><label class="ui-label" for="docs-invalid-country">Country</label><select class="ui-select ui-select--invalid" id="docs-invalid-country"><option>Select a country</option></select><div class="ui-error">Choose an option.</div></div><div class="ui-field"><label class="ui-label" for="docs-disabled-country">Country</label><select class="ui-select" id="docs-disabled-country" disabled><option>Disabled</option></select></div></div>`, cssReferences.select);
     case "checkbox": return implementation("checkbox", `<div class="ui-cluster"><label class="ui-checkbox"><input type="checkbox" checked /> ${t("active", "Active")}</label><label class="ui-checkbox"><input type="checkbox" /> Marketing emails</label><label class="ui-checkbox ui-checkbox--disabled"><input type="checkbox" disabled /> ${t("disabled", "Disabled")}</label></div>`, cssReferences.checkbox);
-    case "radio": return implementation("radio", `<fieldset class="ui-radio-group"><legend class="ui-label">Plan</legend><label class="ui-radio"><input type="radio" name="plan" checked /> Starter</label><label class="ui-radio"><input type="radio" name="plan" /> Pro</label><label class="ui-radio ui-radio--disabled"><input type="radio" name="plan" disabled /> Disabled</label></fieldset>`, cssReferences.radio);
+    case "fieldset": return implementation("fieldset", `<fieldset class="ui-fieldset"><legend class="ui-fieldset__legend">${t("fieldset.notifications", "Notifications")}</legend><label class="ui-checkbox"><input type="checkbox" name="docs-email" /> ${t("fieldset.email", "Email updates")}</label></fieldset>`, cssReferences.fieldset);
+    case "radio": return implementation("radio", `<fieldset class="ui-fieldset"><legend class="ui-fieldset__legend">Plan</legend><div class="ui-radio-group"><label class="ui-radio"><input type="radio" name="plan" value="starter" checked /> Starter</label><label class="ui-radio"><input type="radio" name="plan" value="pro" /> Pro</label><label class="ui-radio ui-radio--disabled"><input type="radio" name="plan" disabled /> ${t("disabled", "Disabled")}</label></div></fieldset>`, cssReferences.radio);
     case "switch": return implementation("switch", `<div class="ui-cluster"><label class="ui-switch"><input type="checkbox" checked /><span class="ui-switch__track"></span> Notifications</label><label class="ui-switch"><input type="checkbox" /><span class="ui-switch__track"></span> Digest</label><label class="ui-switch"><input type="checkbox" disabled /><span class="ui-switch__track"></span> ${t("disabled", "Disabled")}</label></div>`, cssReferences.switch);
     case "card": return implementation("card", `<div class="docs-grid docs-grid--three"><article class="ui-card"><div class="ui-card__title">Default</div><div class="ui-card__body">A quiet surface for grouped content.</div></article><article class="ui-card ui-card--raised"><div class="ui-card__title">Raised</div><div class="ui-card__body">Higher visual separation.</div></article><article class="ui-card ui-card--glass"><div class="ui-card__title">Glass</div><div class="ui-card__body">Soft blurred surface.</div></article></div>`, cssReferences.card);
     case "badge-chip": return implementation("badge-chip", `<div class="ui-cluster"><span class="ui-badge">Neutral</span><span class="ui-badge ui-badge--primary">Primary</span><span class="ui-badge ui-badge--success">${t("active", "Active")}</span><span class="ui-badge ui-badge--warning">${t("pending", "Pending")}</span><span class="ui-badge ui-badge--danger">${t("error", "Error")}</span><span class="ui-badge ui-badge--info">Info</span><span class="ui-badge ui-badge--outline">Outline</span><span class="ui-chip">Design systems</span></div>`, cssReferences["badge-chip"]);
@@ -249,8 +315,9 @@ function componentBody(id: string): string {
     case "stat": return implementation("stat", `<div class="docs-grid docs-grid--three"><div class="ui-stat"><div class="ui-stat__label">${t("users", "Users")}</div><div class="ui-stat__value">1,284</div><div class="ui-stat__hint">+12% this month</div></div><div class="ui-stat"><div class="ui-stat__label">Revenue</div><div class="ui-stat__value">$48.2k</div><div class="ui-stat__hint">+8% this month</div></div><div class="ui-stat"><div class="ui-stat__label">Availability</div><div class="ui-stat__value">97%</div><div class="ui-stat__hint">Online</div></div></div>`, cssReferences.stat);
     case "empty-state": return implementation("empty-state", `<div class="ui-empty"><div class="ui-empty__title">No results</div><div class="ui-empty__body">Create a record to get started.</div><button class="ui-button ui-button--primary ui-button--sm" type="button">Create record</button></div>`, cssReferences["empty-state"]);
     case "nav": return implementation("nav", `<div class="ui-nav__group-title">Workspace</div><nav class="ui-nav" aria-label="Workspace"><a href="#nav" class="ui-nav__item ui-nav__item--active" aria-current="page">Dashboard</a><a href="#nav" class="ui-nav__item">Projects</a><a href="#nav" class="ui-nav__item">Team</a><a href="#nav" class="ui-nav__item" aria-disabled="true" tabindex="-1">Disabled</a></nav>`, cssReferences.nav);
-    case "modal": return `<div class="docs-grid">${showcase(`<button class="ui-button ui-button--primary" type="button" data-open-modal>${t("open-modal", "Open modal")}</button>`, snippets.modal)}${api([["Attributes", "open, label, close-label, disable-backdrop-close, hide-close-button"], ["Slots", "title, default, footer"], ["Events", "sui-open; sui-close { reason: dismiss | escape | backdrop | programmatic }"], ["Event behavior", "Lifecycle events are emitted only after actual state transitions"], ["Keyboard", "Escape and focus trap"]])}</div>`;
-    case "drawer": return `<div class="docs-grid">${showcase(`<button class="ui-button ui-button--ghost" type="button" data-open-drawer>${t("open-drawer", "Open drawer")}</button>`, snippets.drawer)}${api([["Import", "@luisrodonccs/simplest-ui/components/drawer"], ["Attributes", "open, label, close-label, disable-backdrop-close, hide-close-button"], ["Custom close", "When hiding the built-in button, provide an accessible footer control that calls close()."], ["Focus", "Escape, focus trap and restoration; custom footer close receives initial focus."], ["Scroll", "The drawer locks body scroll; the application must lock any separate scrolling shell."], ["Slots", "title, default, footer"], ["Events", "sui-open; sui-close { reason: dismiss | escape | backdrop | programmatic }"], ["Event behavior", "Lifecycle events are emitted only after actual state transitions"], ["Tokens", "--sui-drawer-width, --sui-drawer-footer-min-height"]])}</div>`;
+    case "avatar-group": return `<div class="docs-grid">${showcase(`<sui-avatar-group label="${t("avatar-group.label", "Team members")}"><span class="ui-avatar" aria-label="Ada Lovelace">AL</span><span class="ui-avatar" aria-label="Grace Hopper">GH</span><span class="ui-avatar" aria-label="Katherine Johnson">KJ</span><span class="ui-avatar" aria-label="Mary Jackson">MJ</span><span class="ui-avatar" aria-label="Dorothy Vaughan">DV</span></sui-avatar-group><p>${t("avatar-group.names", "With visible names")}</p><sui-avatar-group label="${t("avatar-group.label", "Team members")}" show-names><span class="ui-avatar" aria-label="Ada Lovelace">AL</span><span class="ui-avatar" aria-label="Grace Hopper">GH</span><span class="ui-avatar" aria-label="Katherine Johnson">KJ</span><span class="ui-avatar" aria-label="Mary Jackson">MJ</span></sui-avatar-group>`, snippets["avatar-group"])}${api([["Import", "@luisrodonccs/simplest-ui/components/avatar-group"], [t("avatar-group.attributes", "Attributes"), "label, open, show-names"], [t("avatar-group.keyboard", "Keyboard"), t("avatar-group.keyboard-copy", "Enter and Space toggle; Escape closes; ArrowUp and ArrowDown scroll an overflowing list.")], [t("avatar-group.behavior", "Behavior"), t("avatar-group.behavior-copy", "The compact group shows up to three avatars and +N. Hover, focus or touch expands it; external scrolling starts an animated close, while internal scrolling does not close it.")], [t("avatar-group.scrolling", "Named list"), t("avatar-group.scrolling-copy", "show-names shows a vertical list, with up to five rows before scrolling by default. Set --sui-avatar-group-visible-rows to change the limit. Arrow keys scroll the focused list when it overflows.")], [t("avatar-group.layer", "Overlay"), t("avatar-group.layer-copy", "Uses the native top layer when Popover is supported; otherwise an ancestor with overflow may clip it.")], [t("avatar-group.motion", "Motion"), t("avatar-group.motion-copy", "Duration uses --sui-duration-normal; CSS transitions use --sui-easing-standard and JavaScript animations use ease. Reduced motion is respected. open changes when closing is requested; the surface remains until the exit finishes.")]])}</div>`;
+    case "modal": return `<div class="docs-grid">${showcase(`<button class="ui-button ui-button--primary" type="button" data-open-modal>${t("open-modal", "Open modal")}</button>`, snippets.modal)}${api([["Attributes", "open, label, close-label, disable-backdrop-close, hide-close-button"], ["Slots", "title, default, footer"], ["Events", "sui-open; sui-close { reason: dismiss | escape | backdrop | programmatic }"], [t("overlay.modality", "Modality"), t("overlay.modality-copy", "Native top layer; background content stays inert and dialogs stack in opening order.")], [t("overlay.motion", "Motion"), t("overlay.motion-copy", "Entry and exit use duration and easing tokens; reduced motion skips animation.")], [t("overlay.lifecycle", "Lifecycle"), t("overlay.lifecycle-copy", "open=false requests closure. sui-close fires after exit; updateComplete does not wait for animation. Reopening cancels the pending close.")], ["Tokens", "--sui-duration-normal, --sui-easing-standard"], ["Keyboard", "Escape and focus trap"]])}</div>${overlayLifecycleExample("modal")}`;
+    case "drawer": return `<div class="docs-grid">${showcase(`<button class="ui-button ui-button--ghost" type="button" data-open-drawer>${t("open-drawer", "Open drawer")}</button>`, snippets.drawer)}${api([["Import", "@luisrodonccs/simplest-ui/components/drawer"], ["Attributes", "open, label, close-label, disable-backdrop-close, hide-close-button"], ["Custom close", "When hiding the built-in button, provide an accessible footer control that calls close()."], ["Focus", "Escape, focus trap and restoration; custom footer close receives initial focus."], ["Scroll", "The drawer locks body scroll; the application must lock any separate scrolling shell."], ["Slots", "title, default, footer"], ["Events", "sui-open; sui-close { reason: dismiss | escape | backdrop | programmatic }"], [t("overlay.modality", "Modality"), t("overlay.modality-copy", "Native top layer; background content stays inert and dialogs stack in opening order.")], [t("overlay.motion", "Motion"), t("overlay.motion-copy", "Entry and exit use duration and easing tokens; reduced motion skips animation.")], [t("overlay.lifecycle", "Lifecycle"), t("overlay.lifecycle-copy", "open=false requests closure. sui-close fires after exit; updateComplete does not wait for animation. Reopening cancels the pending close.")], ["Tokens", "--sui-drawer-width, --sui-drawer-footer-min-height, --sui-duration-normal, --sui-easing-standard"]])}</div>${overlayLifecycleExample("drawer")}`;
     case "dropdown": return `<div class="docs-grid">${showcase(`<sui-dropdown><span slot="trigger">${t("actions", "Actions")}</span><button type="button" data-value="export">Export</button><button type="button" data-value="archive">Archive</button><button type="button" data-value="delete" disabled>Delete</button></sui-dropdown>`, snippets.dropdown)}${api([["Attribute", "open"], ["Item attribute", "disabled / aria-disabled"], ["Events", "sui-open, sui-close, sui-toggle, sui-select"], ["Event behavior", "Lifecycle events are emitted only after actual state transitions"], ["Keyboard", "Arrows, Home, End, Enter, Space, Escape, Tab (disabled items are skipped)"]])}</div>`;
     case "tabs": return `<div class="docs-grid">${showcase(`<sui-tabs><div data-tab="general" label="${t("general", "General")}">${t("general", "General")} content.</div><div data-tab="security" label="${t("security", "Security")}">${t("security", "Security")} content.</div><div data-tab="notifications" label="${t("notifications", "Notifications")}">${t("notifications", "Notifications")} content.</div><div data-tab="disabled" label="${t("disabled", "Disabled")}" disabled>${t("disabled", "Disabled")} content.</div></sui-tabs>`, snippets.tabs)}${api([["Attribute", "value"], ["Tab attribute", "disabled"], ["Event", "sui-change { value }"], ["Keyboard", "Arrows, Home, End (disabled tabs are skipped)"]])}</div><div class="docs-reference" style="margin-top:var(--sui-space-4)"><h3>${t("tabs.choice", "Choice variation (segmented control)")}</h3><p>${t("tabs.choice-copy", "Use sui-tabs with variant=\"box\" for compact single-selection controls such as language or theme pickers.")}</p>${showcase(`<sui-tabs variant="box" value="system" aria-label="Theme"><span data-tab="system" label="System"></span><span data-tab="light" label="Light"></span><span data-tab="dark" label="Dark"></span><span data-tab="disabled" label="Disabled" disabled></span></sui-tabs>`)}${api([["Attribute", "variant=\"box\""], ["Classes", "tabs-pill (styled by host variant)"], ["States", "default, selected, disabled"], ["Use", "Language or theme selectors in compact toolbars"]])}</div>`;
     case "accordion": return `<div class="docs-grid">${showcase(`<sui-accordion><div class="ui-accordion__item open"><button class="ui-accordion__trigger" type="button">${t("details", "Details")}</button><div class="ui-accordion__content">First section content.</div></div><div class="ui-accordion__item"><button class="ui-accordion__trigger" type="button">${t("history", "History")}</button><div class="ui-accordion__content">Second section content.</div></div><div class="ui-accordion__item" disabled><button class="ui-accordion__trigger" type="button">${t("disabled", "Disabled")}</button><div class="ui-accordion__content">Disabled content.</div></div></sui-accordion>`, snippets.accordion)}${api([["Attribute", "multiple"], ["Item attribute", "disabled"], ["Event", "sui-change"], ["Keyboard", "ArrowUp, ArrowDown, Home, End (disabled items are skipped)"]])}</div>`;
@@ -280,7 +347,7 @@ function renderSections() {
     const title = t(`${item.id}.title`, t(item.id, item.label));
     const copy = t(`${item.id}.copy`, englishSectionCopy[item.id] ?? "");
     if (item.id === "overview") return componentBody(item.id);
-    return section(item.id, item.kind, title, copy, componentBody(item.id));
+    return section(item.id, item.kind, title, copy, componentBody(item.id) + (item.id === "avatar-group" ? variantExamples(item.id) : ""));
   }).join("");
 }
 
@@ -305,7 +372,8 @@ function localizePreviewText() {
   });
 }
 
-function render() {
+function render(view?: ViewState) {
+  cleanupInteractions?.();
   document.documentElement.lang = language;
   document.title = language === "es" ? "Simplest UI · Documentación" : "Simplest UI · Documentation";
   document.querySelector("#docs-root")!.innerHTML = `
@@ -313,17 +381,39 @@ function render() {
     <button type="button" id="docs-menu-trigger" class="docs-menu-trigger" aria-label="${t("open-docs-menu", "Open navigation")}" aria-expanded="false" aria-controls="docs-menu"><span aria-hidden="true">&#9776;</span></button>
     <sui-drawer id="docs-menu" label="${t("docs-menu", "Navigation")}" close-label="${t("close-docs-menu", "Close navigation")}" hide-close-button style="--sui-drawer-width: 100%; --sui-drawer-footer-min-height: calc(4rem + max(var(--sui-space-4), env(safe-area-inset-bottom)))"><span slot="title">${t("docs-menu", "Navigation")}</span><button type="button" slot="footer" id="docs-menu-close" class="docs-menu-close" aria-label="${t("close-docs-menu", "Close navigation")}"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l14 14M19 5L5 19" /></svg></button></sui-drawer>
     <sui-modal id="docs-modal" label="${t("modal-label", "Confirmation")}" close-label="${t("modal-close", "Close modal")}"><span slot="title">${t("modal-label", "Confirmation")}</span><p>${t("modal-message", "Do you want to continue with this action?")}</p><div slot="footer"><button class="ui-button" type="button" data-close-modal>${t("cancel", "Cancel")}</button><button class="ui-button ui-button--primary" type="button">${t("confirm", "Confirm")}</button></div></sui-modal>
-    <sui-drawer id="docs-drawer" label="${t("drawer-label", "Filters")}" close-label="${t("drawer-close", "Close filters")}"><span slot="title">${t("drawer-label", "Filters")}</span><p>${t("drawer-message", "Adjust the results without leaving this view.")}</p><label class="ui-checkbox"><input type="checkbox" checked /> ${t("active-only", "Active only")}</label><div slot="footer"><button class="ui-button ui-button--ghost ui-button--sm" type="button">${t("reset", "Reset")}</button><button class="ui-button ui-button--primary ui-button--sm" type="button">${t("apply", "Apply")}</button></div></sui-drawer>`;
+    <sui-drawer id="docs-drawer" label="${t("drawer-label", "Filters")}" close-label="${t("drawer-close", "Close filters")}"><span slot="title">${t("drawer-label", "Filters")}</span><p style="color: var(--sui-color-text)">${t("drawer-message", "Adjust the results without leaving this view.")}</p><label class="ui-checkbox"><input type="checkbox" checked /> ${t("active-only", "Active only")}</label><div slot="footer"><button class="ui-button ui-button--ghost ui-button--sm" type="button">${t("reset", "Reset")}</button><button class="ui-button ui-button--primary ui-button--sm" type="button">${t("apply", "Apply")}</button></div></sui-drawer>`;
   localizePreviewText();
-  bindInteractions();
+  cleanupInteractions = bindInteractions();
   setTheme(themeChoice());
+  if (view) {
+    const search = document.querySelector<HTMLInputElement>(".docs-search");
+    if (search) {
+      search.value = view.search;
+      search.dispatchEvent(new Event("input"));
+    }
+    const nav = document.querySelector<HTMLElement>("#docs-nav");
+    if (nav) nav.scrollTop = view.navScrollTop;
+    const section = view.sectionId ? document.getElementById(view.sectionId) : null;
+    const top = section && view.sectionTop !== undefined && section.getClientRects().length
+      ? window.scrollY + section.getBoundingClientRect().top - view.sectionTop
+      : view.scrollY;
+    window.scrollTo({ left: view.scrollX, top, behavior: "instant" });
+    if (view.restoreLanguageFocus) {
+      const tabs = document.querySelector<HTMLElement & { updateComplete: Promise<boolean> }>("#docs-language-tabs");
+      tabs?.updateComplete.then(() => {
+        if (!tabs.isConnected || (document.activeElement !== document.body && document.activeElement !== tabs)) return;
+        tabs.shadowRoot?.querySelector<HTMLButtonElement>('[role="tab"][aria-selected="true"]')?.focus({ preventScroll: true });
+      });
+    }
+  }
 }
 
 function bindInteractions() {
   document.querySelector("#docs-language-tabs")?.addEventListener("sui-change", (event) => {
+    const view = captureView();
     language = (event as CustomEvent).detail.value as Language;
     try { localStorage.setItem(languageKey, language); } catch { /* Storage is optional. */ }
-    render();
+    render(view);
   });
   document.querySelector("#docs-theme-tabs")?.addEventListener("sui-change", (event) => {
     const choice = (event as CustomEvent).detail.value as ThemeChoice;
@@ -337,6 +427,17 @@ function bindInteractions() {
   document.querySelectorAll<HTMLButtonElement>("[data-open-modal]").forEach((button) => button.addEventListener("click", () => document.querySelector<HTMLElement>("#docs-modal")?.setAttribute("open", "")));
   document.querySelectorAll<HTMLButtonElement>("[data-close-modal]").forEach((button) => button.addEventListener("click", () => document.querySelector<HTMLElement>("#docs-modal")?.removeAttribute("open")));
   document.querySelectorAll<HTMLButtonElement>("[data-open-drawer]").forEach((button) => button.addEventListener("click", () => { const drawer = document.querySelector<HTMLElement & { open?: boolean }>("#docs-drawer"); if (drawer) drawer.open = true; }));
+  for (const kind of ["modal", "drawer"]) {
+    const overlay = document.querySelector(`#docs-${kind}`);
+    const status = document.querySelector<HTMLElement>(`[data-overlay-status="${kind}"]`);
+    document.querySelector(`[data-lifecycle-open="${kind}"]`)?.addEventListener("click", () => overlay?.setAttribute("open", ""));
+    overlay?.addEventListener("sui-open", () => {
+      if (status) status.textContent = t("overlay.opened", "Open");
+    });
+    overlay?.addEventListener("sui-close", (event) => {
+      if (status) status.textContent = `${t("overlay.closed", "Closed")}: ${(event as CustomEvent).detail.reason}`;
+    });
+  }
   document.querySelectorAll<HTMLButtonElement>("[data-show-toast]").forEach((button) => button.addEventListener("click", () => customElements.whenDefined("sui-toast").then(() => {
     const Toast = customElements.get("sui-toast") as typeof HTMLElement & { show: (options: { title: string; message: string; variant: "success"; duration: number }) => void; };
     Toast.show({ title: language === "es" ? "Cambios guardados" : "Changes saved", message: language === "es" ? "La operación se completó correctamente." : "The operation completed successfully.", variant: "success", duration: 3200 });
@@ -362,19 +463,26 @@ function bindInteractions() {
   document.querySelectorAll<HTMLElement>(".docs-hero[id], .docs-section").forEach((item) => observer.observe(item));
 
   const compactNavigation = window.matchMedia("(max-width: 880px)");
+  // Media query state can lag behind a viewport change while the page is not
+  // painting, so the breakpoint decision reads the live viewport width.
+  const isCompactViewport = () => window.innerWidth <= 880;
   const docsNav = document.querySelector<HTMLElement>("#docs-nav");
   const docsMenu = document.querySelector<HTMLElement & { open: boolean; close: (reason?: string) => void }>("#docs-menu");
   const docsMenuTrigger = document.querySelector<HTMLButtonElement>("#docs-menu-trigger");
   const docsMenuClose = document.querySelector<HTMLButtonElement>("#docs-menu-close");
   const navHome = docsNav?.parentElement ?? null;
   const navNext = docsNav?.nextSibling ?? null;
+  let docsMenuModal = false;
 
   function syncDocumentationNavigation() {
     if (!docsNav || !docsMenu) return;
-    if (compactNavigation.matches) {
+    if (isCompactViewport()) {
       docsMenu.append(docsNav);
     } else {
-      if (docsMenu.open) docsMenu.close("dismiss");
+      if (docsMenuModal) {
+        if (docsMenu.open) docsMenu.close("dismiss");
+        return;
+      }
       if (navHome) navHome.insertBefore(docsNav, navNext);
     }
   }
@@ -385,18 +493,30 @@ function bindInteractions() {
   });
   docsMenuClose?.addEventListener("click", () => docsMenu?.close("dismiss"));
   docsMenu?.addEventListener("sui-open", () => {
+    docsMenuModal = true;
     docsMenuTrigger?.setAttribute("aria-expanded", "true");
     docsMenuClose?.focus();
   });
   docsMenu?.addEventListener("sui-close", () => {
+    docsMenuModal = false;
     docsMenuTrigger?.setAttribute("aria-expanded", "false");
-    docsMenuTrigger?.focus();
+    syncDocumentationNavigation();
+    if (isCompactViewport()) docsMenuTrigger?.focus();
+    else docsNav?.querySelector<HTMLElement>("a")?.focus();
   });
   docsMenu?.addEventListener("click", (event) => {
     if ((event.target as Element).closest("a")) docsMenu.close("dismiss");
   });
   compactNavigation.addEventListener("change", syncDocumentationNavigation);
+  // Some engines deliver media query changes only during a rendering update;
+  // `resize` keeps the breakpoint in sync as soon as the viewport changes.
+  window.addEventListener("resize", syncDocumentationNavigation);
   syncDocumentationNavigation();
+  return () => {
+    observer.disconnect();
+    compactNavigation.removeEventListener("change", syncDocumentationNavigation);
+    window.removeEventListener("resize", syncDocumentationNavigation);
+  };
 }
 
 media.addEventListener("change", () => { if (document.documentElement.dataset.themeChoice === "system") setTheme("system"); });

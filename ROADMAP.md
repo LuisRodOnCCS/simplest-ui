@@ -2,6 +2,24 @@
 
 `v0.3.1` is the current release. Released work is summarized below.
 
+## Preparing v0.4.0 — Modal overlay top layer
+
+- [x] Move `sui-modal` and `sui-drawer` to native modal dialogs so transformed
+      and clipped ancestors cannot constrain their viewport coverage.
+- [x] Retain the `escape` close reason, focus restoration, backdrop controls,
+      inherited tokens and shared scroll locking. Document the intentional
+      lifecycle change: `sui-close` fires after the exit animation.
+- [x] Validate nested overlays, inert background, keyboard and pointer behavior,
+      reduced motion and reconnection in Chromium, Firefox and WebKit.
+- [x] Add coordinated modal and drawer entry/exit motion, respecting reduced
+      motion and retaining modal resources during exit.
+- [x] Validate the packed motion, geometry, interrupted exits and Escape stack
+      across Chromium, Firefox and WebKit (213 packed tests overall).
+- [ ] Run the unchanged Laravel overlay reproduction against a packed build
+      without modifying the adapter's existing work.
+- [x] Document the modal behavior change and prepare core 0.4.0 and generator
+      0.1.4 with core range `^0.4.0` for a later authorized release.
+
 ## v0.3.1 — Adapter contract hardening and tooltip overflow fixes
 
 - [x] Align documented Web Component attributes, writable properties and event details

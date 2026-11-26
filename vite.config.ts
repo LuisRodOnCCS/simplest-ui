@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 const cssComponentNames = [
   "accordion", "alert", "avatar", "badge", "button", "card", "checkbox",
-  "empty-state", "input", "nav", "popover", "progress", "radio", "select",
+  "empty-state", "fieldset", "input", "nav", "popover", "progress", "radio", "select",
   "skeleton", "spinner", "stat", "switch", "table", "tag", "textarea", "toast",
   "tooltip", "topbar"
 ];
@@ -24,6 +24,7 @@ export default defineConfig({
         index: resolve(import.meta.dirname, "src/index.ts"),
         components: resolve(import.meta.dirname, "src/components/index.ts"),
         accordion: resolve(import.meta.dirname, "src/components/accordion.ts"),
+        "avatar-group": resolve(import.meta.dirname, "src/components/avatar-group.ts"),
         dropdown: resolve(import.meta.dirname, "src/components/dropdown.ts"),
         drawer: resolve(import.meta.dirname, "src/components/drawer.ts"),
         modal: resolve(import.meta.dirname, "src/components/modal.ts"),

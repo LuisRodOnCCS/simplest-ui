@@ -1,6 +1,6 @@
 {
   "name": "Simplest UI",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "schemaVersion": 1,
   "prefixes": {
     "customElement": "sui-",
@@ -44,7 +44,8 @@
         "sui-close"
       ],
       "eventDetails": {
-        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+        "sui-open": "Emitted after the dialog opens modally, without waiting for entry animation; initially open instances do not emit it.",
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }; emitted after the exit completes; a cancelled exit emits no close event."
       },
       "keyboard": [
         "Escape",
@@ -58,7 +59,9 @@
         ],
         "recommended": [
           "Set close-label when the default close button is visible.",
-          "Emit lifecycle events only after real state transitions."
+          "The dialog stays modal, with focus containment and scroll lock, until exit completes; background content is inert.",
+          "Motion uses --sui-duration-normal and --sui-easing-standard and is skipped when reduced motion is requested.",
+          "Wait for sui-close rather than updateComplete before removing the overlay after a close request."
         ]
       },
       "examples": [
@@ -66,6 +69,48 @@
           "id": "default",
           "label": "modal",
           "markup": "<sui-modal label=\"Confirm action\">\n  <span slot=\"title\">Confirmation</span>\n  <p>Do you want to continue?</p>\n</sui-modal>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
+      "tag": "sui-avatar-group",
+      "documentationId": "avatar-group",
+      "import": "@luisrodonccs/simplest-ui/components/avatar-group",
+      "className": "SuiAvatarGroup",
+      "attributes": ["open", "show-names", "label"],
+      "properties": {
+        "open": "boolean",
+        "showNames": "boolean",
+        "label": "string"
+      },
+      "slots": [],
+      "events": [],
+      "keyboard": ["Enter", "Space", "Escape", "ArrowUp", "ArrowDown"],
+      "contract": {
+        "required": [
+          "Provide direct child avatars with names using aria-label, image alt or text."
+        ],
+        "recommended": [
+          "Set label to describe the group; use show-names to display names when expanded. The compact group shows three members and a remaining count.",
+          "With show-names, the vertical list shows five rows before scrolling; set --sui-avatar-group-visible-rows to change the limit. External scrolling closes the group without closing it for internal list scrolling.",
+          "Expansion uses the native top layer when Popover is supported; otherwise it may be clipped by an ancestor.",
+          "Entry and exit respect reduced motion. The open property changes when closing is requested; the surface remains visible until the exit animation finishes."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Expandable avatar group",
+          "markup": "<sui-avatar-group label=\"Team members\">\n  <span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n  <span class=\"ui-avatar\" aria-label=\"Grace Hopper\">GH</span>\n  <span class=\"ui-avatar\" aria-label=\"Katherine Johnson\">KJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Mary Jackson\">MJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Dorothy Vaughan\">DV</span>\n</sui-avatar-group>",
+          "required": [],
+          "recommended": []
+        },
+        {
+          "id": "visible-names",
+          "label": "Visible names and scrolling",
+          "markup": "<sui-avatar-group label=\"Team members\" show-names style=\"--sui-avatar-group-visible-rows: 3\">\n  <span class=\"ui-avatar\" aria-label=\"Ada Lovelace\">AL</span>\n  <span class=\"ui-avatar\" aria-label=\"Grace Hopper\">GH</span>\n  <span class=\"ui-avatar\" aria-label=\"Katherine Johnson\">KJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Mary Jackson\">MJ</span>\n  <span class=\"ui-avatar\" aria-label=\"Dorothy Vaughan\">DV</span>\n  <span class=\"ui-avatar\" aria-label=\"Annie Easley\">AE</span>\n</sui-avatar-group>",
           "required": [],
           "recommended": []
         }
@@ -100,7 +145,8 @@
         "sui-close"
       ],
       "eventDetails": {
-        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }"
+        "sui-open": "Emitted after the dialog opens modally, without waiting for entry animation; initially open instances do not emit it.",
+        "sui-close": "{ reason: 'dismiss' | 'escape' | 'backdrop' | 'programmatic' }; emitted after the exit completes; a cancelled exit emits no close event."
       },
       "keyboard": [
         "Escape",
@@ -113,6 +159,9 @@
         "recommended": [
           "Set close-label when the default close button is visible.",
           "Use the footer slot for actions.",
+          "The dialog stays modal, with focus containment and scroll lock, until exit completes; background content is inert.",
+          "Motion uses --sui-duration-normal and --sui-easing-standard and is skipped when reduced motion is requested.",
+          "Wait for sui-close rather than updateComplete before removing the overlay after a close request.",
           "For mobile navigation, hide the built-in close button with hide-close-button and provide an accessible close control in the footer slot; see docs/responsive-navigation.md for the standard button pattern."
         ]
       },
@@ -632,11 +681,37 @@
       ]
     },
     {
+      "name": "fieldset",
+      "documentationId": "fieldset",
+      "classes": [
+        "ui-fieldset",
+        "ui-fieldset__legend"
+      ],
+      "contract": {
+        "required": [
+          "Use a fieldset with a legend to name the group."
+        ],
+        "recommended": [
+          "Compose with the appropriate form control classes for the group's contents."
+        ]
+      },
+      "examples": [
+        {
+          "id": "default",
+          "label": "Field group",
+          "markup": "<fieldset class=\"ui-fieldset\">\n  <legend class=\"ui-fieldset__legend\">Notifications</legend>\n  <label class=\"ui-checkbox\"><input type=\"checkbox\" name=\"email\" /> Email updates</label>\n</fieldset>",
+          "required": [],
+          "recommended": []
+        }
+      ]
+    },
+    {
       "name": "radio",
       "documentationId": "radio",
       "classes": [
         "ui-radio",
-        "ui-radio-group"
+        "ui-radio-group",
+        "ui-radio--disabled"
       ],
       "contract": {
         "required": [
@@ -648,7 +723,7 @@
         {
           "id": "default",
           "label": "Radio group",
-          "markup": "<fieldset class=\"ui-radio-group\">\n  <legend class=\"ui-label\">Plan</legend>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Starter</label>\n  <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" /> Pro</label>\n</fieldset>",
+          "markup": "<fieldset class=\"ui-fieldset\">\n  <legend class=\"ui-fieldset__legend\">Plan</legend>\n  <div class=\"ui-radio-group\">\n    <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" value=\"starter\" /> Starter</label>\n    <label class=\"ui-radio\"><input type=\"radio\" name=\"plan\" value=\"pro\" /> Pro</label>\n  </div>\n</fieldset>",
           "required": [],
           "recommended": []
         }

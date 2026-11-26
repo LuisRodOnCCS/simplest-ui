@@ -1,8 +1,17 @@
 # Simplest UI
 
+[![Core npm version](https://img.shields.io/npm/v/%40luisrodonccs%2Fsimplest-ui?label=core%20npm)](https://www.npmjs.com/package/@luisrodonccs/simplest-ui)
+[![Core weekly npm downloads](https://img.shields.io/npm/dw/%40luisrodonccs%2Fsimplest-ui?label=core%20downloads)](https://www.npmjs.com/package/@luisrodonccs/simplest-ui)
+[![Core npm license](https://img.shields.io/npm/l/%40luisrodonccs%2Fsimplest-ui?label=license)](https://www.npmjs.com/package/@luisrodonccs/simplest-ui)
+[![Generator npm version](https://img.shields.io/npm/v/%40luisrodonccs%2Fcreate-simplest-ui?label=generator%20npm)](https://www.npmjs.com/package/@luisrodonccs/create-simplest-ui)
+[![Generator weekly npm downloads](https://img.shields.io/npm/dw/%40luisrodonccs%2Fcreate-simplest-ui?label=generator%20downloads)](https://www.npmjs.com/package/@luisrodonccs/create-simplest-ui)
+[![Node.js version](https://img.shields.io/node/v/%40luisrodonccs%2Fcreate-simplest-ui?label=node)](https://www.npmjs.com/package/@luisrodonccs/create-simplest-ui)
+[![CI on main](https://github.com/LuisRodOnCCS/simplest-ui/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/LuisRodOnCCS/simplest-ui/actions/workflows/ci.yml?query=branch%3Amain)
+[![Last commit on main](https://img.shields.io/github/last-commit/LuisRodOnCCS/simplest-ui/main?label=last%20commit)](https://github.com/LuisRodOnCCS/simplest-ui/commits/main/)
+
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> Current release: `v0.3.1`. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+> Repository version: `v0.4.0`. The npm badges show the currently published package versions. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
 
 Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
 
@@ -82,6 +91,7 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 | --- | --- | --- |
 | `<sui-modal>` | `components/modal` | Focus trap, scroll lock, Escape, focus restoration. |
 | `<sui-drawer>` | `components/drawer` | Accessible modal side panel. |
+| `<sui-avatar-group>` | `components/avatar-group` | Three compact avatars and `+N`; expands in place, with an optional scrollable named list. |
 | `<sui-dropdown>` | `components/dropdown` | Action menu and keyboard navigation. |
 | `<sui-tabs>` | `components/tabs` | Arrow-key tab navigation. |
 | `<sui-accordion>` | `components/accordion` | Single or multiple disclosure panels. |
@@ -98,6 +108,34 @@ Use semantic HTML with `ui-*` classes. Cards, tables, alerts, avatars, progress 
 ```
 
 Interactive components expose `sui-*` custom events and include keyboard behavior, ARIA relationships, visible focus, and reduced-motion support.
+
+### Interactive avatar groups
+
+Provide direct child avatars with accessible names (`aria-label`, image `alt` or
+text). Set `label` for the group and add `show-names` to display a vertical
+list. Named lists show five rows before scrolling by default; set
+`--sui-avatar-group-visible-rows` to change the limit. ArrowUp and ArrowDown
+scroll the focused list when it overflows. External scrolling closes the group
+with an exit animation; scrolling inside the list does not.
+
+The expanded surface uses the native Popover top layer when available and may
+otherwise be clipped by an ancestor. Entry and exit respect reduced motion.
+`open` changes when closing is requested, before the exit animation finishes.
+
+### Modal overlays
+
+Modal and drawer use the browser's modal top layer, so transformed
+or clipped ancestors do not constrain them. Content outside the active dialog
+is inert, and dialogs stack in opening order rather than by `--sui-z-modal` or
+`--sui-z-drawer-backdrop`. Entry and exit respect reduced-motion preferences
+and use `--sui-duration-normal` and `--sui-easing-standard`.
+
+Setting `open = false` or calling `close()` requests a close. The dialog, focus
+trap and scroll lock remain active until its exit finishes, when `sui-close`
+fires. `updateComplete` does not wait for the animation. Wait for `sui-close`
+before removing the element or interacting with the background; reopening during
+exit cancels the pending close event. See [the 0.4.0 migration guide](./docs/migration-0.4.0.md)
+before upgrading from 0.3.x.
 
 For an optional full-screen mobile navigation pattern, see
 [Responsive navigation with App Shell and Drawer](./docs/responsive-navigation.md)

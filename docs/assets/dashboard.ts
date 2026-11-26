@@ -70,16 +70,18 @@ menuClose?.setAttribute("aria-label", language === "es" ? "Cerrar menú" : "Clos
 const sidebarHome = sidebar?.parentElement;
 const sidebarNext = sidebar?.nextSibling ?? null;
 let shellOverflow = "";
+let menuModal = false;
 
 function syncNavigation() {
   if (!sidebar || !sidebarHome || !menu) return;
   if (compactNavigation.matches) {
     menu.append(sidebar);
   } else {
-    const wasOpen = menu.open;
-    if (wasOpen) menu.close();
+    if (menuModal) {
+      if (menu.open) menu.close();
+      return;
+    }
     sidebarHome.insertBefore(sidebar, sidebarNext);
-    if (wasOpen) requestAnimationFrame(() => sidebar.querySelector<HTMLElement>("a")?.focus());
   }
 }
 
@@ -89,6 +91,7 @@ menuTrigger?.addEventListener("click", () => {
 });
 menuClose?.addEventListener("click", () => menu?.close("dismiss"));
 menu?.addEventListener("sui-open", () => {
+  menuModal = true;
   menuTrigger?.setAttribute("aria-expanded", "true");
   if (shell) {
     shellOverflow = shell.style.overflow;
@@ -96,8 +99,11 @@ menu?.addEventListener("sui-open", () => {
   }
 });
 menu?.addEventListener("sui-close", () => {
+  menuModal = false;
   menuTrigger?.setAttribute("aria-expanded", "false");
   if (shell) shell.style.overflow = shellOverflow;
+  syncNavigation();
+  if (!compactNavigation.matches) sidebar?.querySelector<HTMLElement>("a")?.focus();
 });
 menu?.addEventListener("click", (event) => {
   if ((event.target as Element).closest("a")) menu.close();
