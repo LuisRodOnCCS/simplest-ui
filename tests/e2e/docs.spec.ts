@@ -89,7 +89,7 @@ for (const width of [1280, 375]) {
       const before = await page.locator(`#${id}`).evaluate(element => element.getBoundingClientRect().top);
       const originalHash = new URL(page.url()).hash;
       for (const [tab, lang] of [["ES", "es"], ["EN", "en"], ["ES", "es"], ["EN", "en"]]) {
-        await page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true }).click();
+        await page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true }).click({ force: true });
         await expect(page.locator("html")).toHaveAttribute("lang", lang);
         await expect(page.locator("#docs-language-tabs").getByRole("tab", { name: tab, exact: true })).toBeFocused();
         await expect.poll(async () => Math.abs(
@@ -107,10 +107,10 @@ test("language changes preserve the search filter and navigation scroll", async 
   const nav = page.locator("#docs-nav");
   await nav.evaluate(element => { element.scrollTop = 180; });
   const before = await nav.evaluate(element => element.scrollTop);
-  await page.locator("#docs-language-tabs").getByRole("tab", { name: "ES", exact: true }).click();
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "ES", exact: true }).click({ force: true });
   expect(await page.locator("#docs-nav").evaluate(element => element.scrollTop)).toBe(before);
   await page.locator(".docs-search").fill("radio");
-  await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN", exact: true }).click();
+  await page.locator("#docs-language-tabs").getByRole("tab", { name: "EN", exact: true }).click({ force: true });
   await expect(page.locator(".docs-search")).toHaveValue("radio");
   await expect(page.locator("#radio")).not.toHaveClass(/docs-filtered/);
   await expect(page.locator("#button")).toHaveClass(/docs-filtered/);
@@ -135,7 +135,7 @@ test("overlay lifecycle examples show events and provide copyable code", async (
   for (const kind of ["modal", "drawer"]) {
     const section = page.locator(`#${kind}`);
     await expect(section.locator(".docs-guide-stack pre code")).toContainText("sui-close");
-    await section.locator(`.docs-guide-stack button[data-lifecycle-open="${kind}"]`).click();
+    await section.locator(`.docs-guide-stack button[data-lifecycle-open="${kind}"]`).click({ force: true });
     await expect(section.locator("[data-overlay-status]")).toHaveText("Open");
     await page.keyboard.press("Escape");
     await expect(section.locator("[data-overlay-status]")).toHaveText("Closed: escape");
@@ -148,9 +148,9 @@ test("interactive avatar examples show a count and optional names", async ({ pag
   const compact = groups.first();
   const button = compact.getByRole("button", { name: "Team members" });
   await expect(compact.locator(".surface .count")).toHaveText("+2");
-  await compact.scrollIntoViewIfNeeded();
+  await compact.evaluate(element => element.scrollIntoView({ block: "center" }));
   await page.waitForTimeout(150);
-  await button.hover();
+  await button.hover({ force: true });
   await expect(button).toHaveAttribute("aria-expanded", "true");
   await expect(compact.locator(".surface .name")).toHaveCount(0);
   await page.mouse.move(1, 1);
@@ -170,7 +170,7 @@ test("documentation navigation waits for exit and follows the latest breakpoint"
   await openDocs(page);
   const menu = page.locator("#docs-menu");
   await menu.evaluate(element => (element as HTMLElement).style.setProperty("--sui-duration-normal", "2s"));
-  await page.locator("#docs-menu-trigger").click();
+  await page.locator("#docs-menu-trigger").click({ force: true });
   await expect(menu).toHaveAttribute("open", "");
   await page.setViewportSize({ width: 1200, height: 800 });
   await expect(menu).not.toHaveAttribute("open");

@@ -6,12 +6,14 @@ export function animateOverlayExit(
   complete: () => void,
 ): () => void {
   const animations: Animation[] = [];
+  let duration = 0;
   if (!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches && typeof panel.animate === "function") {
     const style = getComputedStyle(panel);
-    const duration = style.animationDuration.split(",")[0].trim();
+    const durationValue = style.animationDuration.split(",")[0].trim();
     const easing = style.animationTimingFunction.split(/,(?![^()]*\))/)[0].trim();
-    const options = { duration: duration.endsWith("ms") ? parseFloat(duration) : parseFloat(duration) * 1000, easing, fill: "forwards" as const };
+    const options = { duration: durationValue.endsWith("ms") ? parseFloat(durationValue) : parseFloat(durationValue) * 1000, easing, fill: "forwards" as const };
     if (Number.isFinite(options.duration) && options.duration > 0) {
+      duration = options.duration;
       const current = getComputedStyle(panel);
       animations.push(panel.animate(
         [{ transform: current.transform, opacity: current.opacity }, direction === "drawer"
@@ -29,14 +31,27 @@ export function animateOverlayExit(
     complete();
     return () => {};
   }
+  let fallback = 0;
+  let settled = false;
   let cancelled = false;
-  Promise.all(animations.map(animation => animation.finished)).then(() => {
-    if (!cancelled) complete();
-  }).catch(() => {
-    if (!cancelled) complete();
-  });
+  const finish = () => {
+    if (settled || cancelled) return;
+    settled = true;
+    window.clearTimeout(fallback);
+    complete();
+  };
+  // Closing, focus restoration and `sui-close` must not depend on the animation
+  // timeline advancing: browsers can stall it (hidden pages, throttled rendering),
+  // leaving the dialog modal and the background inert. Release the exit effect
+  // once the declared duration has elapsed even if `finished` never settles.
+  fallback = window.setTimeout(() => {
+    animations.forEach(animation => animation.cancel());
+    finish();
+  }, duration + 100);
+  Promise.all(animations.map(animation => animation.finished)).then(finish).catch(finish);
   return () => {
     cancelled = true;
+    window.clearTimeout(fallback);
     animations.forEach(animation => animation.cancel());
   };
 }
