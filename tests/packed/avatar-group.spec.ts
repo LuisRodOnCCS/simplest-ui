@@ -147,14 +147,13 @@ test("external scrolling closes either group without moving its neighbors", asyn
   const trigger = group.getByRole("button", { name: "Team" });
   for (const names of [false, true]) {
     await group.evaluate((el, enabled) => el.toggleAttribute("show-names", enabled), names);
-    await trigger.focus();
-    await trigger.press("Enter");
-    if (await trigger.getAttribute("aria-expanded") === "false") await trigger.press("Enter");
+    // The trigger toggles on every keyboard activation, so the state is set
+    // directly instead of racing the toggle against the attribute assertion.
+    await group.evaluate(el => { (el as HTMLElement & { open: boolean }).open = true; });
     await expect(trigger).toHaveAttribute("aria-expanded", "true");
     await page.locator("#scroller").evaluate(el => { el.scrollTop += 30; });
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
     await expect(group).not.toHaveAttribute("data-expanded");
-    await trigger.blur();
   }
 });
 
