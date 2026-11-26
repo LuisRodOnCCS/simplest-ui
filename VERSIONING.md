@@ -22,11 +22,13 @@ Pre-releases are not selected by default by normal npm version ranges. Publish t
 
 ## Release checklist
 
+The operational review, from metadata alignment to publication and post-release
+alignment, lives in [RELEASING.md](./RELEASING.md). In short:
+
 1. Decide the release version according to this policy.
-2. Keep changes under `## [Unreleased]` in [CHANGELOG.md](./CHANGELOG.md) until the release is cut.
-3. Update `package.json` and move the unreleased changelog entries into a dated version heading.
-4. Run `npm run typecheck`, `npm test`, `npm run build`, `npm run test:consumer`, `npm run docs:build`, `npm run test:e2e`, and `npm pack --dry-run`.
-5. Verify the CI workflow is green.
-6. Commit the release metadata, create the matching Git tag (for example, `v0.1.0`), publish the package, and create the release notes from the changelog.
+2. Keep changes under `## [Unreleased]` in [CHANGELOG.md](./CHANGELOG.md) until the
+   release is cut.
+3. Complete every phase of [RELEASING.md](./RELEASING.md) before creating a tag,
+   including the alignment gates, the validation matrix and the CI gates.
 
 Do not publish, push tags, or promote a release without explicit authorization.

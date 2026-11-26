@@ -11,7 +11,7 @@
 
 Framework-agnostic design system with CSS tokens, semantic components, layouts, and accessible Web Components.
 
-> Repository version: `v0.4.0`. The npm badges show the currently published package versions. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, and [VERSIONING.md](./VERSIONING.md) for the release policy.
+> Repository version: `v0.4.0`. The npm badges show the currently published package versions. See [ROADMAP.md](./ROADMAP.md) for planned work, [CHANGELOG.md](./CHANGELOG.md) for release history, [VERSIONING.md](./VERSIONING.md) for the release policy, and [RELEASING.md](./RELEASING.md) for the pre-release review.
 
 Browse the visual documentation at [luisrodonccs.github.io/simplest-ui](https://luisrodonccs.github.io/simplest-ui/).
 

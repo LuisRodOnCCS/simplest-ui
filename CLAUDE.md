@@ -100,5 +100,13 @@ Regenerate them with `npm run catalog:generate`.
 - `npm run build`
 - `npm pack --dry-run`
 
+## Releases
+
+Follow `RELEASING.md` for the full review before tagging or publishing. The
+release-alignment tests in `tests/release.test.ts` fail `npm test` when the
+changelog, README, roadmap, migration guide or generator core range drift from
+`package.json`. The `branch-sync` CI job fails a push to `dev` that does not
+contain `main`.
+
 If a schema field changes, bump `schemaVersion`, update
 `docs/manifest-schema.md` and add a changelog entry.

@@ -10,6 +10,21 @@ permissions:
   contents: read
 
 jobs:
+  branch-sync:
+    # Pull request events check out GitHub's merge preview, which already
+    # contains `main`, so the invariant can only be verified on dev pushes.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # `merge-base --is-ancestor` needs full history to be reliable.
+          fetch-depth: 0
+      - name: Ensure dev contains main
+        run: |
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor origin/main HEAD
+
   verify:
     runs-on: ubuntu-latest
     steps:
