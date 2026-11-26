@@ -463,6 +463,9 @@ function bindInteractions() {
   document.querySelectorAll<HTMLElement>(".docs-hero[id], .docs-section").forEach((item) => observer.observe(item));
 
   const compactNavigation = window.matchMedia("(max-width: 880px)");
+  // Media query state can lag behind a viewport change while the page is not
+  // painting, so the breakpoint decision reads the live viewport width.
+  const isCompactViewport = () => window.innerWidth <= 880;
   const docsNav = document.querySelector<HTMLElement>("#docs-nav");
   const docsMenu = document.querySelector<HTMLElement & { open: boolean; close: (reason?: string) => void }>("#docs-menu");
   const docsMenuTrigger = document.querySelector<HTMLButtonElement>("#docs-menu-trigger");
@@ -473,7 +476,7 @@ function bindInteractions() {
 
   function syncDocumentationNavigation() {
     if (!docsNav || !docsMenu) return;
-    if (compactNavigation.matches) {
+    if (isCompactViewport()) {
       docsMenu.append(docsNav);
     } else {
       if (docsMenuModal) {
@@ -498,7 +501,7 @@ function bindInteractions() {
     docsMenuModal = false;
     docsMenuTrigger?.setAttribute("aria-expanded", "false");
     syncDocumentationNavigation();
-    if (compactNavigation.matches) docsMenuTrigger?.focus();
+    if (isCompactViewport()) docsMenuTrigger?.focus();
     else docsNav?.querySelector<HTMLElement>("a")?.focus();
   });
   docsMenu?.addEventListener("click", (event) => {
