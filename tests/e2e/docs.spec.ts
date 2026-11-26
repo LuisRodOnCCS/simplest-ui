@@ -142,7 +142,7 @@ test("overlay lifecycle examples show events and provide copyable code", async (
   }
 });
 
-test("interactive avatar examples show a count and optional names", async ({ page }) => {
+test("interactive avatar examples show a count and optional names", async ({ page }, testInfo) => {
   await openDocs(page);
   const groups = page.locator("#avatar-group sui-avatar-group");
   const compact = groups.first();
@@ -150,10 +150,24 @@ test("interactive avatar examples show a count and optional names", async ({ pag
   await expect(compact.locator(".surface .count")).toHaveText("+2");
   await compact.evaluate(element => element.scrollIntoView({ block: "center" }));
   await page.waitForTimeout(150);
-  await button.hover({ force: true });
+  // Playwright WebKit on Linux does not reliably deliver pointer hover in CI, so
+  // the documented pointerenter/pointerleave contract is exercised directly.
+  const pointer = async (type: "pointerenter" | "pointerleave") => {
+    if (testInfo.project.name === "webkit") {
+      await compact.evaluate((element, eventType) => {
+        element.shadowRoot!.querySelector(".surface")!
+          .dispatchEvent(new PointerEvent(eventType, { pointerType: "mouse" }));
+      }, type);
+      return;
+    }
+    if (type === "pointerenter") await button.hover();
+    else await page.mouse.move(1, 1);
+  };
+  await pointer("pointerenter");
   await expect(button).toHaveAttribute("aria-expanded", "true");
   await expect(compact.locator(".surface .name")).toHaveCount(0);
-  await page.mouse.move(1, 1);
+  await pointer("pointerleave");
+  await expect(button).toHaveAttribute("aria-expanded", "false");
   const named = groups.nth(1);
   const namedButton = named.getByRole("button", { name: "Team members" });
   await namedButton.focus();
@@ -164,19 +178,27 @@ test("interactive avatar examples show a count and optional names", async ({ pag
   await expect(page.locator("#avatar-group .docs-variant pre")).toContainText("--sui-avatar-group-visible-rows: 3");
 });
 
-test("documentation navigation waits for exit and follows the latest breakpoint", async ({ page }) => {
+test("documentation navigation waits for exit and follows the latest breakpoint", async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 700, height: 800 });
   await openDocs(page);
   const menu = page.locator("#docs-menu");
+  // WebKit on Linux can delay viewport notifications until the page paints, so
+  // the resize the engine would emit is delivered explicitly.
+  const resize = async (width: number) => {
+    await page.setViewportSize({ width, height: 800 });
+    if (testInfo.project.name === "webkit") {
+      await page.evaluate(() => window.dispatchEvent(new Event("resize")));
+    }
+  };
   await menu.evaluate(element => (element as HTMLElement).style.setProperty("--sui-duration-normal", "2s"));
   await page.locator("#docs-menu-trigger").click({ force: true });
   await expect(menu).toHaveAttribute("open", "");
-  await page.setViewportSize({ width: 1200, height: 800 });
+  await resize(1200);
   await expect(menu).not.toHaveAttribute("open");
   await expect(menu.locator("#docs-nav")).toHaveCount(1);
   expect(await menu.locator("dialog").evaluate(dialog => dialog.matches(":modal"))).toBe(true);
-  await page.setViewportSize({ width: 700, height: 800 });
+  await resize(700);
   await menu.evaluate(element => element.shadowRoot!.querySelectorAll("*").forEach(child =>
     child.getAnimations().forEach(animation => animation.finish())
   ));

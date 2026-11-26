@@ -505,10 +505,14 @@ function bindInteractions() {
     if ((event.target as Element).closest("a")) docsMenu.close("dismiss");
   });
   compactNavigation.addEventListener("change", syncDocumentationNavigation);
+  // Some engines deliver media query changes only during a rendering update;
+  // `resize` keeps the breakpoint in sync as soon as the viewport changes.
+  window.addEventListener("resize", syncDocumentationNavigation);
   syncDocumentationNavigation();
   return () => {
     observer.disconnect();
     compactNavigation.removeEventListener("change", syncDocumentationNavigation);
+    window.removeEventListener("resize", syncDocumentationNavigation);
   };
 }
 
