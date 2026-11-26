@@ -32,6 +32,9 @@ This project follows [Semantic Versioning](https://semver.org/) and keeps histor
 
 ### Fixed
 
+- Overlay exit no longer depends on `Animation.finished` settling: closure,
+  focus restoration, the scroll unlock and `sui-close` complete even when a
+  browser stops advancing the animation timeline.
 - Drawer entry no longer jumps when the browser scrolls its backdrop to reveal
   the initially focused control while the panel is moving.
 - Switching the documentation language retains the reading position, language
